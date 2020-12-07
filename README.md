@@ -1,4 +1,5 @@
 # Project README.md
+## Java-Project ↓↓↓
 ### 혼자만든 쇼핑몰
 * 단독 프로젝트
   * 로그인 세션 구현
@@ -21,3 +22,7 @@
    * 구매페이지 결제 후 주문번호 생성기
    * 베스트 도서와 다독왕
    * 새책페이지 리뷰 지우기
+
+## Django-Project ↓↓↓
+* django framework를 이용한 게시판
+ * DB연동하여 ORM을 이용한 CRUD 구현
