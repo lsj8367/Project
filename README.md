@@ -1,4 +1,4 @@
-# Project
+# Project README.md
 ### 혼자만든 쇼핑몰
 * 단독 프로젝트
   * 로그인 세션 구현
