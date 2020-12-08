@@ -1,4 +1,4 @@
-# Project README.md
+# Project
 ## Java-Project ↓↓↓
 ### 혼자만든 쇼핑몰
 * 단독 프로젝트
