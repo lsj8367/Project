@@ -14,6 +14,8 @@
 ![usecase](https://user-images.githubusercontent.com/74235102/101787826-dc030d80-3b42-11eb-95cf-38d8e8e9976a.png)
 이용자 페이지
 ![screenshot](https://user-images.githubusercontent.com/74235102/101787424-672fd380-3b42-11eb-9cef-a4126eb394a6.png)
+페이지 
+![project](https://user-images.githubusercontent.com/74235102/101788337-52077480-3b43-11eb-92ac-ae2f65451f95.png)
 * 팀프로젝트
   * 담당 역할
    * 새책과 중고서적의 메인페이지 전반
