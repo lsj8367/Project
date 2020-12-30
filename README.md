@@ -7,7 +7,7 @@
 ![screenshot](https://user-images.githubusercontent.com/74235102/101787424-672fd380-3b42-11eb-9cef-a4126eb394a6.png)
 페이지 
 ![project](https://user-images.githubusercontent.com/74235102/101788337-52077480-3b43-11eb-92ac-ae2f65451f95.png)
- * 담당 역할
+* 담당 역할
   * 새책과 중고서적의 메인페이지 전반
   * 장르별 조회 구매(대여)하기
   * 구매내역 상세보기
