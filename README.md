@@ -1,6 +1,8 @@
 # Project
 ## Java-Project ↓↓↓
 ### 팀프로젝트(네책내책)
+ERD 모델
+![erd](https://user-images.githubusercontent.com/74235102/103837976-3dc97f80-50cf-11eb-82a2-4e65a720a9b0.png)
 유스케이스 모델
 ![usecase](https://user-images.githubusercontent.com/74235102/101787826-dc030d80-3b42-11eb-95cf-38d8e8e9976a.png)
 이용자 페이지
