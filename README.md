@@ -2,8 +2,8 @@
 ## Java-Project ↓↓↓
 ### 팀프로젝트(네책내책)
 ### ERD 모델
-### 페이지 
-![project](https://github.com/lsj8367/Project/blob/master/%ED%8F%AC%ED%8A%B8%ED%8F%B4%EB%A6%AC%EC%98%A4.pdf)
+### 페이지
+![상세보기pdf파일](https://github.com/lsj8367/Project/blob/master/%ED%8F%AC%ED%8A%B8%ED%8F%B4%EB%A6%AC%EC%98%A4.pdf)
 * 담당 역할
   * 새책과 중고서적의 메인페이지 전반
   * 장르별 조회 구매(대여)하기
