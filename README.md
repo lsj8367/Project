@@ -13,3 +13,5 @@
   * 구매페이지 결제 후 주문번호 생성기
   * 베스트 도서와 다독왕
   * 새책페이지 리뷰 지우기
+
+##[미니프로젝트]https://docs.google.com/presentation/d/1OyKlIPCRzBzq5KCkeT07Q6R82I8qC3NX8GlDImhr_fo/edit?ts=60333cc2#slide=id.p
