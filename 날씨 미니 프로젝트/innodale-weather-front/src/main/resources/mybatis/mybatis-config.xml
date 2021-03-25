@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<typeAliases>
+		<!-- alias는 sql폴더내에 xml resultmap type과 매칭 -->
+		<typeAlias alias="obsWeather" type="com.innodale.weather.dto.ObsWeather"></typeAlias>
+		<typeAlias alias="geoLocation" type="com.innodale.weather.dto.GeoLocation"></typeAlias>
+		<typeAlias alias="longForecast3H" type="com.innodale.weather.dto.LongForecast3H"></typeAlias>
+		<typeAlias alias="longForecast6H" type="com.innodale.weather.dto.LongForecast6H"></typeAlias>
+		<typeAlias alias="longForecast12H" type="com.innodale.weather.dto.LongForecast12H"></typeAlias>
+		<typeAlias alias="longForecast24H" type="com.innodale.weather.dto.LongForecast24H"></typeAlias>
+		<typeAlias alias="shortForecast" type="com.innodale.weather.dto.ShortForecast"></typeAlias>
+		<typeAlias alias="climate" type="com.innodale.weather.dto.Climate"></typeAlias>
+		<typeAlias alias="windData" type="com.innodale.weather.dto.WindData"></typeAlias>
+	</typeAliases>
+</configuration>

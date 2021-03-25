@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.innodale.weather.longForecast3H">
+	<resultMap type="longForecast3H" id="longForecast3H" >
+	
+		<!-- column db실제칼럼, property 클래스변수값 -->
+		<result column="LONG_INIT_DT" property="longInitDt"/>
+		<result column="FCST_DT" property="fcstDt"/>
+		<result column="RAIN_PROB_3H" property="rainProb3h"/>
+		<result column="TEMP_3H" property="temp3h"/>
+		<result column="RAIN_3H" property="rain3h"/>
+		<result column="BODY_TEMP_3H" property="bodyTemp3h"/>
+		<result column="HUM_3H" property="hum3h"/>
+		<result column="WIND_DIR" property="windDir"/>
+		<result column="WIND_SPEED" property="windSpeed"/>
+		<result column="NX" property="nx"/>
+		<result column="NY" property="ny"/>
+		<result column="STATUS" property="status"/>
+		<result column="WIND_STR" property="windStr"/>
+	</resultMap>
+	
+	<select id="getLongForecast3H" parameterType="java.util.HashMap" resultMap="longForecast3H">
+		SELECT a.LONG_INIT_DT, a.FCST_DT, a.RAIN_PROB_3H, a.TEMP_3H, a.RAIN_3H, c.STATUS, a.BODY_TEMP_3H, a.HUM_3H, w.WIND_STR,
+		       a.WIND_SPEED
+		 FROM LONG_FORECAST_3H a inner join LONG_PROC_DT b on a.LONG_INIT_DT = b.LONG_INIT_DT
+		inner join GEOLOCATION g on a.NX = g.NX and a.NY = g.NY
+		inner join CLIMATE c on a.SKY = c.SKY
+		inner join WIND_DATA w on w.WIND_DIR  = a.WIND_DIR WHERE g.CITY = #{city} and a.FCST_DT = #{fcstDt} ORDER by a.FCST_DT
+	</select>
+	
+	<select id="getNotEqualForecast3H" parameterType="string" resultMap="longForecast3H">
+		select a.FCST_DT, a.RAIN_PROB_3H, a.TEMP_3H, a.RAIN_3H, c.STATUS, a.BODY_TEMP_3H, a.HUM_3H, w.WIND_STR,
+		       a.WIND_SPEED
+		 from LONG_FORECAST_3H a inner join GEOLOCATION g on a.NX = g.NX and a.NY = g.NY
+		 inner join CLIMATE c on a.SKY = c.SKY
+		 inner join WIND_DATA w on w.WIND_DIR  = a.WIND_DIR
+		 where a.LONG_INIT_DT = #{longInitDt} order by LONG_INIT_DT desc limit 1
+	</select>
+	
+	<select id="getLongForecast3HJeon" parameterType="java.util.HashMap" resultMap="longForecast3H">
+		SELECT a.LONG_INIT_DT, a.FCST_DT, a.RAIN_PROB_3H, a.TEMP_3H, a.RAIN_3H, c.STATUS, a.BODY_TEMP_3H, a.HUM_3H, w.WIND_STR,
+		       a.WIND_SPEED FROM LONG_FORECAST_3H a inner join LONG_PROC_DT b on a.LONG_INIT_DT = b.LONG_INIT_DT
+		inner join GEOLOCATION g on a.NX = g.NX and a.NY = g.NY
+		inner join CLIMATE c on a.SKY = c.SKY
+		inner join WIND_DATA w on w.WIND_DIR  = a.WIND_DIR WHERE g.DISTRICT = #{district} and a.FCST_DT = #{fcstDt};
+	</select>
+</mapper>

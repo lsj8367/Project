@@ -1,0 +1,4 @@
+.metadata/
+target/
+src/main/webapp/META-INF/maven/com.weather/innodale/pom.properties
+.tern-project
