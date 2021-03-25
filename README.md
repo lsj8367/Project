@@ -1,7 +1,7 @@
 # Project
 ## Java-Project ↓↓↓
 ### 팀프로젝트(네책내책)
-##[포트폴리오](https://github.com/lsj8367/Project/blob/master/%ED%8F%AC%ED%8A%B8%ED%8F%B4%EB%A6%AC%EC%98%A4.pdf)
+## [포트폴리오](https://github.com/lsj8367/Project/blob/master/%ED%8F%AC%ED%8A%B8%ED%8F%B4%EB%A6%AC%EC%98%A4.pdf)
 * 담당 역할
   * 새책과 중고서적의 메인페이지 전반
   * 장르별 조회 구매(대여)하기
@@ -14,4 +14,4 @@
   * 베스트 도서와 다독왕
   * 새책페이지 리뷰 지우기
 
-##[미니프로젝트]https://docs.google.com/presentation/d/1OyKlIPCRzBzq5KCkeT07Q6R82I8qC3NX8GlDImhr_fo/edit?ts=60333cc2#slide=id.p
+## [미니프로젝트]https://docs.google.com/presentation/d/1OyKlIPCRzBzq5KCkeT07Q6R82I8qC3NX8GlDImhr_fo/edit?ts=60333cc2#slide=id.p
