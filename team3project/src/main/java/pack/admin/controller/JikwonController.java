@@ -65,7 +65,6 @@ public class JikwonController {
 			}
 		}
 		if(b) {
-			System.out.println("성공");
 			return "redirect:/jikwonok";
 		}else {
 			return "redirect:/adminmain";
@@ -112,7 +111,6 @@ public class JikwonController {
 			b = adminInter.upAdminJik(bean);
 		}
 		if(b) {
-			System.out.println("성공");
 			return "redirect:/jikwoninfo";
 		}else {
 			return "redirect:/adminmain";

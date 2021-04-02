@@ -77,12 +77,8 @@ public class UserInquiryController {
 		boolean b = adminInter.upOnum(bean);
 		
 		if(b) {
-			System.out.println();
-			System.out.println("asdfkjasldkfj");
 			boolean r = adminInter.insInqReply(bean);
 			if(r) {
-				System.out.println();
-				System.out.println("safs");
 				modelAndView.setViewName("redirect:/userinquiry");
 			}else {
 				modelAndView.setViewName("redirect:/admin");

@@ -75,7 +75,6 @@ public class MonthBuyerController {
 			}else b=true;
 		}
 		if(b) {
-			System.out.println("성공");
 			return "redirect:/monthbuyer";
 		}else {
 			return "redirect:/adminmain";

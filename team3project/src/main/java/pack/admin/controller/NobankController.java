@@ -54,7 +54,6 @@ public class NobankController {
 	        model.addAttribute("info", dto);
 		}
 
-		//System.out.println(orderlist_no[0]);
 		boolean b = false;
 		
 		for (int i = 0; i < orderlist_no.length; i++) {
@@ -63,7 +62,6 @@ public class NobankController {
 			b = adminInter.updateOrderState(bean);
 		}
 		if(b) {
-			System.out.println("성공");
 			return "redirect:/nobankbookadmit";
 		}else {
 			return "redirect:/adminmain";

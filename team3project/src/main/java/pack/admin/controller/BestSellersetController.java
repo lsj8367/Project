@@ -92,7 +92,6 @@ public class BestSellersetController {
 			b = adminInter.upNbStock(bean);
 		}
 		if(b) {
-			System.out.println("성공");
 			return "redirect:/bestsellerset";
 		}else {
 			return "redirect:/adminmain";

@@ -62,7 +62,6 @@ public class DonatebooklistController {
 			b = adminInter.updateState(bean);
 		}
 		if(b) {
-			System.out.println("성공");
 			return "redirect:/donatebooklist";
 		}else {
 			return "redirect:/adminmain";

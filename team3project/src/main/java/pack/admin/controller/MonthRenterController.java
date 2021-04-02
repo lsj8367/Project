@@ -74,7 +74,6 @@ public class MonthRenterController {
 			b = adminInter.upUserPoint(bean);
 		}
 		if(b) {
-			System.out.println("성공");
 			return "redirect:/monthrenter";
 		}else {
 			return "redirect:/adminmain";

@@ -92,7 +92,6 @@ public class BestRentbooksetController {
          b = adminInter.upUserPoint(bean);
       }
       if(b) {
-         System.out.println("성공");
          return "redirect:/bestrentbookset";
       }else {
          return "redirect:/adminmain";

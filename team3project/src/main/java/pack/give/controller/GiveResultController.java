@@ -43,7 +43,7 @@ public class GiveResultController {
 	@ResponseBody
 	public Map<String, Object> getGiveResult(HttpSession session){
 		String ob_userid = (String)session.getAttribute("id");
-		System.out.println(ob_userid);
+
 		List<Map<String, String>> dataList = new ArrayList<Map<String,String>>();
 		Map<String, String> data = null;
 		
@@ -68,26 +68,4 @@ public class GiveResultController {
 		giveDatas.put("datas", dataList);
 		return giveDatas;
 	}
-	
-	/*
-	 * @RequestMapping(value = "giveresult", method = RequestMethod.GET) public
-	 * String giveResult() { String gr = "giveresult"; return gr; }
-	 */
-	
-	/*
-	 * @RequestMapping(value = "giveresult") public ModelAndView abc(CommandMap
-	 * commandMap, HttpServletRequest request, HttpSession session) throws Exception
-	 * { ModelAndView modelAndView = new ModelAndView("giveresult");
-	 * System.out.println("찍히나??");
-	 * 
-	 * String user_id = (String) session.getAttribute("id");
-	 * System.out.println(user_id); commandMap.put("ob_userid", user_id);
-	 * 
-	 * // String user_id = (String) httpsession.getAttribute("ob_userid");
-	 * List<Map<String, Object>> giveList = giveService.getGiveList(user_id);
-	 * modelAndView.addObject("giveList", giveList);
-	 * 
-	 * return modelAndView; }
-	 */
-
 }

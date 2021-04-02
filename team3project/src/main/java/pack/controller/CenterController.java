@@ -24,9 +24,6 @@ public class CenterController {
 
 	@RequestMapping(value = "center")
 	public String centerC() {
-		//System.out.println();
-		//System.out.println("넘어갔어");
-		//System.out.println(); 
 		return "center";
 	}
 
@@ -46,10 +43,8 @@ public class CenterController {
 			data.put("faq_title", q.getFaq_title());
 			data.put("faq_cont", q.getFaq_content());
 			data.put("faq_type", q.getFaq_type());
-			System.out.println("들어갔나?" + q.getFaq_date());
 			dataList.add(data);
 		}
-		//System.out.println(dataList);
 		Map<String, Object> qnaDatas = new HashMap<String, Object>();
 		qnaDatas.put("datas", dataList);
 		return qnaDatas;
@@ -69,7 +64,7 @@ public class CenterController {
 			data.put("faq_content", f.getFaq_content());
 			data.put("faq_date", f.getFaq_date());
 			data.put("faq_type", f.getFaq_type());
-			//System.out.println("3");
+
 			dataList.add(data);
 		}
 		Map<String, Object> faqDatas = new HashMap<String, Object>();

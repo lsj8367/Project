@@ -53,24 +53,13 @@ public class AdminController {
 		public @ResponseBody String AjaxView(  
 		        @RequestParam("admin_id") String admin_id){
 			String str = "";
-			System.out.println(admin_id);
-			//AdminDto dto;
+
 			if(adminInter.getAdminLoginInfo(admin_id) == null) {
-				//dto = null;
 				str = "YES";
 				System.out.println(str);
 			}else {
-				//dto = adminInter.getAdminLoginInfo(admin_id);
-				//System.out.println(dto.getAdmin_id());
 				str = "NO";
 			}
-			
-			
-//			if(dto.getAdmin_id().equals(admin_id)){ //이미 존재하는 계정
-//				str = "NO";	
-//			}else{	//사용 가능한 계정
-//				str = "YES";	
-//			}
 			return str;
 		}
 	
@@ -88,9 +77,6 @@ public class AdminController {
 	@RequestMapping(value = "idcheck", method = RequestMethod.GET)
 	public ModelAndView goIdCheck(@RequestParam("id") String adminid) {
 		ModelAndView view = new ModelAndView();
-		
-		System.out.println();
-		System.out.println(adminid);
 		
 		String dto = adminInter.IdCheck(adminid);
 		

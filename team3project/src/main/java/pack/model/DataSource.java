@@ -1,9 +1,7 @@
 package pack.model;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-//import org.springframework.stereotype.Repository;
 
-//@Repository("dataSource")
 public class DataSource extends DriverManagerDataSource {
 	public DataSource() {
 		setDriverClassName("org.mariadb.jdbc.Driver");

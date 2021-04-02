@@ -68,7 +68,6 @@ public class UserpenaltyController {
 			ubean.setDelpoint(delpoint[i]);
 			b = adminInter.updateUser(ubean);
 			if(b) {
-				System.out.println("회원 업데이트 성공");
 				o = adminInter.removeOb(rent_no[i]);
 			}	
 		}

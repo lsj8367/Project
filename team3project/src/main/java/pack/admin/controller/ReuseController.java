@@ -56,7 +56,6 @@ public class ReuseController {
 			b = adminInter.updateThrow(ob_no[i]);
 		}
 		if(b) {
-			System.out.println("성공");
 			return "redirect:/reuse";
 		}else {
 			return "redirect:/adminmain";

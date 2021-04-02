@@ -92,7 +92,6 @@ public class BestReviewsetController {
 			b = adminInter.upUserPoint(bean);
 		}
 		if(b) {
-			System.out.println("성공");
 			return "redirect:/bestreviewset";
 		}else {
 			return "redirect:/adminmain";
