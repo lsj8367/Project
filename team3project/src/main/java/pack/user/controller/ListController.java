@@ -38,14 +38,14 @@ public class ListController {
 		return viewAndObject(list);
 	}
 	
-	public ModelAndView viewAndObject(List<NewBookDto> list) { //view로 보내는 메소드
+	private ModelAndView viewAndObject(List<NewBookDto> list) { //view로 보내는 메소드
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("list");
 		modelAndView.addObject("newbooklist", list);
 		return modelAndView;
 	}
 	
-	public Map<String, String> editGenre() {
+	private Map<String, String> editGenre() {
 		Map<String, String> map = new HashMap<String, String>();
 		
 		map.put("a", "성공학");
