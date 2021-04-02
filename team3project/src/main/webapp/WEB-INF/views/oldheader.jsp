@@ -107,7 +107,7 @@ body {
 				<c:when test="${sessionScope.id eq null}">
 					    <ul class="navbar-nav mr-auto">
 					      <li class="nav-item active">
-					        <a class="nav-link" href="rentmain?book=rentmain">Home<span class="sr-only"></span></a>
+					        <a class="nav-link" href="rentlist1?book=rentmain">Home<span class="sr-only"></span></a>
 					      </li>
 					      <li class="nav-item">
 					        <a class="nav-link" href="login">로그인</a>

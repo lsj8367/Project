@@ -47,9 +47,6 @@ integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706t
 		document.getElementById("btnSearch").onclick = function() {
 			if (frm.search.value === "") {
 				frm.search.focus();
-				//alert("검색어를 입력하세요");
-
-				//$('#dialog').dialog();
 				$('#dialog').dialog({
 					title : '검색오류!',
 					modal : true, //팝업창으로 띄우기
@@ -175,12 +172,10 @@ li:hover ul#submenu {
 					      </li>
 					      <li class="nav-item">
 					      	<a class="nav-link" href="#" onclick='window.open("login","_blank","height=500,width=500, status=yes,toolbar=no,menubar=no,location=no");return false'>로그인</a>
-					        <!--  <a class="nav-link" href="login">로그인</a>-->
 					      </li>
 					      <li class="nav-item">
 					        
 					        <a class="nav-link" href="#" onclick='window.open("signup","_parent","height=700,width=500, status=yes,toolbar=no,menubar=no,location=no");return false'>회원가입</a>
-                       		<!--  <a class="nav-link" href="signup">회원가입</a>-->
 					      </li>
 					      <li class="nav-item">
 					        <a class="nav-link" href="unmembercheck">비회원주문조회</a>
@@ -242,30 +237,30 @@ li:hover ul#submenu {
 		<br>
 		<table style="width: 60%; margin: auto;">
 			<tr style="text-align: center;">
-				<th><a href="newbooklist?book=all">전체보기</a></th>
+				<th><a href="list?book=all">전체보기</a></th>
 				<th>
 					<nav class="dropdownmenu">
 						<ul>
 							<li style="width: 100%"><a style="color: blue;">장르</a>
 								<ul id="submenu" class="hide" onchange="location.href=this.value">
-									<li><a href="newbooklist?book=a">미분류(default)</a></li>
-									<li><a href="newbooklist?book=b">소설/시/희곡</a></li>
-									<li><a href="newbooklist?book=c">에세이</a></li>
-									<li><a href="newbooklist?book=d">어린이</a></li>
-									<li><a href="newbooklist?book=e">유아</a></li>
-									<li><a href="newbooklist?book=f">경제경영</a></li>
-									<li><a href="newbooklist?book=g">인문학</a></li>
-									<li><a href="newbooklist?book=h">외국어</a></li>
-									<li><a href="newbooklist?book=i">사회과학</a></li>
-									<li><a href="newbooklist?book=j">수험서/자격증</a></li>
-									<li><a href="newbooklist?book=k">대학교재</a></li>
-									<li><a href="newbooklist?book=l">it/모바일</a></li>
+									<li><a href="list?book=a">미분류(default)</a></li>
+									<li><a href="list?book=b">소설/시/희곡</a></li>
+									<li><a href="list?book=c">에세이</a></li>
+									<li><a href="list?book=d">어린이</a></li>
+									<li><a href="list?book=e">유아</a></li>
+									<li><a href="list?book=f">경제경영</a></li>
+									<li><a href="list?book=g">인문학</a></li>
+									<li><a href="list?book=h">외국어</a></li>
+									<li><a href="list?book=i">사회과학</a></li>
+									<li><a href="list?book=j">수험서/자격증</a></li>
+									<li><a href="list?book=k">대학교재</a></li>
+									<li><a href="list?book=l">it/모바일</a></li>
 								</ul></li>
 						</ul>
 					</nav>
 				</th>
-				<th><a href="newbooklist?book=best">베스트30</a></th>
-				<th><a href="newbooklist?book=new">신간</a></th>
+				<th><a href="list?book=best">베스트30</a></th>
+				<th><a href="list?book=new">신간</a></th>
 				<th><a href="rentlist1?book=rentmain">중고책관련</a></th>
 			</tr>
 		</table>
