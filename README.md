@@ -14,19 +14,26 @@
   * 베스트 도서와 다독왕
   * 새책페이지 리뷰 지우기
 
-### 2021-04-02 - ListController, RentBookListController 리팩토링
-* Controller 2개로 구현한 로직 수정
+## 2021-04-02 수정
+* ## ListController, RentBookListController 리팩토링
+  * Controller 2개로 구현한 로직 수정
 
-* ListController
-  * 같은내용 중복코드 삭제
-    * if문 중첩 장르선택 -> Map으로 메소드 추가
-    * List생성하는 메소드 추가
-    * ModelAndView 담당 메소드 추가
+  * ListController
+    * 같은내용 중복코드 삭제
+      * if문 중첩 장르선택 -> Map으로 메소드 추가
+      * List생성하는 메소드 추가
+      * ModelAndView 담당 메소드 추가
 
-* RentBookListController의 경우
-  * 같은내용 중복코드 삭제
-    * if문 중첩 장르선택 -> Map으로 메소드 추가
-    * List생성하는 메소드 추가
-    * ModelAndView 담당 메소드 추가(다독왕, 베스트 대여도서)
+  * RentBookListController의 경우
+    * 같은내용 중복코드 삭제
+      * if문 중첩 장르선택 -> Map으로 메소드 추가
+      * List생성하는 메소드 추가
+      * ModelAndView 담당 메소드 추가(다독왕, 베스트 대여도서)
+
+* ## Lombok 추가 
+  * DTO, BEAN 파일 getter, setter 삭제
+  * @Getter, @Setter, @NoArgsConstructor 추가
+  
+* 불필요한 `System.out.println()` 삭제
 
 ## [미니프로젝트](https://docs.google.com/presentation/d/1OyKlIPCRzBzq5KCkeT07Q6R82I8qC3NX8GlDImhr_fo/edit?ts=60333cc2#slide=id.p)
