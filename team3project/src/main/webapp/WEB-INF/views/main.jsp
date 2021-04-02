@@ -180,7 +180,7 @@ a {
  	<br><br><br>
   <div class="wrap" style="margin: auto; float: none;">
     <a class="btn-0" href="buymain">Buy</a>
-    <a class="btn-1" href="rentmain?book=rentmain">Rent</a>
+    <a class="btn-1" href="rentlist1?book=rentmain">Rent</a>
     <a class="btn-1-2" href="adminlogin">Admin</a>
     
   </div>

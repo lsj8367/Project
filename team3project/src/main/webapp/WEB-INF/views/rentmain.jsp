@@ -174,7 +174,7 @@ div#s_left {
 		<%@ include file="menutab.jsp"%>
 		</div>
       <div id="content">
-		<a href="rentmain?book=high">최상급 전체 보기</a>
+		<a href="rentlist1?book=high">최상급 전체 보기</a>
 				<table class="newbooktable" style="text-align:center; width: 100%; margin: auto; float: left;">
 					<tr style="text-align: center;">
 						<th>책</th>
@@ -215,7 +215,7 @@ div#s_left {
 				</table>
 			
 		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-		<a href="rentmain?book=low">2~3등급 전체 보기</a><br>
+		<a href="rentlist1?book=low">2~3등급 전체 보기</a><br>
 		<table class="newbooktable" style="width: 100%; margin: auto; float: none;">
 
 			<tr style="text-align: center;">

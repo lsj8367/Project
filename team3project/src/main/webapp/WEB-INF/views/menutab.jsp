@@ -33,7 +33,6 @@ $(document).ready(function(){
 			<ul style="list-style: none;">
 				<li class="menu"><a>장르별보기</a>
 					<ul class="hide" style="list-style: none;">
-						<!--  <li><a href="rentmain?book=a" target="_self">미분류(default)</a></li>-->
 						<li><a href="rentlist1?book=a" target="_self">미분류(default)</a></li>
 						<li><a href="rentlist1?book=b" target="_self">소설/시/희곡</a></li>
 						<li><a href="rentlist1?book=c" target="_self">에세이</a></li>
