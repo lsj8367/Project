@@ -31,8 +31,8 @@ public class BuyResultController {
 	
 	@Autowired
 	private OldBookInter oldBookInter;
-	
-	
+
+
 	@RequestMapping("buyresult")
 	public ModelAndView result(HttpSession session, HttpServletRequest request, @RequestParam("radioPaytype") String radioPaytype) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -57,37 +57,37 @@ public class BuyResultController {
 		
 		
 		dto = buyResultInter.order(session, id, order_person, Integer.parseInt(order_sum), radioPaytype, user_passwd, user_address, ob_no);
-		
-		
-		
-		
+
+
+
+
 		if(session.getAttribute("id") != null && request.getParameter("writepoint") != "") { // 회원인경우
 			UserDto user = buyInter.point(id);
 			UserBean bean = new UserBean();
-			
-			
+
+
 			int point = Integer.parseInt(request.getParameter("point"));
 			int writepoint = Integer.parseInt(request.getParameter("writepoint"));
-			
+
 			bean.setUser_id((String)session.getAttribute("id"));
 			bean.setUser_point(writepoint);
-			
+
 			System.out.println(point + " " + writepoint);
-			
+
 			String name = (String)session.getAttribute("name");
-			
+
 			System.out.println(bean.getUser_point());
-			
-			
+
+
 			userInter.usePoint(bean);
-			
+
 			UserDto user2 = userInter.selectUser(id);
-			
+
 			session.setAttribute("point", user2.getUser_point());
-			
+
 		}
-		
-		
+
+
 		if(dto != null) {
 			dto2 = buyInter.show(order_person);
 			
@@ -98,11 +98,10 @@ public class BuyResultController {
 			modelAndView.addObject("buylist", dto2);
 			
 			modelAndView.setViewName("buyresult");
-			return modelAndView;
 		}else {
 			modelAndView.setViewName("error");
-			return modelAndView;
 		}
+		return modelAndView;
 	}
 	
 }

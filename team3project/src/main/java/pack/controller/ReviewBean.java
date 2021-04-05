@@ -1,12 +1,12 @@
 package pack.controller;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ReviewBean {
 
 	private int review_no, review_bookno, review_rate, review_gonggam;

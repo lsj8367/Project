@@ -84,14 +84,15 @@ public class NewbookController {
       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
       String format_time = format.format(System.currentTimeMillis());
       
-      ReviewBean bean = new ReviewBean();
-      
-      bean.setReview_id(review_id);
-      bean.setReview_bookno(Integer.parseInt(review_bookno));
-      bean.setReview_context(review_context);
-      bean.setReview_date(format_time);
-      bean.setReview_rate(0);
-      bean.setReview_gonggam(0);
+      ReviewBean bean = ReviewBean.builder()
+                                  .review_id(review_id)
+                                  .review_bookno(Integer.parseInt(review_bookno))
+                                  .review_context(review_context)
+                                  .review_date(format_time)
+                                  .review_rate(0)
+                                  .review_gonggam(0)
+                                  .build();
+
       boolean b = reviewInter.insertNewbookReview(bean);
       if(b) {
          return "redirect:/newbook?book_no="+review_bookno;
@@ -122,7 +123,7 @@ public class NewbookController {
       //아이디가 같을 때만 지울 수 있다.
       if(id.equals(dto.getReview_id())) {
          boolean b = reviewInter.deleteReview(Integer.parseInt(review_no));
-         
+
          if(b) {
             return "redirect:/newbook?book_no="+dto.getReview_bookno();
          }else {
@@ -130,9 +131,9 @@ public class NewbookController {
          }
       }else {
     	  response.setContentType("text/html; charset=UTF-8");
-    	  
+
     	  PrintWriter out = response.getWriter();
-    	   
+
     	  out.println("<script>alert('일치하지 않는 계정입니다'); history.back(); </script>");
     	  out.flush();
          return "";
@@ -182,23 +183,7 @@ public class NewbookController {
       modelAndView.addObject("orderbook", orderbook);
       return modelAndView;
    }
-   
-   
-   
-   
-   
-   //바로구매 페이지에서 결제
-//      @RequestMapping(value = "directbuy_pay", method = RequestMethod.GET)
-//      public String directBuy(@RequestParam("id") String order_id, 
-//                           @RequestParam("order_bookno") int order_bookno,
-//                           @RequestParam("order_scount") int order_scount,
-//                           @RequestParam("order_sum") int order_sum,
-//                           @RequestParam("radioPaytype") String radioPaytype,
-//                           @RequestParam("orderpwd") String orderpass,
-//                           @RequestParam("realpoint") int realpoint,
-//                           @RequestParam("address1") String address1,
-//                           @RequestParam("address2") String address2
-//                           ) {
+
    @RequestMapping(value = "directbuy_pay", method = RequestMethod.GET)
    public String directBuy(HttpSession session,HttpServletRequest request
                         ) {
@@ -211,23 +196,6 @@ public class NewbookController {
          String realpoint1 = request.getParameter("realpoint");
          String address1 = request.getParameter("address1");
          String address2 = request.getParameter("address2");
-         
-//         System.out.println("-------------------------");
-//         System.out.println("order_id " +order_id);
-//         System.out.println("order_bookno1 " +order_bookno1);
-//         System.out.println("order_scount1 " +order_scount1);
-//         System.out.println("order_sum1 " +order_sum1);
-//         System.out.println("radioPaytype " +radioPaytype);
-//         System.out.println("orderpass1 " +orderpass1);
-//         System.out.println("realpoint1 " +realpoint1);
-//         System.out.println("address1 " +address1);
-//         System.out.println("address2 " +address2);
-         
-      
-         
-         
-         
-         
          
          int order_bookno = Integer.parseInt(order_bookno1);
          
@@ -252,19 +220,16 @@ public class NewbookController {
          
          //공통부분
          OrderInfoBean orderbean = new OrderInfoBean();
-         
-         
-         
-         
+
          //orderlist_no 부분
          Date now = new Date();
-           SimpleDateFormat vans = new SimpleDateFormat("yyyyMMdd");
-           String wdate = vans.format(now);
-          
-           DecimalFormat df = new DecimalFormat("00");
-         
-           Random random = new Random();
-           int count = random.nextInt(99) + 1;
+         SimpleDateFormat vans = new SimpleDateFormat("yyyyMMdd");
+         String wdate = vans.format(now);
+
+         DecimalFormat df = new DecimalFormat("00");
+
+         Random random = new Random();
+         int count = random.nextInt(99) + 1;
          
          orderbean.setOrderlist_no(wdate+"-"+df.format(count));
          orderbean.setOrder_date(format_time);
