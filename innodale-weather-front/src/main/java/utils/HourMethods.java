@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 
@@ -16,9 +17,6 @@ public class HourMethods {
 		Logger logger = Logger.getGlobal();
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHH");
 		
-		List<Date> list = new ArrayList<>();  //6시간 절대 시간
-		List<Date> list2 = new ArrayList<>();  //유동시간 리스트	
-		
 		Date dt1 = new Date();
 		
 		String time = format.format(dt1);
@@ -29,24 +27,12 @@ public class HourMethods {
 		
 		String today00 = format.format(dt2);
 		
-		if(sigan == 3) {
-			list = HourMethods.get3H(today00);
-			list2 = HourMethods.get3H(time);
-			
-		}else if(sigan == 6) {
-			list = HourMethods.get6H(today00);
-			list2 = HourMethods.get6H(time);
-			
-		}else if(sigan == 12) {
-			list = HourMethods.get12H(today00);
-			list2 = HourMethods.get12H(time);
-			
-		}else if(sigan == 24) {
-			list = HourMethods.get24H(today00);
-			list2 = HourMethods.get24H(time);		
-		}
+		List<Date> list = Optional.ofNullable(HourMethods.createHours(sigan, today00))
+								  .orElseGet(ArrayList::new); //6시간 절대 시간
 		
-		
+		List<Date> list2 = Optional.ofNullable(HourMethods.createHours(sigan, time))
+								   .orElseGet(ArrayList::new); //유동시간 리스트
+
 		while(list.get(0).compareTo(dt1) < 0) { // 0번째가 현재시간보다 값이 작으면 제거
 			list.remove(0);
 		}
@@ -103,75 +89,36 @@ public class HourMethods {
 		cal.set(Calendar.MILLISECOND, 0);
 		return cal.getTime();
 	}
-
-	public static List<Date> get3H(String today) { // 3시간 간격
+	
+	public static List<Date> createHours(int time, String today) { // 24시간 간격
 		List<Date> list = new ArrayList<Date>();
-		Calendar cal = Calendar.getInstance();
-
-		cal.set(Integer.parseInt(today.substring(0, 4)), Integer.parseInt(today.substring(4, 6)) - 1,
-				Integer.parseInt(today.substring(6, 8)), Integer.parseInt(today.substring(8, 10)), 0, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-
-		list.add(cal.getTime()); // 현재 일 00시 한번
-
-		for (int i = 0; i < 24; i++) {
-			cal.add(Calendar.HOUR, +3);
-			list.add(cal.getTime());
-		}
-
-		return list;
-	}
-
-	public static List<Date> get6H(String today) { // 6시간 간격
-		List<Date> list = new ArrayList<Date>();
+		int index = 0;
 		Calendar cal = Calendar.getInstance();
 
 		cal.set(Integer.parseInt(today.substring(0, 4)), Integer.parseInt(today.substring(4, 6)) - 1,
 				Integer.parseInt(today.substring(6, 8)), Integer.parseInt(today.substring(8, 10)), 0, 0);
 
 		list.add(cal.getTime()); // 현재 일 00시 한번
-
-		for (int i = 0; i < 12; i++) {
-			cal.add(Calendar.HOUR, +6);
+		
+		if(time == 3) {
+			index = 24;
+		}else if(time == 6) {
+			index = 12;
+		}else if(time == 12) {
+			index = 6;
+		}else if(time == 24) {
+			index = 3;
+		}
+		
+		
+		for (int i = 0; i < index; i++) {
+			cal.add(Calendar.HOUR, +time);
 			list.add(cal.getTime());
 		}
 
 		return list;
 	}
-
-	public static List<Date> get12H(String today) { // 12시간 간격
-		List<Date> list = new ArrayList<Date>();
-		Calendar cal = Calendar.getInstance();
-
-		cal.set(Integer.parseInt(today.substring(0, 4)), Integer.parseInt(today.substring(4, 6)) - 1,
-				Integer.parseInt(today.substring(6, 8)), Integer.parseInt(today.substring(8, 10)), 0, 0);
-
-		list.add(cal.getTime()); // 현재 일 00시 한번
-
-		for (int i = 0; i < 6; i++) {
-			cal.add(Calendar.HOUR, +12);
-			list.add(cal.getTime());
-		}
-
-		return list;
-	}
-
-	public static List<Date> get24H(String today) { // 24시간 간격
-		List<Date> list = new ArrayList<Date>();
-		Calendar cal = Calendar.getInstance();
-
-		cal.set(Integer.parseInt(today.substring(0, 4)), Integer.parseInt(today.substring(4, 6)) - 1,
-				Integer.parseInt(today.substring(6, 8)), Integer.parseInt(today.substring(8, 10)), 0, 0);
-
-		list.add(cal.getTime()); // 현재 일 00시 한번
-
-		for (int i = 0; i < 3; i++) {
-			cal.add(Calendar.HOUR, +24);
-			list.add(cal.getTime());
-		}
-
-		return list;
-	}
+	
 
 	// 주소 DB형식에 맞게 자르기
 	public static String[] cutAddress(String place) {
