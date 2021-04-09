@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.innodale.weather.dao.ObsWeatherDao;
 import com.innodale.weather.dto.ObsWeather;
 
-import utils.HourMethods;
+import static utils.HourMethods.*;
 
 @Service
 public class ObsWeatherService {
@@ -19,7 +19,7 @@ public class ObsWeatherService {
 	private ObsWeatherDao obsWeatherDao;
 	
 	public List<ObsWeather> getObsWeather(String place){
-		String[] addr = HourMethods.cutAddress(place);
+		String[] addr = cutAddress(place);
 		return obsWeatherDao.getObsWeather(addr);
 	}
 	
@@ -31,7 +31,7 @@ public class ObsWeatherService {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		
-		String[] addr = HourMethods.cutAddress(place);
+		String[] addr = cutAddress(place);
 		return obsWeatherDao.getTodayAccu(sdf.format(date), addr[0]);
 	}
 }

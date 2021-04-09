@@ -43,7 +43,7 @@ public class HourMethods {
 		
 		list.stream()
 			.map(dt -> nowList.add(format.format(dt)))
-			.forEach(a -> logger.info(a.toString()));
+			.forEach(a -> logger.info("Create list: " + a));
 		
 		
 		for(int i = 0; i < list2.size(); i++) {
@@ -55,7 +55,7 @@ public class HourMethods {
 		
 		list2.stream()
 			 .map(a -> absoList.add(format.format(a)))
-			 .forEach(a -> logger.info(a.toString()));
+			 .forEach(a -> logger.info("Create list2 : " + a));
 		
 	}
 	public static String todayYMD(String time) {

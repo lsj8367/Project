@@ -10,7 +10,7 @@ import com.innodale.weather.dto.ObsWeather;
 import com.innodale.weather.dto.ShortForecast;
 
 import lombok.RequiredArgsConstructor;
-import utils.HourMethods;
+import static utils.HourMethods.*;
 
 @Service
 @RequiredArgsConstructor
@@ -19,17 +19,17 @@ public class ShortForecastService {
 	private final ShortForecastDao shortForecastDao;
 
 	public List<ShortForecast> getShort1H(String place) {
-		String[] addr = HourMethods.cutAddress(place);
+		String[] addr = cutAddress(place);
 		return shortForecastDao.getShort1H(addr);
 	}
 
 	public ShortForecast getStatus1H(String place) {
-		String[] addr = HourMethods.cutAddress(place);
+		String[] addr = cutAddress(place);
 		return shortForecastDao.getStatus1H(addr);
 	}
 	
 	public List<ShortForecast> getPastDayAccu(String place, String shortInitDt) {
-		String[] addr = HourMethods.cutAddress(place);
+		String[] addr = cutAddress(place);
 		return shortForecastDao.getPastDayAccu(shortInitDt, addr[0]);
 	}
 	

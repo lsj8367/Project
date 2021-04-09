@@ -11,7 +11,7 @@ import com.innodale.weather.dao.LongForecast3hDao;
 import com.innodale.weather.dto.LongForecast3H;
 
 import lombok.extern.slf4j.Slf4j;
-import utils.HourMethods;
+import static utils.HourMethods.*;
 
 @Service
 public class LongForecast3hService {
@@ -23,9 +23,9 @@ public class LongForecast3hService {
 		
 		List<String> nowList = new ArrayList<>(); //현재시간기준 간격 yyyyMMddHH
 		
-		HourMethods.getDatas(3, nowList, absoList); //nowlist absoList에 값 들어감
+		getDatas(3, nowList, absoList); //nowlist absoList에 값 들어감
 		
-		String[] addr = HourMethods.cutAddress(place);
+		String[] addr = cutAddress(place);
 		for(int i = 0; i < nowList.size(); i++) {
 			if(addr[1].equals("여수시") || addr[1].equals("목포시") || addr[1].equals("춘천")
 					|| addr[1].equals("원주") || addr[1].equals("속초") || addr[1].equals("강릉")) {
@@ -42,7 +42,7 @@ public class LongForecast3hService {
 		}
 		if(list.get(0) == null) {
 			// 02, 05, 08, 11, 14, 17, 20, 23
-			String ss = HourMethods.todayYMD(absoList.get(0));
+			String ss = todayYMD(absoList.get(0));
 			list.remove(0);
 			list.add(0, longForecast3hDao.getNotEqualForecast3H(ss));
 		}
