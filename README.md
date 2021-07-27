@@ -35,10 +35,3 @@
   * @Getter, @Setter, @NoArgsConstructor 추가
   
 * 불필요한 `System.out.println()` 삭제
-
-## 2021-04-05 수정
-* ## HourMethods 클래스 변경
-  * 사용 클래스에서 import static을 변경
-  * Optional을 이용한 List null체크 구현 및 불필요한 if문 람다식 처리 및 중복 코드로 인한 불필요 라인 제거
-
-## [미니프로젝트](https://docs.google.com/presentation/d/1OyKlIPCRzBzq5KCkeT07Q6R82I8qC3NX8GlDImhr_fo/edit?ts=60333cc2#slide=id.p)
