@@ -35,3 +35,7 @@
   * @Getter, @Setter, @NoArgsConstructor 추가
   
 * 불필요한 `System.out.println()` 삭제
+
+## 2021-07-28 마이그레이션
+- Spring 5.x 버전 SpringBoot 2.x 로 마이그레이션
+- [이슈 사항](https://velog.io/@lsj8367/Spring-Spring-SpringBoot-%EB%A7%88%EC%9D%B4%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%85%98)
