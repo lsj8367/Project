@@ -1,34 +1,16 @@
 package pack.admin.model;
 
-import java.util.List;
-
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import pack.controller.*;
+import pack.model.*;
 
-import pack.controller.AdminBean;
-import pack.controller.ChartPrintBean;
-import pack.controller.FaqBoardBean;
-import pack.controller.InqueryBean;
-import pack.controller.NewBookBean;
-import pack.controller.OldBookBean;
-import pack.controller.OrderInfoBean;
-import pack.controller.UserBean;
-import pack.model.AdminDto;
-import pack.model.FaqBoardDto;
-import pack.model.InqueryDto;
-import pack.model.NewBookDto;
-import pack.model.OldBookDto;
-import pack.model.OrderInfoDto;
-import pack.model.RentInfoDto;
-import pack.model.ReviewDto;
-import pack.model.UserDto;
+import java.util.List;
 
 @Repository
 public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 	
-	@Autowired
 	public AdminImpl(SqlSessionFactory factory) {
 		setSqlSessionFactory(factory);
 	}
