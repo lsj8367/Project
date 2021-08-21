@@ -10,9 +10,9 @@ import pack.controller.RentInfoBean;
 import pack.model.OldBookDto;
 import pack.model.RentInfoDto;
 import pack.model.UserDto;
-import pack.model.OldBookImpl;
-import pack.model.RentInfoImpl;
-import pack.model.UserImpl;
+import pack.user.model.OldBookDao;
+import pack.user.model.RentInfoDao;
+import pack.user.model.UserDao;
 
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
@@ -20,9 +20,9 @@ import java.text.SimpleDateFormat;
 @Controller
 @RequiredArgsConstructor
 public class RentBookController {
-	private final OldBookImpl oldImpl;
-	private final UserImpl userImpl;
-	private final RentInfoImpl rentImpl;
+	private final OldBookDao oldImpl;
+	private final UserDao userDao;
+	private final RentInfoDao rentImpl;
 	
 	@RequestMapping("rentbooklist")
 	public String cart() {
@@ -49,7 +49,7 @@ public class RentBookController {
 		oldImpl.updateRentOldBook(rent_no);
 		 	
 		//유저 포인트 차감
-		userImpl.minusRentPoint(user_id);
+		userDao.minusRentPoint(user_id);
 		
 		
 		
@@ -63,7 +63,7 @@ public class RentBookController {
 		view.addObject("rentBook", rentBook);
 		
 		
-		UserDto rentUser = userImpl.selectUser(user_id);
+		UserDto rentUser = userDao.selectUser(user_id);
 		view.setViewName("rentbook");
 		view.addObject("rentUser", rentUser);
 		

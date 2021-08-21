@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.model.NewBookDto;
-import pack.model.NewBookImpl;
+import pack.user.model.NewBookDao;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 public class ListController {
-	private final NewBookImpl newBookImpl;
+	private final NewBookDao newBookDao;
 	
 	@RequestMapping("list")
 	public ModelAndView list(@RequestParam("book") String book) {
@@ -26,13 +26,13 @@ public class ListController {
 	public ModelAndView getGenre(String nb_genre) {
 		List<NewBookDto> list;
 		if(nb_genre.equals("best")) { //best30
-			list = newBookImpl.getBest();
+			list = newBookDao.getBest();
 		}else if(nb_genre.equals("new")){ //신간
-			list =  newBookImpl.getNew();
+			list =  newBookDao.getNew();
 		} else if (nb_genre.equals("all")) { // 전체목록
-			list = newBookImpl.getBookAll();
+			list = newBookDao.getBookAll();
 		}else {
-			list = newBookImpl.getGenre(nb_genre); //나머지 장르들
+			list = newBookDao.getGenre(nb_genre); //나머지 장르들
 		}
 		return viewAndObject(list);
 	}

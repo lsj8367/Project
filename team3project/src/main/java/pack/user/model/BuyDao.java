@@ -1,12 +1,14 @@
-package pack.model;
+package pack.user.model;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
+import pack.model.OrderInfoDto;
+import pack.model.UserDto;
 
 @Repository
-public class BuyImpl extends SqlSessionDaoSupport{
-	public BuyImpl(SqlSessionFactory factory) {
+public class BuyDao extends SqlSessionDaoSupport{
+	public BuyDao(SqlSessionFactory factory) {
 		setSqlSessionFactory(factory);
 	}
 	public UserDto point(String user_id) {

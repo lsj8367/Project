@@ -1,17 +1,18 @@
-package pack.model;
+package pack.user.model;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import pack.model.NewBookDto;
 
 import java.util.List;
 
 @Repository
-public class NewBookListImpl extends SqlSessionDaoSupport {
+public class NewBookListDao extends SqlSessionDaoSupport {
 	
 	@Autowired
-	public NewBookListImpl(SqlSessionFactory factory) {
+	public NewBookListDao(SqlSessionFactory factory) {
 		setSqlSessionFactory(factory);
 	}
 	

@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pack.controller.CardInfoBean;
 import pack.controller.UserBean;
 import pack.model.UserDto;
-import pack.model.CardInfoImpl;
-import pack.model.UserImpl;
+import pack.user.model.CardInfoDao;
+import pack.user.model.UserDao;
 
 @Controller
 @RequiredArgsConstructor
 public class SignupController {
-	private final UserImpl userImpl;
-	private final CardInfoImpl cardImpl;
+	private final UserDao userDao;
+	private final CardInfoDao cardImpl;
 
 	@RequestMapping(value = "signup", method = RequestMethod.GET)
 	public String moveLogin() {
@@ -28,10 +28,10 @@ public class SignupController {
 	public @ResponseBody String AjaxView(@RequestParam("id") String id) {
 		String str = "";
 		UserDto dto;
-		if (userImpl.selectUser(id).equals(null)) {
+		if (userDao.selectUser(id).equals(null)) {
 			str = "YES";
 		} else {
-			dto = userImpl.selectUser(id);
+			dto = userDao.selectUser(id);
 
 			if (dto.getUser_id().equals(id)) { // 이미 존재하는 계정
 				str = "NO";
@@ -78,7 +78,7 @@ public class SignupController {
 		cardbean.setCard_no(card1 + "-" + card2 + "-" + card3 + "-" + card4);
 		cardbean.setCard_passwd(cardpwd);
 
-		boolean buser = userImpl.insertUser(userbean);
+		boolean buser = userDao.insertUser(userbean);
 		boolean bcard = cardImpl.insertCard(cardbean);
 		if (buser && bcard) {
 			return "redirect:/buymain";

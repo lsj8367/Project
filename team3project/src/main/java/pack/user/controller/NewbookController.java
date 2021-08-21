@@ -10,13 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 import pack.controller.OrderInfoBean;
 import pack.controller.ReviewBean;
 import pack.controller.UserBean;
-import pack.model.CardInfoImpl;
-import pack.model.NewBookDto;
 import pack.model.*;
-import pack.model.NewBookImpl;
-import pack.model.OrderInfoImpl;
-import pack.model.ReviewImpl;
-import pack.model.UserImpl;
+import pack.user.model.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,30 +26,30 @@ import java.util.Random;
 @Controller
 @RequiredArgsConstructor
 public class NewbookController {
-   private final NewBookImpl newBookImpl;
-   private final ReviewImpl reviewImpl;
-   private final CardInfoImpl cardImpl;
-   private final UserImpl userImpl;
-   private final OrderInfoImpl orderImpl;
+   private final NewBookDao newBookDao;
+   private final ReviewDao reviewDao;
+   private final CardInfoDao cardImpl;
+   private final UserDao userDao;
+   private final OrderInfoDao orderImpl;
    
    @RequestMapping(value = "newbook", method = RequestMethod.GET)
    public ModelAndView main(@RequestParam("book_no") String nb_no) {
       ModelAndView modelAndView = new ModelAndView();
       
-      newBookImpl.plusReadCnt(Integer.parseInt(nb_no));
+      newBookDao.plusReadCnt(Integer.parseInt(nb_no));
       
       // 고른 책의 책 정보
-      NewBookDto newbook = newBookImpl.selectNewbook(Integer.parseInt(nb_no));
+      NewBookDto newbook = newBookDao.selectNewbook(Integer.parseInt(nb_no));
       modelAndView.setViewName("newbook");
       modelAndView.addObject("newbook", newbook);
       
       // 같은 저자의 책 3개 랜덤 뽑기
-      List<NewBookDto> authorList = newBookImpl.selectAuthorList(newbook.getNb_author());
+      List<NewBookDto> authorList = newBookDao.selectAuthorList(newbook.getNb_author());
       modelAndView.setViewName("newbook");
       modelAndView.addObject("authorList", authorList);
       
       // 해당책의 리뷰 보여주기
-      List<ReviewDto> reviewList = reviewImpl.selectNewbookReviewList(Integer.parseInt(nb_no));
+      List<ReviewDto> reviewList = reviewDao.selectNewbookReviewList(Integer.parseInt(nb_no));
       modelAndView.setViewName("newbook");
       modelAndView.addObject("reviewList", reviewList);
       return modelAndView;
@@ -80,7 +75,7 @@ public class NewbookController {
                                   .review_gonggam(0)
                                   .build();
 
-      boolean b = reviewImpl.insertNewbookReview(bean);
+      boolean b = reviewDao.insertNewbookReview(bean);
       if(b) {
          return "redirect:/newbook?book_no="+review_bookno;
       }else {
@@ -91,8 +86,8 @@ public class NewbookController {
    // 해당책의 리뷰 쓰기
    @RequestMapping(value = "plusGonggam", method = RequestMethod.GET)
    public String plusGonggam(@RequestParam("review_no") String review_no) {
-      ReviewDto dto = reviewImpl.selectNewbookReview(Integer.parseInt(review_no));
-      boolean b = reviewImpl.plusGonggam(Integer.parseInt(review_no));
+      ReviewDto dto = reviewDao.selectNewbookReview(Integer.parseInt(review_no));
+      boolean b = reviewDao.plusGonggam(Integer.parseInt(review_no));
       
       if(b) {
          return "redirect:/newbook?book_no="+dto.getReview_bookno();
@@ -104,12 +99,12 @@ public class NewbookController {
    @RequestMapping(value = "deleteReview", method = RequestMethod.GET)
    public String deleteReview(HttpSession session  ,@RequestParam("review_no") String review_no,
 		   		HttpServletRequest request, HttpServletResponse response) throws Exception {
-      ReviewDto dto = reviewImpl.selectNewbookReview(Integer.parseInt(review_no));
+      ReviewDto dto = reviewDao.selectNewbookReview(Integer.parseInt(review_no));
       String id = (String)session.getAttribute("id");
       
       //아이디가 같을 때만 지울 수 있다.
       if(id.equals(dto.getReview_id())) {
-         boolean b = reviewImpl.deleteReview(Integer.parseInt(review_no));
+         boolean b = reviewDao.deleteReview(Integer.parseInt(review_no));
 
          if(b) {
             return "redirect:/newbook?book_no="+dto.getReview_bookno();
@@ -136,7 +131,7 @@ public class NewbookController {
                               @RequestParam("id") String id, @RequestParam("orderscount") String orderscount) {
       
       ModelAndView modelAndView = new ModelAndView();
-      NewBookDto orderbook = newBookImpl.selectNewbook(Integer.parseInt(order_bookno));
+      NewBookDto orderbook = newBookDao.selectNewbook(Integer.parseInt(order_bookno));
       
       
       //회원이면 할인된 가격
@@ -151,7 +146,7 @@ public class NewbookController {
          modelAndView.addObject("cardDto", cardDto);
          
          // 회원이면 등록된 포인트 가져오기
-         UserDto userDto = userImpl.selectUser(id);
+         UserDto userDto = userDao.selectUser(id);
          modelAndView.setViewName("directbuy");
          modelAndView.addObject("userDto",userDto);
       }
@@ -229,7 +224,7 @@ public class NewbookController {
          
          //회원일 경우
          if(!order_id.equals("")) {
-            UserDto userDto = userImpl.selectUser(order_id);
+            UserDto userDto = userDao.selectUser(order_id);
             
             
             //포인트 쓸경우 user_id랑 user_point만 가져온다.
@@ -237,11 +232,11 @@ public class NewbookController {
                UserBean userBean = new UserBean();
                userBean.setUser_id(order_id);
                userBean.setUser_point(realpoint);
-               boolean point_b = userImpl.usePoint(userBean);
+               boolean point_b = userDao.usePoint(userBean);
                
                
                //여기 또 수정 했어요
-               UserDto userDto1 = userImpl.selectUser(order_id);
+               UserDto userDto1 = userDao.selectUser(order_id);
                
                session.setAttribute("point", userDto1.getUser_point());
                if(point_b){
@@ -317,7 +312,7 @@ public class NewbookController {
       
       view.setViewName("unmemberorder");
       view.addObject("orderDto",orderDto);
-      NewBookDto newbookDto = newBookImpl.selectNewbook(orderDto.getOrder_bookno());
+      NewBookDto newbookDto = newBookDao.selectNewbook(orderDto.getOrder_bookno());
       
       view.setViewName("unmemberorder");
       view.addObject("newbook",newbookDto);

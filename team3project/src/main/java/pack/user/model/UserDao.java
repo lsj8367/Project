@@ -1,17 +1,15 @@
-package pack.model;
+package pack.user.model;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
-
-
 import pack.controller.UserBean;
-
+import pack.model.UserDto;
 
 
 @Repository
-public class UserImpl extends SqlSessionDaoSupport {
-	public UserImpl(SqlSessionFactory factory) {
+public class UserDao extends SqlSessionDaoSupport {
+	public UserDao(SqlSessionFactory factory) {
 		setSqlSessionFactory(factory);
 	}
 	

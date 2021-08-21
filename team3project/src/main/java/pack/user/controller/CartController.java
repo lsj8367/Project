@@ -1,15 +1,15 @@
 package pack.user.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pack.model.CartImpl;
+import pack.user.model.CartDao;
 
 @Controller
+@RequiredArgsConstructor
 public class CartController {
-	@Autowired
-	private CartImpl cartImpl;
+	private final CartDao cartDao;
 	
 	@RequestMapping(value = "cart", method = RequestMethod.GET)
 	public String cart() {
