@@ -1,4 +1,4 @@
-CREATE TABLE newbook (
+CREATE TABLE if not exists newbook (
    nb_no int(10) PRIMARY KEY AUTO_INCREMENT,
    nb_name VARCHAR(30) NOT NULL,
    nb_author VARCHAR(50) DEFAULT '저자 미상',
@@ -11,10 +11,10 @@ CREATE TABLE newbook (
    nb_scount INT(10) DEFAULT 0,
    nb_readcnt INT(10) DEFAULT 0,
    nb_plot text NOT NULL,
-   nb_image VARCHAR(100) DEFAULT 'resources/images/notready.jpg'
+   nb_image VARCHAR(100) DEFAULT 'images/notready.jpg'
 )CHARSET=UTF8;
 
-create table oldbook(
+create table if not exists oldbook(
 ob_no int(10) primary key auto_increment, 
 ob_name varchar(30) not null, 
 ob_author varchar(50) not NULL,
@@ -28,12 +28,12 @@ ob_scount int(10) default 0,
 ob_readcnt int(10) default 0, 
 ob_donor varchar(20) DEFAULT "익명",
 ob_comment varchar(30) default "추천합니다.", 
-ob_image varchar(100) DEFAULT 'resources/images/notready.jpg',
+ob_image varchar(100) DEFAULT 'images/notready.jpg',
 ob_ddate DATETIME, 
 ob_userid VARCHAR(20) 
 )charset=UTF8;
 
-CREATE TABLE USER(
+CREATE TABLE if not exists USER(
 user_id VARCHAR(20) PRIMARY KEY NOT NULL, 
 user_name VARCHAR(20) NOT NULL,
 user_passwd VARCHAR(30) NOT NULL,
@@ -49,7 +49,7 @@ user_dcount INT(5) DEFAULT 0
 )CHARSET = UTF8;
 
 
-create table admin(
+create table if not exists admin(
 admin_no  int(10) primary KEY auto_increment, 
 admin_id varchar(20) not NULL, 
 admin_passwd varchar(20) not NULL, 
@@ -58,7 +58,7 @@ admin_jik varchar(20),
 admin_acc INT(2) DEFAULT 0
 )charset=UTF8;
 
-create table review(
+create table if not exists review(
 review_no int(10) auto_increment primary KEY, 
 review_id varchar(20), 
 review_bookno int(10), 
@@ -69,7 +69,7 @@ review_gonggam INT(5),
 foreign key(review_id) references user(user_id), 
 foreign key(review_bookno) references newbook(nb_no))CHARSET=UTF8;
 
-create table cardinfo(
+create table if not exists cardinfo(
 card_ownerid varchar(20), 
 card_owner varchar(20), 
 card_comp varchar(20), 
@@ -78,7 +78,7 @@ card_passwd varchar(10),
 foreign key(card_ownerid) references user(user_id))CHARSET=UTF8;
 
 
-create table rentinfo(
+create table if not exists rentinfo(
 rent_no int(10),
 rent_id varchar(20) not NULL, 
 rent_sdate datetime not NULL, 
@@ -86,7 +86,7 @@ rent_edate datetime not NULL,
 rent_ecount INT(2) DEFAULT 0 
 )charset=UTF8;
 
-CREATE TABLE INQUERY(
+CREATE TABLE if not exists INQUERY(
 inq_no int(10) auto_increment primary key, 
 inq_title VARCHAR(50) not null, 
 inq_context text,
@@ -97,14 +97,14 @@ inq_onum INT(10),
 inq_nested INT(10),
 foreign key(inq_id) references user(user_id))charset=UTF8;
 
-CREATE TABLE FAQBOARD (
+CREATE TABLE if not exists FAQBOARD (
 FAQ_NO INT(10) PRIMARY KEY AUTO_INCREMENT, 
 FAQ_TITLE VARCHAR(50) NOT NULL,
 FAQ_CONTENT TEXT NOT NULL,
 FAQ_DATE DATETIME NOT NULL, 
 FAQ_TYPE VARCHAR(10) NOT NULL)CHARSET=UTF8;
 
-CREATE TABLE orderinfo (
+CREATE TABLE if not exists orderinfo (
 order_no int(10) PRIMARY KEY auto_increment,
 orderlist_no varchar(20) NOT NULL, 
 order_person varchar(20) NOT NULL, 
@@ -121,7 +121,7 @@ order_address VARCHAR(100) not null
 )charset=UTF8;
 
 
-CREATE TABLE ob_file
+CREATE TABLE if not exists ob_file
 (   idx INT AUTO_INCREMENT PRIMARY key,                       
     ob_no int NOT NULL,                    
     original_file_name VARCHAR(260) NOT NULL,  
@@ -188,62 +188,62 @@ insert into newbook values(default,"수학과 함께하는 AI 기초","EBS","","
 
 # ----------oldbook 수정
 
-INSERT INTO oldbook VALUES(default, '수제비 정보처리기사(실기)','서용욱 외 2인','','자격증','도서출판 건기원','2020-05-05',default,'30000',default, default, '강호동', '이책으로 합격했어요','resources/upload/sujebi.jpg','2020-10-10', 1);
-INSERT INTO oldbook VALUES(default, '잘쉬는 기술','클라우디아 해먼드','오수원','행복론','웅진 지식하우스','2020-09-22',default,'20000',default, default, '유재석', '최고의휴식법', 'resources/upload/jalshinun.jpg','2020-10-10', 2);
+INSERT INTO oldbook VALUES(default, '수제비 정보처리기사(실기)','서용욱 외 2인','','자격증','도서출판 건기원','2020-05-05',default,'30000',default, default, '강호동', '이책으로 합격했어요','upload/sujebi.jpg','2020-10-10', 1);
+INSERT INTO oldbook VALUES(default, '잘쉬는 기술','클라우디아 해먼드','오수원','행복론','웅진 지식하우스','2020-09-22',default,'20000',default, default, '유재석', '최고의휴식법', 'upload/jalshinun.jpg','2020-10-10', 2);
 
 # (등급 최상도서, ob_scount=0)
-# (조회수 상(200~300조회수) 
-INSERT INTO oldbook VALUES(default, '진화심리학','데이비드 M. 버스','이충호','인문학','웅진지식하우스','2012-06-13',1,'38000',default, 231, '강호동', '심리학과 진화생물학의 현대적인 원리들의 종합', 'resources/upload/jinhwa.jpg','2020-09-01', 1);
-INSERT INTO oldbook VALUES(default, '하르부타 질문 수업','양경윤 외 9명','','사회과학','경향BP','2016-04-15',1,'13500',default, 235, '이하은', '유대인들의 기적의 공부법, 하브루타', 'resources/upload/habruta.jpg','2020-09-22', 6);
-INSERT INTO oldbook VALUES(default, '2시간에 끝내는 한글영어 발음천사','Mike Hwang','','외국어','마이클리시','2016-07-04',1,'11400',default, 296, '장하윤', '알파벳도 모르는 분이 처음 영어를 익혀도 쉽다', 'resources/upload/balum.jpg','2020-10-01', 7);
+# (조회수 상(200~300조회수)
+INSERT INTO oldbook VALUES(default, '진화심리학','데이비드 M. 버스','이충호','인문학','웅진지식하우스','2012-06-13',1,'38000',default, 231, '강호동', '심리학과 진화생물학의 현대적인 원리들의 종합', 'upload/jinhwa.jpg','2020-09-01', 1);
+INSERT INTO oldbook VALUES(default, '하르부타 질문 수업','양경윤 외 9명','','사회과학','경향BP','2016-04-15',1,'13500',default, 235, '이하은', '유대인들의 기적의 공부법, 하브루타', 'upload/habruta.jpg','2020-09-22', 6);
+INSERT INTO oldbook VALUES(default, '2시간에 끝내는 한글영어 발음천사','Mike Hwang','','외국어','마이클리시','2016-07-04',1,'11400',default, 296, '장하윤', '알파벳도 모르는 분이 처음 영어를 익혀도 쉽다', 'upload/balum.jpg','2020-10-01', 7);
 # (조회수 중(100~200조회수))
-INSERT INTO oldbook VALUES(default, '기본간호학','간호학 문제집 편집위원','','수험서','대한간호협회 ','2017-05-31',1,'25000',default, 120, '태은희', '간호학 시험 수험서', 'resources/upload/ganho.jpg','2020-10-13', 'ehtae9303');
-INSERT INTO oldbook VALUES(default, '거시경제학','Frederic S. Miskin','송병호','대학교재','경문사','2015-02-23',1,'38000',default, 183, '이주원', '거시경제학 대학교 도서', 'resources/upload/macroeconomics.jpg','2020-10-11', 'jwlee9509');
-INSERT INTO oldbook VALUES(default, '뉴욕스타일 포토샵','캐트린 아이스만 외 2인','김현서','it','피어슨에듀케이션코리아','2012-12-26',1,'38800',default, 126, '태은희', '뉴욕스타일 포토샵 지침서', 'resources/upload/photoshop.jpg','2020-09-28', 'ehtae9303');
+INSERT INTO oldbook VALUES(default, '기본간호학','간호학 문제집 편집위원','','수험서','대한간호협회 ','2017-05-31',1,'25000',default, 120, '태은희', '간호학 시험 수험서', 'upload/ganho.jpg','2020-10-13', 'ehtae9303');
+INSERT INTO oldbook VALUES(default, '거시경제학','Frederic S. Miskin','송병호','대학교재','경문사','2015-02-23',1,'38000',default, 183, '이주원', '거시경제학 대학교 도서', 'upload/macroeconomics.jpg','2020-10-11', 'jwlee9509');
+INSERT INTO oldbook VALUES(default, '뉴욕스타일 포토샵','캐트린 아이스만 외 2인','김현서','it','피어슨에듀케이션코리아','2012-12-26',1,'38800',default, 126, '태은희', '뉴욕스타일 포토샵 지침서', 'upload/photoshop.jpg','2020-09-28', 'ehtae9303');
 
 # (등급 상도서, 대여횟수 상(20~30 대여횟수))
 # (조회수 상(200~300조회수))
-INSERT INTO oldbook VALUES(default, '한라산 편지','오희삼','','에세이','터치아트','2009-11-01',2,'15000',29, 231, '전준서', '표지의 한라산이 에쁜 에세이', 'resources/upload/hanrasan.jpg','2020-10-01', 5);
-INSERT INTO oldbook VALUES(default, '신곡 전3권','단테 알리기에리','박상진','시','민음사','2013-08-08',2,'30000',27, 220, '김지후', '단테의 신곡, 유명한 고전', 'resources/upload/shingog.jpg','2020-10-07', 4);
-INSERT INTO oldbook VALUES(default, '누구 발이냐옹','PIE International','','에세이','아르누보','2018-02-08',2,'12000',26, 212, '태은희', '귀여운 표지의 에세이', 'resources/upload/nyaong.jpg','2020-09-03', 'ehtae9303');
+INSERT INTO oldbook VALUES(default, '한라산 편지','오희삼','','에세이','터치아트','2009-11-01',2,'15000',29, 231, '전준서', '표지의 한라산이 에쁜 에세이', 'upload/hanrasan.jpg','2020-10-01', 5);
+INSERT INTO oldbook VALUES(default, '신곡 전3권','단테 알리기에리','박상진','시','민음사','2013-08-08',2,'30000',27, 220, '김지후', '단테의 신곡, 유명한 고전', 'upload/shingog.jpg','2020-10-07', 4);
+INSERT INTO oldbook VALUES(default, '누구 발이냐옹','PIE International','','에세이','아르누보','2018-02-08',2,'12000',26, 212, '태은희', '귀여운 표지의 에세이', 'upload/nyaong.jpg','2020-09-03', 'ehtae9303');
 # (조회수 중(100~200조회수))
-INSERT INTO oldbook VALUES(default, '바이러스에서 살아남기','곰돌이 co.','','어린이','아이세움','2015-11-25',2,'19600',29, 110, '장하윤', '어린이에게 바이러스 개념을 쉽게 이해시켜준다', 'resources/upload/virus.jpg','2020-09-19', 7);
-INSERT INTO oldbook VALUES(default, '우리 아기 오감발달 동물농장 사운드북','샘 태플린','어스본코리아','유아','어스본코리아','2018-04-11',2,'18000',26, 198, '황건우', '아기의 오감발달에 도움되는 책', 'resources/upload/animalfarm.jpg','2020-09-21', 15);
-INSERT INTO oldbook VALUES(default, '주식창업교과서','이승조 외 2인','','경제경영','경향BP','2017-07-12',2,'20000',24, 165, '장하윤', '주식 창업을 위한 가이드북', 'resources/upload/stock.jpg','2020-09-23', 7);
+INSERT INTO oldbook VALUES(default, '바이러스에서 살아남기','곰돌이 co.','','어린이','아이세움','2015-11-25',2,'19600',29, 110, '장하윤', '어린이에게 바이러스 개념을 쉽게 이해시켜준다', 'upload/virus.jpg','2020-09-19', 7);
+INSERT INTO oldbook VALUES(default, '우리 아기 오감발달 동물농장 사운드북','샘 태플린','어스본코리아','유아','어스본코리아','2018-04-11',2,'18000',26, 198, '황건우', '아기의 오감발달에 도움되는 책', 'upload/animalfarm.jpg','2020-09-21', 15);
+INSERT INTO oldbook VALUES(default, '주식창업교과서','이승조 외 2인','','경제경영','경향BP','2017-07-12',2,'20000',24, 165, '장하윤', '주식 창업을 위한 가이드북', 'upload/stock.jpg','2020-09-23', 7);
 
 # (등급 중도서, 대여횟수 중(10~20 대여횟수))
 # (조회수 중(100~200조회수))
-INSERT INTO oldbook VALUES(default, '플라워 아트 컬러링북','아르고나인 스튜디오','','컬러링북','봄봄스쿨','2020-06-10',3,'6800',19, 183, '강호동', '화려한 책', 'resources/upload/flower.jpg','2020-09-12', 1);
-INSERT INTO oldbook VALUES(default, '맥베스','윌리엄 셰익스피어','김정환','희곡','아침이슬','2008-08-01',3,'10000',15, 192, '김지후', '셰익스피어가 쓴 세기의 명작', 'resources/upload/macbeth.jpg','2020-10-07', 4);
-INSERT INTO oldbook VALUES(default, '열두 시에 라면을 끓인다는 건','정다이','','에세이','경향BP','2018-12-20',3,'13500',16, 159, '이주원', '가볍게 읽기 좋은 에세이', 'resources/upload/ramen.jpg','2020-10-10', 'jwlee9509');
+INSERT INTO oldbook VALUES(default, '플라워 아트 컬러링북','아르고나인 스튜디오','','컬러링북','봄봄스쿨','2020-06-10',3,'6800',19, 183, '강호동', '화려한 책', 'upload/flower.jpg','2020-09-12', 1);
+INSERT INTO oldbook VALUES(default, '맥베스','윌리엄 셰익스피어','김정환','희곡','아침이슬','2008-08-01',3,'10000',15, 192, '김지후', '셰익스피어가 쓴 세기의 명작', 'upload/macbeth.jpg','2020-10-07', 4);
+INSERT INTO oldbook VALUES(default, '열두 시에 라면을 끓인다는 건','정다이','','에세이','경향BP','2018-12-20',3,'13500',16, 159, '이주원', '가볍게 읽기 좋은 에세이', 'upload/ramen.jpg','2020-10-10', 'jwlee9509');
 # (조회수 하(0~100조회수))
-INSERT INTO oldbook VALUES(default, '체스 교과서','머레이 챈들러 외 2인','송진우','어린이','바이킹','2013-04-10',3,'13800',17, 91, '장하윤', '체스를 잘하고 싶은 사람이 읽기 좋은 책', 'resources/upload/chess.jpg','2020-10-03', 7);
-INSERT INTO oldbook VALUES(default, '멜로디 봉봉 : 크리스마스 캐럴','김영아','','유아','스마트베어','2019-11-15',3,'15500',19, 64, '이주원', '아이가 따라부르기 좋은 캐롤이 나오는 책', 'resources/upload/bongbong.jpg','2020-10-01', 'jwlee9509');
-INSERT INTO oldbook VALUES(default, '배당주 투자 바이블','안훈민','','경제경영','참돌','2014-10-31',3,'25000',10, 2, '김도현', '배당주 투자에 관한 교과서', 'resources/upload/baedangju.jpg','2020-09-19', 14);
+INSERT INTO oldbook VALUES(default, '체스 교과서','머레이 챈들러 외 2인','송진우','어린이','바이킹','2013-04-10',3,'13800',17, 91, '장하윤', '체스를 잘하고 싶은 사람이 읽기 좋은 책', 'upload/chess.jpg','2020-10-03', 7);
+INSERT INTO oldbook VALUES(default, '멜로디 봉봉 : 크리스마스 캐럴','김영아','','유아','스마트베어','2019-11-15',3,'15500',19, 64, '이주원', '아이가 따라부르기 좋은 캐롤이 나오는 책', 'upload/bongbong.jpg','2020-10-01', 'jwlee9509');
+INSERT INTO oldbook VALUES(default, '배당주 투자 바이블','안훈민','','경제경영','참돌','2014-10-31',3,'25000',10, 2, '김도현', '배당주 투자에 관한 교과서', 'upload/baedangju.jpg','2020-09-19', 14);
 
 # (등급 하도서, 조회수, 대여횟수는 0)
-INSERT INTO oldbook VALUES(default, '남편을 모자로 착각한 여자','피아마 루자티','안느 브리짓 알트','인문학','인벤션','2017-11-23',4,'18000',default, default, '남궁민', '철학적 의문을 던지는 좋은책', 'resources/upload/hathusband.jpg','2020-09-13', 'namgoongmin');
-INSERT INTO oldbook VALUES(default, '최고의 인재들','데이비드 핼버스탬','송정은, 황지현','사회과학','글항아리','2014-01-27',4,'48000',default, default, '김도현', '사회과학적 시각을 던져주는 책', 'resources/upload/thebest.jpg','2020-09-12', 14);
-INSERT INTO oldbook VALUES(default, '한눈에 보인다 독일어 첫걸음','Mr. Sun 어학연구소','','외국어','올드스테어즈','2020-05-01',4,'18000',default, default, '송은서', '독일어 초심자를 위한 책', 'resources/upload/deutch.jpg','2020-10-12', 18);
-INSERT INTO oldbook VALUES(default, '매경TEST 공식 가이드','매일경제 경제경영연구소','','수험서','매일경제신문사','2020-04-15',4,'32000',default, default, '태은희', '매경TEST 관련 공식 추천 도서', 'resources/upload/maegyung.jpg','2020-10-17', 'ehtae9303');
-INSERT INTO oldbook VALUES(default, '만들어진 신','리처드 도킨스','이한음','대학교재','김영사','2007-07-20',4,'25000',default, default, '이현우', '심오한 질문을 하게 만드는 책', 'resources/upload/god.jpg','2020-09-17', 12);
-INSERT INTO oldbook VALUES(default, '블록체인 무엇인가?','다니엘 드레셔','이병욱','it','이지스퍼블리싱','2018-02-19',4,'15000',default, default, '이수아', '블록체인을 알고 싶은 사람들의 필독서', 'resources/upload/blockchain.jpg','2020-10-12', 19);
+INSERT INTO oldbook VALUES(default, '남편을 모자로 착각한 여자','피아마 루자티','안느 브리짓 알트','인문학','인벤션','2017-11-23',4,'18000',default, default, '남궁민', '철학적 의문을 던지는 좋은책', 'upload/hathusband.jpg','2020-09-13', 'namgoongmin');
+INSERT INTO oldbook VALUES(default, '최고의 인재들','데이비드 핼버스탬','송정은, 황지현','사회과학','글항아리','2014-01-27',4,'48000',default, default, '김도현', '사회과학적 시각을 던져주는 책', 'upload/thebest.jpg','2020-09-12', 14);
+INSERT INTO oldbook VALUES(default, '한눈에 보인다 독일어 첫걸음','Mr. Sun 어학연구소','','외국어','올드스테어즈','2020-05-01',4,'18000',default, default, '송은서', '독일어 초심자를 위한 책', 'upload/deutch.jpg','2020-10-12', 18);
+INSERT INTO oldbook VALUES(default, '매경TEST 공식 가이드','매일경제 경제경영연구소','','수험서','매일경제신문사','2020-04-15',4,'32000',default, default, '태은희', '매경TEST 관련 공식 추천 도서', 'upload/maegyung.jpg','2020-10-17', 'ehtae9303');
+INSERT INTO oldbook VALUES(default, '만들어진 신','리처드 도킨스','이한음','대학교재','김영사','2007-07-20',4,'25000',default, default, '이현우', '심오한 질문을 하게 만드는 책', 'upload/god.jpg','2020-09-17', 12);
+INSERT INTO oldbook VALUES(default, '블록체인 무엇인가?','다니엘 드레셔','이병욱','it','이지스퍼블리싱','2018-02-19',4,'15000',default, default, '이수아', '블록체인을 알고 싶은 사람들의 필독서', 'upload/blockchain.jpg','2020-10-12', 19);
 
 # (등급 최하도서)(조회수, 대여횟수는 0)
-INSERT INTO oldbook VALUES(default, '더 해빙','이서윤, 홍주연','','성공학','수오서재','2020-03-01',5,'16000',default, default, '남궁민', '제목과 표지가 매우 인상적인 책', 'resources/upload/thehaving.jpg','2020-10-11', 'namgoongmin');
-INSERT INTO oldbook VALUES(default, '모모','미하엘 엔데','한미희','소설','비룡소','1999-02-09',5,'12000',default, default, '김도현', '미하엘 엔데의 유명한 고전', 'resources/upload/momo.jpg','2020-10-14', 14);
-INSERT INTO oldbook VALUES(default, '아무튼, 메모','정혜윤','','에세이','위고','2020-03-15',5,'9900',default, default, '이하은', '많은 생각을 던져주는 에세이', 'resources/upload/memo.jpg','2020-09-24', 6);
-INSERT INTO oldbook VALUES(default, '구름빵','백희나','','어린이','한솔수북','2004-10-01',5,'11000',default, default, '전준서', '아이들 사이에서 인기있는 책', 'resources/upload/gurumbbang.jpg','2020-09-06', 5);
-INSERT INTO oldbook VALUES(default, '무지개 물고기','마르쿠스 피스터','공경희','유아','시공주니어','1994-04-01',5,'12000',default, default, '황건우', '아기들이 읽는데 좋은 그림책', 'resources/upload/rainbow.jpg','2020-09-15', 15);
-INSERT INTO oldbook VALUES(default, '넛지','리처드 H. 탈러, 캐스 R. 선스타인','안진환','경제경영','리더스북','2009-04-20',5,'15500',default, default, '송은서', '경영학 관련 매우 유명한 책', 'resources/upload/nudge.jpg','2020-10-08', 18);
+INSERT INTO oldbook VALUES(default, '더 해빙','이서윤, 홍주연','','성공학','수오서재','2020-03-01',5,'16000',default, default, '남궁민', '제목과 표지가 매우 인상적인 책', 'upload/thehaving.jpg','2020-10-11', 'namgoongmin');
+INSERT INTO oldbook VALUES(default, '모모','미하엘 엔데','한미희','소설','비룡소','1999-02-09',5,'12000',default, default, '김도현', '미하엘 엔데의 유명한 고전', 'upload/momo.jpg','2020-10-14', 14);
+INSERT INTO oldbook VALUES(default, '아무튼, 메모','정혜윤','','에세이','위고','2020-03-15',5,'9900',default, default, '이하은', '많은 생각을 던져주는 에세이', 'upload/memo.jpg','2020-09-24', 6);
+INSERT INTO oldbook VALUES(default, '구름빵','백희나','','어린이','한솔수북','2004-10-01',5,'11000',default, default, '전준서', '아이들 사이에서 인기있는 책', 'upload/gurumbbang.jpg','2020-09-06', 5);
+INSERT INTO oldbook VALUES(default, '무지개 물고기','마르쿠스 피스터','공경희','유아','시공주니어','1994-04-01',5,'12000',default, default, '황건우', '아기들이 읽는데 좋은 그림책', 'upload/rainbow.jpg','2020-09-15', 15);
+INSERT INTO oldbook VALUES(default, '넛지','리처드 H. 탈러, 캐스 R. 선스타인','안진환','경제경영','리더스북','2009-04-20',5,'15500',default, default, '송은서', '경영학 관련 매우 유명한 책', 'upload/nudge.jpg','2020-10-08', 18);
 
 # (등급 승인대기 도서)
-INSERT INTO oldbook VALUES(default, '자존감 수업','윤홍균','','인문학','심플라이프','2016-08-25',default,'14000',default, default, '김도현', '자존감을 되찾는데 도움을 주는 책', 'resources/upload/jajongam.jpg','2020-09-14', 14);
-INSERT INTO oldbook VALUES(default, '왜 세계의 절반은 굶주리는가?','장 지글러','유영미 외 2명','사회과학','갈라파고스','2007-03-12',default,'9800',default, default, '이현우', '세상의 부조리함을 느끼게 하는 책', 'resources/upload/hungry.jpg','2020-10-12', 12);
-INSERT INTO oldbook VALUES(default, '김영철, 타일러의 진짜 미국식 영어','김영철, 타일러 라쉬','','외국어','위즈덤하우스','2017-12-08',default,'14800',default, default, '이수아', '실전 영어를 알려주는 책', 'resources/upload/american.jpg','2020-09-01', 19);
-INSERT INTO oldbook VALUES(default, '단기합격 해커스 NCS','윤종혁, 해커스잡 취업연구소 외 2명','','수험서','해커스 공기업','2019-07-01',default,'19800',default, default, '남궁민', '단기합격을 목표로 보기 좋은 책', 'resources/upload/hackersncs.jpg','2020-10-11', 'namgoongmin');
-INSERT INTO oldbook VALUES(default, '죽음의 수용소에서','빅터 프랭클','이시형','대학교재','청아출판사','2005-08-10',default,'12000',default, default, '김지후', '역사 속의 부조리함을 느끼게 하는 책', 'resources/upload/death.jpg','2020-09-27', 4);
-INSERT INTO oldbook VALUES(default, '좋아 보이는 것들의 비밀, 인포그래픽','김묘영','','it','길벗','2014-02-25',default,'25000',default, default, '강호동', '인포그래픽에 대해 영감을 주는 책', 'resources/upload/infographic.jpg','2020-10-04', 1);
+INSERT INTO oldbook VALUES(default, '자존감 수업','윤홍균','','인문학','심플라이프','2016-08-25',default,'14000',default, default, '김도현', '자존감을 되찾는데 도움을 주는 책', 'upload/jajongam.jpg','2020-09-14', 14);
+INSERT INTO oldbook VALUES(default, '왜 세계의 절반은 굶주리는가?','장 지글러','유영미 외 2명','사회과학','갈라파고스','2007-03-12',default,'9800',default, default, '이현우', '세상의 부조리함을 느끼게 하는 책', 'upload/hungry.jpg','2020-10-12', 12);
+INSERT INTO oldbook VALUES(default, '김영철, 타일러의 진짜 미국식 영어','김영철, 타일러 라쉬','','외국어','위즈덤하우스','2017-12-08',default,'14800',default, default, '이수아', '실전 영어를 알려주는 책', 'upload/american.jpg','2020-09-01', 19);
+INSERT INTO oldbook VALUES(default, '단기합격 해커스 NCS','윤종혁, 해커스잡 취업연구소 외 2명','','수험서','해커스 공기업','2019-07-01',default,'19800',default, default, '남궁민', '단기합격을 목표로 보기 좋은 책', 'upload/hackersncs.jpg','2020-10-11', 'namgoongmin');
+INSERT INTO oldbook VALUES(default, '죽음의 수용소에서','빅터 프랭클','이시형','대학교재','청아출판사','2005-08-10',default,'12000',default, default, '김지후', '역사 속의 부조리함을 느끼게 하는 책', 'upload/death.jpg','2020-09-27', 4);
+INSERT INTO oldbook VALUES(default, '좋아 보이는 것들의 비밀, 인포그래픽','김묘영','','it','길벗','2014-02-25',default,'25000',default, default, '강호동', '인포그래픽에 대해 영감을 주는 책', 'upload/infographic.jpg','2020-10-04', 1);
 
 # ------#----admin 수정
 

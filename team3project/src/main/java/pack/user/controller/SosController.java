@@ -1,44 +1,37 @@
 package pack.user.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import pack.controller.InqueryBean;
 import pack.model.InqueryDto;
 import pack.model.UserDto;
-import pack.user.model.SosInter;
-import pack.user.model.UserInter;
+import pack.model.SosImpl;
+import pack.model.UserImpl;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Objects;
 
 @Controller
+@RequiredArgsConstructor
 public class SosController {
-
-	@Autowired
-	SosInter sosinter;
-
-	@Autowired
-	UserInter userInter;
+	private final SosImpl sosImpl;
+	private final UserImpl userImpl;
 
 	@RequestMapping("sos") // 1:1 문의 버튼 눌렀을때 public String
 	public ModelAndView sos(HttpSession session) {
 		String inq_id = (String) session.getAttribute("id");
 		ModelAndView modelAndView = new ModelAndView();
 		
-		if(inq_id == null | inq_id=="") modelAndView.setViewName("login");
-		
-		System.out.println("찍히나?");
+		if(Objects.isNull(inq_id) || Objects.equals(inq_id, "")) {
+			modelAndView.setViewName("login");
+		}
 
-		List<InqueryDto> inqList = sosinter.inqlist(inq_id);
+		List<InqueryDto> inqList = sosImpl.inqlist(inq_id);
 		modelAndView.setViewName("sos");
 		modelAndView.addObject("inqinfo",inqList);
 		return modelAndView;
@@ -54,19 +47,20 @@ public class SosController {
 	public String submit(InqueryBean bean, HttpSession session, ModelMap model)
 			throws Exception {
 		String id = (String) session.getAttribute("id");
-		if (id == null | id == "") {
+
+		if (Objects.isNull(id) || Objects.equals(id, "")) {
 			return "login";
-		} else {
-			UserDto dto = userInter.selectUser(id);
-			model.addAttribute("inqinfo", dto);
 		}
+
+		UserDto dto = userImpl.selectUser(id);
+		model.addAttribute("inqinfo", dto);
 		bean.setInq_id(id);
-		boolean b = sosinter.insertInquery(bean);
-		if (b) {
-			return "redirect:/sos";
-		} else {
+		boolean b = sosImpl.insertInquery(bean);
+		if (!b) {
 			return "error";
 		}
+
+		return "redirect:/sos";
 	}
 
 	/*

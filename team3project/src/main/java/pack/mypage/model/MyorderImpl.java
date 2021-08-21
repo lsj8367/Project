@@ -1,56 +1,48 @@
 package pack.mypage.model;
 
-import java.util.List;
-
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import pack.controller.NewBookBean;
 import pack.controller.OrderInfoBean;
 import pack.model.NewBookDto;
 import pack.model.OrderInfoDto;
 
+import java.util.List;
+
 @Repository
-public class MyorderImpl extends SqlSessionDaoSupport implements MyorderInter{
-	
+public class MyorderImpl extends SqlSessionDaoSupport {
+
 	@Autowired
 	public MyorderImpl(SqlSessionFactory factory) {
 		setSqlSessionFactory(factory);
 	}
 	
-	@Override
 	public List<OrderInfoDto> orderlistall(String user_id) {
 		return getSqlSession().selectList("orderlistall", user_id);
 	}
 	
-	@Override
 	public List<OrderInfoDto> orderoldlistall(String user_id) {
 		return getSqlSession().selectList("orderoldlistall", user_id);
 	}
 	
-	@Override
 	public List<OrderInfoDto> ordernewlistall(String user_id) {
 		return getSqlSession().selectList("ordernewlistall", user_id);
 	}
 	
-	@Override
 	public NewBookDto recommandNewBook() {
 		return getSqlSession().selectOne("recommandNewBook");
 	}
 	
-	@Override
 	public OrderInfoDto myorderinfo(String orderlist_no) {
 		return getSqlSession().selectOne("myorderinfo", orderlist_no);
 	}
 	
-	@Override
 	public List<OrderInfoDto> myorderinfoall(String orderlist_no) {
 		return getSqlSession().selectList("myorderinfoall", orderlist_no);
 	}
 	
-	@Override
 	public boolean deletemyorder(int order_no) {
 		try {
 			getSqlSession().delete("delmyord", order_no);
@@ -61,7 +53,6 @@ public class MyorderImpl extends SqlSessionDaoSupport implements MyorderInter{
 		}
 	}
 	
-	@Override
 	public boolean upNbScount(NewBookBean bean) {
 		try {
 			getSqlSession().update("upnbc", bean);
@@ -71,7 +62,6 @@ public class MyorderImpl extends SqlSessionDaoSupport implements MyorderInter{
 			return false;
 		}
 	}
-	@Override
 	public boolean updateMyOrderInfo(OrderInfoBean bean) {
 		try {
 			getSqlSession().update("upmyorderinfo", bean);

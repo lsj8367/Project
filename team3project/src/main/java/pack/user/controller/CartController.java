@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pack.user.model.CartInter;
+import pack.model.CartImpl;
 
 @Controller
 public class CartController {
 	@Autowired
-	private CartInter cartInter;
+	private CartImpl cartImpl;
 	
 	@RequestMapping(value = "cart", method = RequestMethod.GET)
 	public String cart() {

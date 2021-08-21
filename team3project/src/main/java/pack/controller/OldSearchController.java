@@ -11,10 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import pack.model.NewBookDto;
 import pack.model.OldBookDto;
 import pack.model.OldSearchInter;
-import pack.model.SearchInter;
 
 @Controller
 public class OldSearchController {

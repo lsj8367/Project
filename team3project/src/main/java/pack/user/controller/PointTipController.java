@@ -9,7 +9,4 @@ public class PointTipController {
 	public String pointtip() {
 		return "point";
 	}
-	
-	
-	
 }

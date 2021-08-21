@@ -14,10 +14,8 @@ integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706t
 
 <!-- Bootstrap theme -->
 
-<link rel="stylesheet" href="resources/static/bootstrap/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="./resources/static/css/bootstrap-theme.min.css">
 <!-- common CSS -->
-
-<link rel="stylesheet" href="resources/static/common/css/common.css">
 	
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>

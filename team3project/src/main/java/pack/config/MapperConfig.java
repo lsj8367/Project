@@ -1,6 +1,5 @@
 package pack.config;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -10,14 +9,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 
 @Configuration
 @MapperScan(
-        sqlSessionFactoryRef="dataSource",
-        sqlSessionTemplateRef="sqlSessionFactoryBean")
+        basePackages = "pack")
 public class MapperConfig {
     @Value("${spring.datasource.driver-class-name}")
     String driverClassName;
@@ -31,22 +28,7 @@ public class MapperConfig {
     @Value("${spring.datasource.password}")
     String password;
 
-    @Bean(name="dataSource")
-    public DataSource dataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(driverClassName);
-        dataSource.setUrl(url);
-        dataSource.setUsername(userName);
-        dataSource.setPassword(password);
-        return dataSource;
-    }
-
     @Bean
-    public DataSourceTransactionManager transactionManager() {
-        return new DataSourceTransactionManager(dataSource());
-    }
-
-    @Bean(name="sqlSessionFactory")
     public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sessionFactoryBean = new SqlSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
@@ -56,8 +38,9 @@ public class MapperConfig {
         sessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml"));
         return sessionFactoryBean;
     }
-    @Bean(name="sqlSessionTemplate")
-    public SqlSessionTemplate sqlSession(SqlSessionFactory sqlSessionFactory){
+
+    @Bean
+    public SqlSessionTemplate sqlSession(SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 }

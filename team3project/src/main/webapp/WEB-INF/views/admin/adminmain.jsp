@@ -306,10 +306,10 @@ padding-top:60px;
 
 </body>
 
-<script src="resources/static/js/jquery-ui.js"></script>
-<script src="resources/static/js/bootstrap.min.js"></script>
-<script src="resources/static/js/aos2.js"></script>
-<script src="resources/static/js/adminmain2.js"></script>
+<script src="./resources/static/js/jquery-ui.js"></script>
+<script src="./resources/static/js/bootstrap.min.js"></script>
+<script src="./resources/static/js/aos2.js"></script>
+<script src="./resources/static/js/adminmain2.js"></script>
 
 <%@include file="admin_footer.jsp"%>
 </html>

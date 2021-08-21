@@ -1,24 +1,22 @@
 package pack.user.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import pack.model.OldBookDto;
 import pack.model.UserDto;
-import pack.user.model.OldBookInter;
-import pack.user.model.OldBookListInter;
+import pack.model.OldBookListImpl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
+@RequiredArgsConstructor
 public class RentbookListController {
-	@Autowired
-	private OldBookListInter oldBookListInter;
+	private final OldBookListImpl oldBookListImpl;
 	
 	@RequestMapping("rentlist1")
 	public ModelAndView rentlist(@RequestParam("book") String book) {
@@ -39,27 +37,27 @@ public class RentbookListController {
 		List<OldBookDto> list;
 		List<OldBookDto> list2;
 		if(ob_genre.equals("rentmain")) {
-			list = oldBookListInter.rentmain();
-			list2 = oldBookListInter.rentmain2();
+			list = oldBookListImpl.rentmain();
+			list2 = oldBookListImpl.rentmain2();
 			modelAndView.addObject("oldbooklist", list); //1등급 책 리스트
 			modelAndView.addObject("oldbooklow", list2); //2,3등급 책 리스트
 
 			modelAndView.setViewName("rentmain");
 			
 		}else if (ob_genre.equals("high")) {
-			list = oldBookListInter.selectHighAll();
+			list = oldBookListImpl.selectHighAll();
 			modelAndView.addObject("list", list);
 
 			modelAndView.setViewName("alllist");
 			
 		}else if (ob_genre.equals("low")) {
-			list = oldBookListInter.selectLowAll();
+			list = oldBookListImpl.selectLowAll();
 			modelAndView.addObject("list", list);
 			modelAndView.setViewName("alllist");
 			
 		}else {
-			list = oldBookListInter.selectGenre(ob_genre);			
-			list2 = oldBookListInter.selectGenre2(ob_genre);
+			list = oldBookListImpl.selectGenre(ob_genre);
+			list2 = oldBookListImpl.selectGenre2(ob_genre);
 
 			modelAndView.addObject("oldbooklist", list);
 			modelAndView.addObject("oldbooklow", list2);
@@ -71,10 +69,10 @@ public class RentbookListController {
 	
 	
 	private void getBest(ModelAndView modelAndView) {
-		OldBookDto best = oldBookListInter.bestOne();
+		OldBookDto best = oldBookListImpl.bestOne();
 		modelAndView.addObject("best", best);
 		
-		UserDto readbest = oldBookListInter.bestRead();
+		UserDto readbest = oldBookListImpl.bestRead();
 		modelAndView.addObject("readbest", readbest);
 		System.out.println("getBest");
 	}

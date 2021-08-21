@@ -29,7 +29,7 @@
 						</tr>
 					<tr>
 						<td rowspan="6">
-						<img width="200" src="./${bookinfo.ob_image}"/> <!-- 사진이미지 경로 -->
+						<img width="200" src="./resources/static/${bookinfo.ob_image}"/> <!-- 사진이미지 경로 -->
 				
 						</td>
 					</tr>

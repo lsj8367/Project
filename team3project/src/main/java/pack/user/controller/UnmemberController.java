@@ -7,15 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import pack.controller.OrderInfoBean;
 import pack.model.OrderInfoDto;
-import pack.user.model.UnmemberInter;
+import pack.model.UnmemberImpl;
 
 @Controller
 public class UnmemberController {
 	@Autowired
-	private UnmemberInter unmemberInter;
+	private UnmemberImpl unmemberImpl;
 	
 	@RequestMapping(value = "unmembercheck", method = RequestMethod.GET)
 	public String check() {
@@ -26,7 +25,7 @@ public class UnmemberController {
 	public ModelAndView search(@RequestParam("orderlist_no") String orderlist_no, @RequestParam("order_passwd") String order_passwd, OrderInfoBean bean,
 			Model model) {
 		ModelAndView modelAndView = new ModelAndView();
-		OrderInfoDto dto = unmemberInter.search(bean);
+		OrderInfoDto dto = unmemberImpl.search(bean);
 		if(orderlist_no.equals(bean.getOrderlist_no()) && order_passwd.equals(bean.getOrder_passwd())) {
 			modelAndView.addObject("list", dto);
 			modelAndView.setViewName("unmember");

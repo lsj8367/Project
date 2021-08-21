@@ -14,39 +14,33 @@ import pack.model.OldBookDto;
 import pack.model.OrderInfoDto;
 
 @Repository
-public class MypageImpl extends SqlSessionDaoSupport implements MypageInter{
+public class MypageImpl extends SqlSessionDaoSupport{
 
 	@Autowired
 	public MypageImpl(SqlSessionFactory factory) {
 		setSqlSessionFactory(factory);
 	}
 
-	@Override
 	public List<OrderInfoDto> orderlist(String id) {
 		return getSqlSession().selectList("order3list", id);
 	}
 	
-	@Override
 	public List<OldBookDto> rentlist(String id) {
 		return getSqlSession().selectList("rent3list", id);
 	}
 	
-	@Override
 	public List<OldBookDto> donorlist(String id) {
 		return getSqlSession().selectList("donor3list", id);
 	}
 	
-	@Override
 	public List<CardInfoDto> cardlist(String id) {
 		return getSqlSession().selectList("card3list", id);
 	}
 	
-	@Override
 	public List<InqueryDto> inqlist(String id) {
 		return getSqlSession().selectList("inq3list", id);
 	}
 	
-	@Override
 	public NewBookDto recommandNewBook() {
 		return getSqlSession().selectOne("recommandNewBook");
 	}

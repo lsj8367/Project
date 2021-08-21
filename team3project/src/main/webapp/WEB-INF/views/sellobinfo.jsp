@@ -13,7 +13,7 @@
 	<table style="width: 90%; margin-left: auto; margin-right: auto;">
 		<c:forEach var="sob" items="${soblist }">
 			<tr>
-				<td><img src="${sob.ob_image }" ></td>
+				<td><img src="./resources/static/${sob.ob_image }" ></td>
 			<td>${sob.ob_name}</td>
 			<td>${sob.ob_author}</td>
 			<td>${sob.ob_inter}</td>
