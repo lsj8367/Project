@@ -12,9 +12,8 @@ import pack.user.model.NewBookListInter;
 
 @Controller
 public class BuyMainController {
-	
-	@Autowired
-	private NewBookListInter newBookInter;
+
+	private final NewBookListImpl newBookListImpl;
 
 	@RequestMapping("buymain")
 	public ModelAndView main() {
