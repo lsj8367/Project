@@ -1,15 +1,17 @@
-package pack.model;
+package pack.user.model;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
+import pack.model.OldBookDto;
+import pack.model.UserDto;
 
 import java.util.List;
 
 @Repository
-public class OldBookListImpl extends SqlSessionDaoSupport {
+public class OldBookListDao extends SqlSessionDaoSupport {
 	
-	public OldBookListImpl(SqlSessionFactory factory) {
+	public OldBookListDao(SqlSessionFactory factory) {
 		setSqlSessionFactory(factory);
 	}
 	public List<OldBookDto> selectGenre(String ob_genre) {

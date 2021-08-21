@@ -1,14 +1,14 @@
-package pack.model;
+package pack.user.model;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
-
 import pack.controller.RentInfoBean;
+import pack.model.RentInfoDto;
 
 @Repository
-public class RentInfoImpl extends SqlSessionDaoSupport {
-	public RentInfoImpl(SqlSessionFactory factory) {
+public class RentInfoDao extends SqlSessionDaoSupport {
+	public RentInfoDao(SqlSessionFactory factory) {
 		setSqlSessionFactory(factory);
 	}
 	

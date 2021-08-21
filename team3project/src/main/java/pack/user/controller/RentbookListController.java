@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.model.OldBookDto;
 import pack.model.UserDto;
-import pack.model.OldBookListImpl;
+import pack.user.model.OldBookListDao;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 public class RentbookListController {
-	private final OldBookListImpl oldBookListImpl;
+	private final OldBookListDao oldBookListDao;
 	
 	@RequestMapping("rentlist1")
 	public ModelAndView rentlist(@RequestParam("book") String book) {
@@ -37,27 +37,27 @@ public class RentbookListController {
 		List<OldBookDto> list;
 		List<OldBookDto> list2;
 		if(ob_genre.equals("rentmain")) {
-			list = oldBookListImpl.rentmain();
-			list2 = oldBookListImpl.rentmain2();
+			list = oldBookListDao.rentmain();
+			list2 = oldBookListDao.rentmain2();
 			modelAndView.addObject("oldbooklist", list); //1등급 책 리스트
 			modelAndView.addObject("oldbooklow", list2); //2,3등급 책 리스트
 
 			modelAndView.setViewName("rentmain");
 			
 		}else if (ob_genre.equals("high")) {
-			list = oldBookListImpl.selectHighAll();
+			list = oldBookListDao.selectHighAll();
 			modelAndView.addObject("list", list);
 
 			modelAndView.setViewName("alllist");
 			
 		}else if (ob_genre.equals("low")) {
-			list = oldBookListImpl.selectLowAll();
+			list = oldBookListDao.selectLowAll();
 			modelAndView.addObject("list", list);
 			modelAndView.setViewName("alllist");
 			
 		}else {
-			list = oldBookListImpl.selectGenre(ob_genre);
-			list2 = oldBookListImpl.selectGenre2(ob_genre);
+			list = oldBookListDao.selectGenre(ob_genre);
+			list2 = oldBookListDao.selectGenre2(ob_genre);
 
 			modelAndView.addObject("oldbooklist", list);
 			modelAndView.addObject("oldbooklow", list2);
@@ -69,10 +69,10 @@ public class RentbookListController {
 	
 	
 	private void getBest(ModelAndView modelAndView) {
-		OldBookDto best = oldBookListImpl.bestOne();
+		OldBookDto best = oldBookListDao.bestOne();
 		modelAndView.addObject("best", best);
 		
-		UserDto readbest = oldBookListImpl.bestRead();
+		UserDto readbest = oldBookListDao.bestRead();
 		modelAndView.addObject("readbest", readbest);
 		System.out.println("getBest");
 	}

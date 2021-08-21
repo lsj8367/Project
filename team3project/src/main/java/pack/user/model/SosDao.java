@@ -1,18 +1,19 @@
-package pack.model;
+package pack.user.model;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pack.controller.InqueryBean;
+import pack.model.InqueryDto;
 
 import java.util.List;
 
 @Repository
-public class SosImpl extends SqlSessionDaoSupport {
+public class SosDao extends SqlSessionDaoSupport {
 
 	@Autowired
-	public SosImpl(SqlSessionFactory factory) {
+	public SosDao(SqlSessionFactory factory) {
 			setSqlSessionFactory(factory);
 	}
 	

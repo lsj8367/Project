@@ -1,15 +1,16 @@
-package pack.model;
+package pack.user.model;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 import pack.controller.ReviewBean;
+import pack.model.ReviewDto;
 
 import java.util.List;
 @Repository
-public class ReviewImpl extends SqlSessionDaoSupport {
+public class ReviewDao extends SqlSessionDaoSupport {
 	
-	public ReviewImpl(SqlSessionFactory factory) {
+	public ReviewDao(SqlSessionFactory factory) {
 		setSqlSessionFactory(factory);
 	}
 	//리뷰 목록

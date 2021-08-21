@@ -1,15 +1,15 @@
-package pack.model;
+package pack.user.model;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
-
 import pack.controller.OrderInfoBean;
+import pack.model.OrderInfoDto;
 
 @Repository
-public class OrderInfoImpl extends SqlSessionDaoSupport {
+public class OrderInfoDao extends SqlSessionDaoSupport {
 
-	public OrderInfoImpl(SqlSessionFactory factory) {
+	public OrderInfoDao(SqlSessionFactory factory) {
 		setSqlSessionFactory(factory);
 	}
 		

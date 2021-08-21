@@ -1,7 +1,9 @@
-package pack.model;
+package pack.user.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import pack.model.OldBookDto;
+import pack.model.OrderInfoDto;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Connection;
@@ -14,9 +16,9 @@ import java.util.Date;
 import java.util.Random;
 
 @Repository
-public class BuyResultImpl{
-	@Autowired
-	private OldBookImpl oldBookImpl;
+@RequiredArgsConstructor
+public class BuyResultDao {
+	private final OldBookDao oldBookDao;
 	
 	
 	private Connection conn = null;
@@ -27,7 +29,7 @@ public class BuyResultImpl{
 	int count = random.nextInt(99) + 1;
 	
 	public OrderInfoDto order(HttpSession session,
-			String user_id, String order_person, int order_sum, String radioPaytype, String order_passwd, String address, String ob_no) {
+							  String user_id, String order_person, int order_sum, String radioPaytype, String order_passwd, String address, String ob_no) {
 		 //sql 주문번호 +
 		String sql = "insert into orderinfo(order_no,orderlist_no,order_person,order_id,order_bookno,order_booktype,order_date,"
 				+ "order_passwd,order_scount, order_paytype, order_state, order_sum, order_address) values(default,?,?,?,?,?,curdate(),?,?,?,?,?,?)";
@@ -42,7 +44,7 @@ public class BuyResultImpl{
 			Date now = new Date();
 			SimpleDateFormat vans = new SimpleDateFormat("yyyyMMdd");
 			String wdate = vans.format(now);
-			OldBookDto oldBookDto = oldBookImpl.view(ob_no);
+			OldBookDto oldBookDto = oldBookDao.view(ob_no);
 			DecimalFormat df = new DecimalFormat("00");
 			
 			if(session.getAttribute("id") != null) { //회원

@@ -8,22 +8,22 @@ import org.springframework.web.servlet.ModelAndView;
 import pack.controller.OldBookBean;
 import pack.model.OldBookDto;
 import pack.model.UserDto;
-import pack.model.OldBookImpl;
-import pack.model.UserImpl;
+import pack.user.model.OldBookDao;
+import pack.user.model.UserDao;
 
 import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
 public class OldBookController {
-    private final OldBookImpl oldBookImpl;
-    private final UserImpl userImpl;
+    private final OldBookDao oldBookDao;
+    private final UserDao userDao;
 
     @RequestMapping("oldbook")
     public ModelAndView bookInfo(@RequestParam("book_no") String book_no) { //중고중에 1등급
         ModelAndView modelAndView = new ModelAndView();
-        OldBookDto dto = oldBookImpl.bookInfo(book_no);
-        boolean b = oldBookImpl.readcnt(Integer.parseInt(book_no));
+        OldBookDto dto = oldBookDao.bookInfo(book_no);
+        boolean b = oldBookDao.readcnt(Integer.parseInt(book_no));
         if (b) {
             modelAndView.addObject("bookinfo", dto);
             modelAndView.setViewName("oldbook");
@@ -41,12 +41,12 @@ public class OldBookController {
         String user_id = (String) session.getAttribute("id");
 
         ModelAndView modelAndView = new ModelAndView();
-        OldBookDto dto = oldBookImpl.rentalInfo(book_no);
-        boolean b = oldBookImpl.readcnt(Integer.parseInt(book_no));
+        OldBookDto dto = oldBookDao.rentalInfo(book_no);
+        boolean b = oldBookDao.readcnt(Integer.parseInt(book_no));
         if (b) {
             modelAndView.addObject("bookinfo", dto);
 
-            UserDto rentUser = userImpl.selectUser(user_id);
+            UserDto rentUser = userDao.selectUser(user_id);
             modelAndView.addObject("rentUser", rentUser);
 
             modelAndView.setViewName("oldrental");

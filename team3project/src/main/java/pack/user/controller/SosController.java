@@ -9,8 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 import pack.controller.InqueryBean;
 import pack.model.InqueryDto;
 import pack.model.UserDto;
-import pack.model.SosImpl;
-import pack.model.UserImpl;
+import pack.user.model.SosDao;
+import pack.user.model.UserDao;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -19,8 +19,8 @@ import java.util.Objects;
 @Controller
 @RequiredArgsConstructor
 public class SosController {
-	private final SosImpl sosImpl;
-	private final UserImpl userImpl;
+	private final SosDao sosDao;
+	private final UserDao userDao;
 
 	@RequestMapping("sos") // 1:1 문의 버튼 눌렀을때 public String
 	public ModelAndView sos(HttpSession session) {
@@ -31,7 +31,7 @@ public class SosController {
 			modelAndView.setViewName("login");
 		}
 
-		List<InqueryDto> inqList = sosImpl.inqlist(inq_id);
+		List<InqueryDto> inqList = sosDao.inqlist(inq_id);
 		modelAndView.setViewName("sos");
 		modelAndView.addObject("inqinfo",inqList);
 		return modelAndView;
@@ -52,10 +52,10 @@ public class SosController {
 			return "login";
 		}
 
-		UserDto dto = userImpl.selectUser(id);
+		UserDto dto = userDao.selectUser(id);
 		model.addAttribute("inqinfo", dto);
 		bean.setInq_id(id);
-		boolean b = sosImpl.insertInquery(bean);
+		boolean b = sosDao.insertInquery(bean);
 		if (!b) {
 			return "error";
 		}

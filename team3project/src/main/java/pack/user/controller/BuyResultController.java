@@ -8,10 +8,10 @@ import org.springframework.web.servlet.ModelAndView;
 import pack.controller.UserBean;
 import pack.model.OrderInfoDto;
 import pack.model.UserDto;
-import pack.model.BuyImpl;
-import pack.model.BuyResultImpl;
-import pack.model.OldBookImpl;
-import pack.model.UserImpl;
+import pack.user.model.BuyDao;
+import pack.user.model.BuyResultDao;
+import pack.user.model.OldBookDao;
+import pack.user.model.UserDao;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,10 +20,10 @@ import java.util.Objects;
 @Controller
 @RequiredArgsConstructor
 public class BuyResultController {
-	private final BuyResultImpl buyResultImpl;
-	private final BuyImpl buyImpl;
-	private final UserImpl userImpl;
-	private final OldBookImpl oldBookImpl;
+	private final BuyResultDao buyResultDao;
+	private final BuyDao buyDao;
+	private final UserDao userImpl;
+	private final OldBookDao oldBookDao;
 
 
 	@RequestMapping("buyresult")
@@ -49,13 +49,13 @@ public class BuyResultController {
 		System.out.println(radioPaytype);
 		
 		
-		dto = buyResultImpl.order(session, id, order_person, Integer.parseInt(order_sum), radioPaytype, user_passwd, user_address, ob_no);
+		dto = buyResultDao.order(session, id, order_person, Integer.parseInt(order_sum), radioPaytype, user_passwd, user_address, ob_no);
 
 
 
 
 		if(session.getAttribute("id") != null && request.getParameter("writepoint") != "") { // 회원인경우
-			UserDto user = buyImpl.point(id);
+			UserDto user = buyDao.point(id);
 			UserBean bean = new UserBean();
 
 
@@ -86,8 +86,8 @@ public class BuyResultController {
 			return modelAndView;
 		}
 
-		dto2 = buyImpl.show(order_person);
-		oldBookImpl.update(Integer.parseInt(ob_no));
+		dto2 = buyDao.show(order_person);
+		oldBookDao.update(Integer.parseInt(ob_no));
 		modelAndView.addObject("buylist", dto2);
 		modelAndView.setViewName("buyresult");
 		return modelAndView;
