@@ -7,55 +7,55 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<typeAliases>
 
 		<!-- 관리자 -->
-		<typeAlias type="pack.example.model.AdminDto" alias="admindto" />
-		<typeAlias type="pack.example.controller.AdminBean"
+		<typeAlias type="pack.model.AdminDto" alias="admindto" />
+		<typeAlias type="pack.controller.AdminBean"
 			alias="adminform" />
 
 		<!-- 사용자 -->
-		<typeAlias type="pack.example.model.UserDto" alias="userdto" />
-		<typeAlias type="pack.example.controller.UserBean" alias="userform" />
+		<typeAlias type="pack.model.UserDto" alias="userdto" />
+		<typeAlias type="pack.controller.UserBean" alias="userform" />
 
 		<!-- 새 도서 -->
-		<typeAlias type="pack.example.model.NewBookDto" alias="nbdto" />
-		<typeAlias type="pack.example.controller.NewBookBean" alias="nbform" />
+		<typeAlias type="pack.model.NewBookDto" alias="nbdto" />
+		<typeAlias type="pack.controller.NewBookBean" alias="nbform" />
 
 		<!-- 중고도서 -->
-		<typeAlias type="pack.example.model.OldBookDto" alias="obdto" />
-		<typeAlias type="pack.example.controller.OldBookBean" alias="obform" />
+		<typeAlias type="pack.model.OldBookDto" alias="obdto" />
+		<typeAlias type="pack.controller.OldBookBean" alias="obform" />
 
 		<!-- 카드정보 -->
-		<typeAlias type="pack.example.model.CardInfoDto" alias="carddto" />
-		<typeAlias type="pack.example.controller.CardInfoBean"
+		<typeAlias type="pack.model.CardInfoDto" alias="carddto" />
+		<typeAlias type="pack.controller.CardInfoBean"
 			alias="cardform" />
 
 		<!-- 후기 -->
-		<typeAlias type="pack.example.model.ReviewDto" alias="reviewdto" />
-		<typeAlias type="pack.example.controller.ReviewBean"
+		<typeAlias type="pack.model.ReviewDto" alias="reviewdto" />
+		<typeAlias type="pack.controller.ReviewBean"
 			alias="reviewform" />
 
 		<!-- 주문내역 -->
-		<typeAlias type="pack.example.model.OrderInfoDto" alias="orderdto" />
-		<typeAlias type="pack.example.controller.OrderInfoBean"
+		<typeAlias type="pack.model.OrderInfoDto" alias="orderdto" />
+		<typeAlias type="pack.controller.OrderInfoBean"
 			alias="orderform" />
 
 		<!-- FAQ -->
-		<typeAlias type="pack.example.model.FaqBoardDto" alias="faqdto" />
-		<typeAlias type="pack.example.controller.FaqBoardBean"
+		<typeAlias type="pack.model.FaqBoardDto" alias="faqdto" />
+		<typeAlias type="pack.controller.FaqBoardBean"
 			alias="faqform" />
 
 		<!-- 1:1 문의 -->
-		<typeAlias type="pack.example.model.InqueryDto" alias="inqdto" />
-		<typeAlias type="pack.example.controller.InqueryBean"
+		<typeAlias type="pack.model.InqueryDto" alias="inqdto" />
+		<typeAlias type="pack.controller.InqueryBean"
 			alias="inqform" />
 
 		<!-- 대여 정보 -->
-		<typeAlias type="pack.example.model.RentInfoDto" alias="rdto" />
-		<typeAlias type="pack.example.controller.RentInfoBean"
+		<typeAlias type="pack.model.RentInfoDto" alias="rdto" />
+		<typeAlias type="pack.controller.RentInfoBean"
 			alias="rentform" />
 
 		<!-- 차트 출력 -->
-		<typeAlias type="pack.example.model.ChartPrintDto" alias="chartdto" />
-		<typeAlias type="pack.example.controller.ChartPrintBean"
+		<typeAlias type="pack.model.ChartPrintDto" alias="chartdto" />
+		<typeAlias type="pack.controller.ChartPrintBean"
 			alias="chartform" />
 
 	</typeAliases>

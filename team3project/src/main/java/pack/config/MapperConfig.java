@@ -14,8 +14,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @MapperScan(
-        sqlSessionFactoryRef="dataSource",
-        sqlSessionTemplateRef="sqlSessionFactoryBean")
+        basePackages = "pack")
 public class MapperConfig {
     @Value("${spring.datasource.driver-class-name}")
     String driverClassName;
@@ -29,21 +28,7 @@ public class MapperConfig {
     @Value("${spring.datasource.password}")
     String password;
 
-    @Bean(name="dataSource")
-    public DataSource dataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(driverClassName);
-        dataSource.setUrl(url);
-        dataSource.setUsername(userName);
-        dataSource.setPassword(password);
-        return dataSource;
-    }
-
-//    @Bean
-//    public DataSourceTransactionManager transactionManager() {
-//        return new DataSourceTransactionManager(dataSource());
-
-    @Bean(name="sqlSessionFactory")
+    @Bean
     public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sessionFactoryBean = new SqlSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
@@ -53,8 +38,9 @@ public class MapperConfig {
         sessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml"));
         return sessionFactoryBean;
     }
-    @Bean(name="sqlSessionTemplate")
-    public SqlSessionTemplate sqlSession(SqlSessionFactory sqlSessionFactory){
+
+    @Bean
+    public SqlSessionTemplate sqlSession(SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 }
