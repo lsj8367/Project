@@ -1,26 +1,22 @@
-package pack.user.model;
-
-import java.util.List;
+package pack.model;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
-
-import pack.model.ReviewDto;
 import pack.controller.ReviewBean;
+
+import java.util.List;
 @Repository
-public class ReviewImpl extends SqlSessionDaoSupport implements ReviewInter{
+public class ReviewImpl extends SqlSessionDaoSupport {
 	
 	public ReviewImpl(SqlSessionFactory factory) {
 		setSqlSessionFactory(factory);
 	}
 	//리뷰 목록
-	@Override
 	public List<ReviewDto> selectNewbookReviewList(int nb_no) {
 		return getSqlSession().selectList("selectNewbookReviewList", nb_no);
 	}
 	//리뷰작성
-	@Override
 	public boolean insertNewbookReview(ReviewBean bean) {
 		try {
 			getSqlSession().insert("insertNewbookReview", bean);
@@ -31,13 +27,10 @@ public class ReviewImpl extends SqlSessionDaoSupport implements ReviewInter{
 		}
 	}
 	
-	
-	@Override
 	public ReviewDto selectNewbookReview(int review_no) {
 		return getSqlSession().selectOne("selectNewbookReview", review_no);
 	}
 	//리뷰 추천
-	@Override
 	public boolean plusGonggam(int review_no) {
 		try {
 			getSqlSession().update("plusGonggam", review_no);
@@ -47,7 +40,7 @@ public class ReviewImpl extends SqlSessionDaoSupport implements ReviewInter{
 			return false;
 		}
 	}
-	@Override
+
 	public boolean deleteReview(int review_no) {
 		try {
 			getSqlSession().delete("deleteReview", review_no);

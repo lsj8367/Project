@@ -1,22 +1,21 @@
 package pack.user.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import pack.model.NewBookDto;
-import pack.user.model.NewBookInter;
+import pack.model.NewBookImpl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
+@RequiredArgsConstructor
 public class ListController {
-	@Autowired
-	private NewBookInter newBookInter;
+	private final NewBookImpl newBookImpl;
 	
 	@RequestMapping("list")
 	public ModelAndView list(@RequestParam("book") String book) {
@@ -27,13 +26,13 @@ public class ListController {
 	public ModelAndView getGenre(String nb_genre) {
 		List<NewBookDto> list;
 		if(nb_genre.equals("best")) { //best30
-			list = newBookInter.getBest();
+			list = newBookImpl.getBest();
 		}else if(nb_genre.equals("new")){ //신간
-			list =  newBookInter.getNew();
+			list =  newBookImpl.getNew();
 		} else if (nb_genre.equals("all")) { // 전체목록
-			list = newBookInter.getBookAll();
+			list = newBookImpl.getBookAll();
 		}else {
-			list = newBookInter.getGenre(nb_genre); //나머지 장르들			
+			list = newBookImpl.getGenre(nb_genre); //나머지 장르들
 		}
 		return viewAndObject(list);
 	}

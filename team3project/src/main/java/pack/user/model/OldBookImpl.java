@@ -1,4 +1,4 @@
-package pack.user.model;
+package pack.model;
 
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -7,10 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import pack.controller.OldBookBean;
-import pack.model.OldBookDto;
 
 @Repository
-public class OldBookImpl extends SqlSessionDaoSupport implements OldBookInter{
+public class OldBookImpl extends SqlSessionDaoSupport {
 
 	@Autowired
 	public OldBookImpl(SqlSessionFactory factory) {
@@ -29,23 +28,19 @@ public class OldBookImpl extends SqlSessionDaoSupport implements OldBookInter{
 				return b;
 	}
 	
-	@Override
 	public OldBookDto bookInfo(String book_no) {
 		return getSqlSession().selectOne("oldbookinfo", book_no);
 	}
 	//oldbookinfo2
-	@Override
 	public OldBookDto rentalInfo(String book_no) {
 		return getSqlSession().selectOne("oldbookinfo2", book_no);
 	}
 	
-	@Override
 	public OldBookDto getAllOldBook() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	@Override
 	public boolean readcnt(int readcnt) {
 		try {
 			getSqlSession().update("readcntUpdate", readcnt);
@@ -56,12 +51,10 @@ public class OldBookImpl extends SqlSessionDaoSupport implements OldBookInter{
 		}
 	}
 	
-	@Override
 	public OldBookDto view(String book_no) {
 		return getSqlSession().selectOne("viewoldbook", book_no);
 	}
 	
-	@Override
 	public boolean updateRentOldBook(String book_no) {
 		try {
 			getSqlSession().update("updateRentOldBook", book_no);
@@ -70,7 +63,6 @@ public class OldBookImpl extends SqlSessionDaoSupport implements OldBookInter{
 			return false;
 		}
 	}
-	@Override
 	public boolean update(int ob_no) {
 		try {
 			getSqlSession().update("updateOldbook", ob_no);

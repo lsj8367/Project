@@ -7,30 +7,25 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import pack.controller.OldBookBean;
-import pack.controller.RentInfoBean;
 import pack.controller.UserBean;
 import pack.model.OldBookDto;
 
 @Repository
-public class MyrentImpl extends SqlSessionDaoSupport implements MyrentInter{
+public class MyrentImpl extends SqlSessionDaoSupport {
 	
 	@Autowired
 	public MyrentImpl(SqlSessionFactory factory) {
 		setSqlSessionFactory(factory);
 	}
 	
-	@Override
 	public List<OldBookDto> rentlistall(String userid) {
 		return getSqlSession().selectList("rentlistall", userid);
 	}
 	
-	@Override
 	public OldBookDto getObPrice(int ob_no) {
 		return getSqlSession().selectOne("getobp", ob_no);
 	}
 	
-	@Override
 	public boolean deleteRentinf(int rent_no) {
 		try {
 			getSqlSession().update("delrinf", rent_no);
@@ -41,7 +36,6 @@ public class MyrentImpl extends SqlSessionDaoSupport implements MyrentInter{
 		}
 	}
 	
-	@Override
 	public boolean upObProcess(int rent_no) {
 		try {
 			getSqlSession().update("upobprocess", rent_no);
@@ -52,7 +46,6 @@ public class MyrentImpl extends SqlSessionDaoSupport implements MyrentInter{
 		}
 	}
 	
-	@Override
 	public boolean delpointuser(UserBean bean) {
 		try {
 			getSqlSession().update("delpointuser", bean);
@@ -63,7 +56,6 @@ public class MyrentImpl extends SqlSessionDaoSupport implements MyrentInter{
 		}
 	}
 	
-	@Override
 	public boolean updateState(int rent_no) {
 		try {
 			getSqlSession().update("uprent", rent_no);

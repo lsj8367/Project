@@ -1,5 +1,9 @@
-package pack.user.model;
+package pack.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import javax.servlet.http.HttpSession;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,22 +13,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import pack.controller.OldBookBean;
-import pack.controller.OrderInfoBean;
-import pack.model.DataSource;
-import pack.model.OldBookDto;
-import pack.model.OrderInfoDto;
-import pack.model.UserDto;
-
 @Repository
-public class BuyResultImpl implements BuyResultInter{
+public class BuyResultImpl{
 	@Autowired
-	private OldBookInter oldBookInter;
+	private OldBookImpl oldBookImpl;
 	
 	
 	private Connection conn = null;
@@ -34,8 +26,6 @@ public class BuyResultImpl implements BuyResultInter{
 	Random random = new Random();
 	int count = random.nextInt(99) + 1;
 	
-	//public int count = 5;
-	@Override
 	public OrderInfoDto order(HttpSession session,
 			String user_id, String order_person, int order_sum, String radioPaytype, String order_passwd, String address, String ob_no) {
 		 //sql 주문번호 +
@@ -52,7 +42,7 @@ public class BuyResultImpl implements BuyResultInter{
 			Date now = new Date();
 			SimpleDateFormat vans = new SimpleDateFormat("yyyyMMdd");
 			String wdate = vans.format(now);
-			OldBookDto oldBookDto = oldBookInter.view(ob_no);
+			OldBookDto oldBookDto = oldBookImpl.view(ob_no);
 			DecimalFormat df = new DecimalFormat("00");
 			
 			if(session.getAttribute("id") != null) { //회원
@@ -113,8 +103,6 @@ public class BuyResultImpl implements BuyResultInter{
 		return dto;
 	}
 	
-	
-	@Override
 	public OrderInfoDto view(HttpSession session, String user_passwd) {
 		// TODO Auto-generated method stub
 		return null;

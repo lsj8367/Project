@@ -1,25 +1,9 @@
 package pack.admin.model;
 
-import java.util.List;
+import pack.controller.*;
+import pack.model.*;
 
-import pack.controller.AdminBean;
-import pack.controller.ChartPrintBean;
-import pack.controller.FaqBoardBean;
-import pack.controller.InqueryBean;
-import pack.controller.NewBookBean;
-import pack.controller.OldBookBean;
-import pack.controller.OrderInfoBean;
-import pack.controller.UserBean;
-import pack.model.AdminDto;
-import pack.model.ChartPrintDto;
-import pack.model.FaqBoardDto;
-import pack.model.InqueryDto;
-import pack.model.NewBookDto;
-import pack.model.OldBookDto;
-import pack.model.OrderInfoDto;
-import pack.model.RentInfoDto;
-import pack.model.ReviewDto;
-import pack.model.UserDto;
+import java.util.List;
 
 public interface AdminInter {
 

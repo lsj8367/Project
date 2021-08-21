@@ -1,36 +1,29 @@
 package pack.user.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import pack.controller.UserBean;
 import pack.model.OrderInfoDto;
 import pack.model.UserDto;
-import pack.user.model.BuyInter;
-import pack.user.model.BuyResultInter;
-import pack.user.model.OldBookInter;
-import pack.user.model.UserInter;
+import pack.model.BuyImpl;
+import pack.model.BuyResultImpl;
+import pack.model.OldBookImpl;
+import pack.model.UserImpl;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Objects;
 
 @Controller
+@RequiredArgsConstructor
 public class BuyResultController {
-	
-	@Autowired
-	private BuyResultInter buyResultInter;
-	
-	@Autowired
-	private BuyInter buyInter;
-	
-	@Autowired
-	private UserInter userInter;
-	
-	@Autowired
-	private OldBookInter oldBookInter;
+	private final BuyResultImpl buyResultImpl;
+	private final BuyImpl buyImpl;
+	private final UserImpl userImpl;
+	private final OldBookImpl oldBookImpl;
 
 
 	@RequestMapping("buyresult")
@@ -56,13 +49,13 @@ public class BuyResultController {
 		System.out.println(radioPaytype);
 		
 		
-		dto = buyResultInter.order(session, id, order_person, Integer.parseInt(order_sum), radioPaytype, user_passwd, user_address, ob_no);
+		dto = buyResultImpl.order(session, id, order_person, Integer.parseInt(order_sum), radioPaytype, user_passwd, user_address, ob_no);
 
 
 
 
 		if(session.getAttribute("id") != null && request.getParameter("writepoint") != "") { // 회원인경우
-			UserDto user = buyInter.point(id);
+			UserDto user = buyImpl.point(id);
 			UserBean bean = new UserBean();
 
 
@@ -79,28 +72,24 @@ public class BuyResultController {
 			System.out.println(bean.getUser_point());
 
 
-			userInter.usePoint(bean);
+			userImpl.usePoint(bean);
 
-			UserDto user2 = userInter.selectUser(id);
+			UserDto user2 = userImpl.selectUser(id);
 
 			session.setAttribute("point", user2.getUser_point());
 
 		}
 
 
-		if(dto != null) {
-			dto2 = buyInter.show(order_person);
-			
-			oldBookInter.update(Integer.parseInt(ob_no));
-			
-			
-			
-			modelAndView.addObject("buylist", dto2);
-			
-			modelAndView.setViewName("buyresult");
-		}else {
+		if(Objects.isNull(dto)) {
 			modelAndView.setViewName("error");
+			return modelAndView;
 		}
+
+		dto2 = buyImpl.show(order_person);
+		oldBookImpl.update(Integer.parseInt(ob_no));
+		modelAndView.addObject("buylist", dto2);
+		modelAndView.setViewName("buyresult");
 		return modelAndView;
 	}
 	

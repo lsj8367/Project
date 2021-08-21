@@ -1,25 +1,22 @@
 package pack.user.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import pack.controller.CardInfoBean;
 import pack.controller.UserBean;
 import pack.model.UserDto;
-import pack.user.model.CardInfoInter;
-import pack.user.model.UserInter;
+import pack.model.CardInfoImpl;
+import pack.model.UserImpl;
 
 @Controller
+@RequiredArgsConstructor
 public class SignupController {
-	@Autowired
-	UserInter userinter;
-
-	@Autowired
-	CardInfoInter cardInter;
+	private final UserImpl userImpl;
+	private final CardInfoImpl cardImpl;
 
 	@RequestMapping(value = "signup", method = RequestMethod.GET)
 	public String moveLogin() {
@@ -31,10 +28,10 @@ public class SignupController {
 	public @ResponseBody String AjaxView(@RequestParam("id") String id) {
 		String str = "";
 		UserDto dto;
-		if (userinter.selectUser(id).equals(null)) {
+		if (userImpl.selectUser(id).equals(null)) {
 			str = "YES";
 		} else {
-			dto = userinter.selectUser(id);
+			dto = userImpl.selectUser(id);
 
 			if (dto.getUser_id().equals(id)) { // 이미 존재하는 계정
 				str = "NO";
@@ -81,8 +78,8 @@ public class SignupController {
 		cardbean.setCard_no(card1 + "-" + card2 + "-" + card3 + "-" + card4);
 		cardbean.setCard_passwd(cardpwd);
 
-		boolean buser = userinter.insertUser(userbean);
-		boolean bcard = cardInter.insertCard(cardbean);
+		boolean buser = userImpl.insertUser(userbean);
+		boolean bcard = cardImpl.insertCard(cardbean);
 		if (buser && bcard) {
 			return "redirect:/buymain";
 		} else {
