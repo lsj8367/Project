@@ -1,6 +1,7 @@
 package pack.user.model;
 
-import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 import pack.model.OldBookDto;
 import pack.model.OrderInfoDto;
@@ -16,11 +17,14 @@ import java.util.Date;
 import java.util.Random;
 
 @Repository
-@RequiredArgsConstructor
-public class BuyResultDao {
+public class BuyResultDao extends SqlSessionDaoSupport {
 	private final OldBookDao oldBookDao;
-	
-	
+
+	public BuyResultDao(SqlSessionFactory sqlSessionFactory, OldBookDao oldBookDao) {
+		setSqlSessionFactory(sqlSessionFactory);
+		this.oldBookDao = oldBookDao;
+	}
+
 	private Connection conn = null;
 	
 	private PreparedStatement pstmt;
@@ -49,12 +53,8 @@ public class BuyResultDao {
 			
 			if(session.getAttribute("id") != null) { //회원
 				pstmt = conn.prepareStatement(sql);
-				
-				//pstmt.setInt(1, count); //번호
-				
 				pstmt.setString(1, wdate + "-" + df.format(count)); // 주문번호 2
 				pstmt.setString(2, order_person ); //주문자 3
-				
 				pstmt.setString(3, user_id); //주문자 4
 				pstmt.setInt(4, oldBookDto.getOb_no()); //책번호 5
 				pstmt.setString(5, "2" ); //1은 새책 2는 중고책 6
@@ -65,17 +65,11 @@ public class BuyResultDao {
 				pstmt.setInt(10, order_sum); //금액 11
 				pstmt.setString(11, address); //주소
 				pstmt.executeUpdate();
-				
-				
-				
+
 			}else { //비회원
 				pstmt = conn.prepareStatement(sql);
-				System.out.println(order_passwd);
-				//pstmt.setInt(1, count); //번호
-				
 				pstmt.setString(1, wdate + "-" + df.format(count)); // 주문번호
 				pstmt.setString(2, order_person); //주문자
-				
 				pstmt.setString(3, ""); //주문자
 				pstmt.setInt(4, oldBookDto.getOb_no()); //책번호
 				pstmt.setString(5, "1" ); //책유형 (급)
@@ -86,9 +80,7 @@ public class BuyResultDao {
 				pstmt.setInt(10, order_sum); //금액
 				pstmt.setString(11, address); //주소
 				pstmt.executeUpdate();
-				
 			}
-			
 		} catch (Exception e) {
 			System.out.println("order err : " + e);
 			e.printStackTrace();
@@ -103,10 +95,5 @@ public class BuyResultDao {
 			}
 		}
 		return dto;
-	}
-	
-	public OrderInfoDto view(HttpSession session, String user_passwd) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

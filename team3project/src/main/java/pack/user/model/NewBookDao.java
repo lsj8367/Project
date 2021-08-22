@@ -44,13 +44,11 @@ public class NewBookDao extends SqlSessionDaoSupport {
 	}
 	
 	//새책 조회수 올리기
-	public boolean plusReadCnt(int nb_no) {
+	public void plusReadCnt(int nb_no) {
 		try {
 			getSqlSession().update("plusReadCnt", nb_no);
-			return true;
 		}catch (Exception e) {
 			System.out.println("plusReadCnt" + e);
-			return false;
 		}
 	}
 	

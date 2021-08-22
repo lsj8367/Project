@@ -1,24 +1,21 @@
-package pack.controller;
+package pack.user.controller;
 
-import java.util.ArrayList;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import pack.model.NewBookDto;
 import pack.model.SearchInter;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+
 @Controller
+@RequiredArgsConstructor
 public class SearchController {
-	
-	@Autowired
-	private SearchInter searchInter;
+	private final SearchInter searchInter;
 	
 	@RequestMapping("search")
 	public ModelAndView DataAll(HttpServletRequest request, HttpServletResponse response, Model model) {

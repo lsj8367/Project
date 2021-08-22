@@ -1,6 +1,6 @@
 package pack.admin.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,17 +15,18 @@ import pack.model.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
+@RequiredArgsConstructor
 public class AdminController {
 
-	@Autowired
-	AdminInter adminInter;
+	private final AdminInter adminInter;
 
 	@RequestMapping(value = "adminlogin", method = RequestMethod.GET)
 	public String goLogin(HttpSession session, ModelMap model) {
 		String admin_id = (String)session.getAttribute("admin_id");
-		if(admin_id == null | admin_id == "") 
+		if(Objects.isNull(admin_id) || Objects.equals(admin_id, "" ))
 			return "admin/admin_login";
 		else {
 			AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
@@ -36,24 +37,17 @@ public class AdminController {
 	
 	@RequestMapping(value = "adminregister", method = RequestMethod.GET)
 	public String goAdminSignup() {
-		
 		return "admin/adminsignup";
 	}
 	
 	// 아이디 중복 여부 체크
-		@RequestMapping(value = "checkSignupAdminId", method = RequestMethod.POST)
-		public @ResponseBody String AjaxView(  
-		        @RequestParam("admin_id") String admin_id){
-			String str = "";
-
-			if(adminInter.getAdminLoginInfo(admin_id) == null) {
-				str = "YES";
-				System.out.println(str);
-			}else {
-				str = "NO";
-			}
-			return str;
+	@RequestMapping(value = "checkSignupAdminId", method = RequestMethod.POST)
+	public @ResponseBody String AjaxView(@RequestParam("admin_id") String admin_id){
+		if(adminInter.getAdminLoginInfo(admin_id) == null) {
+			return "YES";
 		}
+		return "NO";
+	}
 	
 	@RequestMapping(value="adminsignupok", method = RequestMethod.POST)
 	public String submit(AdminBean bean){
@@ -61,9 +55,8 @@ public class AdminController {
 		boolean b = adminInter.insertAdmin(bean);
 		if (b) {
 			return "redirect:/adminlogin";
-		} else {
-			return "error";
 		}
+		return "error";
 	}
 	
 	@RequestMapping(value = "idcheck", method = RequestMethod.GET)
@@ -71,13 +64,14 @@ public class AdminController {
 		ModelAndView view = new ModelAndView();
 		
 		String dto = adminInter.IdCheck(adminid);
-		
+		view.setViewName("admin/adminidcheck");
+
 		if(dto == null ||dto == "") {
 			view.addObject("alert",adminid +"는 사용가능한 아이디입니다.");
-		}else {
-			view.addObject("alert",adminid +"는 존재하는 아이디입니다.");
+			return view;
 		}
-		view.setViewName("admin/adminidcheck");
+
+		view.addObject("alert",adminid +"는 존재하는 아이디입니다.");
 		return view;
 	}
 	
@@ -89,15 +83,12 @@ public class AdminController {
 			RedirectAttributes redirectAttr) {
 
 		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
-
-		if (dto != null) {
-			String retPasswd = dto.getAdmin_passwd();
-			if (retPasswd.equals(admin_passwd)) {
-				if(dto.getAdmin_acc() == 2) {
-					session.setAttribute("admin_id", admin_id);
-					return "redirect:/admin";
-				}
-			} 
+		String retPasswd = dto.getAdmin_passwd();
+		if (retPasswd.equals(admin_passwd)) {
+			if(dto.getAdmin_acc() == 2) {
+				session.setAttribute("admin_id", admin_id);
+				return "redirect:/admin";
+			}
 		}
 		return "admin/admin_login";
 	}

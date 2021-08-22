@@ -1,6 +1,6 @@
 package pack.admin.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,33 +13,31 @@ import pack.model.AdminDto;
 import javax.servlet.http.HttpSession;
 
 @Controller
+@RequiredArgsConstructor
 public class BookRegisterController {
-
-
-	@Autowired
-	AdminInter adminInter;
+	private final AdminInter adminInter;
 
 	@RequestMapping(value = "bookregister", method = RequestMethod.GET)
 	public String insert(HttpSession session, ModelMap model) {
 		String admin_id = (String)session.getAttribute("admin_id");
 		if(admin_id == null | admin_id == "") 
 			return "admin/admin_login";
-		else {
-			AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
-	        model.addAttribute("info", dto);
-		}
+
+		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		model.addAttribute("info", dto);
+
 		return "admin/bookregister";
 	}
 
 	@RequestMapping(value = "bookregister", method = RequestMethod.POST)
 	public String submit(NewBookBean bean, HttpSession session, ModelMap model, @RequestParam("nb_image") String nb_image) throws Exception {
 		String admin_id = (String)session.getAttribute("admin_id");
-		if(admin_id == null | admin_id == "") 
+		if(admin_id == null | admin_id == "") {
 			return "admin/admin_login";
-		else {
-			AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
-	        model.addAttribute("info", dto);
 		}
+		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		model.addAttribute("info", dto);
+
 		if(nb_image.equals("") | nb_image == null) {
 			bean.setNb_image("resources/static/images/notready.jpg");
 		}
@@ -47,9 +45,7 @@ public class BookRegisterController {
 		boolean b = adminInter.insertBookData(bean);
 		if (b) {
 			return "redirect:/bookregister";
-		} else {
-			return "error";
 		}
+		return "error";
 	}
-
 }
