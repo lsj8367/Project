@@ -29,6 +29,7 @@ public class SosController {
 		
 		if(Objects.isNull(inq_id) || Objects.equals(inq_id, "")) {
 			modelAndView.setViewName("login");
+			return modelAndView;
 		}
 
 		List<InqueryDto> inqList = sosDao.inqlist(inq_id);
@@ -62,16 +63,4 @@ public class SosController {
 
 		return "redirect:/sos";
 	}
-
-	/*
-	@RequestMapping("sos") // 1:1 문의 버튼 눌렀을때 public String
-	public String sos(@RequestParam("page") String a, Model model) {
-
-		if (a.equals("main")) { // 구매메인일때 1:1문의 돌아가는것 model.addAttribute("page", a);
-			return "sos";
-		} else { // 중고대여 메인일때 1:1문의 돌아가는것 model.addAttribute("page", a);
-			return "sos";
-		}
-	}
-	*/
 }

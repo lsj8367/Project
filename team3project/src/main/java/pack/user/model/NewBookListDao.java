@@ -15,12 +15,6 @@ public class NewBookListDao extends SqlSessionDaoSupport {
 	public NewBookListDao(SqlSessionFactory factory) {
 		setSqlSessionFactory(factory);
 	}
-	
-	
-	public List<NewBookDto> getBestSeller() {
-		return getSqlSession().selectList("selectBestseller");
-	}
-	
 
 	public List<NewBookDto> selectReadTop3() {
 		return getSqlSession().selectList("selectReadTop3");
@@ -28,18 +22,6 @@ public class NewBookListDao extends SqlSessionDaoSupport {
 	
 	public List<NewBookDto> selectRandom10() {
 		return getSqlSession().selectList("selectRandom10");
-	}
-	
-	public List<NewBookDto> selectNew() {
-		return getSqlSession().selectList("selectNew");
-	}
-	
-	public List<NewBookDto> selectGenre(String genre) {
-		return getSqlSession().selectList("selectGenre", genre);
-	}
-	
-	public List<NewBookDto> selectBest30() {
-		return getSqlSession().selectList("selectBest30");
 	}
 	
 	public NewBookDto selectBest() {
