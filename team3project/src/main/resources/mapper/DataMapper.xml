@@ -494,12 +494,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from orderinfo where order_passwd=#{order_passwd} order by order_no desc limit 1;
 	</select>
 	
-	<select id="getDataAllSearchNotExist" resultType="obdto">
-		select * from oldbook order by ob_no desc
-	</select>
-
 	<select id="getDataAllExist" resultType="obdto">
 		select * from oldbook where ob_name like CONCAT('%',#{ob_name},'%') order by ob_no desc
+	</select>
+
+	<select id="getDataNewAllExist" resultType="nbdto">
+		select * from newbook where nb_name like CONCAT('%',#{nb_name},'%') order by nb_no desc
 	</select>
 		
 	<!--  구매 페이지 (새 책 리스트 보기 select 메소드 ) -->
