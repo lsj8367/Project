@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminInter;
-import pack.controller.UserBean;
 import pack.model.AdminDto;
 import pack.model.RentInfoDto;
+import pack.model.UserDto;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -63,7 +63,7 @@ public class BestRentbooksetController {
    }
    
    @RequestMapping(value = "givepoint2", method = RequestMethod.POST)
-   public String JikwonUpJik(HttpSession session, ModelMap model, UserBean bean,
+   public String JikwonUpJik(HttpSession session, ModelMap model, UserDto bean,
                      @RequestParam(name="rn") int[] rank,
                      @RequestParam(name="ob_userid") String[] userid){
 

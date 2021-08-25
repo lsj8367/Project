@@ -13,7 +13,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 		<!-- 사용자 -->
 		<typeAlias type="pack.model.UserDto" alias="userdto" />
-		<typeAlias type="pack.controller.UserBean" alias="userform" />
 
 		<!-- 새 도서 -->
 		<typeAlias type="pack.model.NewBookDto" alias="nbdto" />

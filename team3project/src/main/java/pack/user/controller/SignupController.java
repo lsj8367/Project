@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pack.controller.CardInfoBean;
-import pack.controller.UserBean;
 import pack.model.UserDto;
 import pack.user.model.CardInfoDao;
 import pack.user.model.UserDao;
@@ -57,16 +56,16 @@ public class SignupController {
 			@RequestParam("cardpwd") String cardpwd) {
 
 		// 유저 삽입
-		UserBean userbean = new UserBean();
-		userbean.setUser_id(id);
-		userbean.setUser_passwd(pwd);
-		userbean.setUser_name(name);
-		userbean.setUser_tel(phone1 + "-" + phone2 + "-" + phone3);
-		userbean.setUser_addr(address1 + " " + address2);
-		userbean.setUser_zip(zipcode);
-		userbean.setUser_mail(email1 + "@" + email2);
+		UserDto user = new UserDto();
+		user.setUser_id(id);
+		user.setUser_passwd(pwd);
+		user.setUser_name(name);
+		user.setUser_tel(phone1 + "-" + phone2 + "-" + phone3);
+		user.setUser_addr(address1 + " " + address2);
+		user.setUser_zip(zipcode);
+		user.setUser_mail(email1 + "@" + email2);
 		// 대여횟수,포인트, 패널티 디폴트여서 삽입X
-		userbean.setUser_birth(rrnumber1 + "-" + rrnumber2);
+		user.setUser_birth(rrnumber1 + "-" + rrnumber2);
 		System.out.println(id + "\n" + pwd + "\n" + name + "\n" + phone1 + phone2 + phone3 + "\n" + address1 + address2
 				+ "\n" + zipcode + "\n" + email1 + email2 + "\n" + rrnumber1 + rrnumber2);
 
@@ -78,13 +77,13 @@ public class SignupController {
 		cardbean.setCard_no(card1 + "-" + card2 + "-" + card3 + "-" + card4);
 		cardbean.setCard_passwd(cardpwd);
 
-		boolean buser = userDao.insertUser(userbean);
+		boolean buser = userDao.insertUser(user);
 		boolean bcard = cardImpl.insertCard(cardbean);
+
 		if (buser && bcard) {
 			return "redirect:/buymain";
-		} else {
-			return "redirect:/signup";
 		}
 
+		return "redirect:/signup";
 	}
 }

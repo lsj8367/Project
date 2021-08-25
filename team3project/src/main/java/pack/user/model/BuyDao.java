@@ -17,7 +17,4 @@ public class BuyDao extends SqlSessionDaoSupport{
 	public OrderInfoDto show(String order_person) {
 		return getSqlSession().selectOne("view", order_person);
 	}
-	
-	
-	
 }

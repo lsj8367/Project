@@ -130,7 +130,7 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 	}
 	
 	@Override
-	public boolean updateUser(UserBean bean) {
+	public boolean updateUser(UserDto bean) {
 		try {
 			getSqlSession().update("upuser", bean);
 			return true;
@@ -174,7 +174,7 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 	}
 	
 	@Override
-	public boolean updatePenalty(UserBean bean) {
+	public boolean updatePenalty(UserDto bean) {
 		try {
 			getSqlSession().update("uppenalty", bean);
 			return true;
@@ -339,7 +339,7 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 	}
 	
 	@Override
-	public boolean upUserPoint(UserBean bean) {
+	public boolean upUserPoint(UserDto bean) {
 		try {
 			getSqlSession().insert("upuserpoint", bean);
 			return true;

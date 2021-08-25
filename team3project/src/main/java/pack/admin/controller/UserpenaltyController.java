@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminInter;
-import pack.controller.UserBean;
 import pack.model.AdminDto;
 import pack.model.RentInfoDto;
 import pack.model.UserDto;
@@ -41,7 +40,7 @@ public class UserpenaltyController {
     }
 
     @RequestMapping(value = "delay", method = RequestMethod.POST)
-    public String goDelayCount(HttpSession session, ModelMap model, UserBean ubean,
+    public String goDelayCount(HttpSession session, ModelMap model, UserDto ubean,
                                @RequestParam(name = "rent_no") int[] rent_no,
                                @RequestParam(name = "user_id") String[] user_id,
                                @RequestParam(name = "delpoint") int[] delpoint) {
@@ -102,7 +101,7 @@ public class UserpenaltyController {
     }
 
     @RequestMapping(value = "refusebook", method = RequestMethod.POST)
-    public String goRefuse(HttpSession session, ModelMap model, UserBean bean,
+    public String goRefuse(HttpSession session, ModelMap model, UserDto bean,
                            @RequestParam(name = "user_id") String[] user_id,
                            @RequestParam(name = "user_penalty") String[] user_penalty) {
 

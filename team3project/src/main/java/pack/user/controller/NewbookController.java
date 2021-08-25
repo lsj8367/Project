@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.controller.OrderInfoBean;
 import pack.controller.ReviewBean;
-import pack.controller.UserBean;
 import pack.model.*;
 import pack.user.model.*;
 
@@ -229,10 +228,10 @@ public class NewbookController {
             
             //포인트 쓸경우 user_id랑 user_point만 가져온다.
             if(realpoint != 0) {
-               UserBean userBean = new UserBean();
-               userBean.setUser_id(order_id);
-               userBean.setUser_point(realpoint);
-               boolean point_b = userDao.usePoint(userBean);
+               UserDto user = new UserDto();
+               user.setUser_id(order_id);
+               user.setUser_point(realpoint);
+               boolean point_b = userDao.usePoint(user);
                
                
                //여기 또 수정 했어요

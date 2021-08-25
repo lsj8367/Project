@@ -25,12 +25,12 @@ public interface AdminInter {
 	List<OrderInfoDto> getOrderData();
 	boolean updateThrow(int ob_no);
 	List<RentInfoDto> getDelayData();
-	boolean updateUser(UserBean bean);
+	boolean updateUser(UserDto bean);
 	boolean removeOb(int ob_no);
 	List<String> getDelayId();
 	boolean updateDcount(String user_id);
 	List<UserDto> getDelay();
-	boolean updatePenalty(UserBean bean);
+	boolean updatePenalty(UserDto bean);
 	List<UserDto> getRefuse();
 	List<UserDto> getUserdel();
 	List<UserDto> getUsercheck();
@@ -55,7 +55,7 @@ public interface AdminInter {
 	List<ReviewDto> getBestReview();
 	List<ReviewDto> getBestReviewmonth(String sql);
 	List<ReviewDto> getRmonth();
-	boolean upUserPoint(UserBean bean);
+	boolean upUserPoint(UserDto bean);
 	List<NewBookDto> getOmonth();
 	List<NewBookDto> getOcmonth();
 	List<NewBookDto> getBestSellermonth(String sql);

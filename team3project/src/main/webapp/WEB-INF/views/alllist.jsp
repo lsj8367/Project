@@ -48,7 +48,7 @@ html, body { height:100%; overflow:hidden }
 					<c:forEach var="l" items="${list}">
 						<c:if test="${l.ob_state eq '1' }">
 						<tr style="text-align: center;">
-							<td><a href="oldbook?book_no=${l.ob_no }"><img width="100" src="./${l.ob_image}"/></a></td>
+							<td><a href="oldbook?book_no=${l.ob_no }"><img width="100" src="./resources/static/${l.ob_image}"/></a></td>
 							<td><a href="oldbook?book_no=${l.ob_no }">${l.ob_name}</a></td>
 							<td>${l.ob_price} 원</td>
 							<fmt:parseDate var="dateString" value="${l.ob_bdate}" pattern="yyyy-MM-dd HH:mm:ss.S" />
@@ -58,7 +58,7 @@ html, body { height:100%; overflow:hidden }
 						</c:if>
 						<c:if test="${l.ob_state eq '2' or '3' }">
 						<tr style="text-align: center;">
-							<td><a href="oldrental?book_no=${l.ob_no }"><img width="100" src="./${l.ob_image}"/></a></td>
+							<td><a href="oldrental?book_no=${l.ob_no }"><img width="100" src="./resources/static/${l.ob_image}"/></a></td>
 							<td><a href="oldrental?book_no=${l.ob_no }">${l.ob_name}</a></td>
 							<td>${l.ob_price} 원</td>
 							<fmt:parseDate var="dateString" value="${l.ob_bdate}" pattern="yyyy-MM-dd HH:mm:ss.S" />
@@ -107,7 +107,7 @@ html, body { height:100%; overflow:hidden }
 					<td colspan="2">↓이달의 베스트 대여도서 ↓</td>
 				</tr>
 				<tr>
-					<td colspan="2" style="text-align: center;"><a href="oldrental?book_no=${best.ob_no }"> <img width="100" src="./${best.ob_image}"></a></td>
+					<td colspan="2" style="text-align: center;"><a href="oldrental?book_no=${best.ob_no }"> <img width="100" src="./resources/static/${best.ob_image}"></a></td>
 					<!-- ${best.ob_name} -->
 				</tr>
 				<tr>

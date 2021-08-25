@@ -1,14 +1,13 @@
 package pack.mypage.model;
 
-import java.util.List;
-
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import pack.controller.UserBean;
 import pack.model.OldBookDto;
+import pack.model.UserDto;
+
+import java.util.List;
 
 @Repository
 public class MyrentImpl extends SqlSessionDaoSupport {
@@ -46,7 +45,7 @@ public class MyrentImpl extends SqlSessionDaoSupport {
 		}
 	}
 	
-	public boolean delpointuser(UserBean bean) {
+	public boolean delpointuser(UserDto bean) {
 		try {
 			getSqlSession().update("delpointuser", bean);
 			return true;

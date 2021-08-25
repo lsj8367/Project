@@ -237,7 +237,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update oldbook set ob_state="6" where ob_no=#{ob_no}
 	</update>
 	
-	<update id="upuser" parameterType="userform">
+	<update id="upuser" parameterType="userdto">
 		update user set user_penalty = "1", user_point= (user_point - #{delpoint}) where user_id = #{user_id} 
 	</update>
 	
@@ -245,7 +245,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update user set user_dcount = user_dcount + 1 where user_id = #{user_id}
 	</update>
 	
-	<update id="uppenalty" parameterType="userform">
+	<update id="uppenalty" parameterType="userdto">
 		update user set user_penalty = #{user_penalty} where user_id = #{user_id}
 	</update>
 	
@@ -261,7 +261,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update admin set admin_jik = #{admin_jik} where admin_id =#{admin_id}
 	</update>
 	
-	<update id="upuserpoint" parameterType="userform">
+	<update id="upuserpoint" parameterType="userdto">
 		update user set user_point = (user_point + #{pluspoint}) where user_id = #{user_id}
 	</update>
 	
@@ -402,7 +402,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 회원 가입 -->
 	<!-- 회원 정보 입력 --> <!-- 수정 -->
-	<insert id="insertUser" parameterType="userform">
+	<insert id="insertUser" parameterType="userdto">
 		insert into user values (#{user_id}, #{user_name}, #{user_passwd}, #{user_tel}, #{user_addr}, #{user_zip}, #{user_mail}, default, default, #{user_birth}, default, default)
 	</insert>
 		
@@ -464,7 +464,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<!-- 회원일 경우 포인트 사용할 떄 차감 -->
-	<update id="usePoint" parameterType="userform">
+	<update id="usePoint" parameterType="userdto">
 		update user set user_point = user_point-#{user_point} where user_id=#{user_id}
 	</update>
 	
@@ -494,7 +494,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from orderinfo where order_passwd=#{order_passwd} order by order_no desc limit 1;
 	</select>
 	
-	
+	<select id="getDataAllExist" resultType="obdto">
+		select * from oldbook where ob_name like CONCAT('%',#{ob_name},'%') order by ob_no desc
+	</select>
+
+	<select id="getDataNewAllExist" resultType="nbdto">
+		select * from newbook where nb_name like CONCAT('%',#{nb_name},'%') order by nb_no desc
+	</select>
 		
 	<!--  구매 페이지 (새 책 리스트 보기 select 메소드 ) -->
 	<!-- 조회수 많은 3개 -->
@@ -581,7 +587,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select ob_price from oldbook where ob_no = #{ob_no}
 	</select>
 	<!-- 연체반납시 회원 포인트 차감 -->
-	<update id="delpointuser" parameterType="userform">
+	<update id="delpointuser" parameterType="userdto">
 		update user set user_point = (user_point - #{delpoint}) where user_id = #{user_id}
 	</update>
 	<!-- 추가 끝 -->
@@ -596,22 +602,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from orderinfo where orderlist_no=#{orderlist_no} and order_passwd=#{order_passwd}
 	</select>
 
-	<!-- 장바구니 -->
-	<select id="cartList" resultType="orderdto">
-		select distinct order_no, orderlist_no, order_person, order_id, order_bookno, order_booktype, order_date, order_passwd, order_scount,
-		order_paytype, order_state, order_sum from orderinfo inner join user on order_person=#{user_name} and order_passwd=""
-	</select>
-	<!-- 장바구니 담기  
-	<insert id="insertBookData111" parameterType="nbform">
-		insert into orderinfo values(default,#{nb_name},#{nb_author},#{nb_inter},#{nb_genre},#{nb_comp},date_format(#{nb_bdate},"%Y-%m-%d"),#{nb_stock},#{nb_price},0,0,#{nb_plot},#{nb_image})
-	</insert>
-	-->
-	<!-- 장바구니 삭제 -->
-	<delete id="deleteData" parameterType="int">
-		delete from orderinfo where order_no=#{order_no}
-	</delete>
-	<!-- 장바구니 끝 -->
-	
 	<!-- MyPage 관련 내용 추가 / 마이페이지 -->
 	<!-- 여기서부터 끝까지 김나현 수정 -->
 	<!-- 추가 수정 - 임유진 -->

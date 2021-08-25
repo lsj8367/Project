@@ -17,11 +17,7 @@ public class NewBookDao extends SqlSessionDaoSupport {
 	public List<NewBookDto> getBookAll() {
 		return getSqlSession().selectList("selectBookAll");
 	}
-	//메인화면에 뿌릴 내용
-	public NewBookDto getBestSeller() {
-		return getSqlSession().selectOne("selectBestseller");
-	}
-	
+
 	public List<NewBookDto> getGenre(String nb_genre) {
 		return getSqlSession().selectList("selectGenre", nb_genre);
 	}
