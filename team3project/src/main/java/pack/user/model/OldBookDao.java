@@ -36,11 +36,6 @@ public class OldBookDao extends SqlSessionDaoSupport {
 		return getSqlSession().selectOne("oldbookinfo2", book_no);
 	}
 	
-	public OldBookDto getAllOldBook() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	public boolean readcnt(int readcnt) {
 		try {
 			getSqlSession().update("readcntUpdate", readcnt);

@@ -1,43 +1,39 @@
 package pack.admin.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import pack.admin.model.AdminInter;
 import pack.controller.OldBookBean;
 import pack.model.AdminDto;
 import pack.model.OldBookDto;
 
-@Controller
-public class DonatebooklistController {
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
-	@Autowired
-	AdminInter adminInter;
+@Controller
+@RequiredArgsConstructor
+public class DonatebooklistController {
+	private final AdminInter adminInter;
 	
 	@RequestMapping(value="donatebooklist", method=RequestMethod.GET)
 	public ModelAndView StandbyBook(HttpSession session, ModelMap model) {
 		ModelAndView view = new ModelAndView();
 		String admin_id = (String)session.getAttribute("admin_id");
-		if(admin_id == null | admin_id == "") 
+		if(admin_id == null | admin_id == "") {
 			view.setViewName("admin/admin_login");
-		else {
-			AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
-	        model.addAttribute("info", dto);
-		
-			List<OldBookDto> standbylist = adminInter.getStandby();
-			view.setViewName("admin/standby");
-			view.addObject("slist",standbylist);
+			return view;
 		}
-		
+		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		model.addAttribute("info", dto);
+		List<OldBookDto> standbylist = adminInter.getStandby();
+		view.setViewName("admin/standby");
+		view.addObject("slist",standbylist);
+
 		return view;
 	}
 	
@@ -49,22 +45,21 @@ public class DonatebooklistController {
 		String admin_id = (String)session.getAttribute("admin_id");
 		if(admin_id == null | admin_id == "") 
 			return "admin/admin_login";
-		else {
-			AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
-	        model.addAttribute("info", dto);
-		}
+
+		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		model.addAttribute("info", dto);
 
 		boolean b = false;
-		
+
 		for (int i = 0; i < ob_no.length; i++) {
 			bean.setOb_no(ob_no[i]);
 			bean.setOb_state(ob_state[i]);
 			b = adminInter.updateState(bean);
 		}
+
 		if(b) {
 			return "redirect:/donatebooklist";
-		}else {
-			return "redirect:/adminmain";
 		}
+		return "redirect:/adminmain";
 	}
 }

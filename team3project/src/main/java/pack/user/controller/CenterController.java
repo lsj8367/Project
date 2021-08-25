@@ -1,25 +1,23 @@
-package pack.controller;
+package pack.user.controller;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import pack.model.FaqBoardDto;
+import pack.model.FaqDao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import pack.model.FaqBoardDto;
-import pack.model.FaqDao;
-
 @Controller
+@RequiredArgsConstructor
 public class CenterController {
-
-	@Autowired
-	private FaqDao faqDao;
+	private final FaqDao faqDao;
 	
 
 	@RequestMapping(value = "center")
@@ -33,11 +31,10 @@ public class CenterController {
 	public Map<String, Object> qnaAll() {
 		
 		List<Map<String, String>> dataList = new ArrayList<Map<String,String>>();
-		Map<String, String> data = null;
+		Map<String, String> data = new HashMap<>();
 		List<FaqBoardDto> qnaList = faqDao.qnaListAll();
 		
 		for(FaqBoardDto q:qnaList) {
-			data = new HashMap<String, String>();
 			data.put("faq_no", Integer.toString(q.getFaq_no()));
 			data.put("faq_date", q.getFaq_date());
 			data.put("faq_title", q.getFaq_title());
@@ -54,11 +51,10 @@ public class CenterController {
 	@ResponseBody
 	public Map<String, Object> faqDetail(@RequestParam("no") String faq_no){
 		List<Map<String, String>> dataList = new ArrayList<Map<String,String>>();
-		Map<String, String> data = null;
+		Map<String, String> data = new HashMap<>();
 		List<FaqBoardDto> faqList = faqDao.faqDetail(faq_no);
 		
 		for(FaqBoardDto f:faqList) {
-			data = new HashMap<String, String>();
 			data.put("faq_no", faq_no);
 			data.put("faq_title", f.getFaq_title());
 			data.put("faq_content", f.getFaq_content());
@@ -77,11 +73,10 @@ public class CenterController {
 	public Map<String, Object> abc(@RequestParam("faq_type") String faq_type){
 		List<Map<String, String>> dataList = new ArrayList<Map<String,String>>();
 		
-		Map<String, String> data = null;
+		Map<String, String> data = new HashMap<>();
 		List<FaqBoardDto> qnaList = faqDao.qnaListPart(faq_type);
 		
 		for(FaqBoardDto q:qnaList) {
-			data = new HashMap<String, String>();
 			data.put("faq_no", Integer.toString(q.getFaq_no()));
 			data.put("faq_title", q.getFaq_title());
 			data.put("faq_content", q.getFaq_content());
@@ -96,19 +91,23 @@ public class CenterController {
 	
 	@RequestMapping("centerpage")
 	public String centerPage(@RequestParam("page") String a, Model model) {
-		
-		if(a.equals("order")) {
-			model.addAttribute("page",a);
-			return "centerOrder";
-		}else if(a.equals("deliver")) {
-			model.addAttribute("page",a);
-			return "centerDeliver";
-		}else if(a.equals("product")) {
-			model.addAttribute("page",a);
-			return "centerProduct";
-		}else {
-			return "qnaAll";
+
+		String returnJsp = "";
+		switch (a) {
+			case "order":
+				model.addAttribute("page", a);
+				returnJsp = "centerOrder";
+			case "deliver":
+				model.addAttribute("page", a);
+				returnJsp = "centerDeliver";
+			case "product":
+				model.addAttribute("page", a);
+				returnJsp = "centerProduct";
+			default:
+				returnJsp = "qnaAll";
 		}
+
+		return returnJsp;
 	}
 	
 	

@@ -30,10 +30,10 @@ public class UserDao extends SqlSessionDaoSupport {
 		}
 	}
 	
-	
 	public int checkUserId(String user_id) {
 		return getSqlSession().selectOne("checkUserId", user_id);
 	}
+
 	public boolean usePoint(UserBean bean) {
 		try {
 			getSqlSession().update("usePoint", bean);

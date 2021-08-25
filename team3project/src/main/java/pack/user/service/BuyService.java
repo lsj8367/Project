@@ -27,6 +27,7 @@ public class BuyService {
         modelAndView.addObject("point", user);
         modelAndView.addObject("card", card);
 
+        modelAndView.setViewName("buy");
         return modelAndView;
     }
 }
