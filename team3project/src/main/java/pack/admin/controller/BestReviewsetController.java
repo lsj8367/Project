@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminInter;
-import pack.controller.UserBean;
 import pack.model.AdminDto;
 import pack.model.ReviewDto;
+import pack.model.UserDto;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -60,7 +60,7 @@ public class BestReviewsetController {
 	}
 	
 	@RequestMapping(value = "givepoint", method = RequestMethod.POST)
-	public String JikwonUpJik(HttpSession session, ModelMap model, UserBean bean,
+	public String JikwonUpJik(HttpSession session, ModelMap model, UserDto bean,
 							@RequestParam(name="rn") int rank[], 
 							@RequestParam(name="review_id") String userid[]){
 		String admin_id = (String)session.getAttribute("admin_id");

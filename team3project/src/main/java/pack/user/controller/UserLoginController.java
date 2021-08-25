@@ -22,10 +22,7 @@ public class UserLoginController {
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(@RequestParam("id") String id,
-                        @RequestParam("pwd") String pwd,
-                        HttpSession session) {
-
-        System.out.println(id);
+                        @RequestParam("pwd") String pwd, HttpSession session) {
         UserDto userdto = userDao.selectUser(id);
 
         //아이디가 없을 경우

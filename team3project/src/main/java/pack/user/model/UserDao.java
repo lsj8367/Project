@@ -3,7 +3,6 @@ package pack.user.model;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
-import pack.controller.UserBean;
 import pack.model.UserDto;
 
 
@@ -20,9 +19,9 @@ public class UserDao extends SqlSessionDaoSupport {
 	
 	// 회원가입
 	
-	public boolean insertUser(UserBean userbean) {
+	public boolean insertUser(UserDto userDto) {
 		try {
-			getSqlSession().insert("insertUser", userbean);
+			getSqlSession().insert("insertUser", userDto);
 			return true;
 		}catch (Exception e) {
 			System.out.println("insertUser" + e);
@@ -34,7 +33,7 @@ public class UserDao extends SqlSessionDaoSupport {
 		return getSqlSession().selectOne("checkUserId", user_id);
 	}
 
-	public boolean usePoint(UserBean bean) {
+	public boolean usePoint(UserDto bean) {
 		try {
 			getSqlSession().update("usePoint", bean);
 			return true;

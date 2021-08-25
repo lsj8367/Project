@@ -46,8 +46,8 @@ public class OldBookController {
         if (b) {
             modelAndView.addObject("bookinfo", dto);
 
-            UserDto rentUser = userDao.selectUser(user_id);
-            modelAndView.addObject("rentUser", rentUser);
+            UserDto user = userDao.selectUser(user_id);
+            modelAndView.addObject("rentUser", user);
 
             modelAndView.setViewName("oldrental");
 

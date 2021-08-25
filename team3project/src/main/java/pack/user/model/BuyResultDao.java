@@ -36,7 +36,7 @@ public class BuyResultDao extends SqlSessionDaoSupport {
 							  String user_id, String order_person, int order_sum, String radioPaytype, String order_passwd, String address, String ob_no) {
 		 //sql 주문번호 +
 		String sql = "insert into orderinfo(order_no,orderlist_no,order_person,order_id,order_bookno,order_booktype,order_date,"
-				+ "order_passwd,order_scount, order_paytype, order_state, order_sum, order_address) values(default,?,?,?,?,?,curdate(),?,?,?,?,?,?)";
+				+ "order_passwd,order_scount, order_paytype, order_state, order_sum, order_address) values(default,?,?,?,?,?,NOW(),?,?,?,?,?,?)";
 		OrderInfoDto dto = new OrderInfoDto();
 		try {
 			String url = "jdbc:mysql://localhost:3306/test";

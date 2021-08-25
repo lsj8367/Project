@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.controller.UserBean;
 import pack.model.OldBookDto;
+import pack.model.UserDto;
 import pack.mypage.model.MyrentImpl;
 
 import javax.servlet.http.HttpSession;
@@ -53,7 +53,7 @@ public class MyrentController {
 	}
 	
 	@RequestMapping(value="returnrbook")
-	public String returnrbook(@RequestParam(name="rentno") int rent_no,@RequestParam(name="delaydate") int delaydate, UserBean ubean, HttpSession session) {
+	public String returnrbook(@RequestParam(name="rentno") int rent_no, @RequestParam(name="delaydate") int delaydate, UserDto ubean, HttpSession session) {
 		String user_id = (String) session.getAttribute("id");
 
 		boolean a = false;
