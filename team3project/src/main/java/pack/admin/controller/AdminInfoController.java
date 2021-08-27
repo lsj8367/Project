@@ -1,24 +1,22 @@
 package pack.admin.controller;
 
+import java.util.Objects;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminInter;
-import pack.controller.AdminBean;
+import pack.admin.model.AdminDao;
 import pack.model.AdminDto;
-
-import javax.servlet.http.HttpSession;
-import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
 public class AdminInfoController {
-	private final AdminInter adminInter;
+	private final AdminDao adminDao;
 	
-	@RequestMapping(value = "admininfo", method = RequestMethod.GET)
+	@GetMapping("admininfo")
 	public ModelAndView adminData(HttpSession session, ModelMap model) {
 		ModelAndView modelAndView = new ModelAndView();
 		String admin_id = (String)session.getAttribute("admin_id");
@@ -28,15 +26,15 @@ public class AdminInfoController {
 			return modelAndView;
 		}
 
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		pack.model.AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		modelAndView.setViewName("admin/admininfo");
 		modelAndView.addObject("info", dto);
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="updateadmin", method = RequestMethod.POST)
-	public String updateAdmin(AdminBean bean) {
-		return adminInter.updateAdmin(bean) ? "redirect:/admininfo" : "error";
+	@PostMapping("updateadmin")
+	public String updateAdmin(AdminDto adminDto) {
+		return adminDao.updateAdmin(adminDto) ? "redirect:/admininfo" : "error";
 	}
 	
 }

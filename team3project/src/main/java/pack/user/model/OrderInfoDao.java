@@ -3,7 +3,6 @@ package pack.user.model;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
-import pack.controller.OrderInfoBean;
 import pack.model.OrderInfoDto;
 
 @Repository
@@ -13,18 +12,18 @@ public class OrderInfoDao extends SqlSessionDaoSupport {
 		setSqlSessionFactory(factory);
 	}
 		
-	public boolean buyNewBookUser(OrderInfoBean bean) {
+	public boolean buyNewBookUser(OrderInfoDto orderInfoDto) {
 		try {
-			getSqlSession().insert("buyNewBookUser", bean);
+			getSqlSession().insert("buyNewBookUser", orderInfoDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("buyNewBookUser error : " + e); 		
 			return false;
 		}
 	}
-	public boolean buyNewBookUnuser(OrderInfoBean bean) {
+	public boolean buyNewBookUnuser(OrderInfoDto orderInfoDto) {
 		try {
-			getSqlSession().insert("buyNewBookUnuser", bean);
+			getSqlSession().insert("buyNewBookUnuser", orderInfoDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("buyNewBookUnuser error : " + e); 		
@@ -32,8 +31,8 @@ public class OrderInfoDao extends SqlSessionDaoSupport {
 		}
 	}
 	
-	public OrderInfoDto unmemberOrder(OrderInfoBean bean) {
-		return getSqlSession().selectOne("unmemberOrder", bean);
+	public OrderInfoDto unmemberOrder(OrderInfoDto orderInfoDto) {
+		return getSqlSession().selectOne("unmemberOrder", orderInfoDto);
 	}
 	
 	public OrderInfoDto getOrderbyPass(String order_passwd) {

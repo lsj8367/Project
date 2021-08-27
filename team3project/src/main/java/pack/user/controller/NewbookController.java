@@ -1,37 +1,42 @@
 package pack.user.controller;
 
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-import pack.controller.OrderInfoBean;
-import pack.controller.ReviewBean;
-import pack.model.*;
-import pack.user.model.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import pack.model.CardInfoDto;
+import pack.model.NewBookDto;
+import pack.model.OrderInfoDto;
+import pack.model.ReviewDto;
+import pack.model.UserDto;
+import pack.user.model.CardInfoDao;
+import pack.user.model.NewBookDao;
+import pack.user.model.OrderInfoDao;
+import pack.user.model.ReviewDao;
+import pack.user.model.UserDao;
 
 @Controller
 @RequiredArgsConstructor
 public class NewbookController {
    private final NewBookDao newBookDao;
    private final ReviewDao reviewDao;
-   private final CardInfoDao cardImpl;
+   private final CardInfoDao cardInfoDao;
    private final UserDao userDao;
-   private final OrderInfoDao orderImpl;
+   private final OrderInfoDao orderInfoDao;
    
-   @RequestMapping(value = "newbook", method = RequestMethod.GET)
+   @GetMapping("newbook")
    public ModelAndView main(@RequestParam("book_no") String nb_no) {
       ModelAndView modelAndView = new ModelAndView();
       
@@ -59,13 +64,13 @@ public class NewbookController {
    }
    
    // 해당책의 리뷰 쓰기
-   @RequestMapping(value = "writeReview", method = RequestMethod.POST)
+   @PostMapping("writeReview")
    public String reviewWrite(@RequestParam("review_id") String review_id,
          @RequestParam("review_bookno") String review_bookno, @RequestParam("review_context") String review_context) {
       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
       String format_time = format.format(System.currentTimeMillis());
       
-      ReviewBean bean = ReviewBean.builder()
+      ReviewDto bean = ReviewDto.builder()
                                   .review_id(review_id)
                                   .review_bookno(Integer.parseInt(review_bookno))
                                   .review_context(review_context)
@@ -83,7 +88,7 @@ public class NewbookController {
    }
    
    // 해당책의 리뷰 쓰기
-   @RequestMapping(value = "plusGonggam", method = RequestMethod.GET)
+   @GetMapping("plusGonggam")
    public String plusGonggam(@RequestParam("review_no") String review_no) {
       ReviewDto dto = reviewDao.selectNewbookReview(Integer.parseInt(review_no));
       boolean b = reviewDao.plusGonggam(Integer.parseInt(review_no));
@@ -95,7 +100,7 @@ public class NewbookController {
       }
    }
    // 해당책의 리뷰 지우기
-   @RequestMapping(value = "deleteReview", method = RequestMethod.GET)
+   @GetMapping("deleteReview")
    public String deleteReview(HttpSession session  ,@RequestParam("review_no") String review_no,
 		   		HttpServletRequest request, HttpServletResponse response) throws Exception {
       ReviewDto dto = reviewDao.selectNewbookReview(Integer.parseInt(review_no));
@@ -125,7 +130,7 @@ public class NewbookController {
    
    
    //바로구매 페이지로 넘어가기
-   @RequestMapping(value = "directbuy", method = RequestMethod.POST)
+   @PostMapping("directbuy")
    public ModelAndView moveDirectBuy(@RequestParam("order_bookno") String order_bookno,
                               @RequestParam("id") String id, @RequestParam("orderscount") String orderscount) {
       
@@ -140,7 +145,7 @@ public class NewbookController {
          orderbook.setNb_price((int)(orderbook.getNb_price()*0.9));
          
          // 회원이면 등록된 카드 가져오기
-         CardInfoDto cardDto = cardImpl.selectCard(id);
+         CardInfoDto cardDto = cardInfoDao.selectCard(id);
          modelAndView.setViewName("directbuy");
          modelAndView.addObject("cardDto", cardDto);
          
@@ -165,7 +170,7 @@ public class NewbookController {
       return modelAndView;
    }
 
-   @RequestMapping(value = "directbuy_pay", method = RequestMethod.GET)
+   @GetMapping("directbuy_pay")
    public String directBuy(HttpSession session,HttpServletRequest request
                         ) {
          String order_id = request.getParameter("id");
@@ -200,7 +205,7 @@ public class NewbookController {
          String format_time = format.format(System.currentTimeMillis());
          
          //공통부분
-         OrderInfoBean orderbean = new OrderInfoBean();
+         OrderInfoDto orderbean = new OrderInfoDto();
 
          //orderlist_no 부분
          Date now = new Date();
@@ -262,7 +267,7 @@ public class NewbookController {
                orderbean.setOrder_state("0"); // 무통장입금는 주문 상태로 무조건 0로 된다
             }
             
-            boolean b = orderImpl.buyNewBookUser(orderbean);
+            boolean b = orderInfoDao.buyNewBookUser(orderbean);
             //포인트 값 고치기 위해
             
             
@@ -282,10 +287,10 @@ public class NewbookController {
             orderbean.setOrder_person("비회원");
             
 
-            boolean b = orderImpl.buyNewBookUnuser(orderbean); // 구매 했다
+            boolean b = orderInfoDao.buyNewBookUnuser(orderbean); // 구매 했다
             
             // 비밀번호로 최근 구매내역 불러오기
-            OrderInfoDto orderDto = orderImpl.getOrderbyPass(orderpass1);
+            OrderInfoDto orderDto = orderInfoDao.getOrderbyPass(orderpass1);
             
             System.out.println();
             if(b) {
@@ -299,15 +304,15 @@ public class NewbookController {
    
    
    // 비회원dl 구매했을 때 주문내역 불러오기
-   @RequestMapping(value = "unmemberorder", method = RequestMethod.GET)
+   @GetMapping("unmemberorder")
    public ModelAndView unmemberOrder(@RequestParam("order_no") int order_no,
                               @RequestParam("order_passwd") String order_passwd) {
       ModelAndView view = new ModelAndView();
-      OrderInfoBean orderBean = new OrderInfoBean();
-      orderBean.setOrder_no(order_no);
-      orderBean.setOrder_passwd(order_passwd);
+      OrderInfoDto orderInfoDto = new OrderInfoDto();
+      orderInfoDto.setOrder_no(order_no);
+      orderInfoDto.setOrder_passwd(order_passwd);
 
-      OrderInfoDto orderDto = orderImpl.unmemberOrder(orderBean);
+      OrderInfoDto orderDto = orderInfoDao.unmemberOrder(orderInfoDto);
       
       view.setViewName("unmemberorder");
       view.addObject("orderDto",orderDto);

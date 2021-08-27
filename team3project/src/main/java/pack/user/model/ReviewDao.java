@@ -1,12 +1,10 @@
 package pack.user.model;
 
+import java.util.List;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
-import pack.controller.ReviewBean;
 import pack.model.ReviewDto;
-
-import java.util.List;
 @Repository
 public class ReviewDao extends SqlSessionDaoSupport {
 	
@@ -18,9 +16,9 @@ public class ReviewDao extends SqlSessionDaoSupport {
 		return getSqlSession().selectList("selectNewbookReviewList", nb_no);
 	}
 	//리뷰작성
-	public boolean insertNewbookReview(ReviewBean bean) {
+	public boolean insertNewbookReview(ReviewDto reviewDto) {
 		try {
-			getSqlSession().insert("insertNewbookReview", bean);
+			getSqlSession().insert("insertNewbookReview", reviewDto);
 			return true;
 		}catch (Exception e) {
 			System.out.println("insertNewbookReview" + e);

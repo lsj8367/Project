@@ -2,7 +2,7 @@ package pack.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pack.user.service.BuyMainService;
 
@@ -12,7 +12,7 @@ public class BuyMainController {
 
 	private final BuyMainService buyMainService;
 
-	@RequestMapping("buymain")
+	@GetMapping("buymain")
 	public ModelAndView main() {
 		ModelAndView modelAndView = buyMainService.buyMain();
 		modelAndView.setViewName("buymain");

@@ -1,29 +1,33 @@
 package pack.admin.model;
 
+import java.util.List;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
-import pack.controller.*;
-import pack.model.*;
-
-import java.util.List;
+import pack.model.AdminDto;
+import pack.model.FaqBoardDto;
+import pack.model.InqueryDto;
+import pack.model.NewBookDto;
+import pack.model.OldBookDto;
+import pack.model.OrderInfoDto;
+import pack.model.RentInfoDto;
+import pack.model.ReviewDto;
+import pack.model.UserDto;
 
 @Repository
-public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
+public class AdminDao extends SqlSessionDaoSupport{
 	
-	public AdminImpl(SqlSessionFactory factory) {
+	public AdminDao(SqlSessionFactory factory) {
 		setSqlSessionFactory(factory);
 	}
 
-	@Override
-	public AdminDto getAdminLoginInfo(String admin_id) {
+	public pack.model.AdminDto getAdminLoginInfo(String admin_id) {
 		return getSqlSession().selectOne("selectAdminData", admin_id);
 	}
 
-	@Override
-	public boolean insertBookData(NewBookBean bean) {
+	public boolean insertBookData(NewBookDto newBookDto) {
 		try {
-			getSqlSession().insert("insertBookData", bean);
+			getSqlSession().insert("insertBookData", newBookDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("insertBookData error : " + e); 		//개발자를 위한 내용
@@ -31,30 +35,25 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
 	public List<NewBookDto> getNewBook() {
 		return getSqlSession().selectList("selectBookDataAll");
 	}
 	
-	@Override
 	public List<UserDto> getUser() {
 		return getSqlSession().selectList("selectUserAll");
 	}
 	
-	@Override
 	public List<OldBookDto> getSellOb() {
 		return getSqlSession().selectList("selectSellObAll");
 	}
 	
-	@Override
 	public List<OldBookDto> getStandby() {
 		return getSqlSession().selectList("selectStandbyAll");
 	}
 	
-	@Override
-	public boolean updateState(OldBookBean bean) {
+	public boolean updateState(OldBookDto dto) {
 		try {
-			getSqlSession().update("upobstate", bean);
+			getSqlSession().update("upobstate", dto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("updateState error : " + e); 		//개발자를 위한 내용
@@ -62,45 +61,37 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
 	public List<OldBookDto> getRBook() {
 		return getSqlSession().selectList("selectRentBookAll");
 	}
 	
-	@Override
 	public List<OldBookDto> getReuse() {
 		return getSqlSession().selectList("selectReuseAll");
 	}
 	
-	@Override
 	public List<OrderInfoDto> getnbOrderData() {
 		return getSqlSession().selectList("selectnbOrderAll");
 	}
 	
-	@Override
 	public List<OrderInfoDto> getobOrderData() {
 		return getSqlSession().selectList("selectobOrderAll");
 	}
 	
-	@Override
 	public List<RentInfoDto> getRentList() {
 		return getSqlSession().selectList("selectRentAll");
 	}
 	
-	@Override
 	public List<UserDto> getUserPoint() {
 		return getSqlSession().selectList("selectUserPointAll");
 	}
 	
-	@Override
 	public List<OrderInfoDto> getNobank() {
 		return getSqlSession().selectList("selectNobankAll");
 	}
 	
-	@Override
-	public boolean updateOrderState(OrderInfoBean bean) {
+	public boolean updateOrderState(OrderInfoDto orderInfoDto) {
 		try {
-			getSqlSession().update("uporderstate", bean);
+			getSqlSession().update("uporderstate", orderInfoDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("updateOrderState error : " + e); 		//개발자를 위한 내용
@@ -108,12 +99,10 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
 	public List<OrderInfoDto> getOrderData() {
 		return getSqlSession().selectList("selectorderAll");
 	}
 	
-	@Override
 	public boolean updateThrow(int ob_no) {
 		try {
 			getSqlSession().update("obthrow", ob_no);
@@ -124,12 +113,10 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
 	public List<RentInfoDto> getDelayData() {
 		return getSqlSession().selectList("selectdelayAll");
 	}
 	
-	@Override
 	public boolean updateUser(UserDto bean) {
 		try {
 			getSqlSession().update("upuser", bean);
@@ -140,7 +127,6 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
 	public boolean removeOb(int ob_no) {
 		try {
 			getSqlSession().delete("rmoldbook", ob_no);
@@ -152,12 +138,10 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
 	public List<String> getDelayId() {
 		return getSqlSession().selectList("selectdelayid");
 	}
 	
-	@Override
 	public boolean updateDcount(String user_id) {
 		try {
 			getSqlSession().update("updcount", user_id);
@@ -168,12 +152,10 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
 	public List<UserDto> getDelay() {
 		return getSqlSession().selectList("selectdelay");
 	}
 	
-	@Override
 	public boolean updatePenalty(UserDto bean) {
 		try {
 			getSqlSession().update("uppenalty", bean);
@@ -184,22 +166,18 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
 	public List<UserDto> getRefuse() {
 		return getSqlSession().selectList("selectrefusecount");
 	}
 	
-	@Override
 	public List<UserDto> getUserdel() {
 		return getSqlSession().selectList("selectdeluser");
 	}
 	
-	@Override
 	public List<UserDto> getUsercheck() {
 		return getSqlSession().selectList("selectuserpcheck");
 	}
 	
-	@Override
 	public boolean updateDelUser(String user_id) {
 		try {
 			getSqlSession().update("updeluser", user_id);
@@ -210,12 +188,10 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
 	public List<OrderInfoDto> getDelayDeposit() {
 		return getSqlSession().selectList("selectdelaydeposit");
 	}
 	
-	@Override
 	public boolean delOrder(String orderlist_no) {
 		try {
 			getSqlSession().delete("rmorder", orderlist_no);
@@ -226,10 +202,9 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
-	public boolean insertFaqData(FaqBoardBean bean) {
+	public boolean insertFaqData(FaqBoardDto faqBoardDto) {
 		try {
-			getSqlSession().insert("insertFAQData", bean);
+			getSqlSession().insert("insertFAQData", faqBoardDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("insertFaqData error : " + e); 		//개발자를 위한 내용
@@ -237,55 +212,45 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
 	public List<FaqBoardDto> getFaqlist() {
 		return getSqlSession().selectList("selectfaqAll");
 	}
 	
-	@Override
 	public List<InqueryDto> getinqlist() {
 		return getSqlSession().selectList("selectinqAll");
 	}
 	
-	@Override
 	public List<ReviewDto> getreviewAll() {
 		return getSqlSession().selectList("selectreviewAll");
 	}
 	
-	@Override
 	public List<OrderInfoDto> getObProfit() {
 		return getSqlSession().selectList("obprofit");
 	}
-	@Override
+
 	public List<OrderInfoDto> getNbProfit() {
 		return getSqlSession().selectList("nbprofit");
 	}
 	
-	@Override
 	public List<OrderInfoDto> getProfit() {
 		return getSqlSession().selectList("profit");
 	}
 	
-	@Override
 	public OrderInfoDto getObProfitmonth() {
 		return getSqlSession().selectOne("obprofitmonth");
 	}
-	@Override
 	public OrderInfoDto getNbProfitmonth() {
 		return getSqlSession().selectOne("nbprofitmonth");
 	}
 	
-	@Override
 	public OrderInfoDto getProfitmonth() {
 		return getSqlSession().selectOne("profitmonth");
 	}
 	
-	@Override
-	public List<AdminDto> getAdminyet() {
+	public List<pack.model.AdminDto> getAdminyet() {
 		return getSqlSession().selectList("adminyetAll");
 	}
 	
-	@Override
 	public boolean delAdmin(String admin_id) {
 		try {
 			getSqlSession().insert("deladmin", admin_id);
@@ -296,10 +261,9 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
-	public boolean upAdmin(AdminBean bean) {
+	public boolean upAdmin(AdminDto adminDto) {
 		try {
-			getSqlSession().insert("upadmin", bean);
+			getSqlSession().insert("upadmin", adminDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("upAdmin error : " + e); 		//개발자를 위한 내용
@@ -307,15 +271,13 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
 	public List<AdminDto> getAdminInfo() {
 		return getSqlSession().selectList("getadminAll");
 	}
 	
-	@Override
-	public boolean upAdminJik(AdminBean bean) {
+	public boolean upAdminJik(AdminDto adminDto) {
 		try {
-			getSqlSession().insert("upadminjik", bean);
+			getSqlSession().insert("upadminjik", adminDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("upAdminJik error : " + e); 		//개발자를 위한 내용
@@ -323,22 +285,18 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
 	public List<ReviewDto> getBestReview() {
 		return getSqlSession().selectList("mbrmonth");
 	}
 	
-	@Override
 	public List<ReviewDto> getBestReviewmonth(String sql) {
 		return getSqlSession().selectList("mbestreview",sql);
 	}
 	
-	@Override
 	public List<ReviewDto> getRmonth() {
 		return getSqlSession().selectList("mbreviewmonth");
 	}
 	
-	@Override
 	public boolean upUserPoint(UserDto bean) {
 		try {
 			getSqlSession().insert("upuserpoint", bean);
@@ -349,25 +307,21 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
 	public List<NewBookDto> getOmonth() {
 		return getSqlSession().selectList("mbsellermonth");
 	}
 	
-	@Override
 	public List<NewBookDto> getOcmonth() {
 		return getSqlSession().selectList("mbsellercmonth");
 	}
 	
-	@Override
 	public List<NewBookDto> getBestSellermonth(String sql) {
 		return getSqlSession().selectList("mbestseller",sql);
 	}
 	
-	@Override
-	public boolean upNbStock(NewBookBean bean) {
+	public boolean upNbStock(NewBookDto newBookDto) {
 		try {
-			getSqlSession().insert("upnbstock", bean);
+			getSqlSession().insert("upnbstock", newBookDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("upNbStock error : " + e); 		//개발자를 위한 내용
@@ -375,50 +329,41 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
 	public List<RentInfoDto> getRentmonth() {
 		return getSqlSession().selectList("mbrentmonth");
 	}
 	
-	@Override
 	public List<RentInfoDto> getRentcmonth() {
 		return getSqlSession().selectList("mbrentcmonth");
 	}
 	
-	@Override
 	public List<RentInfoDto> getBestRentmonth(String sql) {
 		return getSqlSession().selectList("mbestrent",sql);
 	}
 	
-	@Override
 	public List<RentInfoDto> getRentKing() {
 		return getSqlSession().selectList("rentking");
 	}
 	
-	@Override
 	public String getMonth() {
 		return getSqlSession().selectOne("currentmonth");
 	}
 	
-	@Override
 	public List<OrderInfoDto> getBuyKing() {
 		return getSqlSession().selectList("buyking");
 	}
 	
-	@Override
 	public InqueryDto getMaxNum() {
 		return getSqlSession().selectOne("getMaxNum");
 	}
 	
-	@Override
 	public InqueryDto getInqData(int inq_no) {
 		return getSqlSession().selectOne("selectInqPart", inq_no);
 	}
 	
-	@Override
-	public boolean upOnum(InqueryBean bean) {
+	public boolean upOnum(InqueryDto inqueryDto) {
 		try {
-			getSqlSession().update("updateOnum", bean);
+			getSqlSession().update("updateOnum", inqueryDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("upOnum error : " + e); 		//개발자를 위한 내용
@@ -426,10 +371,9 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
-	public boolean insInqReply(InqueryBean bean) {
+	public boolean insInqReply(InqueryDto inqueryDto) {
 		try {
-			getSqlSession().insert("insertinqReply", bean);
+			getSqlSession().insert("insertinqReply", inqueryDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("insInqReply error : " + e); 		//개발자를 위한 내용
@@ -437,10 +381,9 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
-	public boolean RollbackStock(NewBookBean bean) {
+	public boolean RollbackStock(NewBookDto newBookDto) {
 		try {
-			getSqlSession().insert("rollbackstock", bean);
+			getSqlSession().insert("rollbackstock", newBookDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("RollbackStock error : " + e); 		//개발자를 위한 내용
@@ -448,25 +391,21 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
 	public List<NewBookDto> theMostSellBook() {
 		return getSqlSession().selectList("getmostsellbook");
 	}
 	
-	@Override
 	public List<OldBookDto> theMostRentBook() {
 		return getSqlSession().selectList("getmostrentbook");
 	}
 	
-	@Override
 	public String IdCheck(String admin_id) {
 		return getSqlSession().selectOne("adminidcheck");
 	}
 	
-	@Override
-	public boolean insertAdmin(AdminBean bean) {
+	public boolean insertAdmin(AdminDto adminDto) {
 		try {
-			getSqlSession().insert("admininsert", bean);
+			getSqlSession().insert("admininsert", adminDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("insertAdmin error : " + e); 		//개발자를 위한 내용
@@ -474,37 +413,9 @@ public class AdminImpl extends SqlSessionDaoSupport implements AdminInter {
 		}
 	}
 	
-	@Override
-	public boolean insChartData(ChartPrintBean bean) {
+	public boolean updateAdmin(AdminDto adminDto) {
 		try {
-			getSqlSession().insert("inschartdata", bean);
-			return true;
-		} catch (Exception e) {
-			System.out.println("insChartData error : " + e); 		//개발자를 위한 내용
-			return false;
-		}
-	}
-	
-	@Override
-	public String getChartmonth(String cmonth) {
-		return getSqlSession().selectOne("getchartmonth", cmonth);
-	}
-	
-	@Override
-	public boolean upChartData(ChartPrintBean bean) {
-		try {
-			getSqlSession().insert("upchartdata", bean);
-			return true;
-		} catch (Exception e) {
-			System.out.println("upChartData error : " + e); 		//개발자를 위한 내용
-			return false;
-		}
-	}
-	
-	@Override
-	public boolean updateAdmin(AdminBean bean) {
-		try {
-			getSqlSession().update("updateadmininfo", bean);
+			getSqlSession().update("updateadmininfo", adminDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("updateAdmin error : " + e); 		//개발자를 위한 내용

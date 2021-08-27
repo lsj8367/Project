@@ -1,26 +1,25 @@
 package pack.admin.controller;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminInter;
-import pack.controller.NewBookBean;
+import pack.admin.model.AdminDao;
 import pack.model.AdminDto;
+import pack.model.NewBookDto;
 import pack.model.OrderInfoDto;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class OrderCancelController {
-    private final AdminInter adminInter;
+    private final AdminDao adminDao;
 
-    @RequestMapping(value = "ordercancel", method = RequestMethod.GET)
+    @GetMapping("ordercancel")
     public ModelAndView delayDeposit(HttpSession session, ModelMap model) {
         ModelAndView view = new ModelAndView();
 
@@ -29,18 +28,18 @@ public class OrderCancelController {
             view.setViewName("admin/admin_login");
             return view;
         }
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
 
-        List<OrderInfoDto> olist = adminInter.getDelayDeposit();
+        List<OrderInfoDto> olist = adminDao.getDelayDeposit();
         view.addObject("delay", olist);
         view.setViewName("admin/delaydeposit");
 
         return view;
     }
 
-    @RequestMapping(value = "delorder", method = RequestMethod.POST)
-    public String DelUser(HttpSession session, ModelMap model, NewBookBean bean,
+    @PostMapping("delorder")
+    public String DelUser(HttpSession session, ModelMap model, NewBookDto newBookDto,
                           @RequestParam(name = "orderlist_no") String[] orderlist_no,
                           @RequestParam(name = "order_bookno") int[] order_bookno,
                           @RequestParam(name = "order_scount") int[] order_scount) {
@@ -49,19 +48,19 @@ public class OrderCancelController {
         if (admin_id == null | admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
 
-        boolean b = false;
-        boolean u = false;
+        boolean isOrderDeleted = false;
+        boolean isRollBackStock = false;
 
         for (int i = 0; i < orderlist_no.length; i++) {
-            b = adminInter.delOrder(orderlist_no[i]);
-            bean.setNb_no(order_bookno[i]);
-            bean.setNb_stock(order_scount[i]);
-            u = adminInter.RollbackStock(bean);
+            isOrderDeleted = adminDao.delOrder(orderlist_no[i]);
+            newBookDto.setNb_no(order_bookno[i]);
+            newBookDto.setNb_stock(order_scount[i]);
+            isRollBackStock = adminDao.RollbackStock(newBookDto);
         }
-        if (b && u) {
+        if (isOrderDeleted && isRollBackStock) {
             return "redirect:/ordercancel";
         }
 

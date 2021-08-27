@@ -1,26 +1,25 @@
 package pack.admin.controller;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminInter;
+import pack.admin.model.AdminDao;
 import pack.model.AdminDto;
 import pack.model.ReviewDto;
 import pack.model.UserDto;
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class BestReviewsetController {
-	private final AdminInter adminInter;
+	private final AdminDao adminDao;
 	
-	@RequestMapping(value="bestreviewset", method=RequestMethod.GET)
+	@GetMapping("bestreviewset")
 	public ModelAndView goBestReviewset(HttpSession session, ModelMap model) {
 		ModelAndView view = new ModelAndView();
 		
@@ -30,16 +29,16 @@ public class BestReviewsetController {
 			return view;
 		}
 
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
 
-		List<ReviewDto> rmonth = adminInter.getRmonth();
+		List<ReviewDto> rmonth = adminDao.getRmonth();
 		view.addObject("rm", rmonth);
 		view.setViewName("admin/bestreviewset");
 		return view;
 	}
 	
-	@RequestMapping(value="monthbestreview", method=RequestMethod.POST)
+	@PostMapping("monthbestreview")
 	public ModelAndView goBestReview(HttpSession session, ModelMap model, @RequestParam("sql") String sql) {
 		ModelAndView view = new ModelAndView();
 		
@@ -48,25 +47,25 @@ public class BestReviewsetController {
 			view.setViewName("admin/admin_login");
 			return view;
 		}
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
 
-		List<ReviewDto> rmonth = adminInter.getRmonth();
-		List<ReviewDto> rl = adminInter.getBestReviewmonth(sql);
+		List<ReviewDto> rmonth = adminDao.getRmonth();
+		List<ReviewDto> rl = adminDao.getBestReviewmonth(sql);
 		view.addObject("rm", rmonth);
 		view.addObject("rl", rl);
 		view.setViewName("admin/bestreviewset");
 		return view;
 	}
 	
-	@RequestMapping(value = "givepoint", method = RequestMethod.POST)
+	@PostMapping("givepoint")
 	public String JikwonUpJik(HttpSession session, ModelMap model, UserDto bean,
 							@RequestParam(name="rn") int rank[], 
 							@RequestParam(name="review_id") String userid[]){
 		String admin_id = (String)session.getAttribute("admin_id");
 		if(admin_id == null | admin_id == "") return "admin/admin_login";
 
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
 
 		boolean b = false;
@@ -82,7 +81,7 @@ public class BestReviewsetController {
 				bean.setPluspoint(0);
 			}
 			bean.setUser_id(userid[i]);
-			b = adminInter.upUserPoint(bean);
+			b = adminDao.upUserPoint(bean);
 		}
 
 		if(b) {

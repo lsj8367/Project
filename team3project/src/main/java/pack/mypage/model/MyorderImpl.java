@@ -1,15 +1,12 @@
 package pack.mypage.model;
 
+import java.util.List;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import pack.controller.NewBookBean;
-import pack.controller.OrderInfoBean;
 import pack.model.NewBookDto;
 import pack.model.OrderInfoDto;
-
-import java.util.List;
 
 @Repository
 public class MyorderImpl extends SqlSessionDaoSupport {
@@ -53,23 +50,23 @@ public class MyorderImpl extends SqlSessionDaoSupport {
 		}
 	}
 	
-	public boolean upNbScount(NewBookBean bean) {
+	public boolean upNbScount(NewBookDto newBookDto) {
 		try {
-			getSqlSession().update("upnbc", bean);
+			getSqlSession().update("upnbc", newBookDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("upNbScount error : " + e); 		//개발자를 위한 내용
 			return false;
 		}
 	}
-	public boolean updateMyOrderInfo(OrderInfoBean bean) {
+	public boolean updateMyOrderInfo(OrderInfoDto orderInfoDto) {
 		try {
-			getSqlSession().update("upmyorderinfo", bean);
+			getSqlSession().update("upmyorderinfo", orderInfoDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("updateMyOrderInfo error : " + e); 		//개발자를 위한 내용
 			return false;
 		}
 	}
-	
+
 }

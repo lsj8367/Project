@@ -3,7 +3,6 @@ package pack.user.model;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
-import pack.controller.RentInfoBean;
 import pack.model.RentInfoDto;
 
 @Repository
@@ -12,9 +11,9 @@ public class RentInfoDao extends SqlSessionDaoSupport {
 		setSqlSessionFactory(factory);
 	}
 	
-	public boolean rentOldBook(RentInfoBean bean) {
+	public boolean rentOldBook(RentInfoDto rentInfoDto) {
 		try {
-			getSqlSession().insert("rentOldBook", bean);
+			getSqlSession().insert("rentOldBook", rentInfoDto);
 			return true;
 		}catch (Exception e) {
 			System.out.println("rentOldBook" + e);

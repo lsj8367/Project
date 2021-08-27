@@ -1,26 +1,24 @@
 package pack.admin.controller;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminInter;
-import pack.controller.OrderInfoBean;
+import pack.admin.model.AdminDao;
 import pack.model.AdminDto;
 import pack.model.OrderInfoDto;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class NobankController {
-    private final AdminInter adminInter;
+    private final AdminDao adminDao;
 
-    @RequestMapping(value = "nobankbookadmit", method = RequestMethod.GET)
+    @GetMapping("nobankbookadmit")
     public ModelAndView getNobank(HttpSession session, ModelMap model) {
         ModelAndView view = new ModelAndView();
         String admin_id = (String) session.getAttribute("admin_id");
@@ -28,17 +26,17 @@ public class NobankController {
             view.setViewName("admin/admin_login");
             return view;
         }
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
-        List<OrderInfoDto> ordernobank = adminInter.getNobank();
+        List<OrderInfoDto> ordernobank = adminDao.getNobank();
         view.addObject("nobank", ordernobank);
         view.setViewName("admin/nobanklist");
 
         return view;
     }
 
-    @RequestMapping(value = "orderok", method = RequestMethod.POST)
-    public String upOrderState(OrderInfoBean bean,
+    @PostMapping(value = "orderok")
+    public String upOrderState(OrderInfoDto orderInfoDto,
                                @RequestParam(name = "orderlist_no") String[] orderlist_no,
                                @RequestParam(name = "order_state") String[] order_state,
                                HttpSession session, ModelMap model) {
@@ -46,15 +44,15 @@ public class NobankController {
         if (admin_id == null | admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
 
         boolean b = false;
 
         for (int i = 0; i < orderlist_no.length; i++) {
-            bean.setOrderlist_no(orderlist_no[i]);
-            bean.setOrder_state(order_state[i]);
-            b = adminInter.updateOrderState(bean);
+            orderInfoDto.setOrderlist_no(orderlist_no[i]);
+            orderInfoDto.setOrder_state(order_state[i]);
+            b = adminDao.updateOrderState(orderInfoDto);
         }
         if (b) {
             return "redirect:/nobankbookadmit";

@@ -217,19 +217,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	SELECT * from faqboard where faq_type = #{faq_type}
 	</select>
 	
-	<insert id="insertBookData" parameterType="nbform">
+	<insert id="insertBookData" parameterType="nbdto">
 		insert into newbook values(default,#{nb_name},#{nb_author},#{nb_inter},#{nb_genre},#{nb_comp},date(#{nb_bdate}),#{nb_stock},#{nb_price},0,0,#{nb_plot},#{nb_image})
 	</insert>
 	
-	<insert id="insertFAQData" parameterType="faqform">
+	<insert id="insertFAQData" parameterType="faqdto">
 		insert into faqboard values(default,now(),#{faq_title},#{faq_content},#{faq_type})
 	</insert>
 	
-	<update id="upobstate" parameterType="obform">
+	<update id="upobstate" parameterType="obdto">
 		update oldbook set ob_state=#{ob_state} where ob_no=#{ob_no}
 	</update>
 	
-	<update id="uporderstate" parameterType="orderform">
+	<update id="uporderstate" parameterType="orderdto">
 		update orderinfo set order_state=#{order_state} where orderlist_no=#{orderlist_no}
 	</update>
 	
@@ -253,11 +253,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update user set user_penalty = "4" where user_id = #{user_id}
 	</update>
 	
-	<update id="upadmin" parameterType="adminform">
+	<update id="upadmin" parameterType="admindto">
 		update admin set admin_acc = #{admin_acc} where admin_id=#{admin_id}
 	</update>
 	
-	<update id="upadminjik" parameterType="adminform">
+	<update id="upadminjik" parameterType="admindto">
 		update admin set admin_jik = #{admin_jik} where admin_id =#{admin_id}
 	</update>
 	
@@ -265,19 +265,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update user set user_point = (user_point + #{pluspoint}) where user_id = #{user_id}
 	</update>
 	
-	<update id="upnbstock" parameterType="nbform">
+	<update id="upnbstock" parameterType="nbdto">
 		update newbook set nb_stock = (nb_stock + #{plusstock}) where nb_no = #{nb_no}
 	</update>
 	
-	<update id="updateOnum" parameterType="inqform">
+	<update id="updateOnum" parameterType="inqdto">
 		update inquery set inq_onum = inq_onum + 1 where inq_onum >= #{inq_onum} and inq_gnum = #{inq_gnum}
 	</update>
 	
-	<update id="rollbackstock" parameterType="nbform">
+	<update id="rollbackstock" parameterType="nbdto">
 		update newbook set nb_stock = (nb_stock + #{nb_stock}), nb_scount = (nb_scount - #{nb_stock}) where nb_no = #{nb_no}
 	</update>
 	
-	<update id="updateadmininfo" parameterType="adminform">
+	<update id="updateadmininfo" parameterType="admindto">
       update admin set admin_passwd = #{admin_passwd}, admin_name = #{admin_name} where admin_id = #{admin_id}
    </update>
 	
@@ -407,7 +407,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 		
 	<!--  카드 정보 입력 -->
-	<insert id="insertCard" parameterType="cardform">
+	<insert id="insertCard" parameterType="carddto">
 		insert into cardinfo values (#{card_ownerid}, #{card_owner}, #{card_comp}, #{card_no}, #{card_passwd})
 	</insert>
 	
@@ -437,7 +437,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    		select * from review where review_bookno = #{review_bookno} order by review_date desc
    </select>
 	<!-- 구매페이지 개별 새책 해당 책의 리뷰 쓰기 -->
-	<insert id="insertNewbookReview" parameterType="reviewform">
+	<insert id="insertNewbookReview" parameterType="reviewdto">
 		insert into review values(default, #{review_id}, #{review_bookno}, #{review_context}, #{review_date}, #{review_rate}, #{review_gonggam})
 	</insert>
 	<!-- 구매페이지 개별 새책 해당 책의 특정 리뷰 추천 -->
@@ -459,7 +459,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 회원일 경우 새책 결제 --><!-- 김나현 수정 -->
-	<insert id="buyNewBookUser" parameterType="orderform">
+	<insert id="buyNewBookUser" parameterType="orderdto">
 		insert into orderinfo values(default,#{orderlist_no},#{order_person},#{order_id},#{order_bookno},#{order_booktype},#{order_date},default,#{order_scount},#{order_paytype},#{order_state},#{order_sum},#{order_address})
 	</insert>
 	
@@ -469,23 +469,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 비회원일 경우 새책 결제 --><!-- 김나현 수정 -->
-	<insert id="buyNewBookUnuser" parameterType="orderform">
+	<insert id="buyNewBookUnuser" parameterType="orderdto">
 		insert into orderinfo values(default,#{orderlist_no},#{order_person},#{order_id},#{order_bookno},#{order_booktype},#{order_date},#{order_passwd},#{order_scount},#{order_paytype},#{order_state},#{order_sum}, #{order_address})
 	</insert>
 	
 	<!-- 주문 후 새책 변경사항 -->
 	<!-- 재고량 줄이기 -->
-	<update id="minusNewBookStock" parameterType="nbform">
+	<update id="minusNewBookStock" parameterType="nbdto">
 		update newbook set nb_stock  = nb_stock  - #{nb_stock} where nb_no = #{nb_no}
 	</update>
 	
 	<!-- 주문량 늘리기 -->
-	<update id="plusNewBookScount" parameterType="nbform">
+	<update id="plusNewBookScount" parameterType="nbdto">
 		update newbook set nb_scount = nb_scount + #{nb_scount} where nb_no = #{nb_no}
 	</update>
 	
 	<!-- 비회원 일 때 주문내역 가져오기 -->
-	<select id="unmemberOrder" parameterType="orderform" resultType="orderdto">
+	<select id="unmemberOrder" parameterType="orderdto" resultType="orderdto">
 		select * from orderinfo where order_no=#{order_no} and order_passwd=#{order_passwd}
 	</select>
 		
@@ -528,8 +528,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 김나현 추가 시작-->
 	<!-- 중고책 대여했을 때 대여정보 추가 -->
-	<insert id="rentOldBook" parameterType="rentform">
-		insert into rentinfo values(#{rent_no}, #{rent_id}, #{rent_sdate}, date_add(now(),INTERVAL 13 day), default)
+	<insert id="rentOldBook" parameterType="rdto">
+		insert into rentinfo values(#{rent_no}, #{rent_id}, #{rent_sd
+		ate}, date_add(now(),INTERVAL 13 day), default)
 	</insert>
 	
 	<update id="minusRentPoint" parameterType="String">
@@ -568,11 +569,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from orderinfo where order_no = #{order_no}
 	</delete>
 	<!-- 재고량, 판매량 수정 -->
-	<update id="upnbc" parameterType="nbform">
+	<update id="upnbc" parameterType="nbdto">
 		update newbook set nb_scount = (nb_scount - #{nb_scount}), nb_stock = (nb_stock + #{nb_scount}) where nb_no = #{nb_no}
 	</update>
 	<!-- 내 주문정보 수정 -->
-	<update id="upmyorderinfo" parameterType="orderform">
+	<update id="upmyorderinfo" parameterType="orderdto">
 		update orderinfo set order_address = #{order_address}, order_person = #{order_person} where orderlist_no = #{orderlist_no}
 	</update>
 	<!-- 대여도서 반납 -->
@@ -598,7 +599,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 비회원 주문조회 -->
-	<select id="unmembercheck" resultType="orderdto" parameterType="orderform">
+	<select id="unmembercheck" resultType="orderdto" parameterType="orderdto">
 		select * from orderinfo where orderlist_no=#{orderlist_no} and order_passwd=#{order_passwd}
 	</select>
 
@@ -694,7 +695,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from faqboard where faq_no =#{faq_no}
 	</select> 
 	
-	<insert id="insertinqReply" parameterType="inqform">
+	<insert id="insertinqReply" parameterType="inqdto">
       insert into inquery values (#{inq_no},#{inq_title},#{inq_context},now(),#{inq_id},#{inq_gnum},#{inq_onum},#{inq_nested})
    </insert>
 	

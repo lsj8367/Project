@@ -1,69 +1,70 @@
 package pack.admin.controller;
 
+import java.util.List;
+import java.util.Objects;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pack.admin.model.AdminInter;
-import pack.controller.AdminBean;
-import pack.model.*;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Objects;
+import pack.admin.model.AdminDao;
+import pack.model.AdminDto;
+import pack.model.NewBookDto;
+import pack.model.OldBookDto;
+import pack.model.OrderInfoDto;
+import pack.model.RentInfoDto;
 
 @Controller
 @RequiredArgsConstructor
 public class AdminController {
 
-	private final AdminInter adminInter;
+	private final AdminDao adminDao;
 
-	@RequestMapping(value = "adminlogin", method = RequestMethod.GET)
+	@GetMapping("adminlogin")
 	public String goLogin(HttpSession session, ModelMap model) {
 		String admin_id = (String)session.getAttribute("admin_id");
-		if(Objects.isNull(admin_id) || Objects.equals(admin_id, "" ))
+		if(Objects.isNull(admin_id) || Objects.equals(admin_id, "" )) {
 			return "admin/admin_login";
-		else {
-			AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
-	        model.addAttribute("info", dto);
 		}
+
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
+		model.addAttribute("info", dto);
 		return "redirect:/admin";
 	}
 	
-	@RequestMapping(value = "adminregister", method = RequestMethod.GET)
+	@GetMapping("adminregister")
 	public String goAdminSignup() {
 		return "admin/adminsignup";
 	}
 	
 	// 아이디 중복 여부 체크
-	@RequestMapping(value = "checkSignupAdminId", method = RequestMethod.POST)
+	@PostMapping(value = "checkSignupAdminId")
 	public @ResponseBody String AjaxView(@RequestParam("admin_id") String admin_id){
-		if(adminInter.getAdminLoginInfo(admin_id) == null) {
+		if(adminDao.getAdminLoginInfo(admin_id) == null) {
 			return "YES";
 		}
 		return "NO";
 	}
 	
-	@RequestMapping(value="adminsignupok", method = RequestMethod.POST)
-	public String submit(AdminBean bean){
+	@PostMapping("adminsignupok")
+	public String submit(AdminDto adminDto){
 
-		boolean b = adminInter.insertAdmin(bean);
+		boolean b = adminDao.insertAdmin(adminDto);
 		if (b) {
 			return "redirect:/adminlogin";
 		}
 		return "error";
 	}
 	
-	@RequestMapping(value = "idcheck", method = RequestMethod.GET)
+	@GetMapping("idcheck")
 	public ModelAndView goIdCheck(@RequestParam("id") String adminid) {
 		ModelAndView view = new ModelAndView();
 		
-		String dto = adminInter.IdCheck(adminid);
+		String dto = adminDao.IdCheck(adminid);
 		view.setViewName("admin/adminidcheck");
 
 		if(dto == null ||dto == "") {
@@ -76,13 +77,12 @@ public class AdminController {
 	}
 	
 
-	@RequestMapping(value = "admin_login", method = RequestMethod.POST)
+	@PostMapping("admin_login")
 	public String submitLogin(HttpSession session, 
 			@RequestParam("admin_id") String admin_id,
-			@RequestParam("admin_passwd") String admin_passwd,
-			RedirectAttributes redirectAttr) {
+			@RequestParam("admin_passwd") String admin_passwd) {
 
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		String retPasswd = dto.getAdmin_passwd();
 		if (retPasswd.equals(admin_passwd)) {
 			if(dto.getAdmin_acc() == 2) {
@@ -93,24 +93,24 @@ public class AdminController {
 		return "admin/admin_login";
 	}
 	
-	@RequestMapping(value = "admin", method = RequestMethod.GET)
+	@GetMapping("admin")
     public ModelAndView list(HttpSession session, ModelMap model) {
         ModelAndView view = new ModelAndView();
         
         String admin_id = (String)session.getAttribute("admin_id");
         
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
         
-        List<RentInfoDto> rulist = adminInter.getRentKing();
-        List<OrderInfoDto> bulist = adminInter.getBuyKing();
-        OrderInfoDto oprofit2 = adminInter.getObProfitmonth();
-        OrderInfoDto nprofit2 = adminInter.getNbProfitmonth();
-        OrderInfoDto rprofit2 = adminInter.getProfitmonth();
-        List<NewBookDto> ocmonth = adminInter.getOcmonth();
-        List<RentInfoDto> rentcmonth = adminInter.getRentcmonth();
-        List<NewBookDto> msbook = adminInter.theMostSellBook();
-        List<OldBookDto> mrbook = adminInter.theMostRentBook();
+        List<RentInfoDto> rulist = adminDao.getRentKing();
+        List<OrderInfoDto> bulist = adminDao.getBuyKing();
+        OrderInfoDto oprofit2 = adminDao.getObProfitmonth();
+        OrderInfoDto nprofit2 = adminDao.getNbProfitmonth();
+        OrderInfoDto rprofit2 = adminDao.getProfitmonth();
+        List<NewBookDto> ocmonth = adminDao.getOcmonth();
+        List<RentInfoDto> rentcmonth = adminDao.getRentcmonth();
+        List<NewBookDto> msbook = adminDao.theMostSellBook();
+        List<OldBookDto> mrbook = adminDao.theMostRentBook();
         view.addObject("bsb", msbook);
         view.addObject("brb", mrbook);
         view.addObject("rtm", rentcmonth);
@@ -125,13 +125,13 @@ public class AdminController {
         return view;
     }
 
-	@RequestMapping(value = "admin_logout", method = RequestMethod.GET)
+	@GetMapping("admin_logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("admin_id");
 		return "redirect:/adminlogin";
 	}
 	
-	@RequestMapping(value = "gomain", method = RequestMethod.GET)
+	@GetMapping("gomain")
 	public String adminlogout(HttpSession session) {
 		session.removeAttribute("admin_id");
 		return "redirect:/main";

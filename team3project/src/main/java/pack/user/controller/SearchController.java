@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pack.model.NewBookDto;
-import pack.model.SearchDao;
+import pack.user.model.SearchDao;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

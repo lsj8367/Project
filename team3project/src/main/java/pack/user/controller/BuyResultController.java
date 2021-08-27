@@ -1,8 +1,11 @@
 package pack.user.controller;
 
+import java.util.Objects;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.model.OrderInfoDto;
@@ -11,10 +14,6 @@ import pack.user.model.BuyDao;
 import pack.user.model.BuyResultDao;
 import pack.user.model.OldBookDao;
 import pack.user.model.UserDao;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,7 +24,7 @@ public class BuyResultController {
 	private final OldBookDao oldBookDao;
 
 
-	@RequestMapping("buyresult")
+	@PostMapping("buyresult")
 	public ModelAndView result(HttpSession session, HttpServletRequest request, @RequestParam("radioPaytype") String radioPaytype) {
 		ModelAndView modelAndView = new ModelAndView();
 		OrderInfoDto dto;

@@ -1,26 +1,25 @@
 package pack.admin.controller;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminInter;
+import pack.admin.model.AdminDao;
 import pack.model.AdminDto;
 import pack.model.OrderInfoDto;
 import pack.model.UserDto;
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class MonthBuyerController {
-	private final AdminInter adminInter;
+	private final AdminDao adminDao;
 	
-	@RequestMapping(value="monthbuyer", method=RequestMethod.GET)
+	@GetMapping("monthbuyer")
 	public ModelAndView goMonthBuyer(HttpSession session, ModelMap model) {
 		ModelAndView view = new ModelAndView();
 		
@@ -29,11 +28,11 @@ public class MonthBuyerController {
 			view.setViewName("admin/admin_login");
 			return view;
 		}
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
 
-		String cmonth = adminInter.getMonth();
-		List<OrderInfoDto> bulist = adminInter.getBuyKing();
+		String cmonth = adminDao.getMonth();
+		List<OrderInfoDto> bulist = adminDao.getBuyKing();
 		view.addObject("cm", cmonth);
 		view.addObject("bu", bulist);
 		view.setViewName("admin/monthbuyer");
@@ -41,14 +40,14 @@ public class MonthBuyerController {
 		return view;
 	}
 	
-	@RequestMapping(value = "givepoint4", method = RequestMethod.POST)
+	@PostMapping(value = "givepoint4")
 	public String JikwonUpJik(HttpSession session, ModelMap model, UserDto bean,
 							@RequestParam(name="rn") int[] rank,
 							@RequestParam(name="user_id") String[] userid){
 		String admin_id = (String)session.getAttribute("admin_id");
 		if(admin_id == null | admin_id == "") 
 			return "admin/admin_login";
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
 
 		
@@ -66,7 +65,7 @@ public class MonthBuyerController {
 					bean.setPluspoint(0);
 				}
 				bean.setUser_id(userid[i]);
-				b = adminInter.upUserPoint(bean);
+				b = adminDao.upUserPoint(bean);
 			}else {
 				b = true;
 			}
