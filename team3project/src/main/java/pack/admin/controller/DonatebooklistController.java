@@ -1,5 +1,7 @@
 package pack.admin.controller;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -7,18 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminInter;
+import pack.admin.model.AdminDao;
 import pack.controller.OldBookBean;
 import pack.model.AdminDto;
 import pack.model.OldBookDto;
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class DonatebooklistController {
-	private final AdminInter adminInter;
+	private final AdminDao adminDao;
 	
 	@RequestMapping(value="donatebooklist", method=RequestMethod.GET)
 	public ModelAndView StandbyBook(HttpSession session, ModelMap model) {
@@ -28,9 +27,9 @@ public class DonatebooklistController {
 			view.setViewName("admin/admin_login");
 			return view;
 		}
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
-		List<OldBookDto> standbylist = adminInter.getStandby();
+		List<OldBookDto> standbylist = adminDao.getStandby();
 		view.setViewName("admin/standby");
 		view.addObject("slist",standbylist);
 
@@ -46,7 +45,7 @@ public class DonatebooklistController {
 		if(admin_id == null | admin_id == "") 
 			return "admin/admin_login";
 
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
 
 		boolean b = false;
@@ -54,7 +53,7 @@ public class DonatebooklistController {
 		for (int i = 0; i < ob_no.length; i++) {
 			bean.setOb_no(ob_no[i]);
 			bean.setOb_state(ob_state[i]);
-			b = adminInter.updateState(bean);
+			b = adminDao.updateState(bean);
 		}
 
 		if(b) {

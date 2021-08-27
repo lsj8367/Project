@@ -1,5 +1,7 @@
 package pack.admin.controller;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -7,18 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminInter;
+import pack.admin.model.AdminDao;
 import pack.controller.NewBookBean;
 import pack.model.AdminDto;
 import pack.model.OrderInfoDto;
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class OrderCancelController {
-    private final AdminInter adminInter;
+    private final AdminDao adminDao;
 
     @RequestMapping(value = "ordercancel", method = RequestMethod.GET)
     public ModelAndView delayDeposit(HttpSession session, ModelMap model) {
@@ -29,10 +28,10 @@ public class OrderCancelController {
             view.setViewName("admin/admin_login");
             return view;
         }
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
 
-        List<OrderInfoDto> olist = adminInter.getDelayDeposit();
+        List<OrderInfoDto> olist = adminDao.getDelayDeposit();
         view.addObject("delay", olist);
         view.setViewName("admin/delaydeposit");
 
@@ -49,17 +48,17 @@ public class OrderCancelController {
         if (admin_id == null | admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
 
         boolean b = false;
         boolean u = false;
 
         for (int i = 0; i < orderlist_no.length; i++) {
-            b = adminInter.delOrder(orderlist_no[i]);
+            b = adminDao.delOrder(orderlist_no[i]);
             bean.setNb_no(order_bookno[i]);
             bean.setNb_stock(order_scount[i]);
-            u = adminInter.RollbackStock(bean);
+            u = adminDao.RollbackStock(bean);
         }
         if (b && u) {
             return "redirect:/ordercancel";

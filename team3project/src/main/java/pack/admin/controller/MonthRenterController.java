@@ -1,5 +1,7 @@
 package pack.admin.controller;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -7,18 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminInter;
+import pack.admin.model.AdminDao;
 import pack.model.AdminDto;
 import pack.model.RentInfoDto;
 import pack.model.UserDto;
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class MonthRenterController {
-    private final AdminInter adminInter;
+    private final AdminDao adminDao;
 
     @RequestMapping(value = "monthrenter", method = RequestMethod.GET)
     public ModelAndView goMonthRenter(HttpSession session, ModelMap model) {
@@ -29,11 +28,11 @@ public class MonthRenterController {
             view.setViewName("admin/admin_login");
             return view;
         }
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
 
-        String cmonth = adminInter.getMonth();
-        List<RentInfoDto> rulist = adminInter.getRentKing();
+        String cmonth = adminDao.getMonth();
+        List<RentInfoDto> rulist = adminDao.getRentKing();
         view.addObject("cm", cmonth);
         view.addObject("ru", rulist);
         view.setViewName("admin/monthrenter");
@@ -50,7 +49,7 @@ public class MonthRenterController {
             return "admin/admin_login";
 		}
 
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
 
 
@@ -67,7 +66,7 @@ public class MonthRenterController {
                 bean.setPluspoint(0);
             }
             bean.setUser_id(userid[i]);
-            b = adminInter.upUserPoint(bean);
+            b = adminDao.upUserPoint(bean);
         }
         if (b) {
 			return "redirect:/monthrenter";

@@ -1,22 +1,21 @@
 package pack.admin.controller;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminInter;
+import pack.admin.model.AdminDao;
 import pack.model.AdminDto;
 import pack.model.RentInfoDto;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class RentListController {
-	private final AdminInter adminInter;
+	private final AdminDao adminDao;
 	
 	@RequestMapping(value="rentlist", method = RequestMethod.GET)
 	public ModelAndView getRentList(HttpSession session, ModelMap model) {
@@ -26,10 +25,10 @@ public class RentListController {
 			view.setViewName("admin/admin_login");
 			return view;
 		}
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
 		
-		List<RentInfoDto> rilist = adminInter.getRentList();
+		List<RentInfoDto> rilist = adminDao.getRentList();
 		view.addObject("rlist", rilist);
 		view.setViewName("admin/rentinfo");
 

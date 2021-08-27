@@ -1,21 +1,20 @@
 package pack.admin.controller;
 
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import pack.admin.model.AdminInter;
+import pack.admin.model.AdminDao;
 import pack.controller.NewBookBean;
 import pack.model.AdminDto;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
 public class BookRegisterController {
-	private final AdminInter adminInter;
+	private final AdminDao adminDao;
 
 	@RequestMapping(value = "bookregister", method = RequestMethod.GET)
 	public String insert(HttpSession session, ModelMap model) {
@@ -23,7 +22,7 @@ public class BookRegisterController {
 		if(admin_id == null | admin_id == "") 
 			return "admin/admin_login";
 
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
 
 		return "admin/bookregister";
@@ -35,14 +34,14 @@ public class BookRegisterController {
 		if(admin_id == null | admin_id == "") {
 			return "admin/admin_login";
 		}
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
 
 		if(nb_image.equals("") | nb_image == null) {
 			bean.setNb_image("resources/static/images/notready.jpg");
 		}
 		
-		boolean b = adminInter.insertBookData(bean);
+		boolean b = adminDao.insertBookData(bean);
 		if (b) {
 			return "redirect:/bookregister";
 		}

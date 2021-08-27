@@ -1,5 +1,7 @@
 package pack.admin.controller;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -7,17 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminInter;
+import pack.admin.model.AdminDao;
 import pack.controller.AdminBean;
 import pack.model.AdminDto;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class JikwonController {
-	private final AdminInter adminInter;
+	private final AdminDao adminDao;
 	
 	@RequestMapping(value="jikwonok", method=RequestMethod.GET)
 	public ModelAndView goJikwonRegister(HttpSession session, ModelMap model) {
@@ -29,9 +28,9 @@ public class JikwonController {
 			return view;
 		}
 
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
-		List<AdminDto> standbyAdmin = adminInter.getAdminyet();
+		List<AdminDto> standbyAdmin = adminDao.getAdminyet();
 		view.addObject("newa", standbyAdmin);
 		view.setViewName("admin/jikwonok");
 
@@ -46,18 +45,18 @@ public class JikwonController {
 		if(admin_id == null | admin_id == "") {
 			return "admin/admin_login";
 		}
-			AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+			AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 	        model.addAttribute("info", dto);
 
 		boolean b = false;
 		
 		for (int i = 0; i < adminid.length; i++) {
 			if(adminacc[i]==1) {
-				b = adminInter.delAdmin(adminid[i]);
+				b = adminDao.delAdmin(adminid[i]);
 			}else {
 				bean.setAdmin_id(adminid[i]);
 				bean.setAdmin_acc(adminacc[i]);
-				b = adminInter.upAdmin(bean);
+				b = adminDao.upAdmin(bean);
 			}
 		}
 		if(b) {
@@ -77,10 +76,10 @@ public class JikwonController {
 			view.setViewName("admin/admin_login");
 			return view;
 		}
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
 	        
-		List<AdminDto> admin = adminInter.getAdminInfo();
+		List<AdminDto> admin = adminDao.getAdminInfo();
 		view.addObject("al", admin);
 		view.setViewName("admin/jikwoninfo");
 		return view;
@@ -95,7 +94,7 @@ public class JikwonController {
 			return "admin/admin_login";
 		}
 
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
 
 		boolean b = false;
@@ -103,7 +102,7 @@ public class JikwonController {
 		for (int i = 0; i < adminid.length; i++) {
 			bean.setAdmin_id(adminid[i]);
 			bean.setAdmin_jik(adminjik[i]);
-			b = adminInter.upAdminJik(bean);
+			b = adminDao.upAdminJik(bean);
 		}
 		if(b) {
 			return "redirect:/jikwoninfo";

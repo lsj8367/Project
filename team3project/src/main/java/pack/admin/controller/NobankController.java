@@ -1,5 +1,7 @@
 package pack.admin.controller;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -7,18 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminInter;
+import pack.admin.model.AdminDao;
 import pack.controller.OrderInfoBean;
 import pack.model.AdminDto;
 import pack.model.OrderInfoDto;
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class NobankController {
-    private final AdminInter adminInter;
+    private final AdminDao adminDao;
 
     @RequestMapping(value = "nobankbookadmit", method = RequestMethod.GET)
     public ModelAndView getNobank(HttpSession session, ModelMap model) {
@@ -28,9 +27,9 @@ public class NobankController {
             view.setViewName("admin/admin_login");
             return view;
         }
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
-        List<OrderInfoDto> ordernobank = adminInter.getNobank();
+        List<OrderInfoDto> ordernobank = adminDao.getNobank();
         view.addObject("nobank", ordernobank);
         view.setViewName("admin/nobanklist");
 
@@ -46,7 +45,7 @@ public class NobankController {
         if (admin_id == null | admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
 
         boolean b = false;
@@ -54,7 +53,7 @@ public class NobankController {
         for (int i = 0; i < orderlist_no.length; i++) {
             bean.setOrderlist_no(orderlist_no[i]);
             bean.setOrder_state(order_state[i]);
-            b = adminInter.updateOrderState(bean);
+            b = adminDao.updateOrderState(bean);
         }
         if (b) {
             return "redirect:/nobankbookadmit";

@@ -1,5 +1,7 @@
 package pack.admin.controller;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -7,18 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminInter;
+import pack.admin.model.AdminDao;
 import pack.controller.NewBookBean;
 import pack.model.AdminDto;
 import pack.model.NewBookDto;
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class BestSellersetController {
-	private final AdminInter adminInter;
+	private final AdminDao adminDao;
 
 	@RequestMapping(value = "bestsellerset", method = RequestMethod.GET)
 	public ModelAndView goBestSellerset(HttpSession session, ModelMap model) {
@@ -30,9 +29,9 @@ public class BestSellersetController {
 			return view;
 		}
 
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
-		List<NewBookDto> omonth = adminInter.getOmonth();
+		List<NewBookDto> omonth = adminDao.getOmonth();
 		view.addObject("om",omonth);
 		view.setViewName("admin/bestsellerset");
 		return view;
@@ -47,10 +46,10 @@ public class BestSellersetController {
 			view.setViewName("admin/admin_login");
 			return view;
 		}
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
-		List<NewBookDto> omonth = adminInter.getOmonth();
-		List<NewBookDto> ol = adminInter.getBestSellermonth(sql);
+		List<NewBookDto> omonth = adminDao.getOmonth();
+		List<NewBookDto> ol = adminDao.getBestSellermonth(sql);
 		view.addObject("om", omonth);
 		view.addObject("ol", ol);
 		view.setViewName("admin/bestsellerset");
@@ -65,7 +64,7 @@ public class BestSellersetController {
 	String admin_id = (String)session.getAttribute("admin_id");
 		if(admin_id == null | admin_id == "") return "admin/admin_login";
 
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
 
 		boolean b = false;
@@ -81,7 +80,7 @@ public class BestSellersetController {
 				bean.setPlusstock(0);
 			}
 			bean.setNb_no(no[i]);
-			b = adminInter.upNbStock(bean);
+			b = adminDao.upNbStock(bean);
 		}
 
 		if(b) {

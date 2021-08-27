@@ -1,5 +1,7 @@
 package pack.admin.controller;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -7,18 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminInter;
+import pack.admin.model.AdminDao;
 import pack.model.AdminDto;
 import pack.model.RentInfoDto;
 import pack.model.UserDto;
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class UserpenaltyController {
-    private final AdminInter adminInter;
+    private final AdminDao adminDao;
 
     @RequestMapping(value = "userpenalty", method = RequestMethod.GET)
     public ModelAndView goLongterm(HttpSession session, ModelMap model) {
@@ -29,10 +28,10 @@ public class UserpenaltyController {
             view.setViewName("admin/admin_login");
             return view;
         }
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
 
-        List<RentInfoDto> rlist = adminInter.getDelayData();
+        List<RentInfoDto> rlist = adminDao.getDelayData();
         view.addObject("longd", rlist);
         view.setViewName("admin/longdelay");
 
@@ -49,7 +48,7 @@ public class UserpenaltyController {
         if (admin_id == null | admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
 
         if (rent_no.length == 0) {
@@ -60,9 +59,9 @@ public class UserpenaltyController {
         for (int i = 0; i < rent_no.length; i++) {
             ubean.setUser_id(user_id[i]);
             ubean.setDelpoint(delpoint[i]);
-            boolean b = adminInter.updateUser(ubean);
+            boolean b = adminDao.updateUser(ubean);
             if (b) {
-                o = adminInter.removeOb(rent_no[i]);
+                o = adminDao.removeOb(rent_no[i]);
             }
         }
         if (o) {
@@ -75,25 +74,25 @@ public class UserpenaltyController {
     @RequestMapping(value = "delaycount", method = RequestMethod.GET)
     public String goDelay(HttpSession session, ModelMap model) {
 
-        List<String> rent_id = adminInter.getDelayId();
+        List<String> rent_id = adminDao.getDelayId();
 
         String admin_id = (String) session.getAttribute("admin_id");
         if (admin_id == null | admin_id == "") {
             return "admin/admin_login";
         }
 
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
 
         boolean b = false;
 
         for (int i = 0; i < rent_id.size(); i++) {
             String rentid = rent_id.get(i);
-            b = adminInter.updateDcount(rentid);
+            b = adminDao.updateDcount(rentid);
         }
 
         if (b) {
-            List<UserDto> dlist = adminInter.getDelay();
+            List<UserDto> dlist = adminDao.getDelay();
             model.addAttribute("dinfo", dlist);
             return "admin/delayinfo";
         }
@@ -109,7 +108,7 @@ public class UserpenaltyController {
         if (admin_id == null || admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
 
         boolean b = false;
@@ -117,10 +116,10 @@ public class UserpenaltyController {
         for (int i = 0; i < user_id.length; i++) {
             bean.setUser_id(user_id[i]);
             bean.setUser_penalty(user_penalty[i]);
-            b = adminInter.updatePenalty(bean);
+            b = adminDao.updatePenalty(bean);
         }
         if (b) {
-            model.addAttribute("rflist", adminInter.getRefuse());
+            model.addAttribute("rflist", adminDao.getRefuse());
             return "admin/refuse";
         }
         return "redirect:/admin";
@@ -133,9 +132,9 @@ public class UserpenaltyController {
         if (admin_id == null || admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
-        model.addAttribute("rflist", adminInter.getRefuse());
+        model.addAttribute("rflist", adminDao.getRefuse());
         return "admin/refuse";
     }
 
@@ -146,10 +145,10 @@ public class UserpenaltyController {
         if (admin_id == null || admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
-        model.addAttribute("dulist", adminInter.getUserdel());
-        model.addAttribute("ulist", adminInter.getUsercheck());
+        model.addAttribute("dulist", adminDao.getUserdel());
+        model.addAttribute("ulist", adminDao.getUsercheck());
         return "admin/penaltycheck";
     }
 
@@ -161,13 +160,13 @@ public class UserpenaltyController {
         if (admin_id == null | admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
         model.addAttribute("info", dto);
 
         boolean b = false;
 
         for (String userId : user_id) {
-            b = adminInter.updateDelUser(userId);
+            b = adminDao.updateDelUser(userId);
         }
 
         if (b) {

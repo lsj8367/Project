@@ -1,22 +1,21 @@
 package pack.admin.controller;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminInter;
+import pack.admin.model.AdminDao;
 import pack.model.AdminDto;
 import pack.model.FaqBoardDto;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class FAQManageController {
-	private final AdminInter adminInter;
+	private final AdminDao adminDao;
 	
 	@RequestMapping(value="faqmanage", method=RequestMethod.GET)
 	public ModelAndView goFaqManage(HttpSession session, ModelMap model) {
@@ -27,9 +26,9 @@ public class FAQManageController {
 			view.setViewName("admin/admin_login");
 			return view;
 		}
-		AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
-		List<FaqBoardDto> flist = adminInter.getFaqlist();
+		List<FaqBoardDto> flist = adminDao.getFaqlist();
 		view.addObject("fl", flist);
 		view.setViewName("admin/faqmanage");
 		return view;

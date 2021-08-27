@@ -1,11 +1,12 @@
 package pack.admin.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import pack.admin.model.AdminDao;
 import pack.admin.model.AdminInter;
 import pack.controller.FaqBoardBean;
 import pack.model.AdminDto;
@@ -13,10 +14,10 @@ import pack.model.AdminDto;
 import javax.servlet.http.HttpSession;
 
 @Controller
+@RequiredArgsConstructor
 public class AddFAQController {
 
-	@Autowired
-	AdminInter adminInter;
+	private final AdminDao adminDao;
 	
 	@RequestMapping(value="addfaq", method=RequestMethod.GET)
 	public ModelAndView goAddfaq(HttpSession session, ModelMap model) {
@@ -26,7 +27,7 @@ public class AddFAQController {
 		if(admin_id == null | admin_id == "") 
 			view.setViewName("admin/admin_login");
 		else {
-			AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+			AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 	        model.addAttribute("info", dto);
 	        
 	        view.setViewName("admin/addfaq");
@@ -41,11 +42,11 @@ public class AddFAQController {
 		if(admin_id == null | admin_id == "") 
 			return "admin/admin_login";
 		else {
-			AdminDto dto = adminInter.getAdminLoginInfo(admin_id);
+			AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 	        model.addAttribute("info", dto);
 		}
 		
-		boolean b = adminInter.insertFaqData(bean);
+		boolean b = adminDao.insertFaqData(bean);
 		if (b) {
 			return "redirect:admin/addfaq";
 		} else {
