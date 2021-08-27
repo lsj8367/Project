@@ -74,7 +74,6 @@ public class RentbookListController {
 		
 		UserDto readbest = oldBookListDao.bestRead();
 		modelAndView.addObject("readbest", readbest);
-		System.out.println("getBest");
 	}
 	
 	

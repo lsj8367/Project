@@ -1,21 +1,19 @@
 package pack.user.controller;
 
+import java.text.SimpleDateFormat;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.controller.RentInfoBean;
 import pack.model.OldBookDto;
 import pack.model.RentInfoDto;
 import pack.model.UserDto;
 import pack.user.model.OldBookDao;
 import pack.user.model.RentInfoDao;
 import pack.user.model.UserDao;
-
-import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,11 +37,11 @@ public class RentBookController {
 		
 		
 		//대여정보에 삽입
-		RentInfoBean rentBean = new RentInfoBean();
-		rentBean.setRent_id(user_id);
-		rentBean.setRent_sdate(sdate);
-		rentBean.setRent_no(Integer.parseInt(rent_no));//중고책 번호
-		rentImpl.rentOldBook(rentBean);
+		RentInfoDto rentInfoDto = new RentInfoDto();
+		rentInfoDto.setRent_id(user_id);
+		rentInfoDto.setRent_sdate(sdate);
+		rentInfoDto.setRent_no(Integer.parseInt(rent_no));//중고책 번호
+		rentImpl.rentOldBook(rentInfoDto);
 		
 		// 중고책 대여 중으로 바꾸기
 		oldImpl.updateRentOldBook(rent_no);

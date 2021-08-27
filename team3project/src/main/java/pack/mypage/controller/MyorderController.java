@@ -1,19 +1,16 @@
 package pack.mypage.controller;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.controller.NewBookBean;
-import pack.controller.OrderInfoBean;
 import pack.model.NewBookDto;
 import pack.model.OrderInfoDto;
 import pack.mypage.model.MyorderImpl;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -120,34 +117,31 @@ public class MyorderController {
 	}
 	
 	@RequestMapping(value="myorderupok", method = RequestMethod.POST)
-	public ModelAndView updatemyorderinfo(HttpSession session, OrderInfoBean bean) {
-		String user_id = (String) session.getAttribute("id");
+	public ModelAndView updatemyorderinfo(HttpSession session, OrderInfoDto orderInfoDto) {
 		ModelAndView modelAndView = new ModelAndView();
 		
 		//주문 내역 삭제
-		boolean b = myorderImpl.updateMyOrderInfo(bean);
+		boolean b = myorderImpl.updateMyOrderInfo(orderInfoDto);
 		if(b) {
 			modelAndView.setViewName("redirect:/myneworder");
-		}else {
-			modelAndView.setViewName("error");
+			return modelAndView;
 		}
 
-
+		modelAndView.setViewName("error");
 		return modelAndView;
 	}
 	
 	
 	@RequestMapping("deletemyorder")
-	public ModelAndView deletemyorder(HttpSession session, NewBookBean bean, @RequestParam("no") int order_no, @RequestParam("count") int order_scount, @RequestParam("bookno") int nb_no) {
-		String user_id = (String) session.getAttribute("id");
+	public ModelAndView deletemyorder(HttpSession session, NewBookDto newBookDto, @RequestParam("no") int order_no, @RequestParam("count") int order_scount, @RequestParam("bookno") int nb_no) {
 		ModelAndView modelAndView = new ModelAndView();
 		
 		//주문 내역 삭제
 		boolean b = myorderImpl.deletemyorder(order_no);
 		if(b) {
-			bean.setNb_scount(order_scount);
-			bean.setNb_no(nb_no);
-			boolean c = myorderImpl.upNbScount(bean);
+			newBookDto.setNb_scount(order_scount);
+			newBookDto.setNb_no(nb_no);
+			boolean c = myorderImpl.upNbScount(newBookDto);
 			if(c)
 			modelAndView.setViewName("redirect:/myneworder");
 		}else {

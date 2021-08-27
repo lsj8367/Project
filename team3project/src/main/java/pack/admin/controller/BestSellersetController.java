@@ -5,12 +5,11 @@ import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.controller.NewBookBean;
 import pack.model.AdminDto;
 import pack.model.NewBookDto;
 
@@ -19,7 +18,7 @@ import pack.model.NewBookDto;
 public class BestSellersetController {
 	private final AdminDao adminDao;
 
-	@RequestMapping(value = "bestsellerset", method = RequestMethod.GET)
+	@GetMapping("bestsellerset")
 	public ModelAndView goBestSellerset(HttpSession session, ModelMap model) {
 		ModelAndView view = new ModelAndView();
 
@@ -37,7 +36,7 @@ public class BestSellersetController {
 		return view;
 	}
 
-	@RequestMapping(value="monthbestseller", method=RequestMethod.POST)
+	@PostMapping("monthbestseller")
 	public ModelAndView goBestReview(HttpSession session, ModelMap model, @RequestParam("sql") String sql) {
 		ModelAndView view = new ModelAndView();
 
@@ -57,8 +56,8 @@ public class BestSellersetController {
 		return view;
 	}
 
-	@RequestMapping(value = "addstock", method = RequestMethod.POST)
-	public String JikwonUpJik(HttpSession session, ModelMap model, NewBookBean bean,
+	@PostMapping("addstock")
+	public String addStock(HttpSession session, ModelMap model, NewBookDto newBookDto,
 						@RequestParam(name="rn") int rank[], 
 						@RequestParam(name="nb_no") int no[]){
 	String admin_id = (String)session.getAttribute("admin_id");
@@ -71,16 +70,16 @@ public class BestSellersetController {
 
 		for (int i = 0; i < no.length; i++) {
 			if(rank[i] == 1) {
-				bean.setPlusstock(200);
+				newBookDto.setPlusstock(200);
 			}else if(rank[i] == 2) {
-				bean.setPlusstock(100);
+				newBookDto.setPlusstock(100);
 			}else if(rank[i] == 3) {
-				bean.setPlusstock(50);
+				newBookDto.setPlusstock(50);
 			}else {
-				bean.setPlusstock(0);
+				newBookDto.setPlusstock(0);
 			}
-			bean.setNb_no(no[i]);
-			b = adminDao.upNbStock(bean);
+			newBookDto.setNb_no(no[i]);
+			b = adminDao.upNbStock(newBookDto);
 		}
 
 		if(b) {

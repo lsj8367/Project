@@ -1,23 +1,22 @@
 package pack.user.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.model.NewBookDto;
 import pack.user.model.NewBookDao;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
 public class ListController {
 	private final NewBookDao newBookDao;
 	
-	@RequestMapping("list")
+	@PostMapping("list")
 	public ModelAndView list(@RequestParam("book") String book) {
 		Map<String, String> map = editGenre();
 		return getGenre(map.get(book));

@@ -1,18 +1,18 @@
 package pack.user.controller;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import pack.model.FaqBoardDto;
-import pack.model.FaqDao;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import pack.model.FaqBoardDto;
+import pack.user.model.FaqDao;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,13 +20,13 @@ public class CenterController {
 	private final FaqDao faqDao;
 	
 
-	@RequestMapping(value = "center")
+	@GetMapping(value = "center")
 	public String centerC() {
 		return "center";
 	}
 
 	
-	@RequestMapping("qnaAll")
+	@PostMapping("qnaAll")
 	@ResponseBody
 	public Map<String, Object> qnaAll() {
 		
@@ -47,7 +47,7 @@ public class CenterController {
 		return qnaDatas;
 	}
 	
-	@RequestMapping("faqDetail")
+	@PostMapping("faqDetail")
 	@ResponseBody
 	public Map<String, Object> faqDetail(@RequestParam("no") String faq_no){
 		List<Map<String, String>> dataList = new ArrayList<Map<String,String>>();
@@ -68,7 +68,7 @@ public class CenterController {
 		return faqDatas;
 	}
 	
-	@RequestMapping("qnaOrder")
+	@PostMapping("qnaOrder")
 	@ResponseBody
 	public Map<String, Object> abc(@RequestParam("faq_type") String faq_type){
 		List<Map<String, String>> dataList = new ArrayList<Map<String,String>>();
@@ -89,7 +89,7 @@ public class CenterController {
 		return qnaDatas;
 	}
 	
-	@RequestMapping("centerpage")
+	@PostMapping("centerpage")
 	public String centerPage(@RequestParam("page") String a, Model model) {
 
 		String returnJsp = "";

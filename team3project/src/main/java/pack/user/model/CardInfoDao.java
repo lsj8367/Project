@@ -3,7 +3,6 @@ package pack.user.model;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
-import pack.controller.CardInfoBean;
 import pack.model.CardInfoDto;
 
 @Repository
@@ -13,9 +12,9 @@ public class CardInfoDao extends SqlSessionDaoSupport {
 	}
 	
 	// 회원가입할 때 카드 등록
-	public boolean insertCard(CardInfoBean bean) {
+	public boolean insertCard(CardInfoDto dto) {
 		try {
-			getSqlSession().insert("insertCard", bean);
+			getSqlSession().insert("insertCard", dto);
 			return true;
 		}catch (Exception e) {
 			System.out.println("insertCard" + e);

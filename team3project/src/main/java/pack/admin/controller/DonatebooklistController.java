@@ -5,12 +5,11 @@ import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.controller.OldBookBean;
 import pack.model.AdminDto;
 import pack.model.OldBookDto;
 
@@ -19,7 +18,7 @@ import pack.model.OldBookDto;
 public class DonatebooklistController {
 	private final AdminDao adminDao;
 	
-	@RequestMapping(value="donatebooklist", method=RequestMethod.GET)
+	@GetMapping("donatebooklist")
 	public ModelAndView StandbyBook(HttpSession session, ModelMap model) {
 		ModelAndView view = new ModelAndView();
 		String admin_id = (String)session.getAttribute("admin_id");
@@ -36,8 +35,8 @@ public class DonatebooklistController {
 		return view;
 	}
 	
-	@RequestMapping(value="standbyok", method=RequestMethod.POST)
-	public String upState(OldBookBean bean, 
+	@PostMapping("standbyok")
+	public String upState(OldBookDto oldBookDto,
 			@RequestParam(name="ob_no") int ob_no[], 
 			@RequestParam(name="ob_state") String ob_state[],
 			HttpSession session, ModelMap model) {
@@ -51,9 +50,9 @@ public class DonatebooklistController {
 		boolean b = false;
 
 		for (int i = 0; i < ob_no.length; i++) {
-			bean.setOb_no(ob_no[i]);
-			bean.setOb_state(ob_state[i]);
-			b = adminDao.updateState(bean);
+			oldBookDto.setOb_no(ob_no[i]);
+			oldBookDto.setOb_state(ob_state[i]);
+			b = adminDao.updateState(oldBookDto);
 		}
 
 		if(b) {

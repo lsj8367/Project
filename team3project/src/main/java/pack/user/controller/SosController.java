@@ -1,20 +1,18 @@
 package pack.user.controller;
 
+import java.util.List;
+import java.util.Objects;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import pack.controller.InqueryBean;
 import pack.model.InqueryDto;
 import pack.model.UserDto;
 import pack.user.model.SosDao;
 import pack.user.model.UserDao;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -45,7 +43,7 @@ public class SosController {
 		}
 	
 	@RequestMapping(value = "sospage", method = RequestMethod.POST)
-	public String submit(InqueryBean bean, HttpSession session, ModelMap model)
+	public String submit(InqueryDto inqueryDto, HttpSession session, ModelMap model)
 			throws Exception {
 		String id = (String) session.getAttribute("id");
 
@@ -55,8 +53,8 @@ public class SosController {
 
 		UserDto dto = userDao.selectUser(id);
 		model.addAttribute("inqinfo", dto);
-		bean.setInq_id(id);
-		boolean b = sosDao.insertInquery(bean);
+		inqueryDto.setInq_id(id);
+		boolean b = sosDao.insertInquery(inqueryDto);
 		if (!b) {
 			return "error";
 		}

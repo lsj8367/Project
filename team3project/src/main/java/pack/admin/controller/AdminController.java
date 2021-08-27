@@ -6,14 +6,12 @@ import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pack.admin.model.AdminDao;
-import pack.controller.AdminBean;
 import pack.model.AdminDto;
 import pack.model.NewBookDto;
 import pack.model.OldBookDto;
@@ -26,7 +24,7 @@ public class AdminController {
 
 	private final AdminDao adminDao;
 
-	@RequestMapping(value = "adminlogin", method = RequestMethod.GET)
+	@GetMapping("adminlogin")
 	public String goLogin(HttpSession session, ModelMap model) {
 		String admin_id = (String)session.getAttribute("admin_id");
 		if(Objects.isNull(admin_id) || Objects.equals(admin_id, "" )) {
@@ -38,13 +36,13 @@ public class AdminController {
 		return "redirect:/admin";
 	}
 	
-	@RequestMapping(value = "adminregister", method = RequestMethod.GET)
+	@GetMapping("adminregister")
 	public String goAdminSignup() {
 		return "admin/adminsignup";
 	}
 	
 	// 아이디 중복 여부 체크
-	@RequestMapping(value = "checkSignupAdminId", method = RequestMethod.POST)
+	@PostMapping(value = "checkSignupAdminId")
 	public @ResponseBody String AjaxView(@RequestParam("admin_id") String admin_id){
 		if(adminDao.getAdminLoginInfo(admin_id) == null) {
 			return "YES";
@@ -52,17 +50,17 @@ public class AdminController {
 		return "NO";
 	}
 	
-	@RequestMapping(value="adminsignupok", method = RequestMethod.POST)
-	public String submit(AdminBean bean){
+	@PostMapping("adminsignupok")
+	public String submit(AdminDto adminDto){
 
-		boolean b = adminDao.insertAdmin(bean);
+		boolean b = adminDao.insertAdmin(adminDto);
 		if (b) {
 			return "redirect:/adminlogin";
 		}
 		return "error";
 	}
 	
-	@RequestMapping(value = "idcheck", method = RequestMethod.GET)
+	@GetMapping("idcheck")
 	public ModelAndView goIdCheck(@RequestParam("id") String adminid) {
 		ModelAndView view = new ModelAndView();
 		
@@ -79,11 +77,10 @@ public class AdminController {
 	}
 	
 
-	@RequestMapping(value = "admin_login", method = RequestMethod.POST)
+	@PostMapping("admin_login")
 	public String submitLogin(HttpSession session, 
 			@RequestParam("admin_id") String admin_id,
-			@RequestParam("admin_passwd") String admin_passwd,
-			RedirectAttributes redirectAttr) {
+			@RequestParam("admin_passwd") String admin_passwd) {
 
 		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		String retPasswd = dto.getAdmin_passwd();
@@ -96,7 +93,7 @@ public class AdminController {
 		return "admin/admin_login";
 	}
 	
-	@RequestMapping(value = "admin", method = RequestMethod.GET)
+	@GetMapping("admin")
     public ModelAndView list(HttpSession session, ModelMap model) {
         ModelAndView view = new ModelAndView();
         
@@ -128,13 +125,13 @@ public class AdminController {
         return view;
     }
 
-	@RequestMapping(value = "admin_logout", method = RequestMethod.GET)
+	@GetMapping("admin_logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("admin_id");
 		return "redirect:/adminlogin";
 	}
 	
-	@RequestMapping(value = "gomain", method = RequestMethod.GET)
+	@GetMapping("gomain")
 	public String adminlogout(HttpSession session) {
 		session.removeAttribute("admin_id");
 		return "redirect:/main";

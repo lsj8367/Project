@@ -1,17 +1,15 @@
 package pack.user.controller;
 
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.controller.OldBookBean;
 import pack.model.OldBookDto;
 import pack.model.UserDto;
 import pack.user.model.OldBookDao;
 import pack.user.model.UserDao;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
@@ -59,7 +57,7 @@ public class OldBookController {
     }
 
 
-    public String submit(OldBookBean bean) throws Exception {
+    public String submit() throws Exception {
 
         return "oldbook";
     }

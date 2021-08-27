@@ -6,8 +6,8 @@ import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
@@ -20,12 +20,12 @@ import pack.model.UserDto;
 public class BestRentbooksetController {
    private final AdminDao adminDao;
    
-   @RequestMapping(value="bestrentbookset", method=RequestMethod.GET)
+   @GetMapping("bestrentbookset")
    public ModelAndView goBestRentbookset(HttpSession session, ModelMap model) {
       ModelAndView view = new ModelAndView();
       String admin_id = (String)session.getAttribute("admin_id");
 
-      if(Objects.isNull(admin_id)|| admin_id.equals("")) {
+      if(Objects.isNull(admin_id) || admin_id.equals("")) {
          view.setViewName("admin/admin_login");
          return view;
       }
@@ -40,7 +40,7 @@ public class BestRentbooksetController {
       return view;
    }
    
-   @RequestMapping(value="monthbestrent", method=RequestMethod.POST)
+   @PostMapping("monthbestrent")
    public ModelAndView goBestReview(HttpSession session, ModelMap model, @RequestParam("sql") String sql) {
       ModelAndView view = new ModelAndView();
 
@@ -61,7 +61,7 @@ public class BestRentbooksetController {
       return view;
    }
    
-   @RequestMapping(value = "givepoint2", method = RequestMethod.POST)
+   @PostMapping("givepoint2")
    public String JikwonUpJik(HttpSession session, ModelMap model, UserDto bean,
                      @RequestParam(name="rn") int[] rank,
                      @RequestParam(name="ob_userid") String[] userid){

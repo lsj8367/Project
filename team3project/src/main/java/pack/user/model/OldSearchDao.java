@@ -1,8 +1,9 @@
-package pack.model;
+package pack.user.model;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
+import pack.model.OldBookDto;
 import pack.user.domain.OldSearch;
 
 import java.util.List;

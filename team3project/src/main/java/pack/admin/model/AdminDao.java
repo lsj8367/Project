@@ -1,12 +1,18 @@
 package pack.admin.model;
 
+import java.util.List;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
-import pack.controller.*;
-import pack.model.*;
-
-import java.util.List;
+import pack.model.AdminDto;
+import pack.model.FaqBoardDto;
+import pack.model.InqueryDto;
+import pack.model.NewBookDto;
+import pack.model.OldBookDto;
+import pack.model.OrderInfoDto;
+import pack.model.RentInfoDto;
+import pack.model.ReviewDto;
+import pack.model.UserDto;
 
 @Repository
 public class AdminDao extends SqlSessionDaoSupport{
@@ -15,13 +21,13 @@ public class AdminDao extends SqlSessionDaoSupport{
 		setSqlSessionFactory(factory);
 	}
 
-	public AdminDto getAdminLoginInfo(String admin_id) {
+	public pack.model.AdminDto getAdminLoginInfo(String admin_id) {
 		return getSqlSession().selectOne("selectAdminData", admin_id);
 	}
 
-	public boolean insertBookData(NewBookBean bean) {
+	public boolean insertBookData(NewBookDto newBookDto) {
 		try {
-			getSqlSession().insert("insertBookData", bean);
+			getSqlSession().insert("insertBookData", newBookDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("insertBookData error : " + e); 		//개발자를 위한 내용
@@ -45,9 +51,9 @@ public class AdminDao extends SqlSessionDaoSupport{
 		return getSqlSession().selectList("selectStandbyAll");
 	}
 	
-	public boolean updateState(OldBookBean bean) {
+	public boolean updateState(OldBookDto dto) {
 		try {
-			getSqlSession().update("upobstate", bean);
+			getSqlSession().update("upobstate", dto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("updateState error : " + e); 		//개발자를 위한 내용
@@ -83,9 +89,9 @@ public class AdminDao extends SqlSessionDaoSupport{
 		return getSqlSession().selectList("selectNobankAll");
 	}
 	
-	public boolean updateOrderState(OrderInfoBean bean) {
+	public boolean updateOrderState(OrderInfoDto orderInfoDto) {
 		try {
-			getSqlSession().update("uporderstate", bean);
+			getSqlSession().update("uporderstate", orderInfoDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("updateOrderState error : " + e); 		//개발자를 위한 내용
@@ -196,9 +202,9 @@ public class AdminDao extends SqlSessionDaoSupport{
 		}
 	}
 	
-	public boolean insertFaqData(FaqBoardBean bean) {
+	public boolean insertFaqData(FaqBoardDto faqBoardDto) {
 		try {
-			getSqlSession().insert("insertFAQData", bean);
+			getSqlSession().insert("insertFAQData", faqBoardDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("insertFaqData error : " + e); 		//개발자를 위한 내용
@@ -241,7 +247,7 @@ public class AdminDao extends SqlSessionDaoSupport{
 		return getSqlSession().selectOne("profitmonth");
 	}
 	
-	public List<AdminDto> getAdminyet() {
+	public List<pack.model.AdminDto> getAdminyet() {
 		return getSqlSession().selectList("adminyetAll");
 	}
 	
@@ -255,9 +261,9 @@ public class AdminDao extends SqlSessionDaoSupport{
 		}
 	}
 	
-	public boolean upAdmin(AdminBean bean) {
+	public boolean upAdmin(AdminDto adminDto) {
 		try {
-			getSqlSession().insert("upadmin", bean);
+			getSqlSession().insert("upadmin", adminDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("upAdmin error : " + e); 		//개발자를 위한 내용
@@ -269,9 +275,9 @@ public class AdminDao extends SqlSessionDaoSupport{
 		return getSqlSession().selectList("getadminAll");
 	}
 	
-	public boolean upAdminJik(AdminBean bean) {
+	public boolean upAdminJik(AdminDto adminDto) {
 		try {
-			getSqlSession().insert("upadminjik", bean);
+			getSqlSession().insert("upadminjik", adminDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("upAdminJik error : " + e); 		//개발자를 위한 내용
@@ -313,9 +319,9 @@ public class AdminDao extends SqlSessionDaoSupport{
 		return getSqlSession().selectList("mbestseller",sql);
 	}
 	
-	public boolean upNbStock(NewBookBean bean) {
+	public boolean upNbStock(NewBookDto newBookDto) {
 		try {
-			getSqlSession().insert("upnbstock", bean);
+			getSqlSession().insert("upnbstock", newBookDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("upNbStock error : " + e); 		//개발자를 위한 내용
@@ -355,9 +361,9 @@ public class AdminDao extends SqlSessionDaoSupport{
 		return getSqlSession().selectOne("selectInqPart", inq_no);
 	}
 	
-	public boolean upOnum(InqueryBean bean) {
+	public boolean upOnum(InqueryDto inqueryDto) {
 		try {
-			getSqlSession().update("updateOnum", bean);
+			getSqlSession().update("updateOnum", inqueryDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("upOnum error : " + e); 		//개발자를 위한 내용
@@ -365,9 +371,9 @@ public class AdminDao extends SqlSessionDaoSupport{
 		}
 	}
 	
-	public boolean insInqReply(InqueryBean bean) {
+	public boolean insInqReply(InqueryDto inqueryDto) {
 		try {
-			getSqlSession().insert("insertinqReply", bean);
+			getSqlSession().insert("insertinqReply", inqueryDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("insInqReply error : " + e); 		//개발자를 위한 내용
@@ -375,9 +381,9 @@ public class AdminDao extends SqlSessionDaoSupport{
 		}
 	}
 	
-	public boolean RollbackStock(NewBookBean bean) {
+	public boolean RollbackStock(NewBookDto newBookDto) {
 		try {
-			getSqlSession().insert("rollbackstock", bean);
+			getSqlSession().insert("rollbackstock", newBookDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("RollbackStock error : " + e); 		//개발자를 위한 내용
@@ -397,9 +403,9 @@ public class AdminDao extends SqlSessionDaoSupport{
 		return getSqlSession().selectOne("adminidcheck");
 	}
 	
-	public boolean insertAdmin(AdminBean bean) {
+	public boolean insertAdmin(AdminDto adminDto) {
 		try {
-			getSqlSession().insert("admininsert", bean);
+			getSqlSession().insert("admininsert", adminDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("insertAdmin error : " + e); 		//개발자를 위한 내용
@@ -407,33 +413,9 @@ public class AdminDao extends SqlSessionDaoSupport{
 		}
 	}
 	
-	public boolean insChartData(ChartPrintBean bean) {
+	public boolean updateAdmin(AdminDto adminDto) {
 		try {
-			getSqlSession().insert("inschartdata", bean);
-			return true;
-		} catch (Exception e) {
-			System.out.println("insChartData error : " + e); 		//개발자를 위한 내용
-			return false;
-		}
-	}
-	
-	public String getChartmonth(String cmonth) {
-		return getSqlSession().selectOne("getchartmonth", cmonth);
-	}
-	
-	public boolean upChartData(ChartPrintBean bean) {
-		try {
-			getSqlSession().insert("upchartdata", bean);
-			return true;
-		} catch (Exception e) {
-			System.out.println("upChartData error : " + e); 		//개발자를 위한 내용
-			return false;
-		}
-	}
-	
-	public boolean updateAdmin(AdminBean bean) {
-		try {
-			getSqlSession().update("updateadmininfo", bean);
+			getSqlSession().update("updateadmininfo", adminDto);
 			return true;
 		} catch (Exception e) {
 			System.out.println("updateAdmin error : " + e); 		//개발자를 위한 내용

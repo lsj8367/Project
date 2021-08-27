@@ -81,7 +81,7 @@
 							<!--  formaction ="cart?page=rentmain" -->
 							<input type="submit" class="btn btn-primary btn-lg" id="goBuy" value="바로 구매하기" formaction="buy">
 						</td>
-					</tr>
+					</tr>1
 				</table>
 				</form>
 				<br><br>
