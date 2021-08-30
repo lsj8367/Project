@@ -1,8 +1,5 @@
 package pack.admin.controller;
 
-import java.util.List;
-import java.util.Objects;
-import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
-import pack.model.NewBookDto;
-import pack.model.OldBookDto;
-import pack.model.OrderInfoDto;
-import pack.model.RentInfoDto;
+import pack.model.*;
+import pack.validation.AdminLoginValidation;
+import pack.validation.LoginValidation;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,18 +23,26 @@ public class AdminController {
 
 	private final AdminDao adminDao;
 
+	private final LoginValidation loginValidation =  new AdminLoginValidation();
+
 	@GetMapping("adminlogin")
-	public String goLogin(HttpSession session, ModelMap model) {
-		String admin_id = (String)session.getAttribute("admin_id");
-		if(Objects.isNull(admin_id) || Objects.equals(admin_id, "" )) {
-			return "admin/admin_login";
+	public ModelAndView goLogin(HttpSession session) {
+		ModelAndView modelAndView = new ModelAndView();
+		String admin_id = loginValidation.sessionCheck(session, modelAndView);
+		if (isViewNameExist(modelAndView)) {
+			return modelAndView;
 		}
 
 		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
-		return "redirect:/admin";
+		modelAndView.addObject("info", dto);
+		modelAndView.setViewName("redirect:/admin");
+		return modelAndView;
 	}
-	
+
+	private boolean isViewNameExist(final ModelAndView modelAndView) {
+		return !Objects.isNull(modelAndView.getViewName());
+	}
+
 	@GetMapping("adminregister")
 	public String goAdminSignup() {
 		return "admin/adminsignup";
