@@ -2,7 +2,8 @@ package pack.validation;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+
 public interface LoginValidation {
-    ModelAndView sessionCheck(String adminId, ModelAndView modelAndView);
-    String idCheck(String adminId);
+    String sessionCheck(HttpSession httpSession, ModelAndView modelAndView);
 }
