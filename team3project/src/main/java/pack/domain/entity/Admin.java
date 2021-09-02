@@ -1,14 +1,11 @@
 package pack.domain.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -33,11 +30,11 @@ public class Admin {
     private String adminJik;
 
     @Column(name = "admin_acc")
-    private String adminAcc;
+    private int adminAcc;
 
     @Builder
     public Admin(String adminId, String adminPassword, String adminName,
-        String adminJik, String adminAcc) {
+        String adminJik, int adminAcc) {
         this.adminId = adminId;
         this.adminPassword = adminPassword;
         this.adminName = adminName;
