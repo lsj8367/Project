@@ -8,9 +8,11 @@ import javax.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class Admin {
     @Id
@@ -21,7 +23,7 @@ public class Admin {
     @Column(name = "admin_id")
     private String adminId;
 
-    @Column(name = "admin_password")
+    @Column(name = "admin_passwd")
     private String adminPassword;
 
     @Column(name = "admin_name")
