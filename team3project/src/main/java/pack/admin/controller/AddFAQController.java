@@ -1,62 +1,39 @@
 package pack.admin.controller;
 
-import java.util.Objects;
-import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AddFAQService;
 import pack.model.FaqBoardDto;
+import pack.validation.AdminLoginValidation;
 import pack.validation.LoginValidation;
+
+import javax.servlet.http.HttpSession;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
 public class AddFAQController {
+    private final AddFAQService addFAQService;
 
-	private final AdminDao adminDao;
+    private final LoginValidation loginValidation = new AdminLoginValidation();
 
-	@Autowired
-	@Qualifier("adminLoginValidation")
-	private LoginValidation loginValidation;
+    @GetMapping("addfaq")
+    public ModelAndView goAddfaq(HttpSession session) {
+        ModelAndView view = new ModelAndView();
+        String adminId = loginValidation.sessionCheck(session, view);
+        return isViewNameExist(view) ? view : addFAQService.getAdminLoginInfo(view, adminId);
+    }
 
-	@GetMapping("addfaq")
-	public ModelAndView goAddfaq(HttpSession session, ModelMap model) {
-		ModelAndView view = new ModelAndView();
-		String admin_id = session.getAttribute("admin_id").toString();
+    @GetMapping("faqadd")
+    public ModelAndView insertFaqAfterLogin(HttpSession session, FaqBoardDto faqBoardDto) {
+        ModelAndView view = new ModelAndView();
+        String adminId = loginValidation.sessionCheck(session, view);
+        return isViewNameExist(view) ? view : addFAQService.insertFaqAfterLogin(view, faqBoardDto, adminId);
+    }
 
-		loginValidation.sessionCheck(admin_id, view);
-		if (!Objects.isNull(view.getViewName())) {
-			return view;
-		}
-
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
-		view.setViewName("admin/addfaq");
-		return view;
-	}
-
-	@GetMapping("faqadd")
-	public String goFaqAdd(HttpSession session, ModelMap model, FaqBoardDto faqBoardDto) {
-		String admin_id = (String)session.getAttribute("admin_id");
-
-		String url = loginValidation.idCheck(admin_id);
-		if (!Objects.isNull(url)) {
-			return url;
-		}
-
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
-
-		boolean b = adminDao.insertFaqData(faqBoardDto);
-		if (b) {
-			return "redirect:admin/addfaq";
-		}
-
-		return "error";
-	}
+    private boolean isViewNameExist(final ModelAndView view) {
+        return !Objects.isNull(view.getViewName());
+    }
 }
