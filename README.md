@@ -38,9 +38,9 @@
 
 ## 2021-07-28 마이그레이션
 - Spring 5.x 버전 SpringBoot 2.x 로 마이그레이션
-- [이슈 사항](https://lsj8367.github.io/java/Java-SpringBoot-migration/)
 
 ## 2021-08-21 마이그레이션 2
 - SpringBoot 의존성 중복 제거
 - Bean 중복 제거
-- [이슈 사항](https://lsj8367.github.io/java/Java-project1/)
+
+마이그레이션에 관한 블로그 포스팅 [Wiki](https://github.com/lsj8367/Project/wiki)
