@@ -1,11 +1,6 @@
 package pack.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.Optional;
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +11,13 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import pack.config.QuerydslConfig;
 import pack.domain.entity.Admin;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
@@ -55,18 +57,48 @@ class AdminRepositoryTest {
 
     @Test
     void adminYetAll() {
-        adminRepository.findAllByAdminAcc("0");
+        List<Admin> list = adminRepository.findAllByAdminAcc(0);
+        assertThat(list.size()).isEqualTo(3);
     }
 
     @Test
     @Transactional
-    void adminidcheck() {
+    void upadmin() {
         Optional<Admin> optAdmin = adminRepository.findByAdminId("asd");
         Admin admin = optAdmin.get();
-        admin.setAdminAcc("0");
-        adminRepository.saveAndFlush(admin);
-        assertThat(admin.getAdminAcc()).isEqualTo("0");
+        admin.setAdminAcc(0);
+        adminRepository.save(admin);
+        assertThat(admin.getAdminAcc()).isEqualTo(0);
     }
 
+    @Test
+    @Transactional
+    void upadminJik() {
+        Optional<Admin> optAdmin = adminRepository.findByAdminId("asd");
+        Admin admin = optAdmin.get();
+        admin.setAdminJik("대리");
+        adminRepository.saveAndFlush(admin);
+        assertThat(admin.getAdminJik()).isEqualTo("대리");
+    }
+
+    @Test
+    @Transactional
+    void updateAdminInfo() {
+        Optional<Admin> optAdmin = adminRepository.findByAdminId("asd");
+        Admin admin = optAdmin.get();
+        admin.setAdminPassword("456");
+        adminRepository.saveAndFlush(admin);
+        assertThat(admin.getAdminPassword()).isEqualTo("456");
+    }
+
+    @Test
+    @Transactional
+    void deladmin() {
+        adminRepository.deleteById(1L);
+        adminRepository.flush();
+
+        Optional<Admin> optAdmin = adminRepository.findById(1L);
+        assertThat(optAdmin.isPresent()).isFalse();
+    }
 
 }
