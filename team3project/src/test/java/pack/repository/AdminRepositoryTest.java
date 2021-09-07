@@ -51,6 +51,9 @@ class AdminRepositoryTest {
     @DisplayName("selectAdminData, adminIdCheck도 같이 해도 될듯")
     void selectAdminData() {
         Optional<Admin> admin = adminRepository.findByAdminId("asd");
+        assertThat(admin.get().getAdminId()).isEqualTo("asd");
+        assertThat(admin.get().getAdminName()).isEqualTo("방예림");
+        assertThat(admin.get().getAdminJik()).isEqualTo("이사");
     }
 
     @Test

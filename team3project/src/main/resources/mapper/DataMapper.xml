@@ -93,6 +93,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- ===================== INQUERY ========================= -->
 	<select id="selectinqAll" resultType="inqdto">
 		select inq_no, inq_title, inq_context, inq_ddate, inq_id, inq_gnum, inq_onum, inq_nested from inquery order by inq_gnum
+
+	<select id="selectinqAll" resultType="inqdto">
+		select inq_no, inq_title, inq_context, inq_ddate, inq_id, inq_gnum, inq_onum, inq_nested from inquery order by inq_gnum
 	</select>
 
 	<insert id="insertinqReply" parameterType="inqdto">
@@ -474,15 +477,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<!-- ===================== ORDERINFO ======================= -->
-	
+
 	<select id="selectnbOrderAll" resultType="orderdto">
-		select order_no, orderlist_no, order_person, nvl(order_id,"비회원"), nb_name order_bookname, date(order_date) order_date, order_passwd, order_bookno, order_scount, order_state from orderinfo inner join newbook on order_bookno = nb_no where order_booktype = 1 
+		select order_no, orderlist_no, order_person, nvl(order_id,"비회원"), nb_name order_bookname, date(order_date) order_date, order_passwd, order_bookno, order_scount, order_state from orderinfo inner join newbook on order_bookno = nb_no where order_booktype = 1
 	</select>
-	
+
 	<select id="selectobOrderAll" resultType="orderdto">
 		select order_no, orderlist_no, order_person, nvl(order_id,"비회원"), ob_name order_bookname, date(order_date) order_date, order_passwd, order_bookno, order_scount, order_state from orderinfo inner join oldbook on order_bookno = ob_no where order_booktype = 2
 	</select>
-	
+
 	<select id="selectNobankAll" resultType="orderdto">
 		select orderlist_no, order_person, date(order_date) order_date, order_state from orderinfo where order_state="0" group by orderlist_no
 	</select>
@@ -676,8 +679,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="mbreviewmonth"  resultType="reviewdto">
 		select month(review_date) review_month from review group by month(review_date)
-	</select>	
-		
+	</select>
+
 	<select id="mbestreview" resultType="reviewdto" parameterType="String">
 		select review_no, review_id, review_bookno, nb_name review_name, review_context, date(review_date) review_date, month(review_date) review_month, review_rate, review_gonggam, rn from (select *, rank() over (partition by month(r.review_date) order by r.review_gonggam desc) rn from review r) t inner join newbook on review_bookno=nb_no where t.rn <![CDATA[<=]]>3 ${sql} order by review_month, rn
 	</select>
