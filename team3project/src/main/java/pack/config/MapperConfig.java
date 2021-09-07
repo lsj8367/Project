@@ -13,8 +13,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(
-        basePackages = "pack")
+@MapperScan(basePackages = "pack")
 public class MapperConfig {
     @Value("${spring.datasource.driver-class-name}")
     String driverClassName;
