@@ -1,14 +1,14 @@
 package pack.domain.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import org.hibernate.annotations.ColumnDefault;
+
+import javax.persistence.*;
 
 @Entity
 public class User {
 
     @Id
+    @Column(name = "user_id")
     private String userId;
 
     @Column(name = "user_name")
@@ -47,5 +47,8 @@ public class User {
     @Column(name = "user_dcount")
     @ColumnDefault("0")
     private long userDcount;
+
+//    @OneToOne(mappedBy = "user")
+//    private CardInfo cardInfo;
 }
 
