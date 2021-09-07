@@ -13,7 +13,6 @@ import javax.persistence.*;
 public class CardInfo {
     @Id
     @Column(name = "card_ownerid")
-    @JoinColumn(name = "user_id")
     private String cardOwnerid;
 
     @Column(name = "card_owner")
@@ -28,10 +27,6 @@ public class CardInfo {
     @Column(name = "card_passwd")
     private String cardPasswd;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    private User user;
-
     @Builder
     public CardInfo(final String cardOwnerid, final String cardOwner, final String cardComp, final String cardNo, final String cardPasswd) {
         this.cardOwnerid = cardOwnerid;
@@ -39,6 +34,5 @@ public class CardInfo {
         this.cardComp = cardComp;
         this.cardNo = cardNo;
         this.cardPasswd = cardPasswd;
-//        this.user = user;
     }
 }
