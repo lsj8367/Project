@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Admin {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admin_no")
     private Long adminNo;
 
