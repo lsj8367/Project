@@ -20,7 +20,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 @Import(QuerydslConfig.class)
 class AdminRepositoryTest {
     @Autowired
@@ -37,6 +36,14 @@ class AdminRepositoryTest {
     @BeforeEach
     void setUp() {
         entityManager = testEntityManager.getEntityManager();
+        Admin admin = Admin.builder()
+                .adminId("asd")
+                .adminPassword("123")
+                .adminName("방예림")
+                .adminJik("이사")
+                .adminAcc(2).build();
+        adminRepository.saveAndFlush(admin);
+        entityManager.clear();
     }
 
     //마이바티스 id이름이랑 다 똑같은 테스트를 만들것이다.
@@ -58,7 +65,7 @@ class AdminRepositoryTest {
     @Test
     void adminYetAll() {
         List<Admin> list = adminRepository.findAllByAdminAcc(0);
-        assertThat(list.size()).isEqualTo(3);
+        assertThat(list.size()).isEqualTo(0);
     }
 
     @Test
@@ -88,13 +95,12 @@ class AdminRepositoryTest {
         Admin admin = optAdmin.get();
         admin.setAdminPassword("456");
         adminRepository.saveAndFlush(admin);
-        assertThat(admin.getAdminPassword()).isEqualTo("456");
     }
 
     @Test
     @Transactional
     void deladmin() {
-        adminRepository.deleteById(1L);
+        adminRepository.deleteAdminByAdminNo(1L);
         adminRepository.flush();
 
         Optional<Admin> optAdmin = adminRepository.findById(1L);
