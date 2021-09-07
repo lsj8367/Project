@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: dev
+    mvc:
+      view:
+        prefix: /WEB-INF/views/
+        suffix: .jsp
+      static-path-pattern: /resources/static/**
+      main:
+        allow-bean-definition-overriding: true
+
+  h2:
+    console:
+      enabled: true
+
+server:
+  servlet:
+    context-path: /
