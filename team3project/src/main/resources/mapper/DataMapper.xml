@@ -93,9 +93,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- ===================== INQUERY ========================= -->
 	<select id="selectinqAll" resultType="inqdto">
 		select inq_no, inq_title, inq_context, inq_ddate, inq_id, inq_gnum, inq_onum, inq_nested from inquery order by inq_gnum
-
-	<select id="selectinqAll" resultType="inqdto">
-		select inq_no, inq_title, inq_context, inq_ddate, inq_id, inq_gnum, inq_onum, inq_nested from inquery order by inq_gnum
 	</select>
 
 	<insert id="insertinqReply" parameterType="inqdto">
