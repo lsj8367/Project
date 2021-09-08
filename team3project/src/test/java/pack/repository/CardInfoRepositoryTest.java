@@ -51,7 +51,7 @@ class CardInfoRepositoryTest {
                 .userName("테스트")
                 .userPasswd("123")
                 .userTel("010-2123-1231")
-                .userAddr("경기도 부천시 작동")
+                .userAddr("경기도")
                 .userZip("12345")
                 .userMail("test@abc.com")
                 .cardInfo(cardInfo)

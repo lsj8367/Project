@@ -1,20 +1,23 @@
 package pack.domain.entity;
 
-import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Inquery {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "inq_no")
     private Long inqNo;
 
@@ -25,6 +28,7 @@ public class Inquery {
     private String inqContext;
 
     @Column(name = "inq_ddate")
+    @CreatedDate
     private LocalDateTime inqDdate;
 
     @Column(name = "inq_id")
@@ -38,4 +42,15 @@ public class Inquery {
 
     @Column(name = "inq_nested")
     private int inqNested;
+
+    @Builder
+    public Inquery(final Long inqNo, final String inqTitle, final String inqContext, final String inqId, final int inqGnum, final int inqOnum, final int inqNested) {
+        this.inqNo = inqNo;
+        this.inqTitle = inqTitle;
+        this.inqContext = inqContext;
+        this.inqId = inqId;
+        this.inqGnum = inqGnum;
+        this.inqOnum = inqOnum;
+        this.inqNested = inqNested;
+    }
 }
