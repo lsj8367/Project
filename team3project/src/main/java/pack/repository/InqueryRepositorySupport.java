@@ -1,10 +1,13 @@
 package pack.repository;
 
+import com.querydsl.core.Tuple;
 import pack.domain.entity.Inquery;
 
 import java.util.List;
 
 public interface InqueryRepositorySupport {
     List<Inquery> findAllOrderByInqOnumASC();
-    List<Inquery> selectInqList(final String inqId);
+    List<Tuple> selectInqList(final String inqId);
+    Long getMaxNum();
+    void updateOnum();
 }
