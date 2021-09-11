@@ -1,6 +1,7 @@
 package pack.repository;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -51,15 +52,28 @@ public class InqueryRepositoryTest {
                 .inqContext("답변")
                 .inqId("test1234")
                 .inqGnum(0)
-                .inqOnum(1)
-                .inqNested(1)
+                .inqOnum(0)
+                .inqNested(0)
                 .build();
         inqueryRepository.save(inquery);
         testEntityManager.clear();
     }
 
     @Test
+    @DisplayName("selectInqList, inq3list 중복 같은 로직")
     void selectInqList() {
-
+        inqueryRepository.selectInqList("test");
     }
+
+    @Test
+    void getMaxNum() {
+        inqueryRepository.getMaxNum();
+    }
+
+    @Test
+    void selectInqPart() {
+        inqueryRepository.findById(1L);
+    }
+
+
 }

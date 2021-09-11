@@ -1,5 +1,6 @@
 package pack.repository;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import pack.domain.entity.Inquery;
@@ -15,18 +16,31 @@ public class InqueryRepositorySupportImpl implements InqueryRepositorySupport {
     @Override
     public List<Inquery> findAllOrderByInqOnumASC() {
         return jpaQueryFactory.selectFrom(inquery)
-                .orderBy(inquery.inqOnum.asc()).fetch();
+                .orderBy(inquery.inqOnum.asc())
+                .fetch();
     }
 
     @Override
-    public List<Inquery> selectInqList(final String inqId) {
-//        List<Tuple> tupleList = jpaQueryFactory.select(inquery.inqTitle, inquery.inqContext, inquery.inqDdate).from(inquery)
-//                .where(inquery.inqId.eq(inqId)).fetch();
-//
-//        List<Inquery> resultList = new ArrayList<>();
-//        for (Tuple tuple : tupleList) {
-//            resultList.add(tuple.get(inquery.));
-//        }
-        return null;
+    public List<Tuple> selectInqList(final String inqId) {
+        return jpaQueryFactory
+                .select(inquery.inqTitle, inquery.inqContext, inquery.inqDdate)
+                .from(inquery)
+                .where(inquery.inqId.eq(inqId))
+                .orderBy(inquery.inqNo.asc())
+                .fetch();
     }
+
+    @Override
+    public Long getMaxNum() {
+        //coalesce 는 nvl의 역할 null일 경우에 해당 값으로 채움
+        return jpaQueryFactory.select(inquery.inqNo.max().coalesce(0L))
+                .from(inquery)
+                .fetchOne();
+    }
+
+    @Override
+    public void updateOnum() {
+//        return jpaQueryFactory.update(inquery).set(inquery.inqOnum, );
+    }
+
 }
