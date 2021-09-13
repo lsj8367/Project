@@ -75,5 +75,10 @@ public class InqueryRepositoryTest {
         inqueryRepository.findById(1L);
     }
 
+    @Test
+    void updateOnum() {
+        inqueryRepository.updateOnum(2, 1);
+    }
+
 
 }

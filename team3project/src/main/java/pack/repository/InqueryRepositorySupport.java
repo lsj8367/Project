@@ -9,5 +9,5 @@ public interface InqueryRepositorySupport {
     List<Inquery> findAllOrderByInqOnumASC();
     List<Tuple> selectInqList(final String inqId);
     Long getMaxNum();
-    void updateOnum();
+    Long updateOnum(int inqOnum, int inqGnum);
 }

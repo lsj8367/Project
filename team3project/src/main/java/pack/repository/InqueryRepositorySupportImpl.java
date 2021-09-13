@@ -39,8 +39,9 @@ public class InqueryRepositorySupportImpl implements InqueryRepositorySupport {
     }
 
     @Override
-    public void updateOnum() {
-//        return jpaQueryFactory.update(inquery).set(inquery.inqOnum, );
+    public Long updateOnum(int inqOnum, int inqGnum) {
+        return jpaQueryFactory.update(inquery).set(inquery.inqOnum, inquery.inqOnum.add(1))
+                .where(inquery.inqOnum.goe(inqOnum).and(inquery.inqGnum.eq(inqGnum))).execute();
     }
 
 }
