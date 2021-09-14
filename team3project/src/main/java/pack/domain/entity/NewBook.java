@@ -1,18 +1,18 @@
 package pack.domain.entity;
 
-import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class NewBook {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -58,4 +58,20 @@ public class NewBook {
 
     @Column(name = "nb_image")
     private String nbImage;
+
+    @Builder
+    public NewBook(final String nbName, final String nbAuthor, final String nbInter, final String nbGenre, final String nbComp, final LocalDateTime nbBdate, final int nbStock, final int nbPrice, final int nbScount, final int nbReadcnt, final String nbPlot, final String nbImage) {
+        this.nbName = nbName;
+        this.nbAuthor = nbAuthor;
+        this.nbInter = nbInter;
+        this.nbGenre = nbGenre;
+        this.nbComp = nbComp;
+        this.nbBdate = nbBdate;
+        this.nbStock = nbStock;
+        this.nbPrice = nbPrice;
+        this.nbScount = nbScount;
+        this.nbReadcnt = nbReadcnt;
+        this.nbPlot = nbPlot;
+        this.nbImage = nbImage;
+    }
 }
