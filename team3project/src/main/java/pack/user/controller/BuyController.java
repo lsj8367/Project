@@ -15,7 +15,6 @@ public class BuyController {
 
 	@PostMapping("buy")
 	public ModelAndView buy(@RequestParam("ob_no") String ob_no, HttpSession session) {
-		String user_id = (String)session.getAttribute("id");
-		return buyService.buy(ob_no, user_id);
+		return buyService.buy(ob_no, (String)session.getAttribute("id"));
 	}
 }

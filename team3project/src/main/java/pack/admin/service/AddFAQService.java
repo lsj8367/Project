@@ -4,12 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.FaqBoardDto;
+import pack.domain.entity.FaqBoard;
+import pack.repository.FaqBoardRepository;
 
 @Service
 @RequiredArgsConstructor
 public class AddFAQService {
+
     private final AdminDao adminDao;
+    private final FaqBoardRepository faqBoardRepository;
 
     public ModelAndView getAdminLoginInfo(ModelAndView view, String adminId) {
         view.addObject("info", adminDao.getAdminLoginInfo(adminId));
@@ -17,16 +20,16 @@ public class AddFAQService {
         return view;
     }
 
-    public ModelAndView insertFaqAfterLogin(ModelAndView view, FaqBoardDto faqBoardDto, String adminId) {
+    public ModelAndView insertFaqAfterLogin(ModelAndView view, FaqBoard faqBoard, String adminId) {
         view.addObject("info", adminDao.getAdminLoginInfo(adminId));
 
-        boolean b = adminDao.insertFaqData(faqBoardDto);
-        if (b) {
+        try {
+            faqBoardRepository.save(faqBoard);
             view.setViewName("redirect:admin/addfaq");
-            return view;
+        } catch (Exception e) {
+            view.setViewName("error");
         }
 
-        view.setViewName("error");
         return view;
     }
 

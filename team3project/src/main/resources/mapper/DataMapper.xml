@@ -37,59 +37,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from admin where admin_id = #{admin_id}
 	</delete>
 
-	<!-- ===================== CARDINFO =========================== -->
-	<!--  카드 정보 입력 -->
-	<insert id="insertCard" parameterType="carddto">
-		insert into cardinfo values (#{card_ownerid}, #{card_owner}, #{card_comp}, #{card_no}, #{card_passwd})
-	</insert>
-
-	<!-- 결제 페이지 -->
-	<!-- 결제페이지 회원시 등록된 카드 가져오기 -->
-	<select id="selectCard" parameterType="String" resultType="carddto">
-		select * from cardinfo where card_ownerid = #{card_ownerid}
-	</select>
-
-	<!-- 카드 목록 리스트 -->
-	<select id="card3list" resultType="carddto" parameterType="String">
-		select card_no, card_comp from cardinfo where card_ownerid = #{card_ownerid} order by card_comp desc
-	</select>
-
-	<!-- 카드 목록 리스트 -->
-	<select id="cardlistall" resultType="carddto" parameterType="String">
-		select card_no, card_comp from cardinfo where card_ownerid = #{card_ownerid} order by card_comp desc
-	</select>
-
-	<!-- ===================== FAQBOARD =========================== -->
-	<select id="selectfaqAll" resultType="faqdto">
-		select * from faqboard
-	</select>
-
-	<select id="selectfaqType" resultType="faqdto">
-		select * from faqboard where faq_type = #{faq_type}
-	</select>
-
-
-	<!-- FAQ 게시판 불러오기 용 sql -->
-	<select id="selectQnaAll" resultType="faqdto">
-		SELECT * from faqboard
-
-	</select>
-
-	<!--  FAQ 게시판 문의 종류에 따라 불러오기용  -->
-	<select id="selectQnaClass" resultType="faqdto" parameterType="string">
-		SELECT * from faqboard where faq_type = #{faq_type}
-	</select>
-
-	<insert id="insertFAQData" parameterType="faqdto">
-		insert into faqboard values(default,now(),#{faq_title},#{faq_content},#{faq_type})
-	</insert>
-
-	<!--  faq 리스트 상세보기  -->
-	<select id="selectFaqDetail" parameterType="string" resultType="faqdto">
-		select * from faqboard where faq_no =#{faq_no}
-	</select>
-
-
 	<!-- ===================== INQUERY ========================= -->
 	<select id="selectinqAll" resultType="inqdto">
 		select inq_no, inq_title, inq_context, inq_ddate, inq_id, inq_gnum, inq_onum, inq_nested from inquery order by inq_gnum
@@ -227,29 +174,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="selectBookDataAll" resultType="nbdto">
 		select * from newbook
-	</select>
-
-	<!--  중고책 기증시 파일 입력을 위한 sql문 -->
-	<insert id="insertFile" parameterType="hashmap">
-		<selectKey keyProperty="idx" order="BEFORE" resultType="int">
-			select ifnull(max(idx), 0)+1 from ob_file where ob_no=#{ob_no}
-		</selectKey>
-		<![CDATA[
-	insert into ob_file(idx, ob_no, original_file_name,stored_file_name,file_size,ob_rdate,del_gb)
-	values(default, #{ob_no}, #{original_file_name}, #{stored_file_name}, #{file_size},now(),default)
-	]]>
-	</insert>
-
-	<select id="mbsellermonth"  resultType="nbdto">
-		select month(order_date) smonth from orderinfo where order_booktype = "1" group by month(order_date)
-	</select>
-
-	<select id="mbestseller" resultType="nbdto" parameterType="String">
-		select nb_no,nb_name,month(order_date) smonth, scount, rn from (select *, sum(order_scount) scount, rank() over (partition by month(order_date) order by scount) rn from orderinfo where order_booktype="1" group by month(order_date), order_bookno) t inner join newbook on order_bookno = nb_no where rn <![CDATA[<=]]>3 ${sql} order by month(order_date), rn
-	</select>
-
-	<select id="mbsellercmonth" resultType="nbdto">
-		select nb_no,nb_name,month(order_date) smonth, scount, rn from (select *, sum(order_scount) scount, rank() over (partition by month(order_date) order by scount) rn from orderinfo where order_booktype="1" group by month(order_date), order_bookno) t inner join newbook on order_bookno = nb_no where rn <![CDATA[<=]]>3 and date_format(order_date,'%Y-%m') = date_format(now(),'%Y-%m')  order by month(order_date), rn
 	</select>
 
 	<!-- ================== OLDBOOK ====================== -->
@@ -705,5 +629,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteReview" parameterType="int">
 		 delete from review where review_no=#{review_no};
 	</delete>
+
+	<!--  중고책 기증시 파일 입력을 위한 sql문 -->
+	<insert id="insertFile" parameterType="hashmap">
+		<selectKey keyProperty="idx" order="BEFORE" resultType="int">
+			select ifnull(max(idx), 0)+1 from ob_file where ob_no=#{ob_no}
+		</selectKey>
+		<![CDATA[
+	insert into ob_file(idx, ob_no, original_file_name,stored_file_name,file_size,ob_rdate,del_gb)
+	values(default, #{ob_no}, #{original_file_name}, #{stored_file_name}, #{file_size},now(),default)
+	]]>
+	</insert>
+
+	<select id="mbsellermonth"  resultType="nbdto">
+		select month(order_date) smonth from orderinfo where order_booktype = "1" group by month(order_date)
+	</select>
+
+	<select id="mbestseller" resultType="nbdto" parameterType="String">
+		select nb_no,nb_name,month(order_date) smonth, scount, rn from (select *, sum(order_scount) scount, rank() over (partition by month(order_date) order by scount) rn from orderinfo where order_booktype="1" group by month(order_date), order_bookno) t inner join newbook on order_bookno = nb_no where rn <![CDATA[<=]]>3 ${sql} order by month(order_date), rn
+	</select>
+
+	<select id="mbsellercmonth" resultType="nbdto">
+		select nb_no,nb_name,month(order_date) smonth, scount, rn from (select *, sum(order_scount) scount, rank() over (partition by month(order_date) order by scount) rn from orderinfo where order_booktype="1" group by month(order_date), order_bookno) t inner join newbook on order_bookno = nb_no where rn <![CDATA[<=]]>3 and date_format(order_date,'%Y-%m') = date_format(now(),'%Y-%m')  order by month(order_date), rn
+	</select>
 
 </mapper>

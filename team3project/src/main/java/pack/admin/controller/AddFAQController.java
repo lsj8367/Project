@@ -1,16 +1,15 @@
 package pack.admin.controller;
 
+import java.util.Objects;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.service.AddFAQService;
-import pack.model.FaqBoardDto;
+import pack.domain.entity.FaqBoard;
 import pack.validation.AdminLoginValidation;
 import pack.validation.LoginValidation;
-
-import javax.servlet.http.HttpSession;
-import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,10 +26,10 @@ public class AddFAQController {
     }
 
     @GetMapping("faqadd")
-    public ModelAndView insertFaqAfterLogin(HttpSession session, FaqBoardDto faqBoardDto) {
+    public ModelAndView insertFaqAfterLogin(HttpSession session, FaqBoard faqBoard) {
         ModelAndView view = new ModelAndView();
         String adminId = loginValidation.sessionCheck(session, view);
-        return isViewNameExist(view) ? view : addFAQService.insertFaqAfterLogin(view, faqBoardDto, adminId);
+        return addFAQService.insertFaqAfterLogin(view, faqBoard, adminId);
     }
 
     private boolean isViewNameExist(final ModelAndView view) {

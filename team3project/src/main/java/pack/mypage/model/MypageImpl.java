@@ -1,13 +1,10 @@
 package pack.mypage.model;
 
 import java.util.List;
-
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import pack.model.CardInfoDto;
 import pack.model.InqueryDto;
 import pack.model.NewBookDto;
 import pack.model.OldBookDto;
@@ -32,11 +29,7 @@ public class MypageImpl extends SqlSessionDaoSupport{
 	public List<OldBookDto> donorlist(String id) {
 		return getSqlSession().selectList("donor3list", id);
 	}
-	
-	public List<CardInfoDto> cardlist(String id) {
-		return getSqlSession().selectList("card3list", id);
-	}
-	
+
 	public List<InqueryDto> inqlist(String id) {
 		return getSqlSession().selectList("inq3list", id);
 	}

@@ -6,16 +6,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import pack.domain.entity.CardInfo;
 import pack.model.CardInfoDto;
 import pack.model.UserDto;
-import pack.user.model.CardInfoDao;
 import pack.user.model.UserDao;
+import pack.user.service.SignUpService;
 
 @Controller
 @RequiredArgsConstructor
 public class SignupController {
 	private final UserDao userDao;
-	private final CardInfoDao cardImpl;
+	private final SignUpService signUpService;
 
 	@RequestMapping(value = "signup", method = RequestMethod.GET)
 	public String moveLogin() {
@@ -77,9 +78,17 @@ public class SignupController {
 			.build();
 
 		boolean buser = userDao.insertUser(user);
-		boolean bcard = cardImpl.insertCard(cardInfoDto);
 
-		if (buser && bcard) {
+
+		signUpService.insertCard(CardInfo.builder()
+			.cardOwnerid(id)
+			.cardOwner(name)
+			.cardComp(cardcomp)
+			.cardNo(card1 + "-" + card2 + "-" + card3 + "-" + card4)
+			.cardPasswd(cardpwd)
+			.build());
+
+		if (buser) {
 			return "redirect:/buymain";
 		}
 
