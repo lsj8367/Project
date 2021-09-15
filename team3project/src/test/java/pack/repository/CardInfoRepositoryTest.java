@@ -1,7 +1,11 @@
 package pack.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,12 +16,6 @@ import org.springframework.context.annotation.Import;
 import pack.config.QuerydslConfig;
 import pack.domain.entity.CardInfo;
 import pack.domain.entity.User;
-
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static pack.domain.entity.QCardInfo.cardInfo;
 
 @DataJpaTest
 @Import(QuerydslConfig.class)
@@ -38,24 +36,24 @@ class CardInfoRepositoryTest {
     @BeforeEach
     void setUp() {
         CardInfo cardInfo = CardInfo.builder()
-                .cardOwnerid("test")
-                .cardOwner("테스트")
-                .cardComp("국민")
-                .cardNo("tetset")
-                .cardPasswd("1234")
-                .build();
+            .cardOwnerid("test")
+            .cardOwner("테스트")
+            .cardComp("국민")
+            .cardNo("tetset")
+            .cardPasswd("1234")
+            .build();
         cardInfoRepository.saveAndFlush(cardInfo);
 
         User user = User.builder()
-                .userId("test")
-                .userName("테스트")
-                .userPasswd("123")
-                .userTel("010-2123-1231")
-                .userAddr("경기도")
-                .userZip("12345")
-                .userMail("test@abc.com")
-                .cardInfo(cardInfo)
-                .build();
+            .userId("test")
+            .userName("테스트")
+            .userPasswd("123")
+            .userTel("010-2123-1231")
+            .userAddr("경기도")
+            .userZip("12345")
+            .userMail("test@abc.com")
+            .cardInfo(cardInfo)
+            .build();
         userRepository.saveAndFlush(user);
         testEntityManager.clear();
     }
@@ -74,7 +72,6 @@ class CardInfoRepositoryTest {
     @Test
     @DisplayName("card3List, cardlistall 같은 문법 사용")
     void card3List() {
-        List<Tuple> list = jpaQueryFactory.select(cardInfo.cardNo, cardInfo.cardComp).from(cardInfo)
-                .where(cardInfo.cardOwnerid.eq("테스트")).orderBy(cardInfo.cardComp.desc()).fetch();
+        List<Tuple> list = cardInfoRepository.cardList("테스트");
     }
 }

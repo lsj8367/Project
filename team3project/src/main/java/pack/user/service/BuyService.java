@@ -1,13 +1,14 @@
 package pack.user.service;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
-import pack.model.CardInfoDto;
+import pack.domain.entity.CardInfo;
 import pack.model.OldBookDto;
 import pack.model.UserDto;
+import pack.repository.CardInfoRepository;
 import pack.user.model.BuyDao;
-import pack.user.model.CardInfoDao;
 import pack.user.model.OldBookDao;
 
 @Service
@@ -15,17 +16,20 @@ import pack.user.model.OldBookDao;
 public class BuyService {
     private final OldBookDao oldBookDao;
     private final BuyDao buyDao;
-    private final CardInfoDao cardInfoDao;
+    private final CardInfoRepository cardInfoRepository;
 
     public ModelAndView buy(String ob_no, String user_id) {
         ModelAndView modelAndView = new ModelAndView();
         OldBookDto dto = oldBookDao.bookInfo(ob_no);
         UserDto user = buyDao.point(user_id);
-        CardInfoDto card = cardInfoDao.selectCard(user_id);
+
+        Optional<CardInfo> optionalCardInfo = cardInfoRepository.findById(user_id);
+        optionalCardInfo.ifPresent(cardInfo -> {
+            modelAndView.addObject("card", cardInfo);
+        });
 
         modelAndView.addObject("buyinfo", dto);
         modelAndView.addObject("point", user);
-        modelAndView.addObject("card", card);
 
         modelAndView.setViewName("buy");
         return modelAndView;
