@@ -1,5 +1,6 @@
 package pack.domain.entity;
 
+import java.time.format.DateTimeFormatter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,7 +36,7 @@ public class NewBook {
     private String nbComp;
 
     @Column(name = "nb_bdate")
-    private LocalDateTime nbBdate;
+    private String nbBdate;
 
     @Column(name = "nb_stock")
     @ColumnDefault("0")
@@ -66,7 +67,7 @@ public class NewBook {
         this.nbInter = nbInter;
         this.nbGenre = nbGenre;
         this.nbComp = nbComp;
-        this.nbBdate = nbBdate;
+        this.nbBdate = nbBdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.nbStock = nbStock;
         this.nbPrice = nbPrice;
         this.nbScount = nbScount;
