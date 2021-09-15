@@ -8,13 +8,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
+import pack.domain.entity.FaqBoard;
 import pack.model.AdminDto;
-import pack.model.FaqBoardDto;
+import pack.repository.FaqBoardRepository;
 
 @Controller
 @RequiredArgsConstructor
 public class FAQManageController {
 	private final AdminDao adminDao;
+	private final FaqBoardRepository faqBoardRepository;
 	
 	@GetMapping("faqmanage")
 	public ModelAndView goFaqManage(HttpSession session, ModelMap model) {
@@ -27,7 +29,7 @@ public class FAQManageController {
 		}
 		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
 		model.addAttribute("info", dto);
-		List<FaqBoardDto> flist = adminDao.getFaqlist();
+		List<FaqBoard> flist = faqBoardRepository.findAll();
 		view.addObject("fl", flist);
 		view.setViewName("admin/faqmanage");
 		return view;

@@ -122,16 +122,16 @@ body {
 	</tr>
 	<tr>
 		<th>FAQ제목</th>
-		<td><input type = "text" name = "faq_title" style="width: 100%"></td>
+		<td><input type = "text" name = "faqTitle" style="width: 100%"></td>
 	</tr>
 	<tr>
 		<th>FAQ내용</th>
-		<td><textarea name="faq_content" style="width: 100%; height: 200px" ></textarea></td>
+		<td><textarea name="faqContent" style="width: 100%; height: 200px" ></textarea></td>
 	</tr>
 	<tr>
 		<th>분류</th>
 		<td style="text-align: left;">
-		<select name="faq_type" style="width: 20%;">
+		<select name="faqType" style="width: 20%;">
 			<option value="1" selected>상품
 			<option value="2">주문
 			<option value="3">배송

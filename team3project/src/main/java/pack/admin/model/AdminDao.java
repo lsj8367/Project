@@ -5,7 +5,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 import pack.model.AdminDto;
-import pack.model.FaqBoardDto;
 import pack.model.InqueryDto;
 import pack.model.NewBookDto;
 import pack.model.OldBookDto;
@@ -201,21 +200,7 @@ public class AdminDao extends SqlSessionDaoSupport{
 			return false;
 		}
 	}
-	
-	public boolean insertFaqData(FaqBoardDto faqBoardDto) {
-		try {
-			getSqlSession().insert("insertFAQData", faqBoardDto);
-			return true;
-		} catch (Exception e) {
-			System.out.println("insertFaqData error : " + e); 		//개발자를 위한 내용
-			return false;
-		}
-	}
-	
-	public List<FaqBoardDto> getFaqlist() {
-		return getSqlSession().selectList("selectfaqAll");
-	}
-	
+
 	public List<InqueryDto> getinqlist() {
 		return getSqlSession().selectList("selectinqAll");
 	}

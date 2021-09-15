@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,13 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pack.model.FaqBoardDto;
-import pack.user.model.FaqDao;
+import pack.domain.entity.FaqBoard;
+import pack.repository.FaqBoardRepository;
 
 @Controller
 @RequiredArgsConstructor
 public class CenterController {
-	private final FaqDao faqDao;
+	private final FaqBoardRepository faqBoardRepository;
 	
 
 	@GetMapping(value = "center")
@@ -32,14 +33,14 @@ public class CenterController {
 		
 		List<Map<String, String>> dataList = new ArrayList<Map<String,String>>();
 		Map<String, String> data = new HashMap<>();
-		List<FaqBoardDto> qnaList = faqDao.qnaListAll();
+		List<FaqBoard> qnaList = faqBoardRepository.findAll();
 		
-		for(FaqBoardDto q:qnaList) {
-			data.put("faq_no", Integer.toString(q.getFaq_no()));
-			data.put("faq_date", q.getFaq_date());
-			data.put("faq_title", q.getFaq_title());
-			data.put("faq_cont", q.getFaq_content());
-			data.put("faq_type", q.getFaq_type());
+		for(FaqBoard q:qnaList) {
+			data.put("faq_no", String.valueOf(q.getFaqNo()));
+			data.put("faq_date", q.getFaqDate());
+			data.put("faq_title", q.getFaqTitle());
+			data.put("faq_cont", q.getFaqContent());
+			data.put("faq_type", q.getFaqType());
 			dataList.add(data);
 		}
 		Map<String, Object> qnaDatas = new HashMap<String, Object>();
@@ -50,19 +51,19 @@ public class CenterController {
 	@PostMapping("faqDetail")
 	@ResponseBody
 	public Map<String, Object> faqDetail(@RequestParam("no") String faq_no){
-		List<Map<String, String>> dataList = new ArrayList<Map<String,String>>();
+		List<Map<String, String>> dataList = new ArrayList<>();
 		Map<String, String> data = new HashMap<>();
-		List<FaqBoardDto> faqList = faqDao.faqDetail(faq_no);
-		
-		for(FaqBoardDto f:faqList) {
-			data.put("faq_no", faq_no);
-			data.put("faq_title", f.getFaq_title());
-			data.put("faq_content", f.getFaq_content());
-			data.put("faq_date", f.getFaq_date());
-			data.put("faq_type", f.getFaq_type());
+		Optional<FaqBoard> optionalFaqBoard = faqBoardRepository.findById(Long.parseLong(faq_no));
 
+		optionalFaqBoard.ifPresent(faqBoard -> {
+			data.put("faq_no", faq_no);
+			data.put("faq_title", faqBoard.getFaqTitle());
+			data.put("faq_content", faqBoard.getFaqContent());
+			data.put("faq_date", faqBoard.getFaqDate());
+			data.put("faq_type", faqBoard.getFaqType());
 			dataList.add(data);
-		}
+		});
+
 		Map<String, Object> faqDatas = new HashMap<String, Object>();
 		faqDatas.put("datas", dataList);
 		return faqDatas;
@@ -74,14 +75,14 @@ public class CenterController {
 		List<Map<String, String>> dataList = new ArrayList<Map<String,String>>();
 		
 		Map<String, String> data = new HashMap<>();
-		List<FaqBoardDto> qnaList = faqDao.qnaListPart(faq_type);
-		
-		for(FaqBoardDto q:qnaList) {
-			data.put("faq_no", Integer.toString(q.getFaq_no()));
-			data.put("faq_title", q.getFaq_title());
-			data.put("faq_content", q.getFaq_content());
-			data.put("faq_date", q.getFaq_date());
-			data.put("faq_type", q.getFaq_type());
+		List<FaqBoard> qnaList = faqBoardRepository.findAllByFaqType(faq_type);
+
+		for(FaqBoard q:qnaList) {
+			data.put("faq_no", String.valueOf(q.getFaqNo()));
+			data.put("faq_title", q.getFaqTitle());
+			data.put("faq_content", q.getFaqContent());
+			data.put("faq_date", q.getFaqDate());
+			data.put("faq_type", q.getFaqType());
 			dataList.add(data);
 		}
 		Map<String, Object> qnaDatas = new HashMap<String, Object>();
