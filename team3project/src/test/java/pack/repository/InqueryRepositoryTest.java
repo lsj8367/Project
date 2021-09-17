@@ -60,7 +60,7 @@ public class InqueryRepositoryTest {
     }
 
     @Test
-    @DisplayName("selectInqList, inq3list 중복 같은 로직")
+    @DisplayName("selectInqList, inq3list")
     void selectInqList() {
         inqueryRepository.selectInqList("test");
     }

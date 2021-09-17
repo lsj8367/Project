@@ -1,7 +1,6 @@
 package pack.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -106,7 +105,7 @@ class NewBookRepositoryTest {
             .nbInter("")
             .nbGenre("시")
             .nbComp("출판사")
-            .nbBdate(LocalDateTime.now())
+            .nbBdate(LocalDateTime.of(2021, 9, 15, 0, 0, 0))
             .nbStock(123)
             .nbPrice(13000)
             .nbPlot("소개글 한마디")
@@ -233,6 +232,11 @@ class NewBookRepositoryTest {
 
         newBook.setNbScount(newBook.getNbScount() - 1);
         newBook.setNbStock(newBook.getNbStock() + 1);
+    }
+
+    @Test
+    void recommandNewBook() {
+        newBookRepository.recommandNewBook();
     }
 
 }
