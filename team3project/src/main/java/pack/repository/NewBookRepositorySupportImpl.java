@@ -90,4 +90,12 @@ public class NewBookRepositorySupportImpl implements NewBookRepositorySupport {
             .fetch();
     }
 
+    @Override
+    public NewBook recommandNewBook() {
+        return jpaQueryFactory.selectFrom(newBook)
+            .orderBy(NumberExpression.random().desc())
+            .limit(1)
+            .fetchOne();
+    }
+
 }

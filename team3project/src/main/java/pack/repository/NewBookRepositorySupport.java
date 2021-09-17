@@ -22,4 +22,6 @@ public interface NewBookRepositorySupport {
     List<NewBook> selectRandom(int limit);
 
     List<NewBook> selectNew();
+
+    NewBook recommandNewBook();
 }
