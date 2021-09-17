@@ -8,11 +8,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="resources/static/font/icomoon/style.css">
-<link rel="stylesheet" href="resources/static/css/bootstrap.min.css">
-<link rel="stylesheet" href="resources/static/css/jquery-ui.css">
-<link rel="stylesheet" href="resources/static/css/aos2.css">
-<link rel="stylesheet" href="resources/static/css/style2.css">
+<link rel="stylesheet" href="font/icomoon/style.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="stylesheet" href="css/aos2.css">
+<link rel="stylesheet" href="css/style2.css">
 
 </head>
 <body data-spy="scroll" data-target=".site-navbar-target"
@@ -255,8 +255,8 @@
 	</table>
 </body>
 
-<script src="resources/static/js/jquery-ui.js"></script>
-<script src="resources/static/js/bootstrap.min.js"></script>
-<script src="resources/static/js/aos2.js"></script>
-<script src="resources/static/js/adminmain2.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/aos2.js"></script>
+<script src="js/adminmain2.js"></script>
 </html>
