@@ -1,6 +1,5 @@
 package pack.admin.controller;
 
-import java.util.List;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,31 +9,33 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AdminService;
 import pack.model.InqueryDto;
+import pack.service.InqueryService;
 
 @Controller
 @RequiredArgsConstructor
 public class UserInquiryController {
+
+    private final AdminService adminService;
+    private final InqueryService inqueryService;
+
     private final AdminDao adminDao;
 
     @GetMapping("userinquiry")
-    public ModelAndView goUserinquiry(HttpSession session, ModelMap model) {
-        ModelAndView view = new ModelAndView();
+    public ModelAndView goUserinquiry(HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView();
 
         String admin_id = (String) session.getAttribute("admin_id");
         if (admin_id == null | admin_id == "") {
-            view.setViewName("admin/admin_login");
-            return view;
+            modelAndView.setViewName("admin/admin_login");
+            return modelAndView;
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
+        modelAndView.addObject("info", adminService.selectAdminData(admin_id));
+        modelAndView.addObject("il", inqueryService.findAllOrderByInqOnumASC());
+        modelAndView.setViewName("admin/userinquirymanage");
 
-        List<InqueryDto> inqlist = adminDao.getinqlist();
-        view.addObject("il", inqlist);
-        view.setViewName("admin/userinquirymanage");
-
-        return view;
+        return modelAndView;
     }
 
     @GetMapping(value = "replyinquiry")
@@ -46,11 +47,10 @@ public class UserInquiryController {
             modelAndView.setViewName("admin/admin_login");
             return modelAndView;
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-        modelAndView.addObject("data", adminDao.getInqData(inq_no));
-        modelAndView.addObject("m", adminDao.getMaxNum());
+        modelAndView.addObject("data", inqueryService.selectInqPart(Long.valueOf(inq_no)));
+        modelAndView.addObject("m", inqueryService.getMaxNum());
         modelAndView.setViewName("admin/replyinquiry");
 
         return modelAndView;
@@ -65,14 +65,12 @@ public class UserInquiryController {
             modelAndView.setViewName("admin/admin_login");
             return modelAndView;
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-        boolean b = adminDao.upOnum(inqueryDto);
+        boolean b = inqueryService.updateOnum(inqueryDto.getInq_onum(), inqueryDto.getInq_gnum());
 
         if (b) {
-            boolean r = adminDao.insInqReply(inqueryDto);
-            if (r) {
+            if (inqueryService.insertingReply(inqueryDto)) {
                 modelAndView.setViewName("redirect:/userinquiry");
                 return modelAndView;
             }
@@ -83,4 +81,5 @@ public class UserInquiryController {
         modelAndView.setViewName("redirect:/admin");
         return modelAndView;
     }
+
 }

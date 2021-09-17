@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AdminService;
 import pack.model.OldBookDto;
 
 @Controller
 @RequiredArgsConstructor
 public class DonatebooklistController {
 	private final AdminDao adminDao;
+	private final AdminService adminService;
 	
 	@GetMapping("donatebooklist")
 	public ModelAndView StandbyBook(HttpSession session, ModelMap model) {
@@ -26,9 +27,8 @@ public class DonatebooklistController {
 			view.setViewName("admin/admin_login");
 			return view;
 		}
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
-		List<OldBookDto> standbylist = adminDao.getStandby();
+		model.addAttribute("info", adminService.selectAdminData(admin_id));
+		List<OldBookDto> standbylist = adminDao.selectStandbyAll();
 		view.setViewName("admin/standby");
 		view.addObject("slist",standbylist);
 
@@ -44,15 +44,14 @@ public class DonatebooklistController {
 		if(admin_id == null | admin_id == "") 
 			return "admin/admin_login";
 
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
+		model.addAttribute("info", adminService.selectAdminData(admin_id));
 
 		boolean b = false;
 
 		for (int i = 0; i < ob_no.length; i++) {
 			oldBookDto.setOb_no(ob_no[i]);
 			oldBookDto.setOb_state(ob_state[i]);
-			b = adminDao.updateState(oldBookDto);
+			b = adminDao.upobstate(oldBookDto);
 		}
 
 		if(b) {

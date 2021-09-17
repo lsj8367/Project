@@ -8,13 +8,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AdminService;
 import pack.model.OrderInfoDto;
 
 @Controller
 @RequiredArgsConstructor
 public class MonthProfitController {
 	private final AdminDao adminDao;
+	private final AdminService adminService;
 	
 	@GetMapping("monthprofit")
 	public ModelAndView goMonthProfit(HttpSession session, ModelMap model) {
@@ -25,11 +26,10 @@ public class MonthProfitController {
 			view.setViewName("admin/admin_login");
 			return view;
 		}
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
-		List<OrderInfoDto> rprofit = adminDao.getProfit();
-		List<OrderInfoDto> oprofit = adminDao.getObProfit();
-		List<OrderInfoDto> nprofit = adminDao.getNbProfit();
+		model.addAttribute("info", adminService.selectAdminData(admin_id));
+		List<OrderInfoDto> rprofit = adminDao.profit();
+		List<OrderInfoDto> oprofit = adminDao.obprofit();
+		List<OrderInfoDto> nprofit = adminDao.nbprofit();
 		view.addObject("rp", rprofit);
 		view.addObject("op", oprofit);
 		view.addObject("np", nprofit);

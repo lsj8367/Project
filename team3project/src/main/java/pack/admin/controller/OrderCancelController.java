@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AdminService;
 import pack.model.NewBookDto;
 import pack.model.OrderInfoDto;
 
@@ -18,6 +18,7 @@ import pack.model.OrderInfoDto;
 @RequiredArgsConstructor
 public class OrderCancelController {
     private final AdminDao adminDao;
+    private final AdminService adminService;
 
     @GetMapping("ordercancel")
     public ModelAndView delayDeposit(HttpSession session, ModelMap model) {
@@ -28,10 +29,9 @@ public class OrderCancelController {
             view.setViewName("admin/admin_login");
             return view;
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-        List<OrderInfoDto> olist = adminDao.getDelayDeposit();
+        List<OrderInfoDto> olist = adminDao.selectdelaydeposit();
         view.addObject("delay", olist);
         view.setViewName("admin/delaydeposit");
 
@@ -48,17 +48,16 @@ public class OrderCancelController {
         if (admin_id == null | admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
         boolean isOrderDeleted = false;
         boolean isRollBackStock = false;
 
         for (int i = 0; i < orderlist_no.length; i++) {
-            isOrderDeleted = adminDao.delOrder(orderlist_no[i]);
+            isOrderDeleted = adminDao.rmorder(orderlist_no[i]);
             newBookDto.setNb_no(order_bookno[i]);
             newBookDto.setNb_stock(order_scount[i]);
-            isRollBackStock = adminDao.RollbackStock(newBookDto);
+            isRollBackStock = adminDao.rollbackStock(newBookDto);
         }
         if (isOrderDeleted && isRollBackStock) {
             return "redirect:/ordercancel";

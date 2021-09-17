@@ -1,29 +1,26 @@
 package pack.mypage.controller;
 
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import pack.model.InqueryDto;
-import pack.mypage.model.MyInqImpl;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
+import pack.service.InqueryService;
 
 @Controller
 @RequiredArgsConstructor
 public class MyInqController {
-	private final MyInqImpl myInqImpl;
-	
-	@RequestMapping("myqna")
-	public ModelAndView myInqList(HttpSession session) {
-		String user_id = (String) session.getAttribute("id");
-		ModelAndView modelAndView = new ModelAndView();
-		
-		List<InqueryDto> inqList = myInqImpl.inqListAll(user_id);
-		modelAndView.setViewName("mypage/myqna");
-		modelAndView.addObject("inqlist",inqList);
-		
-		return modelAndView;
-	}
+    private final InqueryService inqueryService;
+
+    @RequestMapping("myqna")
+    public ModelAndView myInqList(HttpSession session) {
+        String user_id = (String) session.getAttribute("id");
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("mypage/myqna");
+        modelAndView.addObject("inqlist", inqueryService.selectInqList(user_id));
+
+        return modelAndView;
+    }
+
 }

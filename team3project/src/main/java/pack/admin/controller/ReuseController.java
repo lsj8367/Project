@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AdminService;
 import pack.model.OldBookDto;
 
 @Controller
 @RequiredArgsConstructor
 public class ReuseController {
 	private final AdminDao adminDao;
+	private final AdminService adminService;
 	
 	@GetMapping("reuse")
 	public ModelAndView ReuseBook(HttpSession session, ModelMap model) {
@@ -26,10 +27,9 @@ public class ReuseController {
 			view.setViewName("admin/admin_login");
 			return view;
 		}
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
+		model.addAttribute("info", adminService.selectAdminData(admin_id));
 		
-		List<OldBookDto> reuselist = adminDao.getReuse();
+		List<OldBookDto> reuselist = adminDao.selectReuseAll();
 		view.setViewName("admin/reuse");
 		view.addObject("reuselist",reuselist);
 
@@ -43,12 +43,11 @@ public class ReuseController {
 		if(admin_id == null | admin_id == "") {
 			return "admin/admin_login";
 		}
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
+		model.addAttribute("info", adminService.selectAdminData(admin_id));
 		boolean b = false;
 
 		for (int index : ob_no) {
-			b = adminDao.updateThrow(index);
+			b = adminDao.obthrow(index);
 		}
 
 		if(b) {

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import pack.model.InqueryDto;
 
 @Entity
 @Getter
@@ -29,6 +30,7 @@ public class Inquery {
 
     @Column(name = "inq_ddate")
     @CreatedDate
+    @Getter
     private LocalDateTime inqDdate;
 
     @Column(name = "inq_id")
@@ -52,5 +54,16 @@ public class Inquery {
         this.inqGnum = inqGnum;
         this.inqOnum = inqOnum;
         this.inqNested = inqNested;
+    }
+
+    public static Inquery toEntity(InqueryDto inqueryDto) {
+        return Inquery.builder()
+            .inqTitle(inqueryDto.getInq_title())
+            .inqContext(inqueryDto.getInq_context())
+            .inqId(inqueryDto.getInq_id())
+            .inqGnum(inqueryDto.getInq_gnum())
+            .inqOnum(inqueryDto.getInq_onum())
+            .inqNested(inqueryDto.getInq_nested())
+            .build();
     }
 }
