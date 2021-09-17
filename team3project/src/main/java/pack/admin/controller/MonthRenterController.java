@@ -10,14 +10,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AdminService;
 import pack.model.RentInfoDto;
 import pack.model.UserDto;
 
 @Controller
 @RequiredArgsConstructor
 public class MonthRenterController {
+
     private final AdminDao adminDao;
+    private final AdminService adminService;
 
     @GetMapping("monthrenter")
     public ModelAndView goMonthRenter(HttpSession session, ModelMap model) {
@@ -28,11 +30,10 @@ public class MonthRenterController {
             view.setViewName("admin/admin_login");
             return view;
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-        String cmonth = adminDao.getMonth();
-        List<RentInfoDto> rulist = adminDao.getRentKing();
+        String cmonth = adminDao.currentMonth();
+        List<RentInfoDto> rulist = adminDao.rentKing();
         view.addObject("cm", cmonth);
         view.addObject("ru", rulist);
         view.setViewName("admin/monthrenter");
@@ -42,16 +43,14 @@ public class MonthRenterController {
 
     @PostMapping("givepoint3")
     public String JikwonUpJik(HttpSession session, ModelMap model, UserDto bean,
-                              @RequestParam(name = "rn") int[] rank,
-                              @RequestParam(name = "user_id") String[] userid) {
+        @RequestParam(name = "rn") int[] rank,
+        @RequestParam(name = "user_id") String[] userid) {
         String admin_id = (String) session.getAttribute("admin_id");
         if (admin_id == null | admin_id == "") {
             return "admin/admin_login";
-		}
+        }
 
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
-
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
         boolean b = false;
 
@@ -69,9 +68,10 @@ public class MonthRenterController {
             b = adminDao.upUserPoint(bean);
         }
         if (b) {
-			return "redirect:/monthrenter";
-		}
+            return "redirect:/monthrenter";
+        }
 
-		return "redirect:/adminmain";
+        return "redirect:/adminmain";
     }
+
 }

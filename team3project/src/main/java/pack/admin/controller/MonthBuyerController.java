@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AdminService;
 import pack.model.OrderInfoDto;
 import pack.model.UserDto;
 
@@ -18,6 +18,7 @@ import pack.model.UserDto;
 @RequiredArgsConstructor
 public class MonthBuyerController {
 	private final AdminDao adminDao;
+	private final AdminService adminService;
 	
 	@GetMapping("monthbuyer")
 	public ModelAndView goMonthBuyer(HttpSession session, ModelMap model) {
@@ -28,11 +29,10 @@ public class MonthBuyerController {
 			view.setViewName("admin/admin_login");
 			return view;
 		}
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
+		model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-		String cmonth = adminDao.getMonth();
-		List<OrderInfoDto> bulist = adminDao.getBuyKing();
+		String cmonth = adminDao.currentMonth();
+		List<OrderInfoDto> bulist = adminDao.buyKing();
 		view.addObject("cm", cmonth);
 		view.addObject("bu", bulist);
 		view.setViewName("admin/monthbuyer");
@@ -47,8 +47,7 @@ public class MonthBuyerController {
 		String admin_id = (String)session.getAttribute("admin_id");
 		if(admin_id == null | admin_id == "") 
 			return "admin/admin_login";
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
+		model.addAttribute("info", adminService.selectAdminData(admin_id));
 
 		
 		boolean b = false;

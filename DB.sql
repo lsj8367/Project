@@ -15,7 +15,7 @@ CREATE TABLE if not exists newbook (
 )CHARSET=UTF8;
 
 create table if not exists oldbook(
-ob_no int(10) primary key auto_increment, 
+ob_no bigint primary key auto_increment,
 ob_name varchar(30) not null, 
 ob_author varchar(50) not NULL,
 ob_inter VARCHAR(50), 
@@ -236,8 +236,6 @@ INSERT INTO oldbook VALUES(default, '아무튼, 메모','정혜윤','','에세�
 INSERT INTO oldbook VALUES(default, '구름빵','백희나','','어린이','한솔수북','2004-10-01',5,'11000',default, default, '전준서', '아이들 사이에서 인기있는 책', 'upload/gurumbbang.jpg','2020-09-06', 5);
 INSERT INTO oldbook VALUES(default, '무지개 물고기','마르쿠스 피스터','공경희','유아','시공주니어','1994-04-01',5,'12000',default, default, '황건우', '아기들이 읽는데 좋은 그림책', 'upload/rainbow.jpg','2020-09-15', 15);
 INSERT INTO oldbook VALUES(default, '넛지','리처드 H. 탈러, 캐스 R. 선스타인','안진환','경제경영','리더스북','2009-04-20',5,'15500',default, default, '송은서', '경영학 관련 매우 유명한 책', 'upload/nudge.jpg','2020-10-08', 18);
-
-# (등급 승인대기 도서)
 INSERT INTO oldbook VALUES(default, '자존감 수업','윤홍균','','인문학','심플라이프','2016-08-25',default,'14000',default, default, '김도현', '자존감을 되찾는데 도움을 주는 책', 'upload/jajongam.jpg','2020-09-14', 14);
 INSERT INTO oldbook VALUES(default, '왜 세계의 절반은 굶주리는가?','장 지글러','유영미 외 2명','사회과학','갈라파고스','2007-03-12',default,'9800',default, default, '이현우', '세상의 부조리함을 느끼게 하는 책', 'upload/hungry.jpg','2020-10-12', 12);
 INSERT INTO oldbook VALUES(default, '김영철, 타일러의 진짜 미국식 영어','김영철, 타일러 라쉬','','외국어','위즈덤하우스','2017-12-08',default,'14800',default, default, '이수아', '실전 영어를 알려주는 책', 'upload/american.jpg','2020-09-01', 19);

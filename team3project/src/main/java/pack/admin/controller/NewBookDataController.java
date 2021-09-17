@@ -8,13 +8,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AdminService;
 import pack.model.NewBookDto;
 
 @Controller
 @RequiredArgsConstructor
 public class NewBookDataController {
 	private final AdminDao adminDao;
+	private final AdminService adminService;
 	
 	@GetMapping("newbookdata")
 	public ModelAndView goUser(HttpSession session, ModelMap model) {
@@ -24,10 +25,9 @@ public class NewBookDataController {
 			modelAndView.setViewName("admin/admin_login");
 			return modelAndView;
 		}
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
+		model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-		List<NewBookDto> nblist = adminDao.getNewBook();
+		List<NewBookDto> nblist = adminDao.selectBookDataAll();
 		
 		modelAndView.setViewName("admin/nbinfo");
 		modelAndView.addObject("nblist", nblist);

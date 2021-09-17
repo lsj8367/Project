@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AdminService;
 import pack.model.RentInfoDto;
 import pack.model.UserDto;
 
@@ -18,6 +18,7 @@ import pack.model.UserDto;
 @RequiredArgsConstructor
 public class UserpenaltyController {
     private final AdminDao adminDao;
+    private final AdminService adminService;
 
     @GetMapping("userpenalty")
     public ModelAndView goLongterm(HttpSession session, ModelMap model) {
@@ -28,10 +29,9 @@ public class UserpenaltyController {
             view.setViewName("admin/admin_login");
             return view;
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-        List<RentInfoDto> rlist = adminDao.getDelayData();
+        List<RentInfoDto> rlist = adminDao.selectdelayAll();
         view.addObject("longd", rlist);
         view.setViewName("admin/longdelay");
 
@@ -48,8 +48,7 @@ public class UserpenaltyController {
         if (admin_id == null | admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
         if (rent_no.length == 0) {
             return "redirect:/delaycount";
@@ -59,7 +58,7 @@ public class UserpenaltyController {
         for (int i = 0; i < rent_no.length; i++) {
             ubean.setUser_id(user_id[i]);
             ubean.setDelpoint(delpoint[i]);
-            boolean b = adminDao.updateUser(ubean);
+            boolean b = adminDao.upuser(ubean);
             if (b) {
                 o = adminDao.removeOb(rent_no[i]);
             }
@@ -74,25 +73,24 @@ public class UserpenaltyController {
     @GetMapping(value = "delaycount")
     public String goDelay(HttpSession session, ModelMap model) {
 
-        List<String> rent_id = adminDao.getDelayId();
+        List<String> rent_id = adminDao.selectdelayid();
 
         String admin_id = (String) session.getAttribute("admin_id");
         if (admin_id == null | admin_id == "") {
             return "admin/admin_login";
         }
 
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
         boolean b = false;
 
         for (int i = 0; i < rent_id.size(); i++) {
             String rentid = rent_id.get(i);
-            b = adminDao.updateDcount(rentid);
+            b = adminDao.updcount(rentid);
         }
 
         if (b) {
-            List<UserDto> dlist = adminDao.getDelay();
+            List<UserDto> dlist = adminDao.selectdelay();
             model.addAttribute("dinfo", dlist);
             return "admin/delayinfo";
         }
@@ -108,18 +106,17 @@ public class UserpenaltyController {
         if (admin_id == null || admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
         boolean b = false;
 
         for (int i = 0; i < user_id.length; i++) {
             bean.setUser_id(user_id[i]);
             bean.setUser_penalty(user_penalty[i]);
-            b = adminDao.updatePenalty(bean);
+            b = adminDao.uppenalty(bean);
         }
         if (b) {
-            model.addAttribute("rflist", adminDao.getRefuse());
+            model.addAttribute("rflist", adminDao.selectrefusecount());
             return "admin/refuse";
         }
         return "redirect:/admin";
@@ -132,9 +129,8 @@ public class UserpenaltyController {
         if (admin_id == null || admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
-        model.addAttribute("rflist", adminDao.getRefuse());
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
+        model.addAttribute("rflist", adminDao.selectrefusecount());
         return "admin/refuse";
     }
 
@@ -145,10 +141,9 @@ public class UserpenaltyController {
         if (admin_id == null || admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
-        model.addAttribute("dulist", adminDao.getUserdel());
-        model.addAttribute("ulist", adminDao.getUsercheck());
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
+        model.addAttribute("dulist", adminDao.selectdeluser());
+        model.addAttribute("ulist", adminDao.selectuserpcheck());
         return "admin/penaltycheck";
     }
 
@@ -160,13 +155,12 @@ public class UserpenaltyController {
         if (admin_id == null | admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
         boolean b = false;
 
         for (String userId : user_id) {
-            b = adminDao.updateDelUser(userId);
+            b = adminDao.updeluser(userId);
         }
 
         if (b) {

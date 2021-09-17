@@ -1,6 +1,11 @@
 package pack.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
+import java.util.Optional;
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,13 +15,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import pack.config.QuerydslConfig;
 import pack.domain.entity.Admin;
-
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @Import(QuerydslConfig.class)
@@ -48,7 +46,7 @@ class AdminRepositoryTest {
     //마이바티스 id이름이랑 다 똑같은 테스트를 만들것이다.
 
     @Test
-    @DisplayName("selectAdminData, adminIdCheck도 같이 해도 될듯")
+    @DisplayName("selectAdminData, adminIdCheck")
     void selectAdminData() {
         Optional<Admin> admin = adminRepository.findByAdminId("asd");
         assertThat(admin.get().getAdminId()).isEqualTo("asd");

@@ -1,5 +1,6 @@
 package pack.repository;
 
+import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,8 +10,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import pack.config.QuerydslConfig;
 import pack.domain.entity.Inquery;
-
-import javax.transaction.Transactional;
 
 @DataJpaTest
 @Import(QuerydslConfig.class)
@@ -39,7 +38,7 @@ public class InqueryRepositoryTest {
     }
 
     @Test
-    void selectingAll() {
+    void selectinqAll() {
         inqueryRepository.findAllOrderByInqOnumASC();
     }
 
@@ -60,9 +59,9 @@ public class InqueryRepositoryTest {
     }
 
     @Test
-    @DisplayName("selectInqList, inq3list 중복 같은 로직")
+    @DisplayName("selectInqList, inq3list")
     void selectInqList() {
-        inqueryRepository.selectInqList("test");
+        inqueryRepository.findByInqIdOrderByInqNoAsc("test");
     }
 
     @Test

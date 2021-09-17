@@ -417,7 +417,7 @@ display:none;
 								<li><a href="monthbuyer"><i class="fas fa-crown"></i>이달의 구매왕</a></li>
 							</ul>
 						</li>
-						<c:if test="${info.admin_jik eq '이사' or info.admin_jik eq '사장' }">
+						<c:if test="${info.adminJik eq '이사' or info.adminJik eq '사장' }">
 							 <li><a href=""><i class="xi-key" ></i><span>직원관리</span></a>
 							    <ul class = "nav-flyout">
 							       <li><a href="jikwonok"><i class="xi-shield-checked" ></i>직원승인</a></li>
@@ -444,11 +444,11 @@ display:none;
 				</td>
 				<td align="right">
 					<div class="w3-container">
-					<c:if test="${info.admin_id ne null }">
-						${info.admin_jik } &nbsp;&nbsp; 
-						${info.admin_name }님 안녕하세요 &nbsp;&nbsp; 
-						<a href = "adminlogin"><img src='<c:url value="resources/static/images/home.jpg" />' /></a>
-						<a href = "admin_logout"><img src='<c:url value="resources/static/images/logout_black.jpg" />' /></a>&nbsp;
+					<c:if test="${info.adminId ne null }">
+						${info.adminJik } &nbsp;&nbsp;
+						${info.adminName }님 안녕하세요 &nbsp;&nbsp;
+						<a href = "adminlogin"><img src='<c:url value="images/home.jpg" />' /></a>
+						<a href = "admin_logout"><img src='<c:url value="images/logout_black.jpg" />' /></a>&nbsp;
 					</c:if>
 					</div>
 				</td>

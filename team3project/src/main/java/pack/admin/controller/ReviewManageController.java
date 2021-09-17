@@ -8,12 +8,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AdminService;
 import pack.model.ReviewDto;
 
 @Controller
 @RequiredArgsConstructor
 public class ReviewManageController {
+    private final AdminService adminService;
     private final AdminDao adminDao;
 
     @GetMapping("reviewmanage")
@@ -25,10 +26,9 @@ public class ReviewManageController {
             view.setViewName("admin/admin_login");
             return view;
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-        List<ReviewDto> rvlist = adminDao.getreviewAll();
+        List<ReviewDto> rvlist = adminDao.selectreviewAll();
         view.addObject("rv", rvlist);
         view.setViewName("admin/reviewmanage");
 

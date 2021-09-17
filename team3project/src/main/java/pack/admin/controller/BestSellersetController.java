@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AdminService;
 import pack.model.NewBookDto;
 
 @Controller
 @RequiredArgsConstructor
 public class BestSellersetController {
 	private final AdminDao adminDao;
+	private final AdminService adminService;
 
 	@GetMapping("bestsellerset")
 	public ModelAndView goBestSellerset(HttpSession session, ModelMap model) {
@@ -28,9 +29,8 @@ public class BestSellersetController {
 			return view;
 		}
 
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
-		List<NewBookDto> omonth = adminDao.getOmonth();
+		model.addAttribute("info", adminService.selectAdminData(admin_id));
+		List<NewBookDto> omonth = adminDao.mbSellerMonth();
 		view.addObject("om",omonth);
 		view.setViewName("admin/bestsellerset");
 		return view;
@@ -45,10 +45,9 @@ public class BestSellersetController {
 			view.setViewName("admin/admin_login");
 			return view;
 		}
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
-		List<NewBookDto> omonth = adminDao.getOmonth();
-		List<NewBookDto> ol = adminDao.getBestSellermonth(sql);
+		model.addAttribute("info", adminService.selectAdminData(admin_id));
+		List<NewBookDto> omonth = adminDao.mbSellerMonth();
+		List<NewBookDto> ol = adminDao.mbestSeller(sql);
 		view.addObject("om", omonth);
 		view.addObject("ol", ol);
 		view.setViewName("admin/bestsellerset");
@@ -63,8 +62,7 @@ public class BestSellersetController {
 	String admin_id = (String)session.getAttribute("admin_id");
 		if(admin_id == null | admin_id == "") return "admin/admin_login";
 
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
+		model.addAttribute("info", adminService.selectAdminData(admin_id));
 
 		boolean b = false;
 

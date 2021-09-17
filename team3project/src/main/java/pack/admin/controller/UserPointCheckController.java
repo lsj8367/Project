@@ -8,13 +8,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AdminService;
 import pack.model.UserDto;
 
 @Controller
 @RequiredArgsConstructor
 public class UserPointCheckController {
 	private final AdminDao adminDao;
+	private final AdminService adminService;
 	
 	@GetMapping("userpointcheck")
 	public ModelAndView getUserPoint(HttpSession session, ModelMap model) {
@@ -24,10 +25,9 @@ public class UserPointCheckController {
 			view.setViewName("admin/admin_login");
 			return view;
 		}
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
+		model.addAttribute("info", adminService.selectAdminData(admin_id));
 		
-		List<UserDto> plist = adminDao.getUserPoint();
+		List<UserDto> plist = adminDao.selectUserPointAll();
 		view.addObject("plist", plist);
 		view.setViewName("admin/pointcheck");
 		return view;

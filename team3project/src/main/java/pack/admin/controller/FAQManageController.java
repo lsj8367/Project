@@ -7,16 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminDao;
+import pack.admin.service.AdminService;
 import pack.domain.entity.FaqBoard;
-import pack.model.AdminDto;
 import pack.repository.FaqBoardRepository;
 
 @Controller
 @RequiredArgsConstructor
 public class FAQManageController {
-	private final AdminDao adminDao;
 	private final FaqBoardRepository faqBoardRepository;
+	private final AdminService adminService;
 	
 	@GetMapping("faqmanage")
 	public ModelAndView goFaqManage(HttpSession session, ModelMap model) {
@@ -27,8 +26,7 @@ public class FAQManageController {
 			view.setViewName("admin/admin_login");
 			return view;
 		}
-		AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-		model.addAttribute("info", dto);
+		model.addAttribute("info", adminService.selectAdminData(admin_id));
 		List<FaqBoard> flist = faqBoardRepository.findAll();
 		view.addObject("fl", flist);
 		view.setViewName("admin/faqmanage");

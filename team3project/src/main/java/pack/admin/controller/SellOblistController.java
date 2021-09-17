@@ -8,12 +8,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AdminService;
 import pack.model.OldBookDto;
 
 @Controller
 @RequiredArgsConstructor
 public class SellOblistController {
+    private final AdminService adminService;
     private final AdminDao adminDao;
 
     @GetMapping("selloblist")
@@ -24,10 +25,9 @@ public class SellOblistController {
             modelAndView.setViewName("admin/admin_login");
             return modelAndView;
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-        List<OldBookDto> selloblist = adminDao.getSellOb();
+        List<OldBookDto> selloblist = adminDao.selectSellObAll();
 
         modelAndView.setViewName("admin/sellobinfo");
         modelAndView.addObject("soblist", selloblist);

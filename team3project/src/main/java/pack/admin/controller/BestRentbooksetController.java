@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AdminService;
 import pack.model.RentInfoDto;
 import pack.model.UserDto;
 
@@ -19,6 +19,7 @@ import pack.model.UserDto;
 @RequiredArgsConstructor
 public class BestRentbooksetController {
    private final AdminDao adminDao;
+   private final AdminService adminService;
    
    @GetMapping("bestrentbookset")
    public ModelAndView goBestRentbookset(HttpSession session, ModelMap model) {
@@ -30,10 +31,9 @@ public class BestRentbooksetController {
          return view;
       }
 
-      AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-      model.addAttribute("info", dto);
+      model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-      List<RentInfoDto> rentmonth = adminDao.getRentmonth();
+      List<RentInfoDto> rentmonth = adminDao.mbRentMonth();
       view.addObject("rtm", rentmonth);
       view.setViewName("admin/bestrentbookset");
 
@@ -48,11 +48,10 @@ public class BestRentbooksetController {
       if(admin_id == null | admin_id == "") 
          view.setViewName("admin/admin_login");
       else {
-         AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-         model.addAttribute("info", dto);
+         model.addAttribute("info", adminService.selectAdminData(admin_id));
        
-         List<RentInfoDto> rentmonth = adminDao.getRentmonth();
-         List<RentInfoDto> rtl = adminDao.getBestRentmonth(sql);
+         List<RentInfoDto> rentmonth = adminDao.mbRentMonth();
+         List<RentInfoDto> rtl = adminDao.mbEstRent(sql);
          view.addObject("rtm", rentmonth);
          view.addObject("rtl", rtl);
          view.setViewName("admin/bestrentbookset");
@@ -71,8 +70,7 @@ public class BestRentbooksetController {
       if(admin_id == null | admin_id == "") 
          return "admin/admin_login";
       else {
-         AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-         model.addAttribute("info", dto);
+         model.addAttribute("info", adminService.selectAdminData(admin_id));
       }
       
       

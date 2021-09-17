@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
-import pack.model.AdminDto;
+import pack.admin.service.AdminService;
 import pack.model.OrderInfoDto;
 
 @Controller
 @RequiredArgsConstructor
 public class NobankController {
+    private final AdminService adminService;
     private final AdminDao adminDao;
 
     @GetMapping("nobankbookadmit")
@@ -26,9 +27,8 @@ public class NobankController {
             view.setViewName("admin/admin_login");
             return view;
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
-        List<OrderInfoDto> ordernobank = adminDao.getNobank();
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
+        List<OrderInfoDto> ordernobank = adminDao.selectNobankAll();
         view.addObject("nobank", ordernobank);
         view.setViewName("admin/nobanklist");
 
@@ -44,15 +44,14 @@ public class NobankController {
         if (admin_id == null | admin_id == "") {
             return "admin/admin_login";
         }
-        AdminDto dto = adminDao.getAdminLoginInfo(admin_id);
-        model.addAttribute("info", dto);
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
         boolean b = false;
 
         for (int i = 0; i < orderlist_no.length; i++) {
             orderInfoDto.setOrderlist_no(orderlist_no[i]);
             orderInfoDto.setOrder_state(order_state[i]);
-            b = adminDao.updateOrderState(orderInfoDto);
+            b = adminDao.uporderstate(orderInfoDto);
         }
         if (b) {
             return "redirect:/nobankbookadmit";
