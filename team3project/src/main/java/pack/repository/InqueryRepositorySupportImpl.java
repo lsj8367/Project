@@ -1,13 +1,10 @@
 package pack.repository;
 
-import com.querydsl.core.Tuple;
+경import static pack.domain.entity.QInquery.inquery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import pack.domain.entity.Inquery;
-
-import java.util.List;
-
-import static pack.domain.entity.QInquery.inquery;
 
 @RequiredArgsConstructor
 public class InqueryRepositorySupportImpl implements InqueryRepositorySupport {
@@ -17,16 +14,6 @@ public class InqueryRepositorySupportImpl implements InqueryRepositorySupport {
     public List<Inquery> findAllOrderByInqOnumASC() {
         return jpaQueryFactory.selectFrom(inquery)
                 .orderBy(inquery.inqOnum.asc())
-                .fetch();
-    }
-
-    @Override
-    public List<Tuple> selectInqList(final String inqId) {
-        return jpaQueryFactory
-                .select(inquery.inqTitle, inquery.inqContext, inquery.inqDdate)
-                .from(inquery)
-                .where(inquery.inqId.eq(inqId))
-                .orderBy(inquery.inqNo.asc())
                 .fetch();
     }
 
