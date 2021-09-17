@@ -1,6 +1,6 @@
 package pack.repository;
 
-경import static pack.domain.entity.QInquery.inquery;
+import static pack.domain.entity.QInquery.inquery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
