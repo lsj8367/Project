@@ -9,14 +9,16 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import pack.model.NewBookDto;
 
 @Entity
+@Table(name = "NEWBOOK")
 @Getter
 @Setter
 @NoArgsConstructor
 public class NewBook {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "nb_no")
     private Long id;
 
@@ -74,5 +76,20 @@ public class NewBook {
         this.nbReadcnt = nbReadcnt;
         this.nbPlot = nbPlot;
         this.nbImage = nbImage;
+    }
+
+    public static NewBook toEntity(NewBookDto newBookDto) {
+        return NewBook.builder()
+            .nbName(newBookDto.getNb_name())
+            .nbAuthor(newBookDto.getNb_author())
+            .nbInter(newBookDto.getNb_inter())
+            .nbGenre(newBookDto.getNb_genre())
+            .nbComp(newBookDto.getNb_comp())
+            .nbBdate(LocalDateTime.parse(newBookDto.getNb_bdate()))
+            .nbStock((newBookDto.getNb_stock()))
+            .nbPrice(newBookDto.getNb_price())
+            .nbPlot(newBookDto.getNb_plot())
+            .nbImage(newBookDto.getNb_image())
+            .build();
     }
 }
