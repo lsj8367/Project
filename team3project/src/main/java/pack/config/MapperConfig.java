@@ -34,7 +34,7 @@ public class MapperConfig {
         sessionFactoryBean.setVfs(SpringBootVFS.class);
 
         sessionFactoryBean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource("classpath:mybatis/Configuration.xml"));
-        sessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml"));
+        sessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/DataMapper.xml"));
         return sessionFactoryBean;
     }
 
