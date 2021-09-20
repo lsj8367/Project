@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import pack.config.QuerydslConfig;
 import pack.domain.entity.NewBook;
 
@@ -23,11 +25,6 @@ class NewBookRepositoryTest {
     @Test
     void selectBestSeller() {
         newBookRepository.selectBestSeller();
-    }
-
-    @Test
-    void getMostSellBook() {
-        newBookRepository.getMostSellBook();
     }
 
     @Test
@@ -237,6 +234,11 @@ class NewBookRepositoryTest {
     @Test
     void recommandNewBook() {
         newBookRepository.recommandNewBook();
+    }
+
+    @Test
+    void selectBookAll() {
+        newBookRepository.findAll(Sort.by(Direction.DESC, "id"));
     }
 
 }
