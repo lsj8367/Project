@@ -18,7 +18,7 @@ plugins {
 
 apply plugin: "com.ewerk.gradle.plugins.querydsl"
 
-sourceCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_11
 
 jar {
     enabled = false
@@ -98,3 +98,4 @@ gradle.projectsEvaluated {
         options.compilerArgs << "-Xlint:unchecked"
     }
 }
+targetCompatibility = JavaVersion.VERSION_11

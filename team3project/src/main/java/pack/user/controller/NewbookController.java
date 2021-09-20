@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,46 +15,43 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.model.NewBookDto;
+import pack.domain.entity.NewBook;
 import pack.model.OrderInfoDto;
 import pack.model.ReviewDto;
 import pack.model.UserDto;
-import pack.user.model.NewBookDao;
 import pack.user.model.OrderInfoDao;
 import pack.user.model.ReviewDao;
 import pack.user.model.UserDao;
 import pack.user.service.CardInfoService;
+import pack.user.service.NewBookService;
 
 @Controller
 @RequiredArgsConstructor
 public class NewbookController {
 
-    private final NewBookDao newBookDao;
     private final ReviewDao reviewDao;
     private final UserDao userDao;
     private final OrderInfoDao orderInfoDao;
     private final CardInfoService cardInfoService;
+    private final NewBookService newBookService;
 
     @GetMapping("newbook")
     public ModelAndView main(@RequestParam("book_no") String nb_no) {
         ModelAndView modelAndView = new ModelAndView();
 
-        newBookDao.plusReadCnt(Integer.parseInt(nb_no));
+        newBookService.plusReadCnt(Integer.parseInt(nb_no));
 
         // 고른 책의 책 정보
-        NewBookDto newbook = newBookDao.selectNewbook(Integer.parseInt(nb_no));
-        modelAndView.setViewName("newbook");
-        modelAndView.addObject("newbook", newbook);
+        NewBook newBook = newBookService.selectNewBook(Long.parseLong(nb_no));
+        modelAndView.addObject("newbook", newBook);
 
         // 같은 저자의 책 3개 랜덤 뽑기
-        List<NewBookDto> authorList = newBookDao.selectAuthorList(newbook.getNb_author());
-        modelAndView.setViewName("newbook");
-        modelAndView.addObject("authorList", authorList);
+        modelAndView.addObject("authorList", newBookService.selectAuthorList(newBook.getNbAuthor()));
 
         // 해당책의 리뷰 보여주기
-        List<ReviewDto> reviewList = reviewDao.selectNewbookReviewList(Integer.parseInt(nb_no));
+        modelAndView.addObject("reviewList", reviewDao.selectNewbookReviewList(Integer.parseInt(nb_no)));
+
         modelAndView.setViewName("newbook");
-        modelAndView.addObject("reviewList", reviewList);
         return modelAndView;
 
 
@@ -101,8 +97,7 @@ public class NewbookController {
 
     // 해당책의 리뷰 지우기
     @GetMapping("deleteReview")
-    public String deleteReview(HttpSession session, @RequestParam("review_no") String review_no,
-        HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String deleteReview(HttpSession session, @RequestParam("review_no") String review_no, HttpServletResponse response) throws Exception {
         ReviewDto dto = reviewDao.selectNewbookReview(Integer.parseInt(review_no));
         String id = (String) session.getAttribute("id");
 
@@ -132,13 +127,13 @@ public class NewbookController {
         @RequestParam("id") String id, @RequestParam("orderscount") String orderscount) {
 
         ModelAndView modelAndView = new ModelAndView();
-        NewBookDto orderbook = newBookDao.selectNewbook(Integer.parseInt(order_bookno));
+        NewBook orderBook = newBookService.selectNewBook(Long.parseLong(order_bookno));
 
         //회원이면 할인된 가격
         if (!id.equals("")) {
             // 책 가격 설정
 
-            orderbook.setNb_price((int) (orderbook.getNb_price() * 0.9));
+            orderBook.setNbPrice((int) (orderBook.getNbPrice() * 0.9));
 
             // 회원이면 등록된 카드 가져오기
             //결제 창에서 회원일 시 등록된 카드 가져오기
@@ -153,12 +148,13 @@ public class NewbookController {
         modelAndView.addObject("orderscount", orderscount);
 
         //주문한 책 금액 합계
-        int order_sum = orderbook.getNb_price() * Integer.parseInt(orderscount);
+
+        int order_sum = orderBook.getNbPrice() * Integer.parseInt(orderscount);
 
         modelAndView.addObject("order_sum", order_sum);
 
         //주문한 책 정보
-        modelAndView.addObject("orderbook", orderbook);
+        modelAndView.addObject("orderbook", orderBook);
         modelAndView.setViewName("directbuy");
         return modelAndView;
     }
@@ -295,12 +291,12 @@ public class NewbookController {
         orderInfoDto.setOrder_passwd(order_passwd);
 
         OrderInfoDto orderDto = orderInfoDao.unmemberOrder(orderInfoDto);
-        NewBookDto newbookDto = newBookDao.selectNewbook(orderDto.getOrder_bookno());
+        NewBook newbook = newBookService.selectNewBook((long) orderDto.getOrder_bookno());
 
 
         view.setViewName("unmemberorder");
         view.addObject("orderDto", orderDto);
-        view.addObject("newbook", newbookDto);
+        view.addObject("newbook", newbook);
         return view;
     }
 

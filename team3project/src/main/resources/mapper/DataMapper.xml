@@ -5,64 +5,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="dev">
 	<!-- ==================== NEWBOOK ======================= -->
-	<select id="selectBestseller" resultType="nbdto">
-		select * from newbook where nb_scount = (select max(nb_scount) from newbook);
-	</select>
-
-	<select id="getmostsellbook" resultType="nbdto">
-		select nb_no, nb_name, nb_author, nb_comp, nb_scount from newbook where nb_scount = (select max(nb_scount) from newbook)
-	</select>
-
-	<insert id="insertBookData" parameterType="nbdto">
-		insert into newbook values(default,#{nb_name},#{nb_author},#{nb_inter},#{nb_genre},#{nb_comp},date(#{nb_bdate}),#{nb_stock},#{nb_price},0,0,#{nb_plot},#{nb_image})
-	</insert>
-
-	<update id="upnbstock" parameterType="nbdto">
-		update newbook set nb_stock = (nb_stock + #{plusstock}) where nb_no = #{nb_no}
-	</update>
-
 	<update id="rollbackstock" parameterType="nbdto">
 		update newbook set nb_stock = (nb_stock + #{nb_stock}), nb_scount = (nb_scount - #{nb_stock}) where nb_no = #{nb_no}
 	</update>
-
-	<select id="selectGenre" parameterType="String" resultType="nbdto">
-		select * from newbook where nb_genre like concat("%", #{nb_genre}, "%")
-	</select>
-
-
-	<select id="selectBest30" resultType="nbdto">
-		select * from newbook order by nb_scount desc limit 30
-	</select>
-
-	<select id="selectBest" resultType="nbdto">
-		select * from newbook order by nb_scount desc limit 1
-	</select>
-
-	<select id="selectBookAll" resultType="nbdto">
-		select * from newbook order by nb_no desc
-	</select>
-
-	<!-- 위에 selectGenre랑 g만 다른데 기능은 다름 -->
-	<select id="selectgenre" parameterType="string" resultType="nbdto" >
-		select * from newbook where nb_genre like concat('%',#{nb_genre},'%')
-	</select>
-
-	<!-- 구매페이지 -->
-	<!-- 구매페이지 개별 새 책  select 메소드  -->
-	<select id="selectNewbook" resultType="nbdto" parameterType="int">
-		select nb_no, nb_name,   nb_author,   nb_inter, nb_genre, nb_comp, date_format(nb_bdate,'%Y-%m-%d') as nb_bdate,  nb_stock,  nb_price,  nb_scount,
-					 nb_readcnt,  nb_plot,  nb_image from newbook  where nb_no = #{nb_no}
-	</select>
-
-	<!-- 조회수 올리기 -->
-	<update id="plusReadCnt" parameterType="int">
-		update newbook set nb_readcnt = nb_readcnt+1 where nb_no = #{nb_no};
-	</update>
-
-	<!-- 구매페이지 개별 새 책  같은 작가 책 띄우기 메소드 -->
-	<select id="selectAuthorList" parameterType="String" resultType="nbdto">
-		select * from newbook where nb_author like #{nb_author} limit 3;
-	</select>
 
 	<!-- 주문 후 새책 변경사항 -->
 	<!-- 재고량 줄이기 -->

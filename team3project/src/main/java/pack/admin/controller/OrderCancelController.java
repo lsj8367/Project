@@ -57,6 +57,7 @@ public class OrderCancelController {
             isOrderDeleted = adminDao.rmorder(orderlist_no[i]);
             newBookDto.setNb_no(order_bookno[i]);
             newBookDto.setNb_stock(order_scount[i]);
+            //TODO
             isRollBackStock = adminDao.rollbackStock(newBookDto);
         }
         if (isOrderDeleted && isRollBackStock) {

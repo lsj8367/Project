@@ -110,14 +110,12 @@ padding-top:60px;
 									<th>저자</th>
 									<th>횟수</th>
 								</tr>
-								<c:forEach var="bs" items="${bsb }">
 									<tr>
-										<td>${bs.nb_no}</td>
-										<td>${bs.nb_name}</td>
-										<td>${bs.nb_author }</td>
-										<td>${bs.nb_scount }</td>
+										<td>${bsb.id}</td>
+										<td>${bsb.nbName}</td>
+										<td>${bsb.nbAuthor }</td>
+										<td>${bsb.nbScount }</td>
 									</tr>
-								</c:forEach>
 								</table>
 							<p>
 								

@@ -371,7 +371,7 @@ div#s_left {
 <div id="contents">
 <form method="get" action="directbuy_pay">
 <input type="hidden" name="id" id="id" value="${sessionScope.id}">
-<input type="hidden" name="order_bookno" id="order_bookno" value="${orderbook.nb_no}">
+<input type="hidden" name="order_bookno" id="order_bookno" value="${orderbook.id}">
 <input type="hidden" name="realcardpwd" id="realcardpwd" value="${cardDto.card_passwd}">
 <input type="hidden" name="realpwd" id="realpwd">
 <input type="hidden" name="realpoint" id="realpoint">
@@ -384,7 +384,7 @@ div#s_left {
 	<tr>
 		<td style="width: 20%;">구매도서명</td>
 		<td style="text-align: left;">
-			<input name="orderbookname" readonly="readonly" value="${orderbook.nb_name}">
+			<input name="orderbookname" readonly="readonly" value="${orderbook.nbName}">
 		</td>
 	</tr>
 	<tr>

@@ -1,15 +1,14 @@
 package pack.repository;
 
-import com.querydsl.core.Tuple;
 import java.util.List;
 import pack.domain.entity.NewBook;
 
 public interface NewBookRepositorySupport {
     NewBook selectBestSeller();
 
-    Tuple getMostSellBook();
-
     void rollbackStock(final int nbStock, final Long id);
+
+    List<NewBook> selectBest30();
 
     List<NewBook> selectGenre(final String nbGenre);
 
@@ -24,4 +23,6 @@ public interface NewBookRepositorySupport {
     List<NewBook> selectNew();
 
     NewBook recommandNewBook();
+
+    NewBook selectBest();
 }

@@ -8,7 +8,7 @@ import pack.config.MapperConfig;
 
 @SpringBootApplication
 @Import(MapperConfig.class)
-@PropertySource("classpath:db.properties")
+@PropertySource("classpath:/db.properties")
 public class ProjectApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProjectApplication.class, args);

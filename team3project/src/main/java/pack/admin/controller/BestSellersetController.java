@@ -16,73 +16,64 @@ import pack.model.NewBookDto;
 @Controller
 @RequiredArgsConstructor
 public class BestSellersetController {
-	private final AdminDao adminDao;
-	private final AdminService adminService;
 
-	@GetMapping("bestsellerset")
-	public ModelAndView goBestSellerset(HttpSession session, ModelMap model) {
-		ModelAndView view = new ModelAndView();
+    private final AdminDao adminDao;
+    private final AdminService adminService;
 
-		String admin_id = (String) session.getAttribute("admin_id");
-		if (admin_id == null | admin_id == "") {
-			view.setViewName("admin/admin_login");
-			return view;
-		}
+    @GetMapping("bestsellerset")
+    public ModelAndView goBestSellerset(HttpSession session, ModelMap model) {
+        ModelAndView view = new ModelAndView();
 
-		model.addAttribute("info", adminService.selectAdminData(admin_id));
-		List<NewBookDto> omonth = adminDao.mbSellerMonth();
-		view.addObject("om",omonth);
-		view.setViewName("admin/bestsellerset");
-		return view;
-	}
+        String admin_id = (String) session.getAttribute("admin_id");
+        if (admin_id == null | admin_id == "") {
+            view.setViewName("admin/admin_login");
+            return view;
+        }
 
-	@PostMapping("monthbestseller")
-	public ModelAndView goBestReview(HttpSession session, ModelMap model, @RequestParam("sql") String sql) {
-		ModelAndView view = new ModelAndView();
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
+        List<NewBookDto> omonth = adminDao.mbSellerMonth();
+        view.addObject("om", omonth);
+        view.setViewName("admin/bestsellerset");
+        return view;
+    }
 
-		String admin_id = (String)session.getAttribute("admin_id");
-		if(admin_id == null | admin_id == "") {
-			view.setViewName("admin/admin_login");
-			return view;
-		}
-		model.addAttribute("info", adminService.selectAdminData(admin_id));
-		List<NewBookDto> omonth = adminDao.mbSellerMonth();
-		List<NewBookDto> ol = adminDao.mbestSeller(sql);
-		view.addObject("om", omonth);
-		view.addObject("ol", ol);
-		view.setViewName("admin/bestsellerset");
+    @PostMapping("monthbestseller")
+    public ModelAndView goBestReview(HttpSession session, ModelMap model, @RequestParam("sql") String sql) {
+        ModelAndView view = new ModelAndView();
 
-		return view;
-	}
+        String admin_id = (String) session.getAttribute("admin_id");
+        if (admin_id == null | admin_id == "") {
+            view.setViewName("admin/admin_login");
+            return view;
+        }
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
+        List<NewBookDto> omonth = adminDao.mbSellerMonth();
+        List<NewBookDto> ol = adminDao.mbestSeller(sql);
+        view.addObject("om", omonth);
+        view.addObject("ol", ol);
+        view.setViewName("admin/bestsellerset");
 
-	@PostMapping("addstock")
-	public String addStock(HttpSession session, ModelMap model, NewBookDto newBookDto,
-						@RequestParam(name="rn") int rank[], 
-						@RequestParam(name="nb_no") int no[]){
-	String admin_id = (String)session.getAttribute("admin_id");
-		if(admin_id == null | admin_id == "") return "admin/admin_login";
+        return view;
+    }
 
-		model.addAttribute("info", adminService.selectAdminData(admin_id));
+    @PostMapping("addstock")
+    public String addStock(HttpSession session, ModelMap model, NewBookDto newBookDto,
+        @RequestParam(name = "rn") int[] rank,
+        @RequestParam(name = "nb_no") int[] no) {
 
-		boolean b = false;
+        String admin_id = (String) session.getAttribute("admin_id");
+        if (admin_id == null || admin_id == "") {
+            return "admin/admin_login";
+        }
 
-		for (int i = 0; i < no.length; i++) {
-			if(rank[i] == 1) {
-				newBookDto.setPlusstock(200);
-			}else if(rank[i] == 2) {
-				newBookDto.setPlusstock(100);
-			}else if(rank[i] == 3) {
-				newBookDto.setPlusstock(50);
-			}else {
-				newBookDto.setPlusstock(0);
-			}
-			newBookDto.setNb_no(no[i]);
-			b = adminDao.upNbStock(newBookDto);
-		}
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-		if(b) {
-			return "redirect:/bestsellerset";
-		}
-		return "redirect:/adminmain";
-	}
+        try {
+            adminService.upNbStock(newBookDto.getNb_no(), rank, no);
+            return "redirect:/bestsellerset";
+        }catch (Exception e) {
+            return "redirect:/adminmain";
+        }
+    }
+
 }

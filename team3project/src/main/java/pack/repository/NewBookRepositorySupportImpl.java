@@ -1,8 +1,6 @@
 package pack.repository;
 
 import static pack.domain.entity.QNewBook.newBook;
-
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -25,23 +23,18 @@ public class NewBookRepositorySupportImpl implements NewBookRepositorySupport {
     }
 
     @Override
-    public Tuple getMostSellBook() {
-        return jpaQueryFactory.select(newBook.id, newBook.nbName, newBook.nbAuthor,
-                newBook.nbComp, newBook.nbScount)
-            .from(newBook)
-            .where(newBook.nbScount
-                .eq(JPAExpressions.select(newBook.nbScount.max())
-                    .from(newBook)))
-            .fetchOne();
-    }
-
-    @Override
     public void rollbackStock(int nbStock, Long id) {
         jpaQueryFactory.update(newBook)
             .set(newBook.nbStock, newBook.nbStock.add(nbStock))
             .set(newBook.nbScount, newBook.nbScount.subtract(nbStock))
             .where(newBook.id.eq(id))
             .execute();
+    }
+
+    @Override
+    public List<NewBook> selectBest30() {
+        return jpaQueryFactory.selectFrom(newBook).orderBy(newBook.nbScount.desc())
+            .limit(30).fetch();
     }
 
     @Override
@@ -95,6 +88,13 @@ public class NewBookRepositorySupportImpl implements NewBookRepositorySupport {
         return jpaQueryFactory.selectFrom(newBook)
             .orderBy(NumberExpression.random().desc())
             .limit(1)
+            .fetchOne();
+    }
+
+    @Override
+    public NewBook selectBest() {
+        return jpaQueryFactory.selectFrom(newBook)
+            .orderBy(newBook.nbScount.desc()).limit(1)
             .fetchOne();
     }
 
