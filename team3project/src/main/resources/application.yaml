@@ -5,7 +5,7 @@ spring:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
-      static-path-pattern: /resources/static/**
+    static-path-pattern: /resources/static/**
   main:
     allow-bean-definition-overriding: true
 
