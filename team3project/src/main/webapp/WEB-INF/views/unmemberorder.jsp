@@ -140,7 +140,7 @@ html, body {
 	</tr>
 	<tr>
 		<td> 
-			주문한 책 이름 : ${newbook.nb_name}
+			주문한 책 이름 : ${newbook.nbName}
 		</td>
 	</tr>
 	<tr>

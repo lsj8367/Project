@@ -145,14 +145,14 @@ html, body {
 	<c:otherwise>
 		<c:forEach var="n" items="${newbooklist}">
 			<tr style="text-align: center;">
-				<td style="width: 20%;"><a href="newbook?book_no=1"><img width="100" src="${n.nb_image}"/></a></td>
-				<td style="width: 35%;"><a href="newbook?book_no=1">${n.nb_name}</a></td>
-				<td style="width: 15%;">${n.nb_price}</td>
+				<td style="width: 20%;"><a href="newbook?book_no=1"><img width="100" src="${n.nbImage}"/></a></td>
+				<td style="width: 35%;"><a href="newbook?book_no=1">${n.nbName}</a></td>
+				<td style="width: 15%;">${n.nbPrice}</td>
 				<td style="width: 15%;">
-					<fmt:parseDate var="dateString" value="${n.nb_bdate}" pattern="yyyy-MM-dd HH:mm:ss.S" />
+					<fmt:parseDate var="dateString" value="${n.nbBdate}" pattern="yyyy-MM-dd HH:mm:ss.S" />
 	      			<fmt:formatDate value="${dateString}" pattern="yyyy년 MM월 dd일" />
 				</td>
-				<td style="width: 15%;">${n.nb_comp}</td>
+				<td style="width: 15%;">${n.nbComp}</td>
 			</tr>
 		</c:forEach>
 	</c:otherwise>

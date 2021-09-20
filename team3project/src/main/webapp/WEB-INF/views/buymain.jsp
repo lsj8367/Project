@@ -147,7 +147,7 @@ html, body {
 		<tr>
 			<td style="text-align: center;">
 				
-				<a href="newbook?book_no=${bestseller.nb_no}"><img width="100" src="${bestseller.nb_image}"></a>			
+				<a href="newbook?book_no=${bestseller.id}"><img width="100" src="${bestseller.nbImage}"></a>
 			</td>
 		<tr>
 	</table>

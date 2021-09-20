@@ -40,7 +40,7 @@ $(function(){
 			var num = parseInt(stat,10);
 			num++;
 		
-			if(num>${newbook.nb_stock}){
+			if(num>${newbook.nbStock}){
 				$('#maxDialog').dialog({
 				      title: '수량 오류!',
 				      modal: true, //팝업창으로 띄우기
@@ -65,7 +65,7 @@ $(document).ready(function(){
 	$(".user").hide();
 	if(!${sessionScope.id eq null}){
 		$("#user_price").show();
-		$("#user_price").text("-> (회원 10% 할인  : " + ${newbook.nb_price}*0.9 +")");
+		$("#user_price").text("-> (회원 10% 할인  : " + ${newbook.nbPrice}*0.9 +")");
 		event.preventDefault();
 	}	
 });
@@ -248,37 +248,37 @@ html, body {
 <div id="contents">
 <form action="directbuy" method="post">
 <input type="hidden" name="id" id="id" value="${sessionScope.id}">
-<input type="hidden" name="order_bookno" id="order_bookno" value="${newbook.nb_no}">
+<input type="hidden" name="order_bookno" id="order_bookno" value="${newbook.id}">
 
 
 <table class="newbooktable" border="1" style="width: 80%; float: none; margin: auto;">
 	<tr>
 		<td colspan="3" style="text-align: center; background-color: #114c3d; color: white;">
-			${newbook.nb_name}
+			${newbook.nbName}
 		</td>
 	</tr>
 	<tr>
 		<td colspan="3" style="text-align: right;">
-			주문수 :${newbook.nb_scount} 조회수 :${newbook.nb_readcnt}
+			주문수 :${newbook.nbScount} 조회수 :${newbook.nbReadcnt}
 		</td>
 	</tr>
 	<tr>
 		<td rowspan="4" style="text-align: center;">
-			<img width="100" src="${newbook.nb_image}">
+			<img width="100" src="${newbook.nbImage}">
 		</td>
 		
 		<c:choose>
-			<c:when test="${newbook.nb_inter eq null}">
+			<c:when test="${newbook.nbInter eq null}">
 				<td colspan="2">
-					저자 : ${newbook.nb_author}
+					저자 : ${newbook.nbAuthor}
 				</td>
 			</c:when>
 			<c:otherwise>
 				<td>
-					저자 : ${newbook.nb_author}
+					저자 : ${newbook.nbAuthor}
 				</td>
 				<td>
-					번역자 : ${newbook.nb_inter}
+					번역자 : ${newbook.nbInter}
 				</td>
 			</c:otherwise>
 		</c:choose>
@@ -288,19 +288,19 @@ html, body {
 	
 	<tr>
 		<td colspan="2">
-			출판사 : ${newbook.nb_comp}
+			출판사 : ${newbook.nbComp}
 		</td>
 	</tr>
 	
 	<tr>
 		<td colspan="2">
-			출판년도 : ${newbook.nb_bdate}
+			출판년도 : ${newbook.nbBdate}
 		</td>
 	</tr>
 	
 	<tr>
 		<td colspan="2">
-			가격 : ${newbook.nb_price}
+			가격 : ${newbook.nbPrice}
 			<span class="user" id="user_price" style="color: red;"></span>
 		</td>
 	</tr>
@@ -326,7 +326,7 @@ html, body {
 	
 	<tr>
 		<td colspan="3" style="text-align: left;">
-			설명 : ${newbook.nb_plot}
+			설명 : ${newbook.nbPlot}
 		</td>
 	</tr>
 	<tr>
@@ -354,9 +354,9 @@ html, body {
 		<c:otherwise>
 			<c:forEach var="author" items="${authorList}">
 				<td style="text-align: center;">
-				<a href="newbook?book_no=${author.nb_no}"><img width="100" src="${author.nb_image}"></a>
+				<a href="newbook?book_no=${author.id}"><img width="100" src="${author.nbImage}"></a>
 				<br>
-					${author.nb_name}
+					${author.nbName}
 				</td>
 			</c:forEach>
 		</c:otherwise>
@@ -399,7 +399,7 @@ html, body {
 
 <form action="writeReview" method="post">
 <input type="hidden" value="${sessionScope.id}" name="review_id">
-<input type="hidden" value="${newbook.nb_no}" name="review_bookno">
+<input type="hidden" value="${newbook.id}" name="review_bookno">
 
 <table class="newbooktable" style="width:80%; float: none; margin: auto;">
 
