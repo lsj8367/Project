@@ -5,7 +5,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 import pack.model.AdminDto;
-import pack.model.InqueryDto;
 import pack.model.NewBookDto;
 import pack.model.OldBookDto;
 import pack.model.OrderInfoDto;
@@ -18,16 +17,6 @@ public class AdminDao extends SqlSessionDaoSupport {
 
     public AdminDao(SqlSessionFactory factory) {
         setSqlSessionFactory(factory);
-    }
-
-    public boolean insertBookData(NewBookDto newBookDto) {
-        try {
-            getSqlSession().insert("insertBookData", newBookDto);
-            return true;
-        } catch (Exception e) {
-            System.out.println("insertBookData error : " + e);    //개발자를 위한 내용
-            return false;
-        }
     }
 
     public List<NewBookDto> selectBookDataAll() {
@@ -255,16 +244,6 @@ public class AdminDao extends SqlSessionDaoSupport {
         return getSqlSession().selectList("mbestseller", sql);
     }
 
-    public boolean upNbStock(NewBookDto newBookDto) {
-        try {
-            getSqlSession().insert("upnbstock", newBookDto);
-            return true;
-        } catch (Exception e) {
-            System.out.println("upNbStock error : " + e);    //개발자를 위한 내용
-            return false;
-        }
-    }
-
     public List<RentInfoDto> mbRentMonth() {
         return getSqlSession().selectList("mbrentmonth");
     }
@@ -297,10 +276,6 @@ public class AdminDao extends SqlSessionDaoSupport {
             System.out.println("RollbackStock error : " + e);    //개발자를 위한 내용
             return false;
         }
-    }
-
-    public List<NewBookDto> getMostSellBook() {
-        return getSqlSession().selectList("getmostsellbook");
     }
 
     public List<OldBookDto> getMostRentBook() {

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
 import pack.domain.entity.Admin;
+import pack.domain.entity.NewBook;
 import pack.model.AdminDto;
 import pack.model.NewBookDto;
 import pack.model.OldBookDto;
@@ -121,7 +122,8 @@ public class AdminController {
         OrderInfoDto rprofit2 = adminDao.profitMonth();
         List<NewBookDto> ocmonth = adminDao.mbSellerCmonth();
         List<RentInfoDto> rentcmonth = adminDao.mbRentCmonth();
-        List<NewBookDto> msbook = adminDao.getMostSellBook();
+        NewBook msbook = adminService.getMostSellBook();
+
         List<OldBookDto> mrbook = adminDao.getMostRentBook();
         view.addObject("bsb", msbook);
         view.addObject("brb", mrbook);
