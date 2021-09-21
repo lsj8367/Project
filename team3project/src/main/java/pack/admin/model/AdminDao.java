@@ -268,16 +268,6 @@ public class AdminDao extends SqlSessionDaoSupport {
         return getSqlSession().selectList("buyking");
     }
 
-    public boolean rollbackStock(NewBookDto newBookDto) {
-        try {
-            getSqlSession().insert("rollbackstock", newBookDto);
-            return true;
-        } catch (Exception e) {
-            System.out.println("RollbackStock error : " + e);    //개발자를 위한 내용
-            return false;
-        }
-    }
-
     public List<OldBookDto> getMostRentBook() {
         return getSqlSession().selectList("getmostrentbook");
     }

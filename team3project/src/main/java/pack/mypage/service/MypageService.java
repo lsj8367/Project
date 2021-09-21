@@ -6,18 +6,20 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
+import pack.domain.entity.NewBook;
 import pack.model.InqueryDto;
-import pack.model.NewBookDto;
 import pack.model.OldBookDto;
 import pack.model.OrderInfoDto;
 import pack.mypage.model.MypageImpl;
 import pack.repository.CardInfoRepository;
+import pack.repository.NewBookRepository;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class MypageService {
     private final CardInfoRepository cardInfoRepository;
+    private final NewBookRepository newBookRepository;
     private final MypageImpl mypageImpl;
 
     public ModelAndView list3(String user_id) {
@@ -33,7 +35,7 @@ public class MypageService {
         List<OldBookDto> donorlist = mypageImpl.donorlist(user_id);
 
         //랜덤 새책 추천
-        NewBookDto randNewbook = mypageImpl.recommandNewBook();
+        NewBook randNewbook = newBookRepository.recommandNewBook();
 
         //최근 카드정보 내역 3 모델앤뷰
         List<Tuple> cardList = cardInfoRepository.cardList(user_id);

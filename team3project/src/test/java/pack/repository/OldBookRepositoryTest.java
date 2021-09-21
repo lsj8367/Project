@@ -1,6 +1,8 @@
 package pack.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -65,4 +67,51 @@ class OldBookRepositoryTest {
         });
     }
 
+    @Test
+    void getMostRentBook() {
+        OldBook oldBook = oldBookRepository.getMostRentBook();
+        assertThat(oldBook.getObDonor()).isEqualTo("test6");
+    }
+
+    @Test
+    void upObState() {
+        Optional<OldBook> optionalOldBook = oldBookRepository.findById(1L);
+        optionalOldBook.ifPresent(oldBook -> {
+            oldBook.setObState("2");
+            oldBookRepository.saveAndFlush(oldBook);
+        });
+
+        Optional<OldBook> result = oldBookRepository.findById(1L);
+        result.ifPresent(oldBook -> {
+            assertThat(oldBook.getObState()).isEqualTo("2");
+        });
+    }
+
+    @Test
+    void rmOldBook() {
+        final Optional<OldBook> optionalOldBook = oldBookRepository.findById(1L);
+
+        assertTrue(optionalOldBook.isPresent());
+
+        optionalOldBook.ifPresent(oldBook -> {
+            oldBookRepository.delete(oldBook);
+            testEntityManager.flush();
+        });
+
+        final Optional<OldBook> result = oldBookRepository.findById(1L);
+
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    void oldGenre() {
+        List<OldBook> resultList = oldBookRepository.genreForFirstGrade("자격증");
+        assertThat(resultList.get(0).getObDonor()).isEqualTo("강호동");
+    }
+
+    @Test
+    void oldGenre2() {
+        List<OldBook> resultList = oldBookRepository.genreForAnotherGrade("대학교재");
+        assertThat(resultList.get(0).getObName()).isEqualTo("거시경제학");
+    }
 }

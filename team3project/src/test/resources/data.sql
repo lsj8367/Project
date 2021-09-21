@@ -23,7 +23,7 @@ VALUES(5, '뉴욕스타일 포토샵','캐트린 아이스만 외 2인','김현�
 INSERT INTO oldbook (ob_no, ob_name, ob_author, ob_inter, ob_genre,
                      ob_comp, ob_bdate, ob_state, ob_price, ob_scount,
                      ob_readcnt, ob_donor, ob_comment, ob_image, ob_ddate, ob_userid)
-VALUES (6, '기본간호학', '간호학 문제집 편집위원', '', '수험서', '대한간호협회 ', '2017-05-31', '0', 25000, 0, 120, 'test6', '간호학 시험 수험서', 'upload/ganho.jpg', '2020-10-13', 'ehtae9303');
+VALUES (6, '기본간호학', '간호학 문제집 편집위원', '', '수험서', '대한간호협회 ', '2017-05-31', '0', 25000, 1, 120, 'test6', '간호학 시험 수험서', 'upload/ganho.jpg', '2020-10-13', 'ehtae9303');
 
 INSERT INTO oldbook (ob_no, ob_name, ob_author, ob_inter, ob_genre,
                      ob_comp, ob_bdate, ob_state, ob_price, ob_scount,

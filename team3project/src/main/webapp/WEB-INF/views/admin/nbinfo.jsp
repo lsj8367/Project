@@ -167,21 +167,21 @@ body {
 	<tr><th>도서이미지</th><th>도서번호</th><th>도서명</th><th>저자<br>역자</th><th>출판사(출판일)</th><th>재고량</th><th>판매량</th></tr>
 	<c:forEach var="nb" items="${nblist}">
 		<tr>
-			<td><img src="${nb.nb_image }" ></td>
-			<td>${nb.nb_no}</td>
-			<td>${nb.nb_name}</td>
+			<td><img src="${nb.nbImage }" ></td>
+			<td>${nb.id}</td>
+			<td>${nb.nbName}</td>
 			<td>
-				${nb.nb_author}<br>
-				<c:if test="${nb.nb_inter != null}">
-					${nb.nb_inter}
+				${nb.nbAuthor}<br>
+				<c:if test="${nb.nbInter != null}">
+					${nb.nbInter}
 				</c:if>
 			</td>
 			<td>
-			${nb.nb_comp}<br>
-			(${nb.nb_bdate})
+			${nb.nbComp}<br>
+			(${nb.nbBdate})
 			</td>
-			<td>${nb.nb_stock}</td>
-			<td>${nb.nb_scount}</td>
+			<td>${nb.nbStock}</td>
+			<td>${nb.nbScount}</td>
 		</tr>
 	</c:forEach>
 </table>

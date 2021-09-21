@@ -91,11 +91,17 @@ public class AdminService {
         });
     }
 
-    public void rollBackStock(int nbNo) {
-        Optional<NewBook> optionalNewBook = newBookRepository.findById((long) nbNo);
+    public boolean rollBackStock(int nbNo, int nbScount) {
+        try {
+            newBookRepository.rollbackStock(nbScount, (long) nbNo);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
-        optionalNewBook.ifPresent(newBook -> {
-        });
+    public List<NewBook> selectBookDataAll() {
+        return newBookRepository.findAll();
     }
 
 }
