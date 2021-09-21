@@ -169,7 +169,7 @@ html, body {
 							<c:forEach var="read" items="${readtop3}">
 									<div style="justify-content:center;">
 										<div>
-											<a href="newbook?book_no=${read.nb_no}"><img width="100" height="160" src="${read.nb_image}"></a>
+											<a href="newbook?book_no=${read.id}"><img width="100" height="160" src="${read.nbImage}"></a>
 										</div>	
 									</div>
 							</c:forEach>
@@ -193,7 +193,7 @@ html, body {
 						<c:forEach var="random" items="${random10}">
 								<div>
 									<div>
-										<a href="newbook?book_no=${random.nb_no}"><img width="100" height="160" src="${random.nb_image}"></a>
+										<a href="newbook?book_no=${random.id}"><img width="100" height="160" src="${random.nbImage}"></a>
 									</div>				
 								</div>
 						</c:forEach>
