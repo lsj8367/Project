@@ -29,3 +29,7 @@ INSERT INTO oldbook (ob_no, ob_name, ob_author, ob_inter, ob_genre,
                      ob_comp, ob_bdate, ob_state, ob_price, ob_scount,
                      ob_readcnt, ob_donor, ob_comment, ob_image, ob_ddate, ob_userid)
 VALUES (7, '기본간호학', '간호학 문제집 편집위원', '', '수험서', '대한간호협회 ', '2017-05-31', '6', 25000, 0, 120, 'test6', '간호학 시험 수험서', 'upload/ganho.jpg', '2020-10-13', 'ehtae9303');
+INSERT INTO oldbook (ob_no, ob_name, ob_author, ob_inter, ob_genre,
+                     ob_comp, ob_bdate, ob_state, ob_price, ob_scount,
+                     ob_readcnt, ob_donor, ob_comment, ob_image, ob_ddate, ob_userid)
+VALUES(8, '수제비 정보처리기사','서용욱','','자격증','도서출판','2020-01-23','1','30000',0, 0, 'test8', '정처기 필요없다','upload/sujebi.jpg','2020-11-11', 'ehtae9303');
