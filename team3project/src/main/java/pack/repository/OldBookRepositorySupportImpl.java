@@ -1,6 +1,7 @@
 package pack.repository;
 
 import static pack.domain.entity.QOldBook.oldBook;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -9,6 +10,7 @@ import pack.domain.entity.OldBook;
 
 @RequiredArgsConstructor
 public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
+
     private static final String FIRST_GRADE = "1";
     private static final String SECOND_GRADE = "2";
     private static final String THIRD_GRADE = "3";
@@ -35,8 +37,35 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
     @Override
     public List<OldBook> genreForAnotherGrade(String obGenre) {
         return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.in("2", "3")
+            .where(oldBook.obState.in(SECOND_GRADE, THIRD_GRADE)
                 .and(oldBook.obGenre.contains(obGenre)))
+            .fetch();
+    }
+
+    @Override
+    public List<OldBook> oldRandom() {
+        return jpaQueryFactory.selectFrom(oldBook)
+            .where(oldBook.obState.eq(FIRST_GRADE))
+            .orderBy(NumberExpression.random().desc())
+            .limit(2)
+            .fetch();
+    }
+
+    @Override
+    public List<OldBook> oldLow() {
+        return jpaQueryFactory.selectFrom(oldBook)
+            .where(oldBook.obState.eq(SECOND_GRADE)
+                .or(oldBook.obState.eq(THIRD_GRADE)))
+            .orderBy(NumberExpression.random().desc())
+            .limit(2)
+            .fetch();
+    }
+
+    @Override
+    public List<OldBook> getDataAllExist(String obName) {
+        return jpaQueryFactory.selectFrom(oldBook)
+            .where(oldBook.obName.contains(obName))
+            .orderBy(oldBook.obNo.desc())
             .fetch();
     }
 

@@ -4,24 +4,29 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "oldbook")
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class OldBook {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ob_no")
     private Long obNo;
 
@@ -65,14 +70,20 @@ public class OldBook {
     private String obImage;
 
     @Column(name = "ob_ddate")
+    @CreatedDate
     private String obDdate;
 
     @Column(name = "ob_userid")
     private String obUserid;
 
+    @PrePersist
+    void onPrePersist() {
+        this.obDdate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
     @Builder
     public OldBook(String obName, String obAuthor, String obInter, String obGenre, String obComp, LocalDateTime obBdate, String obState, long obPrice, long obScount, long obReadcnt, String obDonor, String obComment, String obImage,
-        LocalDateTime obDdate, String obUserid) {
+        String obUserid) {
         this.obName = obName;
         this.obAuthor = obAuthor;
         this.obInter = obInter;
@@ -86,7 +97,6 @@ public class OldBook {
         this.obDonor = obDonor;
         this.obComment = obComment;
         this.obImage = obImage;
-        this.obDdate = obDdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.obUserid = obUserid;
     }
 
