@@ -208,7 +208,7 @@
                         <tr style="text-align: center;">
                             <td style="width: 20%;"><a
                                     href="oldbook?book_no=${o.ob_no }"><img width="100"
-                                                                            src="${o.ob_image}"/></a>
+                                                                            src="resources/static/${o.ob_image}"/></a>
                             </td>
                             <td style="width: 35%;"><a
                                     href="oldbook?book_no=${o.ob_no }">${o.ob_name}</a></td>
@@ -249,7 +249,7 @@
                     <c:forEach var="l" items="${oldbooklow}">
                         <tr style="text-align: center;">
                             <td><a href="oldrental?book_no=${l.ob_no }"><img
-                                    width="100" src="${l.ob_image}"/></a></td>
+                                    width="100" src="resources/static/${l.ob_image}"/></a></td>
                             <td><a href="oldrental?book_no=${l.ob_no }">${l.ob_name}</a></td>
                             <td>${l.ob_price} 원</td>
                             <fmt:parseDate var="daterental" value="${l.ob_bdate}"
@@ -314,7 +314,7 @@
             <tr>
                 <td colspan="2" style="text-align: center;"><a
                         href="oldrental?book_no=${best.ob_no }"> <img width="100"
-                                                                      src="${best.ob_image}"></a>
+                                                                      src="resources/static/${best.ob_image}"></a>
                 </td>
                 <!-- ${best.ob_name} -->
             </tr>

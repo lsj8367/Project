@@ -3,6 +3,7 @@ package pack.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -113,5 +114,34 @@ class OldBookRepositoryTest {
     void oldGenre2() {
         List<OldBook> resultList = oldBookRepository.genreForAnotherGrade("대학교재");
         assertThat(resultList.get(0).getObName()).isEqualTo("거시경제학");
+    }
+
+    @Test
+    void oldRandom() {
+        List<OldBook> resultList = oldBookRepository.oldRandom();
+        assertThat(resultList.size()).isEqualTo(2);
+    }
+
+    @Test
+    void oldLow() {
+        List<OldBook> resultList = oldBookRepository.oldLow();
+        assertThat(resultList.size()).isEqualTo(2);
+    }
+
+    @Test
+    void insertOldBook() {
+        OldBook oldBook = oldBookRepository.saveAndFlush(OldBook.builder()
+            .obName("책제목")
+            .obAuthor("작가")
+            .obInter("역자")
+            .obGenre("장르")
+            .obComp("출판사")
+            .obBdate(LocalDateTime.of(2021, 9, 23, 0, 0, 0))
+            .obPrice(50000)
+            .obDonor("test")
+            .obUserid("1")
+            .build());
+
+        assertThat(oldBook.getObNo()).isEqualTo(9L);
     }
 }
