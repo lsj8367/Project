@@ -35,9 +35,8 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
     @Override
     public List<OldBook> genreForAnotherGrade(String obGenre) {
         return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obGenre.contains(obGenre)
-                .and(oldBook.obState.eq("2"))
-                .or(oldBook.obState.eq("3")))
+            .where(oldBook.obState.in("2", "3")
+                .and(oldBook.obGenre.contains(obGenre)))
             .fetch();
     }
 
