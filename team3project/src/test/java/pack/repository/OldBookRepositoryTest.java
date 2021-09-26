@@ -123,6 +123,24 @@ class OldBookRepositoryTest {
     }
 
     @Test
+    void selectBestRentBook() {
+        OldBook oldBookList = oldBookRepository.selectBestRentBook();
+        assertThat(oldBookList.getObNo()).isEqualTo(6);
+    }
+
+    @Test
+    void oldHigh() {
+        List<OldBook> resultList = oldBookRepository.oldHigh();
+        assertThat(resultList.size()).isEqualTo(2);
+    }
+
+    @Test
+    void oldLowLimit2() {
+        List<OldBook> resultList = oldBookRepository.oldLowLimit2();
+        assertThat(resultList.size()).isEqualTo(2);
+    }
+
+    @Test
     void oldLow() {
         List<OldBook> resultList = oldBookRepository.oldLow();
         assertThat(resultList.size()).isEqualTo(2);
@@ -143,5 +161,25 @@ class OldBookRepositoryTest {
             .build());
 
         assertThat(oldBook.getObNo()).isEqualTo(9L);
+    }
+
+    @Test
+    void getDataAllExist() {
+        List<OldBook> resultList = oldBookRepository.getDataAllExist("기본");
+        assertThat(resultList.size()).isEqualTo(3);
+    }
+
+    @Test
+    void oldBookInfo() {
+        OldBook result = oldBookRepository.findByObStateAndObNo("1", 1L);
+        assertThat(result.getObState()).isEqualTo("1");
+        assertThat(result.getObDonor()).isEqualTo("강호동");
+    }
+
+    @Test
+    void oldBookInfo2() {
+        OldBook result = oldBookRepository.oldBookInfoRentalState(3L);
+        assertThat(result.getObState()).isEqualTo("2");
+        assertThat(result.getObDonor()).isEqualTo("태은희");
     }
 }
