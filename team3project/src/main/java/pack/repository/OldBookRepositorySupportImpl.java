@@ -52,7 +52,7 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
     }
 
     @Override
-    public List<OldBook> oldLow() {
+    public List<OldBook> oldLowLimit2() {
         return jpaQueryFactory.selectFrom(oldBook)
             .where(oldBook.obState.eq(SECOND_GRADE)
                 .or(oldBook.obState.eq(THIRD_GRADE)))
@@ -62,11 +62,44 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
     }
 
     @Override
+    public OldBook selectBestRentBook() {
+        return jpaQueryFactory.selectFrom(oldBook)
+            .orderBy(oldBook.obScount.desc())
+            .limit(1)
+            .fetchOne();
+    }
+
+    @Override
+    public List<OldBook> oldHigh() {
+        return jpaQueryFactory.selectFrom(oldBook)
+            .where(oldBook.obState.eq(FIRST_GRADE))
+            .orderBy(oldBook.obNo.desc())
+            .fetch();
+    }
+
+    @Override
+    public List<OldBook> oldLow() {
+        return jpaQueryFactory.selectFrom(oldBook)
+            .where(oldBook.obState.eq(SECOND_GRADE)
+                .or(oldBook.obState.eq(THIRD_GRADE)))
+            .orderBy(oldBook.obNo.desc())
+            .fetch();
+    }
+
+    @Override
     public List<OldBook> getDataAllExist(String obName) {
         return jpaQueryFactory.selectFrom(oldBook)
             .where(oldBook.obName.contains(obName))
             .orderBy(oldBook.obNo.desc())
             .fetch();
+    }
+
+    @Override
+    public OldBook oldBookInfoRentalState(Long obNo) {
+        return jpaQueryFactory.selectFrom(oldBook)
+            .where(oldBook.obState.in("2", "3")
+                .and(oldBook.obNo.eq(obNo)))
+            .fetchOne();
     }
 
 }
