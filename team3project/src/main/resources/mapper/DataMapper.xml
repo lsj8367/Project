@@ -94,7 +94,6 @@
     select *
     from oldbook
     where ob_state = '1'
-      and NOT ob_donor = '10'
     order by ob_no desc
   </select>
 
