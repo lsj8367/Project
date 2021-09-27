@@ -20,11 +20,11 @@ body{
 }
 </style> 
     
-    <link rel="stylesheet" href="css/animate.css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/magnific-popup.css">
-    <link rel="stylesheet" href="css/aos.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/resources/static/css/animate.css">
+    <link rel="stylesheet" href="/resources/static/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/resources/static/css/magnific-popup.css">
+    <link rel="stylesheet" href="/resources/static/css/aos.css">
+    <link rel="stylesheet" href="/resources/static/css/style.css">
   </head>
   <%@include file="admin_header.jsp"%>
   <body>
@@ -60,17 +60,17 @@ body{
             <div class="carousel owl-carousel" style="width : 70%; margin: auto;">
               <div class="item">
                 <a href="">
-                  <img src="images/bookstore.jpg" class="img-fluid" alt="">
+                  <img src="/resources/static/images/bookstore.jpg" class="img-fluid" alt="">
                 </a>
               </div>
               <div class="item">
                 <a href="">
-                  <img src="images/library.jpg" class="img-fluid" alt="">
+                  <img src="/resources/static/images/library.jpg" class="img-fluid" alt="">
                 </a>
               </div>
               <div class="item">
                 <a href="">
-                  <img src="images/oldbookstore.jpg" class="img-fluid" alt="">
+                  <img src="/resources/static/images/oldbookstore.jpg" class="img-fluid" alt="">
                 </a>
               </div>
             </div>
@@ -80,16 +80,16 @@ body{
     </section>
 
 
-  <script src="js/jquery.min.js"></script>
-  <script src="js/jquery-migrate-3.0.1.min.js"></script>
-  <script src="js/jquery.waypoints.min.js"></script>
-  <script src="js/jquery.stellar.min.js"></script>
-  <script src="js/owl.carousel.min.js"></script>
-  <script src="js/jquery.magnific-popup.min.js"></script>
-  <script src="js/aos.js"></script>
-  <script src="js/jquery.animateNumber.min.js"></script>
-  <script src="js/bootstrap-datepicker.js"></script>
-  <script src="js/jquery.timepicker.min.js"></script>
-  <script src="js/adminmain1.js"></script>
+  <script src="/resources/static/js/jquery.min.js"></script>
+  <script src="/resources/static/js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="/resources/static/js/jquery.waypoints.min.js"></script>
+  <script src="/resources/static/js/jquery.stellar.min.js"></script>
+  <script src="/resources/static/js/owl.carousel.min.js"></script>
+  <script src="/resources/static/js/jquery.magnific-popup.min.js"></script>
+  <script src="/resources/static/js/aos.js"></script>
+  <script src="/resources/static/js/jquery.animateNumber.min.js"></script>
+  <script src="/resources/static/js/bootstrap-datepicker.js"></script>
+  <script src="/resources/static/js/jquery.timepicker.min.js"></script>
+  <script src="/resources/static/js/adminmain1.js"></script>
 </body>
 </html>

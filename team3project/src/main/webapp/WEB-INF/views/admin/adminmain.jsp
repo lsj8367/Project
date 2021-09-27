@@ -33,11 +33,11 @@ padding-top:60px;
 </style>
 
 <title>Insert title here</title>
-<link rel="stylesheet" href="font/icomoon/style.css">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/jquery-ui.css">
-<link rel="stylesheet" href="css/aos2.css">
-<link rel="stylesheet" href="css/style2.css">
+<link rel="stylesheet" href="/resources/static/font/icomoon/style.css">
+<link rel="stylesheet" href="/resources/static/css/bootstrap.min.css">
+<link rel="stylesheet" href="/resources/static/css/jquery-ui.css">
+<link rel="stylesheet" href="/resources/static/css/aos2.css">
+<link rel="stylesheet" href="/resources/static/css/style2.css">
 
 </head>
 <%@include file="admin_header.jsp"%>
@@ -142,10 +142,10 @@ padding-top:60px;
 								</tr>
 								<c:forEach var="b" items="${brb }">
 									<tr>
-										<td>${b.ob_no}</td>
-										<td>${b.ob_name}</td>
-										<td>${b.ob_donor }</td>
-										<td>${b.ob_scount }</td>
+										<td>${b.obNo}</td>
+										<td>${b.obName}</td>
+										<td>${b.obDonor }</td>
+										<td>${b.obScount }</td>
 									</tr>
 								</c:forEach>
 								</table>
@@ -304,10 +304,10 @@ padding-top:60px;
 
 </body>
 
-<script src="js/jquery-ui.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/aos2.js"></script>
-<script src="js/adminmain2.js"></script>
+<script src="/resources/static/js/jquery-ui.js"></script>
+<script src="/resources/static/js/bootstrap.min.js"></script>
+<script src="/resources/static/js/aos2.js"></script>
+<script src="/resources/static/js/adminmain2.js"></script>
 
 <%@include file="admin_footer.jsp"%>
 </html>

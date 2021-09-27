@@ -207,17 +207,17 @@
 
                         <tr style="text-align: center;">
                             <td style="width: 20%;"><a
-                                    href="oldbook?book_no=${o.ob_no }"><img width="100"
-                                                                            src="resources/static/${o.ob_image}"/></a>
+                                    href="oldbook?book_no=${o.obNo }"><img width="100"
+                                                                            src="resources/static/${o.obImage}"/></a>
                             </td>
                             <td style="width: 35%;"><a
-                                    href="oldbook?book_no=${o.ob_no }">${o.ob_name}</a></td>
-                            <td style="width: 15%;">${o.ob_price} 원</td>
-                            <fmt:parseDate var="dateString" value="${o.ob_bdate}"
+                                    href="oldbook?book_no=${o.obNo }">${o.obName}</a></td>
+                            <td style="width: 15%;">${o.obPrice} 원</td>
+                            <fmt:parseDate var="dateString" value="${o.obBdate}"
                                            pattern="yyyy-MM-dd HH:mm:ss.S"/>
                             <td style="width: 15%;"><fmt:formatDate
                                     value="${dateString}" pattern="yyyy년MM월dd일"/></td>
-                            <td style="width: 15%;">${o.ob_comp}</td>
+                            <td style="width: 15%;">${o.obComp}</td>
                         </tr>
                     </c:forEach>
                 </c:otherwise>
@@ -248,21 +248,21 @@
                 <c:otherwise>
                     <c:forEach var="l" items="${oldbooklow}">
                         <tr style="text-align: center;">
-                            <td><a href="oldrental?book_no=${l.ob_no }"><img
-                                    width="100" src="resources/static/${l.ob_image}"/></a></td>
-                            <td><a href="oldrental?book_no=${l.ob_no }">${l.ob_name}</a></td>
-                            <td>${l.ob_price} 원</td>
-                            <fmt:parseDate var="daterental" value="${l.ob_bdate}"
+                            <td><a href="oldrental?book_no=${l.obNo }"><img
+                                    width="100" src="resources/static/${l.obImage}"/></a></td>
+                            <td><a href="oldrental?book_no=${l.obNo }">${l.obName}</a></td>
+                            <td>${l.obPrice} 원</td>
+                            <fmt:parseDate var="daterental" value="${l.obBdate}"
                                            pattern="yyyy-MM-dd HH:mm:ss.S"/>
                             <td style="width: 15%;"><fmt:formatDate
                                     value="${daterental}" pattern="yyyy년MM월dd일"/></td>
-                            <td>${l.ob_comp}</td>
+                            <td>${l.obComp}</td>
                             <c:choose>
-                            <c:when test="${l.ob_donor}">
-                                <c:if test="${l.ob_donor eq '0'}">
+                            <c:when test="${l.obDonor}">
+                                <c:if test="${l.obDonor eq '0'}">
                                     <td><c:out value="대여가능"/></td>
                                 </c:if>
-                                <c:if test="${l.ob_donor eq '1'}">
+                                <c:if test="${l.obDonor eq '1'}">
                                     <td><c:out value="대여중"/></td>
                                 </c:if>
                             </c:when>

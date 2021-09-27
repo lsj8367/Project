@@ -21,56 +21,56 @@
      	 
      	 <div id="content">
      	 	<form name="oldfrm" method="post">
-				<input type="hidden" name="ob_no" value="${bookinfo.ob_no}">
+				<input type="hidden" name="ob_no" value="${bookinfo.obNo}">
 				<input type="hidden" name="user_id" value="${sessionScope.id}">
 				<table style="margin: auto; float: none; width: 100%" class="newbooktable">
 					<tr>
-						<th colspan="2">책 정보 </th><th>조회수 :${bookinfo.ob_readcnt}</th>
+						<th colspan="2">책 정보 </th><th>조회수 :${bookinfo.obReadcnt}</th>
 						</tr>
 					<tr>
 						<td rowspan="6">
-						<img width="200" src="./resources/static/${bookinfo.ob_image}"/> <!-- 사진이미지 경로 -->
+						<img width="200" src="./resources/static/${bookinfo.obImage}"/> <!-- 사진이미지 경로 -->
 				
 						</td>
 					</tr>
 				
 					<tr>
 						<td colspan="2">
-							책 제목 : ${bookinfo.ob_name}
+							책 제목 : ${bookinfo.obName}
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
-							저자 : ${bookinfo.ob_author}
+							저자 : ${bookinfo.obAuthor}
 							<c:choose>
-								<c:when test="${bookinfo.ob_inter eq ''}">
+								<c:when test="${bookinfo.obInter eq ''}">
 									 
 								</c:when>
 								<c:otherwise>
-									/ 역자 : ${bookinfo.ob_inter}						
+									/ 역자 : ${bookinfo.obInter}
 								</c:otherwise>
 							</c:choose>	
 						</td>
 					</tr>
 					<tr>
-							<fmt:parseDate var="dateString" value="${bookinfo.ob_bdate}" pattern="yyyy-MM-dd HH:mm:ss.S" />
+							<fmt:parseDate var="dateString" value="${bookinfo.obBdate}" pattern="yyyy-MM-dd HH:mm:ss.S" />
 						<td colspan="2">등록일 : <fmt:formatDate value="${dateString}" pattern="yyyy년MM월dd일" /></td>
 					</tr>
 					<tr>
 						<td colspan="2">
-							출판사 : ${bookinfo.ob_comp }
+							출판사 : ${bookinfo.obComp }
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
 							<c:choose>
 								<c:when test="${sessionScope.id eq null}">
-									가격 : ${bookinfo.ob_price } 원
-									<input type="hidden" value="${bookinfo.ob_price}">
+									가격 : ${bookinfo.obPrice } 원
+									<input type="hidden" value="${bookinfo.obPrice}">
 								</c:when>
 								<c:otherwise>
-									회원가 : <f:parseNumber value="${bookinfo.ob_price *0.5}" integerOnly="true"/> 원
-									<input type="hidden" value="${bookinfo.ob_price}">
+									회원가 : <f:parseNumber value="${bookinfo.obPrice *0.5}" integerOnly="true"/> 원
+									<input type="hidden" value="${bookinfo.obPrice}">
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -90,7 +90,7 @@
 						<th>기증자 한마디</th> 
 					</tr>
 					<tr>
-						<td>${bookinfo.ob_comment }</td>
+						<td>${bookinfo.obComment }</td>
 					</tr>
 				</table>
      	 	
