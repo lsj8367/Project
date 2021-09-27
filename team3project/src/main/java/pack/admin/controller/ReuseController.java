@@ -11,49 +11,48 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
-import pack.model.OldBookDto;
+import pack.domain.entity.OldBook;
 
 @Controller
 @RequiredArgsConstructor
 public class ReuseController {
-	private final AdminDao adminDao;
-	private final AdminService adminService;
-	
-	@GetMapping("reuse")
-	public ModelAndView ReuseBook(HttpSession session, ModelMap model) {
-		ModelAndView view = new ModelAndView();
-		String admin_id = (String)session.getAttribute("admin_id");
-		if(admin_id == null | admin_id == "") {
-			view.setViewName("admin/admin_login");
-			return view;
-		}
-		model.addAttribute("info", adminService.selectAdminData(admin_id));
-		
-		List<OldBookDto> reuselist = adminDao.selectReuseAll();
-		view.setViewName("admin/reuse");
-		view.addObject("reuselist",reuselist);
 
-		return view;
-	}
-	
-	@PostMapping("throwaway")
-	public String ObThrow(@RequestParam(name="ob_no") int ob_no[], HttpSession session, ModelMap model) {
+    private final AdminDao adminDao;
+    private final AdminService adminService;
 
-		String admin_id = (String)session.getAttribute("admin_id");
-		if(admin_id == null | admin_id == "") {
-			return "admin/admin_login";
-		}
-		model.addAttribute("info", adminService.selectAdminData(admin_id));
-		boolean b = false;
+    @GetMapping("reuse")
+    public ModelAndView ReuseBook(HttpSession session, ModelMap model) {
+        ModelAndView view = new ModelAndView();
+        String admin_id = (String) session.getAttribute("admin_id");
+        if (admin_id == null | admin_id == "") {
+            view.setViewName("admin/admin_login");
+            return view;
+        }
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
+        List<OldBook> reuseList = adminService.selectReuseAll();
+        view.setViewName("admin/reuse");
+        view.addObject("reuselist", reuseList);
 
-		for (int index : ob_no) {
-			b = adminDao.obthrow(index);
-		}
+        return view;
+    }
 
-		if(b) {
-			return "redirect:/reuse";
-		}
+    @PostMapping("throwaway")
+    public String ObThrow(@RequestParam(name = "ob_no") int ob_no[], HttpSession session, ModelMap model) {
 
-		return "redirect:/adminmain";
-	}
+        String admin_id = (String) session.getAttribute("admin_id");
+        if (admin_id == null | admin_id == "") {
+            return "admin/admin_login";
+        }
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
+        try {
+            for (int index : ob_no) {
+                adminService.obThrow(index);
+            }
+            return "redirect:/reuse";
+        } catch (Exception e) {
+            return "redirect:/adminmain";
+        }
+
+    }
+
 }
