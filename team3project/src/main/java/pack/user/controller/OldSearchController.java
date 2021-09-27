@@ -5,27 +5,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.user.model.OldSearchDao;
 import pack.user.domain.OldSearch;
+import pack.user.service.OldSearchService;
 
 @Controller
 @RequiredArgsConstructor
 public class OldSearchController {
-	private final OldSearchDao oldSearchDao;
-	
-	@RequestMapping("oldsearch")
-	public ModelAndView DataAll(@RequestParam("type") String type, @RequestParam("search") String search) {
-		ModelAndView modelAndView = new ModelAndView();
 
-		OldSearch oldSearch = OldSearch.builder()
-									   .type(type)
-									   .search(search)
-									   .build();
+    private final OldSearchService oldSearchService;
 
-		modelAndView.addObject("oldbooklist", oldSearchDao.getDataAll(oldSearch));
-		modelAndView.setViewName("rentmain");
+    @RequestMapping("oldsearch")
+    public ModelAndView DataAll(@RequestParam("type") String type, @RequestParam("search") String search) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("oldbooklist", oldSearchService.getDataAllExist(OldSearch.builder()
+            .type(type)
+            .search(search)
+            .build()));
+        modelAndView.setViewName("rentmain");
+        return modelAndView;
+    }
 
-		return modelAndView;
-	}
-	
 }

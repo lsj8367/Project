@@ -10,29 +10,19 @@ import java.util.List;
 import java.util.Map;
 
 @Repository("giveDao")
-public class GiveDao extends AbstractDAO{
-	
-	/*
-	 * @SuppressWarnings("unchecked") public List<Map<String, Object>>
-	 * selectGiveList(Map<String, Object> map)throws Exception{ return
-	 * (List<Map<String, Object>>)selectList("selectGiveList"); }
-	 */
-	
-	@Autowired
-	SqlSession session;
-	
-	@Autowired
-	SqlSessionTemplate sqlSessionTemplate;
-	
-	public void insertFile(Map<String, Object> map) throws Exception {
-		insert("insertFile", map);
-	}
-	
-	public void insertOldBook(Map<String, Object>map) throws Exception{
-		insert("insertOldBook", map);
-	}
-	
-	public List<OldBookDto> getGiveList(String ob_userid) {
-		return session.selectList("selectGiveList",ob_userid);
-	}
+public class GiveDao extends AbstractDAO {
+    @Autowired
+    SqlSession session;
+
+    @Autowired
+    SqlSessionTemplate sqlSessionTemplate;
+
+    public void insertFile(Map<String, Object> map) throws Exception {
+        insert("insertFile", map);
+    }
+
+    public List<OldBookDto> getGiveList(String ob_userid) {
+        return session.selectList("selectGiveList", ob_userid);
+    }
+
 }

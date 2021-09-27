@@ -2,6 +2,7 @@ package pack.domain.entity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -98,6 +99,21 @@ public class OldBook {
         this.obComment = obComment;
         this.obImage = obImage;
         this.obUserid = obUserid;
+    }
+
+    public static OldBook toEntity(Map<String, Object> map) {
+        return OldBook.builder()
+            .obName((String) map.get("ob_name"))
+            .obAuthor((String) map.get("ob_author"))
+            .obInter((String) map.get("ob_inter"))
+            .obGenre((String) map.get("ob_genre"))
+            .obComp((String) map.get("ob_comp"))
+            .obBdate((LocalDateTime) map.get("ob_bdate"))
+            .obPrice((Long) map.get("ob_price"))
+            .obDonor((String) map.get("ob_donor"))
+            .obComment((String) map.get("ob_comment"))
+            .obUserid((String) map.get("ob_userid"))
+            .build();
     }
 
 }

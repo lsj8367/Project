@@ -53,21 +53,16 @@ public class UserpenaltyController {
         if (rent_no.length == 0) {
             return "redirect:/delaycount";
         }
-        boolean o = false;
 
         for (int i = 0; i < rent_no.length; i++) {
             ubean.setUser_id(user_id[i]);
             ubean.setDelpoint(delpoint[i]);
             boolean b = adminDao.upuser(ubean);
             if (b) {
-                o = adminDao.removeOb(rent_no[i]);
+                adminService.removeOb(rent_no[i]);
             }
         }
-        if (o) {
-            return "redirect:/delaycount";
-        }
-
-        return "redirect:/admin";
+        return "redirect:/delaycount";
     }
 
     @GetMapping(value = "delaycount")

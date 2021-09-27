@@ -19,6 +19,7 @@ import pack.repository.OldBookRepository;
 @RequiredArgsConstructor
 @Transactional
 public class AdminService {
+
     private final AdminRepository adminRepository;
     private final NewBookRepository newBookRepository;
     private final OldBookRepository oldBookRepository;
@@ -28,8 +29,8 @@ public class AdminService {
     }
 
     public Admin selectAdminData(String adminId) {
-        Optional<Admin> optionalAdmin = adminRepository.findByAdminId(adminId);
-        return optionalAdmin.orElseThrow(AdminService::notFoundAdminId);
+        return adminRepository.findByAdminId(adminId)
+            .orElseThrow(AdminService::notFoundAdminId);
     }
 
     public List<Admin> adminYetAll() {
@@ -72,7 +73,7 @@ public class AdminService {
         try {
             newBookRepository.save(NewBook.toEntity(newBookDto));
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -130,6 +131,25 @@ public class AdminService {
         final Optional<OldBook> optionalOldBook = oldBookRepository.findById((long) index);
         optionalOldBook.ifPresent(oldBook -> {
             oldBook.setObState("6");
+        });
+    }
+
+    public List<OldBook> getMostRentBook() {
+        return oldBookRepository.getMostRentBook();
+    }
+
+    public void upObState(int obNo, String obState) {
+        Optional<OldBook> optionalOldBook = oldBookRepository.findById((long) obNo);
+        optionalOldBook.ifPresent(oldBook -> {
+            oldBook.setObState(obState);
+        });
+    }
+
+    public void removeOb(int obNo) {
+        final Optional<OldBook> optionalOldBook = oldBookRepository.findById((long) obNo);
+
+        optionalOldBook.ifPresent(oldBook -> {
+            oldBookRepository.delete(oldBook);
         });
     }
 

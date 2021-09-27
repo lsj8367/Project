@@ -9,16 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
 import pack.domain.entity.OldBook;
-import pack.model.OldBookDto;
 
 @Controller
 @RequiredArgsConstructor
 public class DonatebooklistController {
 
-    private final AdminDao adminDao;
     private final AdminService adminService;
 
     @GetMapping("donatebooklist")
@@ -38,29 +35,24 @@ public class DonatebooklistController {
     }
 
     @PostMapping("standbyok")
-    public String upState(OldBookDto oldBookDto,
-        @RequestParam(name = "ob_no") int ob_no[],
+    public String upState(@RequestParam(name = "ob_no") int ob_no[],
         @RequestParam(name = "ob_state") String ob_state[],
         HttpSession session, ModelMap model) {
         String admin_id = (String) session.getAttribute("admin_id");
-			if (admin_id == null | admin_id == "") {
-				return "admin/admin_login";
-			}
+        if (admin_id == null | admin_id == "") {
+            return "admin/admin_login";
+        }
 
         model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-        boolean b = false;
-
-        for (int i = 0; i < ob_no.length; i++) {
-            oldBookDto.setOb_no(ob_no[i]);
-            oldBookDto.setOb_state(ob_state[i]);
-            b = adminDao.upobstate(oldBookDto);
-        }
-
-        if (b) {
+        try {
+            for (int i = 0; i < ob_no.length; i++) {
+                adminService.upObState(ob_no[i], ob_state[i]);
+            }
             return "redirect:/donatebooklist";
+        } catch (Exception e) {
+            return "redirect:/adminmain";
         }
-        return "redirect:/adminmain";
     }
 
 }
