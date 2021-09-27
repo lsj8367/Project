@@ -126,15 +126,15 @@ body {
 		<tr><th>도서이미지</th><th>도서명</th><th>저자</th><th>역자</th><th>출판사(출판일)</th><th>상태</th></tr>
 		<c:forEach var="sob" items="${soblist }">
 			<tr>
-				<td><img src="${sob.ob_image }" ></td>
-			<td>${sob.ob_name}</td>
-			<td>${sob.ob_author}</td>
-			<td>${sob.ob_inter}</td>
+				<td><img src="resources/static/${sob.obImage }" ></td>
+			<td>${sob.obName}</td>
+			<td>${sob.obAuthor}</td>
+			<td>${sob.obInter}</td>
 			<td>
-			${sob.ob_comp}<br>
-			(${sob.ob_bdate})
+			${sob.obComp}<br>
+			(${sob.obBdate})
 			</td>
-			<td>${sob.ob_state}</td>
+			<td>${sob.obState}</td>
 			</tr>
 		</c:forEach>
 	</table>
