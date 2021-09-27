@@ -21,17 +21,18 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public OldBook getMostRentBook() {
+    public List<OldBook> getMostRentBook() {
         return jpaQueryFactory.selectFrom(oldBook)
             .where(oldBook.obScount.eq(JPAExpressions.select(oldBook.obScount.max())
                 .from(oldBook)))
-            .fetchOne();
+            .fetch();
     }
 
     @Override
     public List<OldBook> genreForFirstGrade(String obGenre) {
         return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.eq(FIRST_GRADE).and(oldBook.obDonor.ne("10"))
+            .where(oldBook.obState.eq(FIRST_GRADE)
+                .and(oldBook.obDonor.ne("10"))
                 .and(oldBook.obGenre.contains(obGenre)))
             .fetch();
     }
