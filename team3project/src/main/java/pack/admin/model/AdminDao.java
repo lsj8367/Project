@@ -6,7 +6,6 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 import pack.model.AdminDto;
 import pack.model.NewBookDto;
-import pack.model.OldBookDto;
 import pack.model.OrderInfoDto;
 import pack.model.RentInfoDto;
 import pack.model.ReviewDto;
@@ -25,32 +24,6 @@ public class AdminDao extends SqlSessionDaoSupport {
 
     public List<UserDto> selectUserAll() {
         return getSqlSession().selectList("selectUserAll");
-    }
-
-    public List<OldBookDto> selectSellObAll() {
-        return getSqlSession().selectList("selectSellObAll");
-    }
-
-    public List<OldBookDto> selectStandbyAll() {
-        return getSqlSession().selectList("selectStandbyAll");
-    }
-
-    public boolean upobstate(OldBookDto dto) {
-        try {
-            getSqlSession().update("upobstate", dto);
-            return true;
-        } catch (Exception e) {
-            System.out.println("updateState error : " + e);    //개발자를 위한 내용
-            return false;
-        }
-    }
-
-    public List<OldBookDto> selectRentBookAll() {
-        return getSqlSession().selectList("selectRentBookAll");
-    }
-
-    public List<OldBookDto> selectReuseAll() {
-        return getSqlSession().selectList("selectReuseAll");
     }
 
     public List<OrderInfoDto> selectnbOrderAll() {
@@ -87,16 +60,6 @@ public class AdminDao extends SqlSessionDaoSupport {
         return getSqlSession().selectList("selectorderAll");
     }
 
-    public boolean obthrow(int ob_no) {
-        try {
-            getSqlSession().update("obthrow", ob_no);
-            return true;
-        } catch (Exception e) {
-            System.out.println("updateThrow error : " + e);    //개발자를 위한 내용
-            return false;
-        }
-    }
-
     public List<RentInfoDto> selectdelayAll() {
         return getSqlSession().selectList("selectdelayAll");
     }
@@ -107,17 +70,6 @@ public class AdminDao extends SqlSessionDaoSupport {
             return true;
         } catch (Exception e) {
             System.out.println("updateUser error : " + e);    //포인트 차감, 상태 업데이트
-            return false;
-        }
-    }
-
-    public boolean removeOb(int ob_no) {
-        try {
-            getSqlSession().delete("rmoldbook", ob_no);
-            getSqlSession().delete("rmrentinfo");
-            return true;
-        } catch (Exception e) {
-            System.out.println("removeOb error : " + e);    //장기연체 도서 삭제
             return false;
         }
     }
@@ -266,10 +218,6 @@ public class AdminDao extends SqlSessionDaoSupport {
 
     public List<OrderInfoDto> buyKing() {
         return getSqlSession().selectList("buyking");
-    }
-
-    public List<OldBookDto> getMostRentBook() {
-        return getSqlSession().selectList("getmostrentbook");
     }
 
     public boolean adminInsert(AdminDto adminDto) {

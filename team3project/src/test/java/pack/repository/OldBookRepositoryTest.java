@@ -15,13 +15,18 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 import pack.config.QuerydslConfig;
 import pack.domain.entity.OldBook;
+import pack.domain.entity.User;
 
 @DataJpaTest
 @Import(QuerydslConfig.class)
 @Sql(scripts = "classpath:data.sql")
 class OldBookRepositoryTest {
+
     @Autowired
     OldBookRepository oldBookRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     TestEntityManager testEntityManager;
@@ -58,20 +63,20 @@ class OldBookRepositoryTest {
     void obthrow() {
         Optional<OldBook> optionalOldBook = oldBookRepository.findById(7L);
         optionalOldBook.ifPresent(oldBook -> {
-            oldBook.setObState("4");
+            oldBook.setObState("6");
         });
         testEntityManager.flush();
         testEntityManager.clear();
         Optional<OldBook> optionalOldBook2 = oldBookRepository.findById(7L);
         optionalOldBook2.ifPresent(oldBook -> {
-            assertThat(oldBook.getObState()).isEqualTo("4");
+            assertThat(oldBook.getObState()).isEqualTo("6");
         });
     }
 
     @Test
     void getMostRentBook() {
-        OldBook oldBook = oldBookRepository.getMostRentBook();
-        assertThat(oldBook.getObDonor()).isEqualTo("test6");
+        List<OldBook> oldBook = oldBookRepository.getMostRentBook();
+        assertThat(oldBook.get(0).getObDonor()).isEqualTo("test6");
     }
 
     @Test
@@ -181,5 +186,78 @@ class OldBookRepositoryTest {
         OldBook result = oldBookRepository.oldBookInfoRentalState(3L);
         assertThat(result.getObState()).isEqualTo("2");
         assertThat(result.getObDonor()).isEqualTo("태은희");
+    }
+
+    @Test
+    void upObProcess() {
+        Long rentNo = 1L;
+        Optional<OldBook> optionalOldBook = oldBookRepository.findById(rentNo);
+        optionalOldBook.ifPresent(oldBook -> {
+            oldBook.setObDonor("0");
+            oldBookRepository.saveAndFlush(oldBook);
+            assertThat(oldBook.getObDonor()).isEqualTo("0");
+        });
+    }
+
+    @Test
+    void getObp() {
+        Optional<OldBook> optionalOldBook = oldBookRepository.findById(1L);
+        optionalOldBook.ifPresent(oldBook -> {
+            assertThat(oldBook.getObPrice()).isEqualTo(30000);
+        });
+    }
+
+    @Test
+    void readCntUpdate() {
+        Optional<OldBook> optionalOldBook = oldBookRepository.findById(1L);
+        optionalOldBook.ifPresent(oldBook -> {
+            oldBook.setObReadcnt(oldBook.getObReadcnt() + 1);
+            oldBookRepository.saveAndFlush(oldBook);
+            assertThat(oldBook.getObReadcnt()).isEqualTo(1);
+        });
+    }
+
+    @Test
+    @DisplayName("donor3List, donorListAll 같음")
+    void donor3List() {
+        List<OldBook> oldBookList = oldBookRepository.donorList("유재석");
+        System.out.println(oldBookList);
+    }
+
+    @Test
+    void viewOldBook() {
+        Optional<OldBook> optionalOldBook = oldBookRepository.findById(1L);
+        optionalOldBook.ifPresent(oldBook -> {
+            assertThat(oldBook.getObReadcnt()).isEqualTo(0);
+        });
+    }
+
+    @Test
+    void updateOldBook() {
+        Optional<OldBook> optionalOldBook = oldBookRepository.findById(1L);
+        optionalOldBook.ifPresent(oldBook -> {
+            oldBook.setObDonor("10");
+            oldBookRepository.saveAndFlush(oldBook);
+            assertThat(oldBook.getObDonor()).isEqualTo("10");
+        });
+    }
+
+    @Test
+    void selectGiveList() {
+        userRepository.save(User.builder()
+                .userId("1")
+            .build());
+
+        oldBookRepository.selectGiveList("1");
+    }
+
+    @Test
+    void updateRentOldBook() {
+        Optional<OldBook> optionalOldBook = oldBookRepository.findById(1L);
+        optionalOldBook.ifPresent(oldBook -> {
+            oldBook.setObDonor("1");
+            oldBookRepository.saveAndFlush(oldBook);
+            assertThat(oldBook.getObDonor()).isEqualTo("1");
+        });
     }
 }

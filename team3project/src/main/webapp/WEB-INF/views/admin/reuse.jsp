@@ -138,22 +138,22 @@ body {
 		<tr><th></th><th>도서이미지</th><th>도서명</th><th>저자</th><th>역자</th><th>출판사(출판일)</th><th>상태</th><th>기증자</th></tr>
 		<c:forEach var="r" items="${reuselist }">
 			<tr>
-				<td><input type="checkbox" name = "ob_no" value=${r.ob_no }></td>
-				<td><img src="${r.ob_image }" ></td>
-				<td>${r.ob_name}</td>
-				<td>${r.ob_author}</td>
-				<td>${r.ob_inter}</td>
+				<td><input type="checkbox" name = "ob_no" value=${r.obNo }></td>
+				<td><img src="resources/static/${r.obImage }" ></td>
+				<td>${r.obName}</td>
+				<td>${r.obAuthor}</td>
+				<td>${r.obInter}</td>
 				<td>
-				${r.ob_comp}<br>
-				(${r.ob_bdate})
+				${r.obComp}<br>
+				(${r.obBdate})
 				</td>
 				<td>
 					<c:choose>
-						<c:when test="${r.ob_state eq '4'}">하</c:when>
-						<c:when test="${r.ob_state eq '5'}">최하</c:when>
+						<c:when test="${r.obState eq '4'}">하</c:when>
+						<c:when test="${r.obState eq '5'}">최하</c:when>
 					</c:choose>
 				</td>
-				<td>${r.ob_donor}</td>
+				<td>${r.obDonor}</td>
 			</tr>
 		</c:forEach>
 		<tr>

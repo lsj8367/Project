@@ -9,54 +9,50 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
-import pack.model.OldBookDto;
+import pack.domain.entity.OldBook;
 
 @Controller
 @RequiredArgsConstructor
 public class DonatebooklistController {
-	private final AdminDao adminDao;
-	private final AdminService adminService;
-	
-	@GetMapping("donatebooklist")
-	public ModelAndView StandbyBook(HttpSession session, ModelMap model) {
-		ModelAndView view = new ModelAndView();
-		String admin_id = (String)session.getAttribute("admin_id");
-		if(admin_id == null | admin_id == "") {
-			view.setViewName("admin/admin_login");
-			return view;
-		}
-		model.addAttribute("info", adminService.selectAdminData(admin_id));
-		List<OldBookDto> standbylist = adminDao.selectStandbyAll();
-		view.setViewName("admin/standby");
-		view.addObject("slist",standbylist);
 
-		return view;
-	}
-	
-	@PostMapping("standbyok")
-	public String upState(OldBookDto oldBookDto,
-			@RequestParam(name="ob_no") int ob_no[], 
-			@RequestParam(name="ob_state") String ob_state[],
-			HttpSession session, ModelMap model) {
-		String admin_id = (String)session.getAttribute("admin_id");
-		if(admin_id == null | admin_id == "") 
-			return "admin/admin_login";
+    private final AdminService adminService;
 
-		model.addAttribute("info", adminService.selectAdminData(admin_id));
+    @GetMapping("donatebooklist")
+    public ModelAndView StandbyBook(HttpSession session, ModelMap model) {
+        ModelAndView view = new ModelAndView();
+        String admin_id = (String) session.getAttribute("admin_id");
+        if (admin_id == null | admin_id == "") {
+            view.setViewName("admin/admin_login");
+            return view;
+        }
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
+        List<OldBook> standByList = adminService.selectStandByAll();
+        view.setViewName("admin/standby");
+        view.addObject("slist", standByList);
 
-		boolean b = false;
+        return view;
+    }
 
-		for (int i = 0; i < ob_no.length; i++) {
-			oldBookDto.setOb_no(ob_no[i]);
-			oldBookDto.setOb_state(ob_state[i]);
-			b = adminDao.upobstate(oldBookDto);
-		}
+    @PostMapping("standbyok")
+    public String upState(@RequestParam(name = "ob_no") int ob_no[],
+        @RequestParam(name = "ob_state") String ob_state[],
+        HttpSession session, ModelMap model) {
+        String admin_id = (String) session.getAttribute("admin_id");
+        if (admin_id == null | admin_id == "") {
+            return "admin/admin_login";
+        }
 
-		if(b) {
-			return "redirect:/donatebooklist";
-		}
-		return "redirect:/adminmain";
-	}
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
+
+        try {
+            for (int i = 0; i < ob_no.length; i++) {
+                adminService.upObState(ob_no[i], ob_state[i]);
+            }
+            return "redirect:/donatebooklist";
+        } catch (Exception e) {
+            return "redirect:/adminmain";
+        }
+    }
+
 }

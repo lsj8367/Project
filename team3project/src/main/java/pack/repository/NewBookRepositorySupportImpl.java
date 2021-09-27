@@ -3,6 +3,7 @@ package pack.repository;
 import static pack.domain.entity.QNewBook.newBook;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import pack.domain.entity.NewBook;
 public class NewBookRepositorySupportImpl implements NewBookRepositorySupport {
 
     private final JPAQueryFactory jpaQueryFactory;
+    private final JPAQuery<NewBook> jpaQuery;
 
     @Override
     public NewBook selectBestSeller() {
@@ -70,10 +72,10 @@ public class NewBookRepositorySupportImpl implements NewBookRepositorySupport {
 
     @Override
     public List<NewBook> selectRandom(int limit) {
-        return jpaQueryFactory.selectFrom(newBook)
-            .orderBy(NumberExpression.random().asc())
-            .limit(limit)
-            .fetch();
+        return jpaQuery.from(newBook)
+                .orderBy(NumberExpression.random().asc())
+                    .limit(limit)
+                .fetch();
     }
 
     @Override

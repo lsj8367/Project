@@ -1,6 +1,5 @@
 package pack.admin.controller;
 
-import java.util.List;
 import java.util.Objects;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
 import pack.domain.entity.Admin;
-import pack.domain.entity.NewBook;
 import pack.model.AdminDto;
-import pack.model.NewBookDto;
-import pack.model.OldBookDto;
-import pack.model.OrderInfoDto;
-import pack.model.RentInfoDto;
 import pack.validation.AdminLoginValidation;
 import pack.validation.LoginValidation;
 
@@ -96,7 +90,6 @@ public class AdminController {
 
         System.out.println("123123123");
         Admin admin = adminService.selectAdminData(admin_id);
-        int adminAcc = admin.getAdminAcc();
         String retPasswd = admin.getAdminPassword();
         if (retPasswd.equals(admin_passwd)) {
             if (admin.getAdminAcc() == 2) {
@@ -115,25 +108,15 @@ public class AdminController {
 
         model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-        List<RentInfoDto> rulist = adminDao.rentKing();
-        List<OrderInfoDto> bulist = adminDao.buyKing();
-        OrderInfoDto oprofit2 = adminDao.obprofitmonth();
-        OrderInfoDto nprofit2 = adminDao.nbprofitmonth();
-        OrderInfoDto rprofit2 = adminDao.profitMonth();
-        List<NewBookDto> ocmonth = adminDao.mbSellerCmonth();
-        List<RentInfoDto> rentcmonth = adminDao.mbRentCmonth();
-        NewBook msbook = adminService.getMostSellBook();
-
-        List<OldBookDto> mrbook = adminDao.getMostRentBook();
-        view.addObject("bsb", msbook);
-        view.addObject("brb", mrbook);
-        view.addObject("rtm", rentcmonth);
-        view.addObject("om", ocmonth);
-        view.addObject("rp", rprofit2);
-        view.addObject("ru", rulist);
-        view.addObject("bu", bulist);
-        view.addObject("op", oprofit2);
-        view.addObject("np", nprofit2);
+        view.addObject("bsb", adminService.getMostSellBook());
+        view.addObject("brb", adminService.getMostRentBook());
+        view.addObject("rtm", adminDao.mbRentCmonth());
+        view.addObject("om", adminDao.mbSellerCmonth());
+        view.addObject("rp", adminDao.profitMonth());
+        view.addObject("ru", adminDao.rentKing());
+        view.addObject("bu", adminDao.buyKing());
+        view.addObject("op", adminDao.obprofitmonth());
+        view.addObject("np", adminDao.nbprofitmonth());
         view.setViewName("admin/adminmain");
 
         return view;

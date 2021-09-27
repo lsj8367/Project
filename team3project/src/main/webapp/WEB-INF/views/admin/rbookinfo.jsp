@@ -137,20 +137,20 @@ body {
 		<tr><th>도서이미지</th><th>도서명</th><th>저자</th><th>역자</th><th>출판사(출판일)</th><th>상태</th></tr>
 		<c:forEach var="rb" items="${rblist }">
 			<tr>
-				<td><img src="${rb.ob_image }" ></td>
-			<td>${rb.ob_name}</td>
-			<td>${rb.ob_author}</td>
-			<td>${rb.ob_inter}</td>
+				<td><img src="resources/static/${rb.obImage }" ></td>
+			<td>${rb.obName}</td>
+			<td>${rb.obAuthor}</td>
+			<td>${rb.obInter}</td>
 			<td>
-			${rb.ob_comp}<br>
-			(${rb.ob_bdate})
+			${rb.obComp}<br>
+			(${rb.obBdate})
 			</td>
 			<td>
 				<c:choose>
-				    <c:when test="${rb.ob_state eq '2'}">
+				    <c:when test="${rb.obState eq '2'}">
 				        상
 				    </c:when>
-				    <c:when test="${rb.ob_state eq '3'}">
+				    <c:when test="${rb.obState eq '3'}">
 				        중
 				    </c:when>
 			    </c:choose>

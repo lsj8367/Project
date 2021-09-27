@@ -1,22 +1,21 @@
 package pack.user.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.model.OldBookDto;
 import pack.model.UserDto;
 import pack.user.model.OldBookListDao;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import pack.user.service.RentBookListService;
 
 @Controller
 @RequiredArgsConstructor
 public class RentbookListController {
 
+    private final RentBookListService rentBookListService;
     private final OldBookListDao oldBookListDao;
 
     @RequestMapping("rentlist1")
@@ -35,44 +34,34 @@ public class RentbookListController {
     }
 
     private ModelAndView getList(ModelAndView modelAndView, String ob_genre) {
-        List<OldBookDto> list;
-        List<OldBookDto> list2;
         if (ob_genre.equals("rentmain")) {
-            list = oldBookListDao.rentmain();
-            System.out.println(list.toString());
-            list2 = oldBookListDao.rentmain2();
-            modelAndView.addObject("oldbooklist", list); //1등급 책 리스트
-            modelAndView.addObject("oldbooklow", list2); //2,3등급 책 리스트
+            modelAndView.addObject("oldbooklist", rentBookListService.randomFirstGrade()); //1등급 책 리스트
+            modelAndView.addObject("oldbooklow", rentBookListService.oldLowLimit2()); //2,3등급 책 리스트
 
             modelAndView.setViewName("rentmain");
-
-        } else if (ob_genre.equals("high")) {
-            list = oldBookListDao.selectHighAll();
-            modelAndView.addObject("list", list);
-
+            return modelAndView;
+        }
+        if (ob_genre.equals("high")) {
+            modelAndView.addObject("list", rentBookListService.oldHigh());
             modelAndView.setViewName("alllist");
+            return modelAndView;
+        }
 
-        } else if (ob_genre.equals("low")) {
-            list = oldBookListDao.selectLowAll();
-            modelAndView.addObject("list", list);
+        if (ob_genre.equals("low")) {
+            modelAndView.addObject("list", rentBookListService.oldLow());
             modelAndView.setViewName("alllist");
 
         } else {
-            list = oldBookListDao.selectGenre(ob_genre);
-            list2 = oldBookListDao.selectGenre2(ob_genre);
-
-            modelAndView.addObject("oldbooklist", list);
-            modelAndView.addObject("oldbooklow", list2);
+            modelAndView.addObject("oldbooklist", rentBookListService.genreForFirstGrade(ob_genre));
+            modelAndView.addObject("oldbooklow", rentBookListService.genreForAnotherGrade(ob_genre));
             modelAndView.setViewName("rentmain");
-
         }
         return modelAndView;
     }
 
 
     private void getBest(ModelAndView modelAndView) {
-        OldBookDto best = oldBookListDao.bestOne();
-        modelAndView.addObject("best", best);
+        modelAndView.addObject("best", rentBookListService.selectBestRentBook());
 
         UserDto readbest = oldBookListDao.bestRead();
         modelAndView.addObject("readbest", readbest);

@@ -6,24 +6,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.model.OldBookDto;
+import pack.domain.entity.OldBook;
 import pack.model.UserDto;
 import pack.user.model.OldBookDao;
 import pack.user.model.UserDao;
+import pack.user.service.OldBookService;
 
 @Controller
 @RequiredArgsConstructor
 public class OldBookController {
+    private final OldBookService oldBookService;
     private final OldBookDao oldBookDao;
     private final UserDao userDao;
 
     @RequestMapping("oldbook")
     public ModelAndView bookInfo(@RequestParam("book_no") String book_no) { //중고중에 1등급
         ModelAndView modelAndView = new ModelAndView();
-        OldBookDto dto = oldBookDao.bookInfo(book_no);
+
+        OldBook oldBook = oldBookService.bookInfo(book_no);
         boolean b = oldBookDao.readcnt(Integer.parseInt(book_no));
         if (b) {
-            modelAndView.addObject("bookinfo", dto);
+            modelAndView.addObject("bookinfo", oldBook);
             modelAndView.setViewName("oldbook");
             return modelAndView;
         } else {
@@ -39,10 +42,10 @@ public class OldBookController {
         String user_id = (String) session.getAttribute("id");
 
         ModelAndView modelAndView = new ModelAndView();
-        OldBookDto dto = oldBookDao.rentalInfo(book_no);
+
         boolean b = oldBookDao.readcnt(Integer.parseInt(book_no));
         if (b) {
-            modelAndView.addObject("bookinfo", dto);
+            modelAndView.addObject("bookinfo", oldBookService.rentalInfo(book_no));
 
             UserDto user = userDao.selectUser(user_id);
             modelAndView.addObject("rentUser", user);

@@ -8,24 +8,29 @@ import org.springframework.stereotype.Service;
 import pack.admin.model.AdminUpdateDto;
 import pack.domain.entity.Admin;
 import pack.domain.entity.NewBook;
+import pack.domain.entity.OldBook;
+import pack.model.Grade;
 import pack.model.NewBookDto;
 import pack.repository.AdminRepository;
 import pack.repository.NewBookRepository;
+import pack.repository.OldBookRepository;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class AdminService {
+
     private final AdminRepository adminRepository;
     private final NewBookRepository newBookRepository;
+    private final OldBookRepository oldBookRepository;
 
     private static RuntimeException notFoundAdminId() {
         return new RuntimeException("찾는 관리자 계정이 없습니다.");
     }
 
     public Admin selectAdminData(String adminId) {
-        Optional<Admin> optionalAdmin = adminRepository.findByAdminId(adminId);
-        return optionalAdmin.orElseThrow(AdminService::notFoundAdminId);
+        return adminRepository.findByAdminId(adminId)
+            .orElseThrow(AdminService::notFoundAdminId);
     }
 
     public List<Admin> adminYetAll() {
@@ -68,7 +73,7 @@ public class AdminService {
         try {
             newBookRepository.save(NewBook.toEntity(newBookDto));
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -102,6 +107,50 @@ public class AdminService {
 
     public List<NewBook> selectBookDataAll() {
         return newBookRepository.findAll();
+    }
+
+    public List<OldBook> selectSellObAll() {
+        return oldBookRepository.findByObState(Grade.FIRST_GRADE.getGrade());
+    }
+
+    public List<OldBook> selectStandByAll() {
+        return oldBookRepository.findByObState(Grade.READY.getGrade());
+    }
+
+    public List<OldBook> selectRentBookAll() {
+        return oldBookRepository.findByObStateOrObState(
+            Grade.SECOND_GRADE.getGrade(), Grade.THIRD_GRADE.getGrade());
+    }
+
+    public List<OldBook> selectReuseAll() {
+        return oldBookRepository.findByObStateOrObState(
+            Grade.FORTH_GRADE.getGrade(), Grade.FIFTH_GRADE.getGrade());
+    }
+
+    public void obThrow(int index) {
+        final Optional<OldBook> optionalOldBook = oldBookRepository.findById((long) index);
+        optionalOldBook.ifPresent(oldBook -> {
+            oldBook.setObState("6");
+        });
+    }
+
+    public List<OldBook> getMostRentBook() {
+        return oldBookRepository.getMostRentBook();
+    }
+
+    public void upObState(int obNo, String obState) {
+        Optional<OldBook> optionalOldBook = oldBookRepository.findById((long) obNo);
+        optionalOldBook.ifPresent(oldBook -> {
+            oldBook.setObState(obState);
+        });
+    }
+
+    public void removeOb(int obNo) {
+        final Optional<OldBook> optionalOldBook = oldBookRepository.findById((long) obNo);
+
+        optionalOldBook.ifPresent(oldBook -> {
+            oldBookRepository.delete(oldBook);
+        });
     }
 
 }

@@ -139,16 +139,16 @@ body {
 		<c:forEach var="sl" items="${slist }">
 			<tr>
 				<td>
-					${sl.ob_no}
-					<input type = "hidden" name="ob_no" value="${sl.ob_no}">
+					${sl.obNo}
+					<input type = "hidden" name="ob_no" value="${sl.obNo}">
 				</td>
-				<td><img src="${sl.ob_image }" ></td>
-				<td>${sl.ob_name}</td>
-				<td>${sl.ob_author}</td>
-				<td>${sl.ob_inter}</td>
+				<td><img src="resources/static/${sl.obImage }" ></td>
+				<td>${sl.obName}</td>
+				<td>${sl.obAuthor}</td>
+				<td>${sl.obInter}</td>
 				<td>
-				${sl.ob_comp}<br>
-				(${sl.ob_bdate})
+				${sl.obComp}<br>
+				(${sl.obBdate})
 				</td>
 				<td>
 					<select name="ob_state">
@@ -160,7 +160,7 @@ body {
 						<option value="5">최하
 					</select>
 				</td>
-				<td>${sl.ob_donor}</td>
+				<td>${sl.obDonor}</td>
 			</tr>
 		</c:forEach>
 		<tr>

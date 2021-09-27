@@ -361,7 +361,7 @@ display:none;
 				<table>
 				<tr style="text-align: center; margin: auto;">
 				<td>
-					<a href="gomain"><img src='<c:url value="resources/static/images/mbookw.png" />' /></a>
+					<a href="gomain"><img src='<c:url value="/resources/static/images/mbookw.png" />' /></a>
 				</td>
 				<td>
 					<button class="w3-bar-item w3-button w3-large" onclick="w3_close()">&times;</button>
@@ -447,8 +447,8 @@ display:none;
 					<c:if test="${info.adminId ne null }">
 						${info.adminJik } &nbsp;&nbsp;
 						${info.adminName }님 안녕하세요 &nbsp;&nbsp;
-						<a href = "adminlogin"><img src='<c:url value="images/home.jpg" />' /></a>
-						<a href = "admin_logout"><img src='<c:url value="images/logout_black.jpg" />' /></a>&nbsp;
+						<a href = "adminlogin"><img src='<c:url value="/resources/static/images/home.jpg" />' /></a>
+						<a href = "admin_logout"><img src='<c:url value="/resources/static/images/logout_black.jpg" />' /></a>&nbsp;
 					</c:if>
 					</div>
 				</td>
