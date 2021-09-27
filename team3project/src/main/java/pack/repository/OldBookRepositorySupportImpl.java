@@ -1,6 +1,8 @@
 package pack.repository;
 
 import static pack.domain.entity.QOldBook.oldBook;
+import static pack.domain.entity.QUser.user;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -72,7 +74,8 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
     @Override
     public List<OldBook> oldHigh() {
         return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.eq(FIRST_GRADE))
+            .where(oldBook.obState.eq(FIRST_GRADE)
+                .and(oldBook.obDonor.ne("10")))
             .orderBy(oldBook.obNo.desc())
             .fetch();
     }
@@ -99,6 +102,23 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
         return jpaQueryFactory.selectFrom(oldBook)
             .where(oldBook.obState.in("2", "3")
                 .and(oldBook.obNo.eq(obNo)))
+            .fetchOne();
+    }
+
+    @Override
+    public List<OldBook> donorList(String userId) {
+        return jpaQueryFactory.selectFrom(oldBook)
+            .where(oldBook.obDonor.eq(userId))
+            .orderBy(oldBook.obName.desc())
+            .limit(3)
+            .fetch();
+    }
+
+    @Override
+    public Tuple selectGiveList(String obUserId) {
+        return jpaQueryFactory.select(user.userName, oldBook).from(oldBook)
+            .innerJoin(user).on(oldBook.obUserid.eq(user.userId))
+            .where(oldBook.obUserid.eq(obUserId))
             .fetchOne();
     }
 
