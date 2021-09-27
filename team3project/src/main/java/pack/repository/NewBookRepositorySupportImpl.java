@@ -76,10 +76,6 @@ public class NewBookRepositorySupportImpl implements NewBookRepositorySupport {
                 .orderBy(NumberExpression.random().asc())
                     .limit(limit)
                 .fetch();
-//        return jpaQueryFactory.selectFrom(newBook)
-//            .orderBy(NumberExpression.random().asc())
-//            .limit(limit)
-//            .fetch();
     }
 
     @Override
