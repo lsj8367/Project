@@ -5,38 +5,6 @@
 
 <mapper namespace="dev">
   <!-- ================== OLDBOOK ====================== -->
-  <select id="selectSellObAll" resultType="obdto">
-    select *
-    from oldbook
-    where ob_state = "1"
-  </select>
-
-  <select id="selectStandbyAll" resultType="obdto">
-    select *
-    from oldbook
-    where ob_state = "0"
-  </select>
-
-  <select id="selectRentBookAll" resultType="obdto">
-    select *
-    from oldbook
-    where ob_state = "2"
-       or ob_state = "3"
-  </select>
-
-  <select id="selectReuseAll" resultType="obdto">
-    select *
-    from oldbook
-    where ob_state = "4"
-       or ob_state = "5"
-  </select>
-
-  <update id="obthrow" parameterType="int">
-    update oldbook
-    set ob_state="6"
-    where ob_no = #{ob_no}
-  </update>
-
   <select id="getmostrentbook" resultType="obdto">
     select ob_no, ob_name, ob_donor, ob_scount
     from oldbook
@@ -94,6 +62,7 @@
     select *
     from oldbook
     where ob_state = '1'
+      and NOT ob_donor = '10'
     order by ob_no desc
   </select>
 

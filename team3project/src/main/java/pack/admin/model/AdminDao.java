@@ -27,14 +27,6 @@ public class AdminDao extends SqlSessionDaoSupport {
         return getSqlSession().selectList("selectUserAll");
     }
 
-    public List<OldBookDto> selectSellObAll() {
-        return getSqlSession().selectList("selectSellObAll");
-    }
-
-    public List<OldBookDto> selectStandbyAll() {
-        return getSqlSession().selectList("selectStandbyAll");
-    }
-
     public boolean upobstate(OldBookDto dto) {
         try {
             getSqlSession().update("upobstate", dto);
@@ -43,14 +35,6 @@ public class AdminDao extends SqlSessionDaoSupport {
             System.out.println("updateState error : " + e);    //개발자를 위한 내용
             return false;
         }
-    }
-
-    public List<OldBookDto> selectRentBookAll() {
-        return getSqlSession().selectList("selectRentBookAll");
-    }
-
-    public List<OldBookDto> selectReuseAll() {
-        return getSqlSession().selectList("selectReuseAll");
     }
 
     public List<OrderInfoDto> selectnbOrderAll() {
@@ -85,16 +69,6 @@ public class AdminDao extends SqlSessionDaoSupport {
 
     public List<OrderInfoDto> selectorderAll() {
         return getSqlSession().selectList("selectorderAll");
-    }
-
-    public boolean obthrow(int ob_no) {
-        try {
-            getSqlSession().update("obthrow", ob_no);
-            return true;
-        } catch (Exception e) {
-            System.out.println("updateThrow error : " + e);    //개발자를 위한 내용
-            return false;
-        }
     }
 
     public List<RentInfoDto> selectdelayAll() {
