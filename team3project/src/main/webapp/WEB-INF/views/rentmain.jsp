@@ -208,7 +208,7 @@
                         <tr style="text-align: center;">
                             <td style="width: 20%;"><a
                                     href="oldbook?book_no=${o.obNo }"><img width="100"
-                                                                            src="resources/static/${o.obImage}"/></a>
+                                                                           src="resources/static/${o.obImage}"/></a>
                             </td>
                             <td style="width: 35%;"><a
                                     href="oldbook?book_no=${o.obNo }">${o.obName}</a></td>
@@ -313,10 +313,10 @@
             </tr>
             <tr>
                 <td colspan="2" style="text-align: center;"><a
-                        href="oldrental?book_no=${best.ob_no }"> <img width="100"
-                                                                      src="resources/static/${best.ob_image}"></a>
+                        href="oldrental?book_no=${best.obNo }"> <img width="100"
+                                                                     src="resources/static/${best.obImage}"></a>
                 </td>
-                <!-- ${best.ob_name} -->
+                <!-- ${best.obName} -->
             </tr>
             <tr>
                 <td colspan="2" style="text-align: center;">이달의 다독왕은 <br>
