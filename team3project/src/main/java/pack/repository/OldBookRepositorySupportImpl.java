@@ -3,8 +3,10 @@ package pack.repository;
 import static pack.domain.entity.QOldBook.oldBook;
 import static pack.domain.entity.QUser.user;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
     private static final String SECOND_GRADE = "2";
     private static final String THIRD_GRADE = "3";
 
+    private final JPAQuery<OldBook> jpaQuery;
 
     private final JPAQueryFactory jpaQueryFactory;
 
@@ -47,19 +50,19 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
 
     @Override
     public List<OldBook> oldRandom() {
-        return jpaQueryFactory.selectFrom(oldBook)
+        return jpaQuery.select(oldBook).from(oldBook)
             .where(oldBook.obState.eq(FIRST_GRADE))
-            .orderBy(NumberExpression.random().desc())
+            .orderBy((OrderSpecifier<?>) random())
             .limit(2)
             .fetch();
     }
 
     @Override
     public List<OldBook> oldLowLimit2() {
-        return jpaQueryFactory.selectFrom(oldBook)
+        return jpaQuery.select(oldBook).from(oldBook)
             .where(oldBook.obState.eq(SECOND_GRADE)
                 .or(oldBook.obState.eq(THIRD_GRADE)))
-            .orderBy(NumberExpression.random().desc())
+            .orderBy((OrderSpecifier<?>) random())
             .limit(2)
             .fetch();
     }
@@ -121,6 +124,10 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
             .innerJoin(user).on(oldBook.obUserid.eq(user.userId))
             .where(oldBook.obUserid.eq(obUserId))
             .fetchOne();
+    }
+
+    private Object random() {
+        return NumberExpression.random().desc();
     }
 
 }

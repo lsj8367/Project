@@ -1,6 +1,6 @@
 package pack.admin.controller;
 
-import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,39 +21,29 @@ public class BestSellersetController {
     private final AdminService adminService;
 
     @GetMapping("bestsellerset")
-    public ModelAndView goBestSellerset(HttpSession session, ModelMap model) {
-        ModelAndView view = new ModelAndView();
-
+    public ModelAndView goBestSellerset(HttpSession session) {
         String admin_id = (String) session.getAttribute("admin_id");
         if (admin_id == null | admin_id == "") {
-            view.setViewName("admin/admin_login");
-            return view;
+            return new ModelAndView("admin/admin_login");
         }
 
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
-        List<NewBookDto> omonth = adminDao.mbSellerMonth();
-        view.addObject("om", omonth);
-        view.setViewName("admin/bestsellerset");
-        return view;
+        return new ModelAndView("admin/bestsellerset", Map.of(
+            "info", adminService.selectAdminData(admin_id),
+            "om", adminDao.mbSellerMonth()
+        ));
     }
 
     @PostMapping("monthbestseller")
-    public ModelAndView goBestReview(HttpSession session, ModelMap model, @RequestParam("sql") String sql) {
-        ModelAndView view = new ModelAndView();
-
+    public ModelAndView goBestReview(HttpSession session, @RequestParam("sql") String sql) {
         String admin_id = (String) session.getAttribute("admin_id");
         if (admin_id == null | admin_id == "") {
-            view.setViewName("admin/admin_login");
-            return view;
+            return new ModelAndView("admin/admin_login");
         }
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
-        List<NewBookDto> omonth = adminDao.mbSellerMonth();
-        List<NewBookDto> ol = adminDao.mbestSeller(sql);
-        view.addObject("om", omonth);
-        view.addObject("ol", ol);
-        view.setViewName("admin/bestsellerset");
-
-        return view;
+        return new ModelAndView("admin/bestsellerset", Map.of(
+            "info", adminService.selectAdminData(admin_id),
+            "om", adminDao.mbSellerMonth(),
+            "ol", adminDao.mbestSeller(sql)
+        ));
     }
 
     @PostMapping("addstock")

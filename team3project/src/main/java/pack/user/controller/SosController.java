@@ -1,5 +1,6 @@
 package pack.user.controller;
 
+import java.util.Map;
 import java.util.Objects;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -23,17 +24,13 @@ public class SosController {
     @RequestMapping("sos") // 1:1 문의 버튼 눌렀을때 public String
     public ModelAndView sos(HttpSession session) {
         String inq_id = (String) session.getAttribute("id");
-        ModelAndView modelAndView = new ModelAndView();
-
         if (Objects.isNull(inq_id) || Objects.equals(inq_id, "")) {
-            modelAndView.setViewName("login");
-            return modelAndView;
+            return new ModelAndView("login");
         }
 
-        modelAndView.addObject("inqinfo", inqueryService.selectInqList(inq_id));
-
-        modelAndView.setViewName("sos");
-        return modelAndView;
+        return new ModelAndView("sos", Map.of(
+            "inqinfo", inqueryService.selectInqList(inq_id)
+        ));
     }
 
 

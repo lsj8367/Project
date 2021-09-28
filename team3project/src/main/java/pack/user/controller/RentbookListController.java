@@ -1,45 +1,49 @@
 package pack.user.controller;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import pack.domain.entity.OldBook;
 import pack.model.UserDto;
 import pack.user.model.OldBookListDao;
 import pack.user.service.RentBookListService;
 
 @Controller
 @RequiredArgsConstructor
+@Transactional
 public class RentbookListController {
 
     private final RentBookListService rentBookListService;
     private final OldBookListDao oldBookListDao;
 
+    @PostConstruct
+    void init() {
+        HashSet<OldBook> hashSet;
+    }
+
     @RequestMapping("rentlist1")
     public ModelAndView rentlist(@RequestParam("book") String book) {
-
         ModelAndView modelAndView = new ModelAndView();
-
-        //장르
-        Map<String, String> map = editGenre();
-
-        //다독왕
         getBest(modelAndView);
-
-        return getList(modelAndView, map.get(book)); //modelAndView 반환
-
+        return getList(modelAndView, editGenre().get(book)); //modelAndView 반환
     }
 
     private ModelAndView getList(ModelAndView modelAndView, String ob_genre) {
         if (ob_genre.equals("rentmain")) {
-            modelAndView.addObject("oldbooklist", rentBookListService.randomFirstGrade()); //1등급 책 리스트
-            modelAndView.addObject("oldbooklow", rentBookListService.oldLowLimit2()); //2,3등급 책 리스트
-
-            modelAndView.setViewName("rentmain");
-            return modelAndView;
+            final List<OldBook> oldBookList = rentBookListService.randomFirstGrade();
+            rentBookListService.flush();
+            return new ModelAndView("rentmain", Map.of(
+                "oldbooklist", oldBookList,
+                "oldbooklow", rentBookListService.oldLowLimit2()
+            ));
         }
         if (ob_genre.equals("high")) {
             modelAndView.addObject("list", rentBookListService.oldHigh());
@@ -66,7 +70,6 @@ public class RentbookListController {
         UserDto readbest = oldBookListDao.bestRead();
         modelAndView.addObject("readbest", readbest);
     }
-
 
     private Map<String, String> editGenre() {
         Map<String, String> map = new HashMap<String, String>();

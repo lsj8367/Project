@@ -1,6 +1,5 @@
 package pack.user.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -12,16 +11,13 @@ import pack.user.service.QnaPartService;
 @Controller
 @RequiredArgsConstructor
 public class QnaPartController {
-	private final QnaPartService qnaPartService;
 
-	
-	@RequestMapping("qnaPart")
-	@ResponseBody
-	public Map<String, Object> qnaPart(@RequestParam("order") String qna_class){
+    private final QnaPartService qnaPartService;
 
-		Map<String, Object> qnaDatas = new HashMap<String, Object>();
-		qnaDatas.put("datas", qnaPartService.qnaPart(qna_class));
-		return qnaDatas;
-	}
+    @RequestMapping("qnaPart")
+    @ResponseBody
+    public Map<String, Object> qnaPart(@RequestParam("order") String qna_class) {
+        return Map.of("datas", qnaPartService.qnaPart(qna_class));
+    }
 
 }

@@ -19,8 +19,7 @@ public class ListController {
 
     @GetMapping("list")
     public ModelAndView list(@RequestParam("book") String book) {
-        Map<String, String> map = editGenre();
-        return getGenre(map.get(book));
+        return getGenre(editGenre().get(book));
     }
 
     public ModelAndView getGenre(String nb_genre) {
@@ -43,10 +42,10 @@ public class ListController {
     }
 
     private ModelAndView viewAndObject(List<NewBook> list) { //view로 보내는 메소드
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("list");
-        modelAndView.addObject("newbooklist", list);
-        return modelAndView;
+        Map<String, Object> map = Map.of(
+            "newbooklist", list
+        );
+        return new ModelAndView("list", map);
     }
 
     private Map<String, String> editGenre() {

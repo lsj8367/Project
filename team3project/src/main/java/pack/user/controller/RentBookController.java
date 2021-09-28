@@ -1,6 +1,7 @@
 package pack.user.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Map;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -33,8 +34,7 @@ public class RentBookController {
     public ModelAndView rentbook(HttpSession session, @RequestParam("ob_no") String rent_no) {
         //대여하기
         String user_id = (String) session.getAttribute("id");
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        String sdate = format.format(System.currentTimeMillis());
+        String sdate = new SimpleDateFormat("yyyyMMdd").format(System.currentTimeMillis());
 
         //대여정보에 삽입
         RentInfoDto rentInfoDto = new RentInfoDto();
@@ -49,23 +49,12 @@ public class RentBookController {
         //유저 포인트 차감
         userDao.minusRentPoint(user_id);
 
-        //대여한 책 정보
-        ModelAndView view = new ModelAndView();
-
-        view.addObject("rentBook", rentBookService.rentalInfo(rent_no));
-        view.addObject("rentUser", userDao.selectUser(user_id));
-
-        //방금 대여정보 가져오기
-        view.addObject("rentInfo", rentImpl.getRentInfo(user_id));
-
-        view.setViewName("rentbook");
-        return view;
+        return new ModelAndView("rentbook",
+            Map.of(
+                "rentBook", rentBookService.rentalInfo(rent_no),
+                "rentUser", userDao.selectUser(user_id),
+                "rentInfo", rentImpl.getRentInfo(user_id)
+            )
+        );
     }
-
-    // 중고책 대여
-    //@RequestMapping(value = "", method = RequestMethod.GET)
-    public String rentbook() {
-        return "";
-    }
-
 }

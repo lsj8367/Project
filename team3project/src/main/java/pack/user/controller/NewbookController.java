@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,24 +38,13 @@ public class NewbookController {
 
     @GetMapping("newbook")
     public ModelAndView main(@RequestParam("book_no") String nb_no) {
-        ModelAndView modelAndView = new ModelAndView();
-
         newBookService.plusReadCnt(Integer.parseInt(nb_no));
-
-        // 고른 책의 책 정보
         NewBook newBook = newBookService.selectNewBook(Long.parseLong(nb_no));
-        modelAndView.addObject("newbook", newBook);
-
-        // 같은 저자의 책 3개 랜덤 뽑기
-        modelAndView.addObject("authorList", newBookService.selectAuthorList(newBook.getNbAuthor()));
-
-        // 해당책의 리뷰 보여주기
-        modelAndView.addObject("reviewList", reviewDao.selectNewbookReviewList(Integer.parseInt(nb_no)));
-
-        modelAndView.setViewName("newbook");
-        return modelAndView;
-
-
+        return new ModelAndView("newbook", Map.of(
+            "newbook", newBook,
+            "authorList", newBookService.selectAuthorList(newBook.getNbAuthor()),
+            "reviewList", reviewDao.selectNewbookReviewList(Integer.parseInt(nb_no))
+        ));
     }
 
     // 해당책의 리뷰 쓰기
@@ -179,13 +169,10 @@ public class NewbookController {
 
         int realpoint;
         if (realpoint1 == "") {
-            System.out.println("왜 안되냐구");
             realpoint = 0;
         } else {
             realpoint = Integer.parseInt(realpoint1);
         }
-
-        System.out.println("realpoint " + realpoint1);
 
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         String format_time = format.format(System.currentTimeMillis());
@@ -222,15 +209,8 @@ public class NewbookController {
                 user.setUser_point(realpoint);
                 boolean point_b = userDao.usePoint(user);
 
-                //여기 또 수정 했어요
                 UserDto userDto1 = userDao.selectUser(order_id);
-
                 session.setAttribute("point", userDto1.getUser_point());
-                if (point_b) {
-                    System.out.println("usePoint Success");
-                } else {
-                    System.out.println("usePoint Fail,,,");
-                }
             }
 
             //카드결제일 경우
@@ -270,8 +250,6 @@ public class NewbookController {
 
         // 비밀번호로 최근 구매내역 불러오기
         OrderInfoDto orderDto = orderInfoDao.getOrderbyPass(orderpass1);
-
-        System.out.println();
         if (b) {
             return "redirect:/unmemberorder?order_no=" + orderDto.getOrder_no()
                 + "&order_passwd=" + orderDto.getOrder_passwd();

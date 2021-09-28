@@ -1,5 +1,7 @@
 package pack.user.service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,19 +20,17 @@ public class BuyService {
     private final OldBookRepository oldBookRepository;
 
     public ModelAndView buy(String ob_no, String user_id) {
-        ModelAndView modelAndView = new ModelAndView();
-
+        Map<String, Object> model = new HashMap<>();
         UserDto user = buyDao.point(user_id);
 
         Optional<CardInfo> optionalCardInfo = cardInfoRepository.findById(user_id);
         optionalCardInfo.ifPresent(cardInfo -> {
-            modelAndView.addObject("card", cardInfo);
+            model.put("card", cardInfo);
         });
 
-        modelAndView.addObject("buyinfo", oldBookRepository.findByObStateAndObNo("1", Long.valueOf(ob_no)));
-        modelAndView.addObject("point", user);
+        model.put("buyinfo", oldBookRepository.findByObStateAndObNo("1", Long.valueOf(ob_no)));
+        model.put("point", user);
 
-        modelAndView.setViewName("buy");
-        return modelAndView;
+        return new ModelAndView("buy", model);
     }
 }

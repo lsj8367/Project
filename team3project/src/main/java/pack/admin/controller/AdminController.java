@@ -1,10 +1,10 @@
 package pack.admin.controller;
 
+import java.util.Map;
 import java.util.Objects;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,9 +33,9 @@ public class AdminController {
             return modelAndView;
         }
 
-        modelAndView.addObject("info", adminService.selectAdminData(admin_id));
-        modelAndView.setViewName("redirect:/admin");
-        return modelAndView;
+        return new ModelAndView("redirect:/admin", Map.of(
+            "info", adminService.selectAdminData(admin_id)
+        ));
     }
 
     private boolean isViewNameExist(final ModelAndView modelAndView) {
@@ -49,8 +49,8 @@ public class AdminController {
 
     // 아이디 중복 여부 체크
     @PostMapping(value = "checkSignupAdminId")
-    public @ResponseBody
-    String AjaxView(@RequestParam("admin_id") String admin_id) {
+    @ResponseBody
+    public String AjaxView(@RequestParam("admin_id") String admin_id) {
         Admin admin = adminService.selectAdminData(admin_id);
         if (Objects.isNull(admin.getAdminId())) {
             return "YES";
@@ -70,16 +70,12 @@ public class AdminController {
 
     @GetMapping("idcheck")
     public ModelAndView goIdCheck(@RequestParam("id") String adminid) {
-        ModelAndView view = new ModelAndView();
-
-        view.setViewName("admin/adminidcheck");
         try {
             adminService.selectAdminData(adminid);
-            view.addObject("alert", adminid + "는 사용가능한 아이디입니다.");
+            return new ModelAndView("admin/adminidcheck", Map.of("alert", adminid + "는 사용가능한 아이디입니다."));
         }catch (Exception e) {
-            view.addObject("alert", adminid + "는 존재하는 아이디입니다.");
+            return new ModelAndView("admin/adminidcheck", Map.of("alert", adminid + "는 존재하는 아이디입니다."));
         }
-        return view;
     }
 
 
@@ -101,25 +97,20 @@ public class AdminController {
     }
 
     @GetMapping("admin")
-    public ModelAndView list(HttpSession session, ModelMap model) {
-        ModelAndView view = new ModelAndView();
-
-        String admin_id = (String) session.getAttribute("admin_id");
-
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
-
-        view.addObject("bsb", adminService.getMostSellBook());
-        view.addObject("brb", adminService.getMostRentBook());
-        view.addObject("rtm", adminDao.mbRentCmonth());
-        view.addObject("om", adminDao.mbSellerCmonth());
-        view.addObject("rp", adminDao.profitMonth());
-        view.addObject("ru", adminDao.rentKing());
-        view.addObject("bu", adminDao.buyKing());
-        view.addObject("op", adminDao.obprofitmonth());
-        view.addObject("np", adminDao.nbprofitmonth());
-        view.setViewName("admin/adminmain");
-
-        return view;
+    public ModelAndView list(HttpSession session) {
+        return new ModelAndView("admin/adminmain",
+            Map.of(
+            "info", adminService.selectAdminData((String) session.getAttribute("admin_id")),
+            "bsb", adminService.getMostSellBook(),
+            "brb", adminService.getMostRentBook(),
+            "rtm", adminDao.mbRentCmonth(),
+            "om", adminDao.mbSellerCmonth(),
+            "rp", adminDao.profitMonth(),
+            "ru", adminDao.rentKing(),
+            "bu", adminDao.buyKing(),
+            "op", adminDao.obprofitmonth(),
+            "np", adminDao.nbprofitmonth()
+        ));
     }
 
     @GetMapping("admin_logout")
