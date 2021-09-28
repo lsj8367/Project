@@ -3,25 +3,22 @@ package pack.repository;
 import static pack.domain.entity.QOldBook.oldBook;
 import static pack.domain.entity.QUser.user;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
+import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import pack.domain.entity.OldBook;
+import pack.model.Grade;
+import pack.repository.template.MariaDBTemplates;
 
 @RequiredArgsConstructor
 public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
 
-    private static final String FIRST_GRADE = "1";
-    private static final String SECOND_GRADE = "2";
-    private static final String THIRD_GRADE = "3";
-
-    private final JPAQuery<OldBook> jpaQuery;
-
     private final JPAQueryFactory jpaQueryFactory;
+    private final EntityManager entityManager;
 
     @Override
     public List<OldBook> getMostRentBook() {
@@ -34,7 +31,7 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
     @Override
     public List<OldBook> genreForFirstGrade(String obGenre) {
         return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.eq(FIRST_GRADE)
+            .where(oldBook.obState.eq(Grade.FIRST_GRADE.getGrade())
                 .and(oldBook.obDonor.ne("10"))
                 .and(oldBook.obGenre.contains(obGenre)))
             .fetch();
@@ -43,26 +40,28 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
     @Override
     public List<OldBook> genreForAnotherGrade(String obGenre) {
         return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.in(SECOND_GRADE, THIRD_GRADE)
+            .where(oldBook.obState.in(Grade.SECOND_GRADE.getGrade(), Grade.THIRD_GRADE.getGrade())
                 .and(oldBook.obGenre.contains(obGenre)))
             .fetch();
     }
 
     @Override
     public List<OldBook> oldRandom() {
+        JPAQuery<OldBook> jpaQuery = new JPAQuery<>(entityManager, MariaDBTemplates.DEFAULT);
         return jpaQuery.select(oldBook).from(oldBook)
-            .where(oldBook.obState.eq(FIRST_GRADE))
-            .orderBy((OrderSpecifier<?>) random())
+            .where(oldBook.obState.eq(Grade.FIRST_GRADE.getGrade()))
+            .orderBy(NumberExpression.random().desc())
             .limit(2)
             .fetch();
     }
 
     @Override
     public List<OldBook> oldLowLimit2() {
+        JPAQuery<OldBook> jpaQuery = new JPAQuery<>(entityManager, MariaDBTemplates.DEFAULT);
         return jpaQuery.select(oldBook).from(oldBook)
-            .where(oldBook.obState.eq(SECOND_GRADE)
-                .or(oldBook.obState.eq(THIRD_GRADE)))
-            .orderBy((OrderSpecifier<?>) random())
+            .where(oldBook.obState.eq(Grade.SECOND_GRADE.getGrade())
+                .or(oldBook.obState.eq(Grade.THIRD_GRADE.getGrade())))
+            .orderBy(NumberExpression.random().desc())
             .limit(2)
             .fetch();
     }
@@ -78,7 +77,7 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
     @Override
     public List<OldBook> oldHigh() {
         return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.eq(FIRST_GRADE)
+            .where(oldBook.obState.eq(Grade.FIRST_GRADE.getGrade())
                 .and(oldBook.obDonor.ne("10")))
             .orderBy(oldBook.obNo.desc())
             .fetch();
@@ -87,8 +86,8 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
     @Override
     public List<OldBook> oldLow() {
         return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.eq(SECOND_GRADE)
-                .or(oldBook.obState.eq(THIRD_GRADE)))
+            .where(oldBook.obState.eq(Grade.SECOND_GRADE.getGrade())
+                .or(oldBook.obState.eq(Grade.THIRD_GRADE.getGrade())))
             .orderBy(oldBook.obNo.desc())
             .fetch();
     }
@@ -125,9 +124,4 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
             .where(oldBook.obUserid.eq(obUserId))
             .fetchOne();
     }
-
-    private Object random() {
-        return NumberExpression.random().desc();
-    }
-
 }
