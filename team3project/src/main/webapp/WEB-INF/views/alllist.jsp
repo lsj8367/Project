@@ -8,8 +8,8 @@
 <head>
 <meta charset="UTF-8">
 <title>등급의 전체목록</title>
-<link rel="stylesheet" href="resources/static/css/layout.css">
-<link rel="stylesheet" href="resources/static/css/table.css">
+<link rel="stylesheet" href="/resources/static/css/layout.css">
+<link rel="stylesheet" href="/resources/static/css/table.css">
 
 <style type="text/css">
 html, body { height:100%; overflow:hidden }
@@ -46,24 +46,24 @@ html, body { height:100%; overflow:hidden }
 				</c:when>
 				<c:otherwise>
 					<c:forEach var="l" items="${list}">
-						<c:if test="${l.ob_state eq '1' }">
+						<c:if test="${l.obState eq '1' }">
 						<tr style="text-align: center;">
-							<td><a href="oldbook?book_no=${l.ob_no }"><img width="100" src="${l.ob_image}"/></a></td>
-							<td><a href="oldbook?book_no=${l.ob_no }">${l.ob_name}</a></td>
-							<td>${l.ob_price} 원</td>
-							<fmt:parseDate var="dateString" value="${l.ob_bdate}" pattern="yyyy-MM-dd HH:mm:ss.S" />
+							<td><a href="oldbook?book_no=${l.obNo }"><img width="100" src="/resources/static/${l.obImage}"/></a></td>
+							<td><a href="oldbook?book_no=${l.obNo }">${l.obName}</a></td>
+							<td>${l.obPrice} 원</td>
+							<fmt:parseDate var="dateString" value="${l.obBdate}" pattern="yyyy-MM-dd HH:mm:ss.S" />
 							<td><fmt:formatDate value="${dateString}" pattern="yyyy년MM월dd일" /></td>
-							<td>${l.ob_comp}</td>
+							<td>${l.obComp}</td>
 						</tr>
 						</c:if>
-						<c:if test="${l.ob_state eq '2' or '3' }">
+						<c:if test="${l.obState eq '2' or '3' }">
 						<tr style="text-align: center;">
-							<td><a href="oldrental?book_no=${l.ob_no }"><img width="100" src="${l.ob_image}"/></a></td>
-							<td><a href="oldrental?book_no=${l.ob_no }">${l.ob_name}</a></td>
-							<td>${l.ob_price} 원</td>
-							<fmt:parseDate var="dateString" value="${l.ob_bdate}" pattern="yyyy-MM-dd HH:mm:ss.S" />
+							<td><a href="oldrental?book_no=${l.obNo }"><img width="100" src="${l.obImage}"/></a></td>
+							<td><a href="oldrental?book_no=${l.obNo }">${l.obName}</a></td>
+							<td>${l.obPrice} 원</td>
+							<fmt:parseDate var="dateString" value="${l.obBdate}" pattern="yyyy-MM-dd HH:mm:ss.S" />
 							<td><fmt:formatDate value="${dateString}" pattern="yyyy년MM월dd일" /></td>
-							<td>${l.ob_comp}</td>
+							<td>${l.obComp}</td>
 						</tr>
 						</c:if>
 					</c:forEach>
@@ -107,8 +107,8 @@ html, body { height:100%; overflow:hidden }
 					<td colspan="2">↓이달의 베스트 대여도서 ↓</td>
 				</tr>
 				<tr>
-					<td colspan="2" style="text-align: center;"><a href="oldrental?book_no=${best.ob_no }"> <img width="100" src="${best.ob_image}"></a></td>
-					<!-- ${best.ob_name} -->
+					<td colspan="2" style="text-align: center;"><a href="oldrental?book_no=${best.obNo }"> <img width="100" src="/resources/static/${best.obImage}"></a></td>
+					<!-- ${best.obName} -->
 				</tr>
 				<tr>
 					<td colspan="2" style="text-align: center;">이달의 다독왕은 <br>

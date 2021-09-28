@@ -1,5 +1,6 @@
 package pack.user.controller;
 
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +17,12 @@ public class OldSearchController {
 
     @RequestMapping("oldsearch")
     public ModelAndView DataAll(@RequestParam("type") String type, @RequestParam("search") String search) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("oldbooklist", oldSearchService.getDataAllExist(OldSearch.builder()
-            .type(type)
-            .search(search)
-            .build()));
-        modelAndView.setViewName("rentmain");
-        return modelAndView;
+        return new ModelAndView("rentmain", Map.of(
+            "oldbooklist", oldSearchService.getDataAllExist(OldSearch.builder()
+                                               .type(type)
+                                               .search(search)
+                                               .build())
+        ));
     }
 
 }

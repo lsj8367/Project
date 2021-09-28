@@ -1,6 +1,6 @@
 package pack.admin.controller;
 
-import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
-import pack.model.ReviewDto;
 import pack.model.UserDto;
 
 @Controller
@@ -22,40 +21,30 @@ public class BestReviewsetController {
     private final AdminService adminService;
 
     @GetMapping("bestreviewset")
-    public ModelAndView goBestReviewset(HttpSession session, ModelMap model) {
-        ModelAndView view = new ModelAndView();
-
+    public ModelAndView goBestReviewset(HttpSession session) {
         String admin_id = (String) session.getAttribute("admin_id");
         if (admin_id == null | admin_id == "") {
-            view.setViewName("admin/admin_login");
-            return view;
+            return new ModelAndView("admin/admin_login");
         }
 
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
-
-        List<ReviewDto> rmonth = adminDao.mbReviewMonth();
-        view.addObject("rm", rmonth);
-        view.setViewName("admin/bestreviewset");
-        return view;
+        return new ModelAndView("admin/bestreviewset", Map.of(
+            "info", adminService.selectAdminData(admin_id),
+            "rm", adminDao.mbReviewMonth()
+        ));
     }
 
     @PostMapping("monthbestreview")
-    public ModelAndView goBestReview(HttpSession session, ModelMap model, @RequestParam("sql") String sql) {
-        ModelAndView view = new ModelAndView();
-
+    public ModelAndView goBestReview(HttpSession session, @RequestParam("sql") String sql) {
         String admin_id = (String) session.getAttribute("admin_id");
         if (admin_id == null | admin_id == "") {
-            view.setViewName("admin/admin_login");
-            return view;
+            return new ModelAndView("admin/admin_login");
         }
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-        List<ReviewDto> rmonth = adminDao.mbReviewMonth();
-        List<ReviewDto> rl = adminDao.mbEstReview(sql);
-        view.addObject("rm", rmonth);
-        view.addObject("rl", rl);
-        view.setViewName("admin/bestreviewset");
-        return view;
+        return new ModelAndView("admin/bestreviewset", Map.of(
+            "info", adminService.selectAdminData(admin_id),
+            "rm", adminDao.mbReviewMonth(),
+            "rl", adminDao.mbEstReview(sql)
+        ));
     }
 
     @PostMapping("givepoint")

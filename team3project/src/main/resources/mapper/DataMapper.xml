@@ -5,7 +5,7 @@
 
 <mapper namespace="dev">
   <!-- ================== OLDBOOK ====================== -->
-정  <update id="upobprocess" parameterType="int">
+  <update id="upobprocess" parameterType="int">
     update oldbook
     set ob_donor = "0"
     where ob_no = #{rent_no}

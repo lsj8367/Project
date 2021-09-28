@@ -1,5 +1,6 @@
 package pack.user.controller;
 
+import java.util.Map;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,18 +22,12 @@ public class OldBookController {
 
     @RequestMapping("oldbook")
     public ModelAndView bookInfo(@RequestParam("book_no") String book_no) { //중고중에 1등급
-        ModelAndView modelAndView = new ModelAndView();
-
         OldBook oldBook = oldBookService.bookInfo(book_no);
         boolean b = oldBookDao.readcnt(Integer.parseInt(book_no));
         if (b) {
-            modelAndView.addObject("bookinfo", oldBook);
-            modelAndView.setViewName("oldbook");
-            return modelAndView;
-        } else {
-            modelAndView.setViewName("error");
-            return modelAndView;
+            return new ModelAndView("oldbook", Map.of("bookinfo", oldBook));
         }
+        return new ModelAndView("error");
     }
 
     @RequestMapping("oldrental")
@@ -41,27 +36,20 @@ public class OldBookController {
 
         String user_id = (String) session.getAttribute("id");
 
-        ModelAndView modelAndView = new ModelAndView();
-
         boolean b = oldBookDao.readcnt(Integer.parseInt(book_no));
+
         if (b) {
-            modelAndView.addObject("bookinfo", oldBookService.rentalInfo(book_no));
-
             UserDto user = userDao.selectUser(user_id);
-            modelAndView.addObject("rentUser", user);
-
-            modelAndView.setViewName("oldrental");
-
-            return modelAndView;
+            return new ModelAndView("oldrental", Map.of(
+                "bookinfo", oldBookService.rentalInfo(book_no),
+                "rentUser", user
+            ));
         }
-
-        modelAndView.setViewName("error");
-        return modelAndView;
+        return new ModelAndView("error");
     }
 
 
     public String submit() throws Exception {
-
         return "oldbook";
     }
 

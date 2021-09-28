@@ -1,6 +1,5 @@
 package pack.user.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,59 +13,58 @@ import pack.user.service.CenterService;
 @Controller
 @RequiredArgsConstructor
 public class CenterController {
-	private final CenterService centerService;
-	
 
-	@GetMapping(value = "center")
-	public String centerC() {
-		return "center";
-	}
+    private final CenterService centerService;
 
-	
-	@PostMapping("qnaAll")
-	@ResponseBody
-	public Map<String, Object> qnaAll() {
-		Map<String, Object> qnaDatas = new HashMap<>();
-		qnaDatas.put("datas", centerService.qnaAll());
-		return qnaDatas;
-	}
-	
-	@PostMapping("faqDetail")
-	@ResponseBody
-	public Map<String, Object> faqDetail(@RequestParam("no") String faq_no){
-		Map<String, Object> faqDatas = new HashMap<>();
-		faqDatas.put("datas", centerService.faqDetail(faq_no));
-		return faqDatas;
-	}
-	
-	@PostMapping("qnaOrder")
-	@ResponseBody
-	public Map<String, Object> qnaOrder(@RequestParam("faq_type") String faq_type){
-		Map<String, Object> qnaDatas = new HashMap<>();
-		qnaDatas.put("datas", centerService.qnaOrder(faq_type));
-		return qnaDatas;
-	}
-	
-	@PostMapping("centerpage")
-	public String centerPage(@RequestParam("page") String a, Model model) {
+    @GetMapping(value = "center")
+    public String centerC() {
+        return "center";
+    }
 
-		String returnJsp = "";
-		switch (a) {
-			case "order":
-				model.addAttribute("page", a);
-				returnJsp = "centerOrder";
-			case "deliver":
-				model.addAttribute("page", a);
-				returnJsp = "centerDeliver";
-			case "product":
-				model.addAttribute("page", a);
-				returnJsp = "centerProduct";
-			default:
-				returnJsp = "qnaAll";
-		}
+    @PostMapping("qnaAll")
+    @ResponseBody
+    public Map<String, Object> qnaAll() {
+        return returnMap(centerService.qnaAll());
+    }
 
-		return returnJsp;
-	}
-	
-	
+    @PostMapping("faqDetail")
+    @ResponseBody
+    public Map<String, Object> faqDetail(@RequestParam("no") String faq_no) {
+        return returnMap(centerService.faqDetail(faq_no));
+    }
+
+    @PostMapping("qnaOrder")
+    @ResponseBody
+    public Map<String, Object> qnaOrder(@RequestParam("faq_type") String faq_type) {
+        return returnMap(centerService.qnaOrder(faq_type));
+    }
+
+    @PostMapping("centerpage")
+    public String centerPage(@RequestParam("page") String a, Model model) {
+
+        String returnJsp = "";
+        switch (a) {
+            case "order":
+                model.addAttribute("page", a);
+                returnJsp = "centerOrder";
+                break;
+            case "deliver":
+                model.addAttribute("page", a);
+                returnJsp = "centerDeliver";
+                break;
+            case "product":
+                model.addAttribute("page", a);
+                returnJsp = "centerProduct";
+                break;
+            default:
+                return returnJsp = "qnaAll";
+        }
+
+        return returnJsp;
+    }
+
+    private Map<String, Object> returnMap(Object object) {
+        return Map.of("datas", object);
+    }
+
 }

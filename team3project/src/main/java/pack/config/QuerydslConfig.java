@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pack.domain.entity.NewBook;
 import pack.repository.template.MariaDBTemplates;
 
 @Configuration
@@ -20,7 +19,7 @@ public class QuerydslConfig {
     }
 
     @Bean
-    public JPAQuery<NewBook> jpaQuery() {
+    public JPAQuery<?> jpaQuery() {
         return new JPAQuery<>(entityManager, MariaDBTemplates.DEFAULT);
     }
 }

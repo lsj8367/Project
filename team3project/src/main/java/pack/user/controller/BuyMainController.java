@@ -10,12 +10,13 @@ import pack.user.service.BuyMainService;
 @RequiredArgsConstructor
 public class BuyMainController {
 
-	private final BuyMainService buyMainService;
+    private final BuyMainService buyMainService;
 
-	@GetMapping("buymain")
-	public ModelAndView main() {
-		ModelAndView modelAndView = buyMainService.buyMain();
-		modelAndView.setViewName("buymain");
-		return modelAndView;
-	}
+    @GetMapping("buymain")
+    public ModelAndView main() {
+        ModelAndView modelAndView = buyMainService.buyMain();
+        modelAndView.setViewName("buymain");
+        return modelAndView;
+    }
+
 }
