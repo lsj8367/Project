@@ -1,17 +1,13 @@
 package pack.user.controller;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.domain.entity.OldBook;
 import pack.model.UserDto;
 import pack.user.model.OldBookListDao;
 import pack.user.service.RentBookListService;
@@ -24,11 +20,6 @@ public class RentbookListController {
     private final RentBookListService rentBookListService;
     private final OldBookListDao oldBookListDao;
 
-    @PostConstruct
-    void init() {
-        HashSet<OldBook> hashSet;
-    }
-
     @RequestMapping("rentlist1")
     public ModelAndView rentlist(@RequestParam("book") String book) {
         ModelAndView modelAndView = new ModelAndView();
@@ -38,10 +29,8 @@ public class RentbookListController {
 
     private ModelAndView getList(ModelAndView modelAndView, String ob_genre) {
         if (ob_genre.equals("rentmain")) {
-            final List<OldBook> oldBookList = rentBookListService.randomFirstGrade();
-            rentBookListService.flush();
             return new ModelAndView("rentmain", Map.of(
-                "oldbooklist", oldBookList,
+                "oldbooklist", rentBookListService.randomFirstGrade(),
                 "oldbooklow", rentBookListService.oldLowLimit2()
             ));
         }

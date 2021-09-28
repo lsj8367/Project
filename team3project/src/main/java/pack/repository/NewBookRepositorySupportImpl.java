@@ -6,14 +6,16 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
+import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import pack.domain.entity.NewBook;
+import pack.repository.template.MariaDBTemplates;
 
 @RequiredArgsConstructor
 public class NewBookRepositorySupportImpl implements NewBookRepositorySupport {
 
     private final JPAQueryFactory jpaQueryFactory;
-    private final JPAQuery<NewBook> jpaQuery;
+    private final EntityManager entityManager;
 
     @Override
     public NewBook selectBestSeller() {
@@ -72,6 +74,7 @@ public class NewBookRepositorySupportImpl implements NewBookRepositorySupport {
 
     @Override
     public List<NewBook> selectRandom(int limit) {
+        JPAQuery<NewBook> jpaQuery = new JPAQuery<>(entityManager, MariaDBTemplates.DEFAULT);
         return jpaQuery.from(newBook)
                 .orderBy(NumberExpression.random().asc())
                     .limit(limit)
@@ -87,7 +90,8 @@ public class NewBookRepositorySupportImpl implements NewBookRepositorySupport {
 
     @Override
     public NewBook recommandNewBook() {
-        return jpaQueryFactory.selectFrom(newBook)
+        JPAQuery<NewBook> jpaQuery = new JPAQuery<>(entityManager, MariaDBTemplates.DEFAULT);
+        return jpaQuery.from(newBook)
             .orderBy(NumberExpression.random().desc())
             .limit(1)
             .fetchOne();

@@ -13,10 +13,6 @@ import pack.repository.OldBookRepository;
 public class RentBookListService {
     private final OldBookRepository oldBookRepository;
 
-    public void flush() {
-        oldBookRepository.flush();
-    }
-
     public List<OldBook> genreForFirstGrade(String ob_genre) {
         return oldBookRepository.genreForFirstGrade(ob_genre);
     }
