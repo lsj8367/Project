@@ -29,23 +29,6 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
     }
 
     @Override
-    public List<OldBook> genreForFirstGrade(String obGenre) {
-        return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.eq(Grade.FIRST_GRADE.getGrade())
-                .and(oldBook.obDonor.ne("10"))
-                .and(oldBook.obGenre.contains(obGenre)))
-            .fetch();
-    }
-
-    @Override
-    public List<OldBook> genreForAnotherGrade(String obGenre) {
-        return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.in(Grade.SECOND_GRADE.getGrade(), Grade.THIRD_GRADE.getGrade())
-                .and(oldBook.obGenre.contains(obGenre)))
-            .fetch();
-    }
-
-    @Override
     public List<OldBook> oldRandom() {
         JPAQuery<OldBook> jpaQuery = new JPAQuery<>(entityManager, MariaDBTemplates.DEFAULT);
         return jpaQuery.select(oldBook).from(oldBook)
@@ -72,49 +55,6 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
             .orderBy(oldBook.obScount.desc())
             .limit(1)
             .fetchOne();
-    }
-
-    @Override
-    public List<OldBook> oldHigh() {
-        return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.eq(Grade.FIRST_GRADE.getGrade())
-                .and(oldBook.obDonor.ne("10")))
-            .orderBy(oldBook.obNo.desc())
-            .fetch();
-    }
-
-    @Override
-    public List<OldBook> oldLow() {
-        return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.eq(Grade.SECOND_GRADE.getGrade())
-                .or(oldBook.obState.eq(Grade.THIRD_GRADE.getGrade())))
-            .orderBy(oldBook.obNo.desc())
-            .fetch();
-    }
-
-    @Override
-    public List<OldBook> getDataAllExist(String obName) {
-        return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obName.contains(obName))
-            .orderBy(oldBook.obNo.desc())
-            .fetch();
-    }
-
-    @Override
-    public OldBook oldBookInfoRentalState(Long obNo) {
-        return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.in("2", "3")
-                .and(oldBook.obNo.eq(obNo)))
-            .fetchOne();
-    }
-
-    @Override
-    public List<OldBook> donorList(String userId) {
-        return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obDonor.eq(userId))
-            .orderBy(oldBook.obName.desc())
-            .limit(3)
-            .fetch();
     }
 
     @Override
