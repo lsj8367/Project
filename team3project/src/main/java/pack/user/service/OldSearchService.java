@@ -15,7 +15,7 @@ public class OldSearchService {
     private final OldBookRepository oldBookRepository;
 
     public List<OldBook> getDataAllExist(OldSearch oldSearch) {
-        return oldBookRepository.getDataAllExist(oldSearch.getSearch());
+        return oldBookRepository.findAllByObNameContainsOrderByObNoDesc(oldSearch.getSearch());
     }
 
 }

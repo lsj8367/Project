@@ -9,7 +9,7 @@ import pack.model.OldBookDto;
 import java.util.List;
 import java.util.Map;
 
-@Repository("giveDao")
+@Repository
 public class GiveDao extends AbstractDAO {
     @Autowired
     SqlSession session;

@@ -10,16 +10,13 @@ import java.util.List;
 
 @Repository
 public class MydonorImpl extends SqlSessionDaoSupport {
-	
-	@Autowired
-	public MydonorImpl(SqlSessionFactory factory) {
-		setSqlSessionFactory(factory);
-	}
-	
-	public List<OldBookDto> donorlistall() {
-		return getSqlSession().selectList("donorlistall");
-	}
-	public List<OldBookDto> donorListbyId(String id) {
-		return getSqlSession().selectList("selectGiveList", id);
-	}
+    @Autowired
+    public MydonorImpl(SqlSessionFactory factory) {
+        setSqlSessionFactory(factory);
+    }
+
+    public List<OldBookDto> donorListbyId(String id) {
+        return getSqlSession().selectList("selectGiveList", id);
+    }
+
 }

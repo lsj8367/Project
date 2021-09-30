@@ -1,9 +1,11 @@
 package pack.user.service;
 
+import java.util.List;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pack.domain.entity.OldBook;
+import pack.model.Grade;
 import pack.repository.OldBookRepository;
 
 @Service
@@ -18,7 +20,7 @@ public class OldBookService {
     }
 
     public OldBook rentalInfo(String book_no) {
-        return oldBookRepository.oldBookInfoRentalState(Long.valueOf(book_no));
+        return oldBookRepository.findByObStateInAndObNo(List.of(Grade.SECOND_GRADE.getGrade(), Grade.THIRD_GRADE.getGrade()), Long.valueOf(book_no));
     }
 
 }
