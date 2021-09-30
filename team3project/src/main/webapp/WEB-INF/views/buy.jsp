@@ -12,7 +12,7 @@
 <% String space = " "; %>
 <script type="text/javascript">
 function pointcheck() {
-   var list = "<fmt:parseNumber value='${buyinfo.ob_price * 0.5}' integerOnly='true'/>";
+   var list = "<fmt:parseNumber value='${buyinfo.obPrice * 0.5}' integerOnly='true'/>";
    //alert(list - buyfrm.writepoint.value); //10000
    var result = list - buyfrm.writepoint.value;
    if(buyfrm.writepoint.value > (buyfrm.point.value * 0.1)){
@@ -153,10 +153,10 @@ body {
    </tr>
       <c:choose>
       <c:when test="${sessionScope.id eq null}">
-            <input type="hidden" name="ob_no" value="${buyinfo.ob_no}">
+            <input type="hidden" name="ob_no" value="${buyinfo.obNo}">
       <tr>
           <td>책제목</td> 
-          <td><input type="text" name="ob_name" value="${buyinfo.ob_name }"></td>
+          <td><input type="text" name="ob_name" value="${buyinfo.obName }"></td>
       </tr>
       <tr>
          <td>이름</td>
@@ -168,7 +168,7 @@ body {
       </tr>
       <tr>
          <td>가격</td>
-         <td><fmt:parseNumber value="${buyinfo.ob_price * 0.5}" integerOnly="true"/> 원 </td>
+         <td><fmt:parseNumber value="${buyinfo.obPrice * 0.5}" integerOnly="true"/> 원 </td>
       </tr>
       <tr>
          <td>주소</td>
@@ -179,7 +179,7 @@ body {
          <td>무통장입금</td>
       </tr>
          <input type="hidden" name="radioPaytype" value="무통장입금">
-         <input type="hidden" name="order_sum" value="<fmt:parseNumber value='${buyinfo.ob_price * 0.5 }' integerOnly='true'/>"><br>
+         <input type="hidden" name="order_sum" value="<fmt:parseNumber value='${buyinfo.obPrice * 0.5 }' integerOnly='true'/>"><br>
          <input type="hidden" name="order_id" value="<%= space%>">
          
       <tr>
@@ -189,9 +189,9 @@ body {
       </c:when>
       
       <c:otherwise>
-         <input type="hidden" name="ob_no" value="${buyinfo.ob_no}">
+         <input type="hidden" name="ob_no" value="${buyinfo.obNo}">
          <input type="hidden" name="order_password" value="${point.user_passwd }">
-         <input type="hidden" name="ob_name" value="${buyinfo.ob_name }">
+         <input type="hidden" name="ob_name" value="${buyinfo.obName }">
          <input type="hidden" name="order_person" value="${sessionScope.name }">
          <input type="hidden" name="order_id" value="${sessionScope.id }">
          <input type="hidden" name="order_password" value="''">
@@ -199,7 +199,7 @@ body {
          <input type="hidden" name="order_address" value="${point.user_addr }">
       <tr>
          <td>책제목</td>
-         <td>${buyinfo.ob_name }</td>
+         <td>${buyinfo.obName }</td>
       </tr>
       <tr>
          <td>${point.user_name} 님의 사용가능한 포인트</td> 
@@ -215,7 +215,7 @@ body {
       </tr>
       <tr>
          <td>가격</td>
-         <td><fmt:parseNumber value="${buyinfo.ob_price * 0.5 }" integerOnly="true"/> 원 <br></td>
+         <td><fmt:parseNumber value="${buyinfo.obPrice * 0.5 }" integerOnly="true"/> 원 <br></td>
       </tr>
       <tr>
          <td>주소</td>

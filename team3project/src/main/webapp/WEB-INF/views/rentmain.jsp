@@ -314,7 +314,7 @@
             <tr>
                 <td colspan="2" style="text-align: center;"><a
                         href="oldrental?book_no=${best.obNo }"> <img width="100"
-                                                                     src="resources/static/${best.obImage}"></a>
+                                                                     src="/resources/static/${best.obImage}"></a>
                 </td>
                 <!-- ${best.obName} -->
             </tr>
