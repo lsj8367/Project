@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.model.UserDto;
 import pack.user.model.OldBookListDao;
 import pack.user.service.RentBookListService;
 
@@ -29,10 +28,10 @@ public class RentbookListController {
 
     private ModelAndView getList(ModelAndView modelAndView, String ob_genre) {
         if (ob_genre.equals("rentmain")) {
-            return new ModelAndView("rentmain", Map.of(
-                "oldbooklist", rentBookListService.randomFirstGrade(),
-                "oldbooklow", rentBookListService.oldLowLimit2()
-            ));
+            modelAndView.addObject("oldbooklist", rentBookListService.randomFirstGrade());
+            modelAndView.addObject("oldbooklow", rentBookListService.oldLowLimit2());
+            modelAndView.setViewName("rentmain");
+            return modelAndView;
         }
         if (ob_genre.equals("high")) {
             modelAndView.addObject("list", rentBookListService.oldHigh());
@@ -54,10 +53,10 @@ public class RentbookListController {
 
 
     private void getBest(ModelAndView modelAndView) {
+        System.out.println("asduhasudagsjdchbzxbmncdjmhvbdsjfv된다");
+        System.out.println(rentBookListService.selectBestRentBook().toString());
         modelAndView.addObject("best", rentBookListService.selectBestRentBook());
-
-        UserDto readbest = oldBookListDao.bestRead();
-        modelAndView.addObject("readbest", readbest);
+        modelAndView.addObject("readbest", oldBookListDao.bestRead());
     }
 
     private Map<String, String> editGenre() {

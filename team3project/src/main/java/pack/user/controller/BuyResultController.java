@@ -1,5 +1,6 @@
 package pack.user.controller;
 
+import java.util.Map;
 import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,8 +13,8 @@ import pack.model.OrderInfoDto;
 import pack.model.UserDto;
 import pack.user.model.BuyDao;
 import pack.user.model.BuyResultDao;
-import pack.user.model.OldBookDao;
 import pack.user.model.UserDao;
+import pack.user.service.OldBookService;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,15 +23,10 @@ public class BuyResultController {
     private final BuyResultDao buyResultDao;
     private final BuyDao buyDao;
     private final UserDao userDao;
-    private final OldBookDao oldBookDao;
-
+    private final OldBookService oldBookService;
 
     @PostMapping("buyresult")
     public ModelAndView result(HttpSession session, HttpServletRequest request, @RequestParam("radioPaytype") String radioPaytype) {
-        ModelAndView modelAndView = new ModelAndView();
-        OrderInfoDto dto;
-        OrderInfoDto dto2;
-
         String orderId = request.getParameter("order_id"); //아이디
         String orderPerson = request.getParameter("order_person"); //성명
         String obNo = request.getParameter("ob_no");
@@ -40,7 +36,7 @@ public class BuyResultController {
         radioPaytype = payTypeSelection(radioPaytype);
         String order_sum = request.getParameter("order_sum");
 
-        dto = buyResultDao.order(session, orderId, orderPerson, Integer.parseInt(order_sum), radioPaytype, userPasswd, userAddress, obNo);
+        OrderInfoDto dto = buyResultDao.order(session, orderId, orderPerson, Integer.parseInt(order_sum), radioPaytype, userPasswd, userAddress, obNo);
 
         if (session.getAttribute("id") != null && request.getParameter("writepoint") != "") { // 회원인경우
             UserDto user = new UserDto();
@@ -56,15 +52,14 @@ public class BuyResultController {
         }
 
         if (Objects.isNull(dto)) {
-            modelAndView.setViewName("error");
-            return modelAndView;
+            return new ModelAndView("error");
         }
 
-        dto2 = buyDao.show(orderPerson);
-        oldBookDao.update(Integer.parseInt(obNo));
-        modelAndView.addObject("buylist", dto2);
-        modelAndView.setViewName("buyresult");
-        return modelAndView;
+        oldBookService.updateOldBook(Integer.parseInt(obNo));
+
+        return new ModelAndView("buyresult", Map.of(
+            "buylist", buyDao.show(orderPerson)
+        ));
     }
 
     private String payTypeSelection(String radioPaytype) {

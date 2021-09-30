@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.domain.entity.OldBook;
 import pack.model.UserDto;
-import pack.user.model.OldBookDao;
 import pack.user.model.UserDao;
 import pack.user.service.OldBookService;
 
@@ -17,14 +16,13 @@ import pack.user.service.OldBookService;
 @RequiredArgsConstructor
 public class OldBookController {
     private final OldBookService oldBookService;
-    private final OldBookDao oldBookDao;
     private final UserDao userDao;
 
     @RequestMapping("oldbook")
     public ModelAndView bookInfo(@RequestParam("book_no") String book_no) { //중고중에 1등급
         OldBook oldBook = oldBookService.bookInfo(book_no);
-        boolean b = oldBookDao.readcnt(Integer.parseInt(book_no));
-        if (b) {
+
+        if (oldBookService.updateReadCnt(Integer.parseInt(book_no))) {
             return new ModelAndView("oldbook", Map.of("bookinfo", oldBook));
         }
         return new ModelAndView("error");
@@ -36,22 +34,19 @@ public class OldBookController {
 
         String user_id = (String) session.getAttribute("id");
 
-        boolean b = oldBookDao.readcnt(Integer.parseInt(book_no));
-
-        if (b) {
+        if (oldBookService.updateReadCnt(Integer.parseInt(book_no))) {
             UserDto user = userDao.selectUser(user_id);
-            return new ModelAndView("oldrental", Map.of(
-                "bookinfo", oldBookService.rentalInfo(book_no),
-                "rentUser", user
-            ));
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("oldrental");
+            modelAndView.addObject("bookinfo", oldBookService.rentalInfo(book_no));
+            modelAndView.addObject("rentUser", user);
+            return modelAndView;
         }
         return new ModelAndView("error");
     }
 
-
     public String submit() throws Exception {
         return "oldbook";
     }
-
 
 }

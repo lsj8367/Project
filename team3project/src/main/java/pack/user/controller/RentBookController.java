@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.model.RentInfoDto;
-import pack.user.model.OldBookDao;
 import pack.user.model.RentInfoDao;
 import pack.user.model.UserDao;
+import pack.user.service.OldBookService;
 import pack.user.service.RentBookService;
 
 @Controller
 @RequiredArgsConstructor
 public class RentBookController {
 
-    private final OldBookDao oldImpl;
+    private final OldBookService oldBookService;
     private final UserDao userDao;
     private final RentInfoDao rentImpl;
     private final RentBookService rentBookService;
@@ -44,7 +44,7 @@ public class RentBookController {
         rentImpl.rentOldBook(rentInfoDto);
 
         // 중고책 대여 중으로 바꾸기
-        oldImpl.updateRentOldBook(rent_no);
+        oldBookService.updateRentOldBook(rent_no);
 
         //유저 포인트 차감
         userDao.minusRentPoint(user_id);
