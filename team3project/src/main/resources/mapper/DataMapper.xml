@@ -23,13 +23,6 @@
     where ob_no = #{ob_no}
   </update>
 
-  <!-- 최근 도서 기부 내역 3 리스트 -->
-  <select id="donor3list" resultType="obdto" parameterType="String">
-    select ob_name, ob_comment
-    from oldbook
-    where ob_donor = (select user_name from user where user_id = #{user_id})
-    order by ob_name desc limit 3
-  </select>
   <!-- 전체 도서 기부 내역 리스트 -->
   <select id="donorlistall" resultType="obdto" parameterType="String">
     select ob_name, ob_comment
