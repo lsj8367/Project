@@ -140,7 +140,7 @@ html, body {
 </div>
 <br><br><br>
 <form action="Rental" method="post">
-<input type="hidden" value="${bookinfo.ob_no}" name="ob_no">
+<input type="hidden" value="${bookinfo.obNo}" name="ob_no">
 <input type="hidden" value="${sessionScope.id}" name="user_id">
 <input type="hidden" value="${rentUser.user_point}" id="user_point">
 
@@ -154,47 +154,47 @@ html, body {
 	
 	<tr>
 		<td colspan="2" style="text-align: right;">
-			주문수 : ${bookinfo.ob_scount} 조회수 :${bookinfo.ob_readcnt}
+			주문수 : ${bookinfo.obScount} 조회수 :${bookinfo.obReadcnt}
 		</td>
 	</tr>
 	<tr>
 		<td>
-		<img width="200" src="./${bookinfo.ob_image}"/>
+		<img width="200" src="./${bookinfo.obImage}"/>
 		</td>
 			<td>
 				<table class="oldrentaltable" border="1" style="width: 80%; float: none; margin: auto;">
 					<tr >
 						<td style="text-align: center; background-color: #37aacf; color: white;">
-							${bookinfo.ob_name}
+							${bookinfo.obName}
 						</td>
 					</tr>
 					<tr>
 						<td>
-							저자 : ${bookinfo.ob_author}
+							저자 : ${bookinfo.obAuthor}
 							<c:choose>
-								<c:when test="${bookinfo.ob_inter eq ''}">
+								<c:when test="${bookinfo.obInter eq ''}">
 									<br>
 								</c:when>
 								<c:otherwise>
-									/ 역자 : ${bookinfo.ob_inter}	<br>						
+									/ 역자 : ${bookinfo.obInter}	<br>
 								</c:otherwise>
 							</c:choose>
-							<fmt:parseDate var="dateString" value="${bookinfo.ob_bdate}" pattern="yyyy-MM-dd HH:mm:ss.S" />
+							<fmt:parseDate var="dateString" value="${bookinfo.obBdate}" pattern="yyyy-MM-dd HH:mm:ss.S" />
                  					등록일 : <fmt:formatDate value="${dateString}" pattern="yyyy년MM월dd일" /><br>
-									출판사 : ${bookinfo.ob_comp }<br>
+									출판사 : ${bookinfo.obComp }<br>
 									
-							<c:if test="${bookinfo.ob_state eq '1'}">
-								상태 : <c:out value="${bookinfo.ob_state}"/>등급
+							<c:if test="${bookinfo.obState eq '1'}">
+								상태 : <c:out value="${bookinfo.obState}"/>등급
 							</c:if>
-							<c:if test="${bookinfo.ob_state eq '2'}">
-								상태 : <c:out value="${bookinfo.ob_state}"/>등급
+							<c:if test="${bookinfo.obState eq '2'}">
+								상태 : <c:out value="${bookinfo.obState}"/>등급
 							</c:if>
-							<c:if test="${bookinfo.ob_state eq '3'}">
-								상태 : <c:out value="${bookinfo.ob_state}"/>등급
+							<c:if test="${bookinfo.obState eq '3'}">
+								상태 : <c:out value="${bookinfo.obState}"/>등급
 							</c:if>
 							
 							
-							<!--  가격 : ${bookinfo.ob_price } 원 <br>-->
+							<!--  가격 : ${bookinfo.obPrice } 원 <br>-->
 						</td>
 					</tr>
 				</table>
@@ -203,7 +203,7 @@ html, body {
 	<tr>
 		<td colspan="2" style="text-align: center;">
 			기증자 한마디 <br>
-			${bookinfo.ob_comment}
+			${bookinfo.obComment}
 		</td>
 	</tr>
 	<tr>
@@ -257,7 +257,7 @@ $(document).ready(function() {
 		return;
 	}
 	//대여중일 경우
-	if(${bookinfo.ob_donor} == 1){
+	if(${bookinfo.obDonor} == 1){
 		$('#rentDialog').dialog({
 		      title: '대여 오류!',
 		      modal: true, //팝업창으로 띄우기

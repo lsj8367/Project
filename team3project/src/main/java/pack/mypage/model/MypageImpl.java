@@ -25,10 +25,6 @@ public class MypageImpl extends SqlSessionDaoSupport {
         return getSqlSession().selectList("rent3list", id);
     }
 
-    public List<OldBookDto> donorlist(String id) {
-        return getSqlSession().selectList("donor3list", id);
-    }
-
     public List<InqueryDto> inqlist(String id) {
         return getSqlSession().selectList("inq3list", id);
     }

@@ -7,7 +7,9 @@ import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import pack.domain.entity.OldBook;
@@ -25,23 +27,6 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
         return jpaQueryFactory.selectFrom(oldBook)
             .where(oldBook.obScount.eq(JPAExpressions.select(oldBook.obScount.max())
                 .from(oldBook)))
-            .fetch();
-    }
-
-    @Override
-    public List<OldBook> genreForFirstGrade(String obGenre) {
-        return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.eq(Grade.FIRST_GRADE.getGrade())
-                .and(oldBook.obDonor.ne("10"))
-                .and(oldBook.obGenre.contains(obGenre)))
-            .fetch();
-    }
-
-    @Override
-    public List<OldBook> genreForAnotherGrade(String obGenre) {
-        return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.in(Grade.SECOND_GRADE.getGrade(), Grade.THIRD_GRADE.getGrade())
-                .and(oldBook.obGenre.contains(obGenre)))
             .fetch();
     }
 
@@ -75,53 +60,25 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
     }
 
     @Override
-    public List<OldBook> oldHigh() {
-        return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.eq(Grade.FIRST_GRADE.getGrade())
-                .and(oldBook.obDonor.ne("10")))
-            .orderBy(oldBook.obNo.desc())
-            .fetch();
-    }
-
-    @Override
-    public List<OldBook> oldLow() {
-        return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.eq(Grade.SECOND_GRADE.getGrade())
-                .or(oldBook.obState.eq(Grade.THIRD_GRADE.getGrade())))
-            .orderBy(oldBook.obNo.desc())
-            .fetch();
-    }
-
-    @Override
-    public List<OldBook> getDataAllExist(String obName) {
-        return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obName.contains(obName))
-            .orderBy(oldBook.obNo.desc())
-            .fetch();
-    }
-
-    @Override
-    public OldBook oldBookInfoRentalState(Long obNo) {
-        return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obState.in("2", "3")
-                .and(oldBook.obNo.eq(obNo)))
-            .fetchOne();
-    }
-
-    @Override
-    public List<OldBook> donorList(String userId) {
-        return jpaQueryFactory.selectFrom(oldBook)
-            .where(oldBook.obDonor.eq(userId))
-            .orderBy(oldBook.obName.desc())
-            .limit(3)
-            .fetch();
-    }
-
-    @Override
-    public Tuple selectGiveList(String obUserId) {
-        return jpaQueryFactory.select(user.userName, oldBook).from(oldBook)
+    public Map<String, Object> selectGiveList(String obUserId) {
+        Tuple tuple = jpaQueryFactory.select(user, oldBook).from(oldBook)
             .innerJoin(user).on(oldBook.obUserid.eq(user.userId))
             .where(oldBook.obUserid.eq(obUserId))
             .fetchOne();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("user_id", tuple.get(user.userId));
+        map.put("user_name", tuple.get(user.userName));
+        map.put("ob_no", tuple.get(oldBook.obNo));
+        map.put("ob_name", tuple.get(oldBook.obName));
+        map.put("ob_author", tuple.get(oldBook.obAuthor));
+        map.put("ob_ddate", tuple.get(oldBook.obDdate));
+        map.put("ob_comp", tuple.get(oldBook.obComp));
+        map.put("ob_comment", tuple.get(oldBook.obComment));
+        map.put("ob_genre", tuple.get(oldBook.obGenre));
+        map.put("ob_inter", tuple.get(oldBook.obInter));
+        map.put("ob_donor", tuple.get(oldBook.obDonor));
+
+        return map;
     }
 }

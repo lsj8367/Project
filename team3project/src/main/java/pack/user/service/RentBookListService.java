@@ -1,5 +1,8 @@
 package pack.user.service;
 
+import static pack.model.Grade.FIRST_GRADE;
+import static pack.model.Grade.SECOND_GRADE;
+import static pack.model.Grade.THIRD_GRADE;
 import java.util.List;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -11,14 +14,15 @@ import pack.repository.OldBookRepository;
 @RequiredArgsConstructor
 @Transactional
 public class RentBookListService {
+
     private final OldBookRepository oldBookRepository;
 
-    public List<OldBook> genreForFirstGrade(String ob_genre) {
-        return oldBookRepository.genreForFirstGrade(ob_genre);
+    public List<OldBook> genreForFirstGrade(String obGenre) {
+        return oldBookRepository.findAllByObStateAndObDonorNotAndObGenreContains(FIRST_GRADE.getGrade(), "10", obGenre);
     }
 
     public List<OldBook> genreForAnotherGrade(String ob_genre) {
-        return oldBookRepository.genreForAnotherGrade(ob_genre);
+        return oldBookRepository.findAllByObStateInAndObGenreContains(List.of(SECOND_GRADE.getGrade(), THIRD_GRADE.getGrade()), ob_genre);
     }
 
     public List<OldBook> randomFirstGrade() {
@@ -34,11 +38,11 @@ public class RentBookListService {
     }
 
     public List<OldBook> oldHigh() {
-        return oldBookRepository.oldHigh();
+        return oldBookRepository.findAllByObStateAndObDonorNotOrderByObNoDesc(FIRST_GRADE.getGrade(), "10");
     }
 
     public List<OldBook> oldLow() {
-        return oldBookRepository.oldLow();
+        return oldBookRepository.findAllByObStateOrObStateOrderByObNoDesc(SECOND_GRADE.getGrade(), THIRD_GRADE.getGrade());
     }
 
 }

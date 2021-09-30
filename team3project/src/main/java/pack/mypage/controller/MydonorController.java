@@ -1,29 +1,24 @@
 package pack.mypage.controller;
 
+import java.util.Map;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import pack.model.OldBookDto;
-import pack.mypage.model.MydonorImpl;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
+import pack.user.service.OldBookService;
 
 @Controller
 @RequiredArgsConstructor
 public class MydonorController {
-	private final MydonorImpl mydonorImpl;
+    private final OldBookService oldBookService;
 
-	@RequestMapping("mydonor")
-	public ModelAndView mydonorlist(HttpSession session) {
-		ModelAndView modelAndView=new ModelAndView();
-		String id = (String)session.getAttribute("id");
-		//도서 기부 내역 모델앤뷰
-		List<OldBookDto> donorlistall = mydonorImpl.donorListbyId(id);
-		modelAndView.setViewName("mypage/mydonor");
-		modelAndView.addObject("dnabook", donorlistall);
-		
-		return modelAndView;
-	}
+    @RequestMapping("mydonor")
+    public ModelAndView mydonorlist(HttpSession session) {
+        String id = (String) session.getAttribute("id");
+        return new ModelAndView("mypage/mydonor", Map.of(
+            "dnabook", oldBookService.selectGiveList(id)
+        ));
+    }
+
 }
