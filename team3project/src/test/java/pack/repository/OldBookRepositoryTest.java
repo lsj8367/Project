@@ -16,6 +16,7 @@ import org.springframework.test.context.jdbc.Sql;
 import pack.config.QuerydslConfig;
 import pack.domain.entity.OldBook;
 import pack.domain.entity.User;
+import pack.model.Grade;
 
 @DataJpaTest
 @Import(QuerydslConfig.class)
@@ -110,14 +111,14 @@ class OldBookRepositoryTest {
     }
 
     @Test
-    void oldGenre() {
-        List<OldBook> resultList = oldBookRepository.genreForFirstGrade("자격증");
+    void oldBookGenreForFirstGrade() {
+        List<OldBook> resultList = oldBookRepository.findAllByObStateAndObDonorNotAndObGenreContains(Grade.FIRST_GRADE.getGrade(), "10", "자격증");
         assertThat(resultList.get(0).getObDonor()).isEqualTo("강호동");
     }
 
     @Test
-    void oldGenre2() {
-        List<OldBook> resultList = oldBookRepository.genreForAnotherGrade("대학교재");
+    void oldBookGenreForAnotherGrade() {
+        List<OldBook> resultList = oldBookRepository.findAllByObStateInAndObGenreContains(List.of(Grade.SECOND_GRADE.getGrade(), Grade.THIRD_GRADE.getGrade()), "대학교재");
         assertThat(resultList.get(0).getObName()).isEqualTo("거시경제학");
     }
 
@@ -135,7 +136,7 @@ class OldBookRepositoryTest {
 
     @Test
     void oldHigh() {
-        List<OldBook> resultList = oldBookRepository.oldHigh();
+        List<OldBook> resultList = oldBookRepository.findAllByObStateAndObDonorNotOrderByObNoDesc(Grade.FIRST_GRADE.getGrade(), "10");
         assertThat(resultList.size()).isEqualTo(2);
     }
 
@@ -147,7 +148,7 @@ class OldBookRepositoryTest {
 
     @Test
     void oldLow() {
-        List<OldBook> resultList = oldBookRepository.oldLow();
+        List<OldBook> resultList = oldBookRepository.findAllByObStateOrObStateOrderByObNoDesc(Grade.SECOND_GRADE.getGrade(), Grade.THIRD_GRADE.getGrade());
         assertThat(resultList.size()).isEqualTo(2);
     }
 
@@ -170,7 +171,7 @@ class OldBookRepositoryTest {
 
     @Test
     void getDataAllExist() {
-        List<OldBook> resultList = oldBookRepository.getDataAllExist("기본");
+        List<OldBook> resultList = oldBookRepository.findAllByObNameContainsOrderByObNoDesc("기본");
         assertThat(resultList.size()).isEqualTo(3);
     }
 
@@ -183,7 +184,7 @@ class OldBookRepositoryTest {
 
     @Test
     void oldBookInfo2() {
-        OldBook result = oldBookRepository.oldBookInfoRentalState(3L);
+        OldBook result = oldBookRepository.findByObStateInAndObNo(List.of(Grade.SECOND_GRADE.getGrade(), Grade.THIRD_GRADE.getGrade()), 3L);
         assertThat(result.getObState()).isEqualTo("2");
         assertThat(result.getObDonor()).isEqualTo("태은희");
     }
@@ -220,7 +221,7 @@ class OldBookRepositoryTest {
     @Test
     @DisplayName("donor3List, donorListAll 같음")
     void donor3List() {
-        List<OldBook> oldBookList = oldBookRepository.donorList("유재석");
+        List<OldBook> oldBookList = oldBookRepository.findTop3ByObDonorOrderByObNameDesc("유재석");
         System.out.println(oldBookList);
     }
 
