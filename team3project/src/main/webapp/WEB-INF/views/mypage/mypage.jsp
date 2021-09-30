@@ -287,8 +287,8 @@ html, body {
 						
 						<c:forEach var="donor" items="${dnbook}">
 						<tr>
-							<td>${donor.ob_name}</td>
-							<td>${donor.ob_comment}</td>
+							<td>${donor.obName}</td>
+							<td>${donor.obComment}</td>
 						</tr>
 						</c:forEach>
 						
