@@ -1,7 +1,6 @@
-package pack.repository;
+package pack.faqboard.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import java.util.List;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import pack.config.QuerydslConfig;
 import pack.faqboard.domain.FaqBoard;
-import pack.faqboard.repository.FaqBoardRepository;
 
 @DataJpaTest
 @Import(QuerydslConfig.class)

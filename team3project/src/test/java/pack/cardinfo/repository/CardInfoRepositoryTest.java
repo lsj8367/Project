@@ -1,7 +1,6 @@
-package pack.repository;
+package pack.cardinfo.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -13,9 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import pack.cardinfo.repository.CardInfoRepository;
-import pack.config.QuerydslConfig;
 import pack.cardinfo.domain.CardInfo;
+import pack.config.QuerydslConfig;
 import pack.user.domain.User;
 import pack.user.repository.UserRepository;
 

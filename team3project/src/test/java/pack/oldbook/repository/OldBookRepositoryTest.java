@@ -1,4 +1,4 @@
-package pack.repository;
+package pack.oldbook.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -13,11 +13,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
+import pack.common.enums.Grade;
 import pack.config.QuerydslConfig;
 import pack.oldbook.domain.OldBook;
 import pack.user.domain.User;
-import pack.common.enums.Grade;
-import pack.oldbook.repository.OldBookRepository;
 import pack.user.repository.UserRepository;
 
 @DataJpaTest

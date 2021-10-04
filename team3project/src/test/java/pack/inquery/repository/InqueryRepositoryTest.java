@@ -1,4 +1,4 @@
-package pack.repository;
+package pack.inquery.repository;
 
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import pack.config.QuerydslConfig;
 import pack.inquery.domain.Inquery;
-import pack.inquery.repository.InqueryRepository;
 
 @DataJpaTest
 @Import(QuerydslConfig.class)

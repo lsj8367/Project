@@ -1,4 +1,4 @@
-package pack.repository;
+package pack.newbook.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import pack.config.QuerydslConfig;
 import pack.newbook.domain.NewBook;
-import pack.newbook.repository.NewBookRepository;
 
 @DataJpaTest
 @Import(QuerydslConfig.class)
