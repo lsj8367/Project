@@ -1,4 +1,4 @@
-package pack.user.service;
+package pack.oldbook.service;
 
 import java.util.List;
 import javax.transaction.Transactional;
