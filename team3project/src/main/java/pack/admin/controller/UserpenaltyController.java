@@ -1,6 +1,8 @@
 package pack.admin.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,97 +13,91 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
-import pack.model.RentInfoDto;
-import pack.model.UserDto;
+import pack.user.model.UserDto;
+import pack.user.service.UserService;
 
 @Controller
 @RequiredArgsConstructor
 public class UserpenaltyController {
+
     private final AdminDao adminDao;
     private final AdminService adminService;
+    private final UserService userService;
 
     @GetMapping("userpenalty")
-    public ModelAndView goLongterm(HttpSession session, ModelMap model) {
-        ModelAndView view = new ModelAndView();
+    public ModelAndView goLongterm(HttpSession session) {
 
-        String admin_id = (String) session.getAttribute("admin_id");
-        if (admin_id == null | admin_id == "") {
-            view.setViewName("admin/admin_login");
-            return view;
+        String adminId = (String) session.getAttribute("admin_id");
+        if (sessionValidation(adminId)) {
+            return new ModelAndView("admin/admin_login");
         }
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-        List<RentInfoDto> rlist = adminDao.selectdelayAll();
-        view.addObject("longd", rlist);
-        view.setViewName("admin/longdelay");
-
-        return view;
+        return new ModelAndView("admin/longdelay", Map.of(
+            "info", adminService.selectAdminData(adminId),
+            "longd", adminDao.selectdelayAll()
+        ));
     }
 
     @PostMapping(value = "delay")
-    public String goDelayCount(HttpSession session, ModelMap model, UserDto ubean,
-                               @RequestParam(name = "rent_no") int[] rent_no,
-                               @RequestParam(name = "user_id") String[] user_id,
-                               @RequestParam(name = "delpoint") int[] delpoint) {
+    public ModelAndView goDelayCount(HttpSession session, UserDto userDto,
+        @RequestParam(name = "rent_no") int[] rent_no,
+        @RequestParam(name = "user_id") String[] user_id,
+        @RequestParam(name = "delpoint") int[] delpoint) {
 
-        String admin_id = (String) session.getAttribute("admin_id");
-        if (admin_id == null | admin_id == "") {
-            return "admin/admin_login";
+        String adminId = (String) session.getAttribute("admin_id");
+        if (sessionValidation(adminId)) {
+            return new ModelAndView("admin/admin_login");
         }
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
         if (rent_no.length == 0) {
-            return "redirect:/delaycount";
+            return new ModelAndView("redirect:/delaycount");
         }
 
         for (int i = 0; i < rent_no.length; i++) {
-            ubean.setUser_id(user_id[i]);
-            ubean.setDelpoint(delpoint[i]);
-            boolean b = adminDao.upuser(ubean);
-            if (b) {
-                adminService.removeOb(rent_no[i]);
-            }
+            userService.updatePenaltyAndPoint(user_id[i], delpoint[i]);
+            adminService.removeOb(rent_no[i]);
         }
-        return "redirect:/delaycount";
+        return new ModelAndView("redirect:/delaycount", Map.of(
+            "info", adminService.selectAdminData(adminId)
+        ));
     }
 
     @GetMapping(value = "delaycount")
-    public String goDelay(HttpSession session, ModelMap model) {
+    public ModelAndView goDelay(HttpSession session, ModelMap model) {
 
-        List<String> rent_id = adminDao.selectdelayid();
-
-        String admin_id = (String) session.getAttribute("admin_id");
-        if (admin_id == null | admin_id == "") {
-            return "admin/admin_login";
+        String adminId = (String) session.getAttribute("admin_id");
+        if (sessionValidation(adminId)) {
+            return new ModelAndView("admin/admin_login");
         }
 
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
+        model.addAttribute("info", adminService.selectAdminData(adminId));
 
         boolean b = false;
 
-        for (int i = 0; i < rent_id.size(); i++) {
-            String rentid = rent_id.get(i);
+        List<String> rentId = adminDao.selectdelayid();
+        for (String rentid : rentId) {
             b = adminDao.updcount(rentid);
         }
 
         if (b) {
-            List<UserDto> dlist = adminDao.selectdelay();
-            model.addAttribute("dinfo", dlist);
-            return "admin/delayinfo";
+            return new ModelAndView("admin/delayinfo", Map.of(
+                "dinfo", userService.selectDelay()
+            ));
         }
-        return "redirect:/admin";
+        return new ModelAndView("redirect:/admin");
     }
 
     @PostMapping("refusebook")
     public String goRefuse(HttpSession session, ModelMap model, UserDto bean,
-                           @RequestParam(name = "user_id") String[] user_id,
-                           @RequestParam(name = "user_penalty") String[] user_penalty) {
+        @RequestParam(name = "user_id") String[] user_id,
+        @RequestParam(name = "user_penalty") String[] user_penalty) {
 
-        String admin_id = (String) session.getAttribute("admin_id");
-        if (admin_id == null || admin_id == "") {
+        String adminId = (String) session.getAttribute("admin_id");
+        if (sessionValidation(adminId)) {
             return "admin/admin_login";
         }
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
+
+        model.addAttribute("info", adminService.selectAdminData(adminId));
 
         boolean b = false;
 
@@ -111,46 +107,54 @@ public class UserpenaltyController {
             b = adminDao.uppenalty(bean);
         }
         if (b) {
-            model.addAttribute("rflist", adminDao.selectrefusecount());
+            model.addAttribute("rflist", userService.selectRefuseCount());
             return "admin/refuse";
         }
         return "redirect:/admin";
     }
 
+    private boolean sessionValidation(String adminId) {
+        return Objects.isNull(adminId) || adminId.equals("");
+    }
+
     @GetMapping("refusebook")
-    public String goRefuse(HttpSession session, ModelMap model) {
+    public ModelAndView goRefuse(HttpSession session) {
 
-        String admin_id = (String) session.getAttribute("admin_id");
-        if (admin_id == null || admin_id == "") {
-            return "admin/admin_login";
+        String adminId = (String) session.getAttribute("admin_id");
+        if (sessionValidation(adminId)) {
+            return new ModelAndView("admin/admin_login");
         }
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
-        model.addAttribute("rflist", adminDao.selectrefusecount());
-        return "admin/refuse";
+
+        return new ModelAndView("admin/refuse", Map.of(
+            "info", adminService.selectAdminData(adminId),
+            "rflist", userService.selectRefuseCount()
+        ));
     }
 
-    @GetMapping( "userpenaltycheck")
-    public String penaltyCheck(HttpSession session, ModelMap model) {
+    @GetMapping("userpenaltycheck")
+    public ModelAndView penaltyCheck(HttpSession session) {
 
-        String admin_id = (String) session.getAttribute("admin_id");
-        if (admin_id == null || admin_id == "") {
-            return "admin/admin_login";
+        String adminId = (String) session.getAttribute("admin_id");
+        if (sessionValidation(adminId)) {
+            return new ModelAndView("admin/admin_login");
         }
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
-        model.addAttribute("dulist", adminDao.selectdeluser());
-        model.addAttribute("ulist", adminDao.selectuserpcheck());
-        return "admin/penaltycheck";
+
+        return new ModelAndView("admin/penaltycheck", Map.of(
+            "info", adminService.selectAdminData(adminId),
+            "dulist", userService.selectDelUser(),
+            "ulist", userService.selectUserPcheck()
+        ));
     }
 
-    @PostMapping( "deluser")
+    @PostMapping("deluser")
     public String DelUser(HttpSession session, ModelMap model,
-                          @RequestParam(name = "user_id") String[] user_id) {
+        @RequestParam(name = "user_id") String[] user_id) {
 
-        String admin_id = (String) session.getAttribute("admin_id");
-        if (admin_id == null | admin_id == "") {
+        String adminId = (String) session.getAttribute("admin_id");
+        if (sessionValidation(adminId)) {
             return "admin/admin_login";
         }
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
+        model.addAttribute("info", adminService.selectAdminData(adminId));
 
         boolean b = false;
 
@@ -163,4 +167,5 @@ public class UserpenaltyController {
         }
         return "redirect:/admin";
     }
+
 }

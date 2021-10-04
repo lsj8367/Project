@@ -149,7 +149,7 @@ body {
 							${rf.user_id }
 							<input type = "hidden" name = "user_id" value="${rf.user_id }">
 						</td>
-						<td>${rf.user_name }</td>
+						<td>${rf.user_name }</td>1
 						<td>${rf.user_tel }</td>
 						<td>${rf.user_mail }</td>
 						<td>

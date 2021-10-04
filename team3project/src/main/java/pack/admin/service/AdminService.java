@@ -5,15 +5,15 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pack.admin.domain.Admin;
 import pack.admin.model.AdminUpdateDto;
-import pack.domain.entity.Admin;
-import pack.domain.entity.NewBook;
-import pack.domain.entity.OldBook;
-import pack.model.Grade;
-import pack.model.NewBookDto;
-import pack.repository.AdminRepository;
-import pack.repository.NewBookRepository;
-import pack.repository.OldBookRepository;
+import pack.admin.repository.AdminRepository;
+import pack.common.enums.Grade;
+import pack.newbook.domain.NewBook;
+import pack.newbook.model.NewBookDto;
+import pack.newbook.repository.NewBookRepository;
+import pack.oldbook.domain.OldBook;
+import pack.oldbook.repository.OldBookRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -147,10 +147,7 @@ public class AdminService {
 
     public void removeOb(int obNo) {
         final Optional<OldBook> optionalOldBook = oldBookRepository.findById((long) obNo);
-
-        optionalOldBook.ifPresent(oldBook -> {
-            oldBookRepository.delete(oldBook);
-        });
+        optionalOldBook.ifPresent(oldBookRepository::delete);
     }
 
 }

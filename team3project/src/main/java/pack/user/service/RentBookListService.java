@@ -1,14 +1,14 @@
 package pack.user.service;
 
-import static pack.model.Grade.FIRST_GRADE;
-import static pack.model.Grade.SECOND_GRADE;
-import static pack.model.Grade.THIRD_GRADE;
+import static pack.common.enums.Grade.FIRST_GRADE;
+import static pack.common.enums.Grade.SECOND_GRADE;
+import static pack.common.enums.Grade.THIRD_GRADE;
 import java.util.List;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pack.domain.entity.OldBook;
-import pack.repository.OldBookRepository;
+import pack.oldbook.domain.OldBook;
+import pack.oldbook.repository.OldBookRepository;
 
 @Service
 @RequiredArgsConstructor

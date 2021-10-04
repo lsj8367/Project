@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.service.AdminService;
-import pack.domain.entity.OldBook;
+import pack.oldbook.domain.OldBook;
 
 @Controller
 @RequiredArgsConstructor

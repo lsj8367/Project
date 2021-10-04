@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pack.admin.service.AdminService;
-import pack.model.NewBookDto;
+import pack.newbook.model.NewBookDto;
 
 @Controller
 @RequiredArgsConstructor

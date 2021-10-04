@@ -8,14 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import pack.give.common.CommandMap;
 import pack.give.service.GiveService;
-
-//import javax.activation.CommandMap;
 
 @Controller
 @SessionAttributes("user")
@@ -26,13 +24,12 @@ public class GiveController {
 
     private final GiveService giveService;
 
-
-    @RequestMapping(value = "give", method = RequestMethod.GET)
+    @GetMapping("give")
     public String give() { // 기증메소드
         return "give";
     }
 
-    @RequestMapping(value = "give", method = RequestMethod.POST)
+    @PostMapping("give")
     public ModelAndView donate(CommandMap commandMap, HttpServletRequest request, HttpSession session) throws Exception {
         //commandMap 사용
         ModelAndView mv = new ModelAndView("giveresult");
@@ -44,7 +41,7 @@ public class GiveController {
 
         giveService.insertOldBook(commandMap.getMap(), request);
 
-        if (commandMap.isEmpty() == false) {
+        if (!commandMap.isEmpty()) {
             Iterator<Entry<String, Object>> iterator = commandMap.getMap().entrySet().iterator();
             Entry<String, Object> entry = null;
 

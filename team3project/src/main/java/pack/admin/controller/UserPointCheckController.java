@@ -1,35 +1,32 @@
 package pack.admin.controller;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
-import pack.model.UserDto;
+import pack.user.service.UserService;
 
 @Controller
 @RequiredArgsConstructor
 public class UserPointCheckController {
-	private final AdminDao adminDao;
-	private final AdminService adminService;
-	
-	@GetMapping("userpointcheck")
-	public ModelAndView getUserPoint(HttpSession session, ModelMap model) {
-		ModelAndView view = new ModelAndView();
-		String admin_id = (String)session.getAttribute("admin_id");
-		if(admin_id == null | admin_id == "") {
-			view.setViewName("admin/admin_login");
-			return view;
-		}
-		model.addAttribute("info", adminService.selectAdminData(admin_id));
-		
-		List<UserDto> plist = adminDao.selectUserPointAll();
-		view.addObject("plist", plist);
-		view.setViewName("admin/pointcheck");
-		return view;
-	}
+
+    private final AdminService adminService;
+    private final UserService userService;
+
+    @GetMapping("userpointcheck")
+    public ModelAndView getUserPoint(HttpSession session) {
+        String adminId = (String) session.getAttribute("admin_id");
+        if (Objects.isNull(adminId) || Objects.equals(adminId, "")) {
+            return new ModelAndView("admin/admin_login");
+        }
+        return new ModelAndView("admin/pointcheck", Map.of(
+            "info", adminService.selectAdminData(adminId),
+            "plist", userService.selectUserAll()
+        ));
+    }
+
 }

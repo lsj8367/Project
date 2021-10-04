@@ -9,12 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.model.OrderInfoDto;
-import pack.model.UserDto;
+import pack.orderinfo.model.OrderInfoDto;
+import pack.user.model.UserDto;
 import pack.user.model.BuyDao;
 import pack.user.model.BuyResultDao;
 import pack.user.model.UserDao;
-import pack.user.service.OldBookService;
+import pack.oldbook.service.OldBookService;
 
 @Controller
 @RequiredArgsConstructor

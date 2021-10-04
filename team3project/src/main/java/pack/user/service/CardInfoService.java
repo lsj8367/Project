@@ -5,8 +5,8 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
-import pack.domain.entity.CardInfo;
-import pack.repository.CardInfoRepository;
+import pack.cardinfo.domain.CardInfo;
+import pack.cardinfo.repository.CardInfoRepository;
 
 @Service
 @Transactional

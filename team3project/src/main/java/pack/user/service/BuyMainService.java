@@ -3,7 +3,7 @@ package pack.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
-import pack.repository.NewBookRepository;
+import pack.newbook.repository.NewBookRepository;
 
 @Service
 @RequiredArgsConstructor

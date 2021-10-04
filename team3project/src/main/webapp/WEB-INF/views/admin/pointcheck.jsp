@@ -127,9 +127,9 @@ body {
 	<tr><th>회원아이디</th><th>회원명</th><th>포인트</th></tr>
 	<c:forEach var="p" items="${plist}">
 		<tr>
-			<td>${p.user_id}</td>
-			<td>${p.user_name}</td>
-			<td>${p.user_point}</td>
+			<td>${p.userId}</td>
+			<td>${p.userName}</td>
+			<td>${p.userPoint}</td>
 		</tr>
 	</c:forEach>
 </table>

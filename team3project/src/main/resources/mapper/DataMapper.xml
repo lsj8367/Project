@@ -5,51 +5,6 @@
 
 <mapper namespace="dev">
   <!-- ================== USER ===================== -->
-  <select id="selectUserAll" resultType="userdto">
-    select *
-    from user
-  </select>
-
-  <select id="selectUserPointAll" resultType="userdto">
-    select user_id, user_name, user_point
-    from user;
-  </select>
-
-  <select id="selectdelay" resultType="userdto">
-    select user_id, user_name, user_tel, user_mail, user_penalty, user_dcount
-    from user
-    where user_dcount > 5
-  </select>
-
-  <select id="selectrefusecount" resultType="userdto">
-    select user_id, user_name, user_tel, user_mail, user_penalty, count(*) rfcount
-    from oldbook
-           inner join user on ob_userid = user_id
-    where ob_state = "4"
-       or ob_state = "5" and year (now())= year (ob_ddate)
-    group by ob_donor
-    having rfcount>10
-  </select>
-
-  <select id="selectdeluser" resultType="userdto">
-    select *
-    from user
-    where user_penalty = "1+2+3"
-  </select>
-
-  <select id="selectuserpcheck" resultType="userdto">
-    select *
-    from user
-    where user_penalty!="1+2+3" and user_penalty!="x" and user_penalty!="4"
-  </select>
-
-  <update id="upuser" parameterType="userdto">
-    update user
-    set user_penalty = "1",
-        user_point= (user_point - #{delpoint})
-    where user_id = #{user_id}
-  </update>
-
   <update id="updcount" parameterType="String">
     update user
     set user_dcount = user_dcount + 1

@@ -1,21 +1,18 @@
 package pack.give.dao;
 
 import java.util.Map;
-import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class GiveDao extends AbstractDAO {
-    @Autowired
-    SqlSession session;
+public class GiveDao extends SqlSessionDaoSupport {
+    public GiveDao(SqlSessionFactory factory) {
+        setSqlSessionFactory(factory);
+    }
 
-    @Autowired
-    SqlSessionTemplate sqlSessionTemplate;
-
-    public void insertFile(Map<String, Object> map) throws Exception {
-        insert("insertFile", map);
+    public void insertFile(Map<String, Object> map) {
+        getSqlSession().insert("insertFile", map);
     }
 
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
-import pack.model.NewBookDto;
+import pack.newbook.model.NewBookDto;
 
 @Controller
 @RequiredArgsConstructor

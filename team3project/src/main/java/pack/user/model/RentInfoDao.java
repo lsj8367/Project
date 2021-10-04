@@ -3,7 +3,7 @@ package pack.user.model;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
-import pack.model.RentInfoDto;
+import pack.rentinfo.model.RentInfoDto;
 
 @Repository
 public class RentInfoDao extends SqlSessionDaoSupport {

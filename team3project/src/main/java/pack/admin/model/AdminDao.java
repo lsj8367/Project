@@ -4,26 +4,17 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
-import pack.model.AdminDto;
-import pack.model.NewBookDto;
-import pack.model.OrderInfoDto;
-import pack.model.RentInfoDto;
-import pack.model.ReviewDto;
-import pack.model.UserDto;
+import pack.newbook.model.NewBookDto;
+import pack.orderinfo.model.OrderInfoDto;
+import pack.rentinfo.model.RentInfoDto;
+import pack.review.model.ReviewDto;
+import pack.user.model.UserDto;
 
 @Repository
 public class AdminDao extends SqlSessionDaoSupport {
 
     public AdminDao(SqlSessionFactory factory) {
         setSqlSessionFactory(factory);
-    }
-
-    public List<NewBookDto> selectBookDataAll() {
-        return getSqlSession().selectList("selectBookDataAll");
-    }
-
-    public List<UserDto> selectUserAll() {
-        return getSqlSession().selectList("selectUserAll");
     }
 
     public List<OrderInfoDto> selectnbOrderAll() {
@@ -36,10 +27,6 @@ public class AdminDao extends SqlSessionDaoSupport {
 
     public List<RentInfoDto> selectRentAll() {
         return getSqlSession().selectList("selectRentAll");
-    }
-
-    public List<UserDto> selectUserPointAll() {
-        return getSqlSession().selectList("selectUserPointAll");
     }
 
     public List<OrderInfoDto> selectNobankAll() {
@@ -64,16 +51,6 @@ public class AdminDao extends SqlSessionDaoSupport {
         return getSqlSession().selectList("selectdelayAll");
     }
 
-    public boolean upuser(UserDto bean) {
-        try {
-            getSqlSession().update("upuser", bean);
-            return true;
-        } catch (Exception e) {
-            System.out.println("updateUser error : " + e);    //포인트 차감, 상태 업데이트
-            return false;
-        }
-    }
-
     public List<String> selectdelayid() {
         return getSqlSession().selectList("selectdelayid");
     }
@@ -88,10 +65,6 @@ public class AdminDao extends SqlSessionDaoSupport {
         }
     }
 
-    public List<UserDto> selectdelay() {
-        return getSqlSession().selectList("selectdelay");
-    }
-
     public boolean uppenalty(UserDto bean) {
         try {
             getSqlSession().update("uppenalty", bean);
@@ -100,18 +73,6 @@ public class AdminDao extends SqlSessionDaoSupport {
             System.out.println("updatePenalty error : " + e);    //패널티 업데이트
             return false;
         }
-    }
-
-    public List<UserDto> selectrefusecount() {
-        return getSqlSession().selectList("selectrefusecount");
-    }
-
-    public List<UserDto> selectdeluser() {
-        return getSqlSession().selectList("selectdeluser");
-    }
-
-    public List<UserDto> selectuserpcheck() {
-        return getSqlSession().selectList("selectuserpcheck");
     }
 
     public boolean updeluser(String user_id) {

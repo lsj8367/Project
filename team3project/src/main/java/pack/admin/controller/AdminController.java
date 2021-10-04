@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
-import pack.domain.entity.Admin;
-import pack.model.AdminDto;
+import pack.admin.domain.Admin;
+import pack.admin.model.AdminDto;
 import pack.validation.AdminLoginValidation;
 import pack.validation.LoginValidation;
 

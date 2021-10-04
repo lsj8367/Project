@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
-import pack.model.ReviewDto;
+import pack.review.model.ReviewDto;
 
 @Controller
 @RequiredArgsConstructor

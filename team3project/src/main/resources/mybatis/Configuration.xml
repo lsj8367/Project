@@ -7,34 +7,34 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<typeAliases>
 
 		<!-- 관리자 -->
-		<typeAlias type="pack.model.AdminDto" alias="admindto" />
+		<typeAlias type="pack.admin.model.AdminDto" alias="admindto" />
 
 		<!-- 사용자 -->
-		<typeAlias type="pack.model.UserDto" alias="userdto" />
+		<typeAlias type="pack.user.model.UserDto" alias="userdto" />
 
 		<!-- 새 도서 -->
-		<typeAlias type="pack.model.NewBookDto" alias="nbdto" />
+		<typeAlias type="pack.newbook.model.NewBookDto" alias="nbdto" />
 
 		<!-- 중고도서 -->
-		<typeAlias type="pack.model.OldBookDto" alias="obdto" />
+		<typeAlias type="pack.oldbook.model.OldBookDto" alias="obdto" />
 
 		<!-- 카드정보 -->
-		<typeAlias type="pack.model.CardInfoDto" alias="carddto" />
+		<typeAlias type="pack.cardinfo.model.CardInfoDto" alias="carddto" />
 
 		<!-- 후기 -->
-		<typeAlias type="pack.model.ReviewDto" alias="reviewdto" />
+		<typeAlias type="pack.review.model.ReviewDto" alias="reviewdto" />
 
 		<!-- 주문내역 -->
-		<typeAlias type="pack.model.OrderInfoDto" alias="orderdto" />
+		<typeAlias type="pack.orderinfo.model.OrderInfoDto" alias="orderdto" />
 
 		<!-- FAQ -->
-		<typeAlias type="pack.model.FaqBoardDto" alias="faqdto" />
+		<typeAlias type="pack.faqboard.model.FaqBoardDto" alias="faqdto" />
 
 		<!-- 1:1 문의 -->
-		<typeAlias type="pack.model.InqueryDto" alias="inqdto" />
+		<typeAlias type="pack.inquery.model.InqueryDto" alias="inqdto" />
 
 		<!-- 대여 정보 -->
-		<typeAlias type="pack.model.RentInfoDto" alias="rdto" />
+		<typeAlias type="pack.rentinfo.model.RentInfoDto" alias="rdto" />
 
 	</typeAliases>
 </configuration>

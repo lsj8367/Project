@@ -3,8 +3,8 @@ package pack.admin.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
-import pack.domain.entity.FaqBoard;
-import pack.repository.FaqBoardRepository;
+import pack.faqboard.domain.FaqBoard;
+import pack.faqboard.repository.FaqBoardRepository;
 
 @Service
 @RequiredArgsConstructor

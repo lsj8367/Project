@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pack.domain.entity.CardInfo;
-import pack.model.CardInfoDto;
-import pack.model.UserDto;
+import pack.cardinfo.domain.CardInfo;
+import pack.cardinfo.model.CardInfoDto;
+import pack.user.model.UserDto;
 import pack.user.model.UserDao;
 import pack.user.service.SignUpService;
 
