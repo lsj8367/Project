@@ -1,6 +1,8 @@
 package pack.admin.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,12 +15,14 @@ import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
 import pack.rentinfo.model.RentInfoDto;
 import pack.user.model.UserDto;
+import pack.user.service.UserService;
 
 @Controller
 @RequiredArgsConstructor
 public class UserpenaltyController {
     private final AdminDao adminDao;
     private final AdminService adminService;
+    private final UserService userService;
 
     @GetMapping("userpenalty")
     public ModelAndView goLongterm(HttpSession session, ModelMap model) {
@@ -66,30 +70,29 @@ public class UserpenaltyController {
     }
 
     @GetMapping(value = "delaycount")
-    public String goDelay(HttpSession session, ModelMap model) {
+    public ModelAndView goDelay(HttpSession session, ModelMap model) {
 
-        List<String> rent_id = adminDao.selectdelayid();
+        List<String> rentId = adminDao.selectdelayid();
 
-        String admin_id = (String) session.getAttribute("admin_id");
-        if (admin_id == null | admin_id == "") {
-            return "admin/admin_login";
+        String adminId = (String) session.getAttribute("admin_id");
+        if (Objects.isNull(adminId) || Objects.equals(adminId, "")) {
+            return new ModelAndView("admin/admin_login");
         }
 
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
+        model.addAttribute("info", adminService.selectAdminData(adminId));
 
         boolean b = false;
 
-        for (int i = 0; i < rent_id.size(); i++) {
-            String rentid = rent_id.get(i);
+        for (String rentid : rentId) {
             b = adminDao.updcount(rentid);
         }
 
         if (b) {
-            List<UserDto> dlist = adminDao.selectdelay();
-            model.addAttribute("dinfo", dlist);
-            return "admin/delayinfo";
+            return new ModelAndView("admin/delayinfo", Map.of(
+                "dinfo", userService.selectDelay()
+            ));
         }
-        return "redirect:/admin";
+        return new ModelAndView("/admin");
     }
 
     @PostMapping("refusebook")
