@@ -25,6 +25,20 @@ class UserRepositoryTest {
         userRepository.findAllByUserDcountGreaterThan(5);
     }
 
+    @Test
+    void selectRefuseCount() {
+        userRepository.selectRefuseCount();
+    }
+
+    @Test
+    void selectDelUser() {
+        userRepository.findAllByUserPenalty("1+2+3");
+    }
+
+    @Test
+    void selectUserPointCheck() {
+        userRepository.findAllByUserPenaltyNotAndUserPenaltyNotAndUserPenaltyNot("1+2+3", "x", "4");
+    }
 
 
 }
