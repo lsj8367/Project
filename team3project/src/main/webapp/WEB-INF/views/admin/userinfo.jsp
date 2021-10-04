@@ -125,12 +125,12 @@ body {
 		<tr><th>회원아이디</th><th>회원명</th><th>연락처</th><th>주소</th><th>이메일</th><th>주민번호</th></tr>
 		<c:forEach var="u" items="${ulist }">
 			<tr>
-				<td>${u.user_id }</td>
-				<td>${u.user_name }</td>
-				<td>${u.user_tel }</td>
-				<td>${u.user_addr }</td>
-				<td>${u.user_mail }</td>
-				<td>${u.user_birth }</td>
+				<td>${u.userId }</td>
+				<td>${u.userName }</td>
+				<td>${u.userTel }</td>
+				<td>${u.userAddr }</td>
+				<td>${u.userMail }</td>
+				<td>${u.userBirth }</td>
 			</tr>
 		</c:forEach>
 	</table>
