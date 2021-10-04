@@ -1,4 +1,4 @@
-package pack.user.controller;
+package pack.oldbook.web;
 
 import java.util.Map;
 import javax.servlet.http.HttpSession;
@@ -43,6 +43,14 @@ public class OldBookController {
             return modelAndView;
         }
         return new ModelAndView("error");
+    }
+
+    @RequestMapping("mydonor")
+    public ModelAndView mydonorlist(HttpSession session) {
+        String id = (String) session.getAttribute("id");
+        return new ModelAndView("mypage/mydonor", Map.of(
+            "dnabook", oldBookService.selectGiveList(id)
+        ));
     }
 
     public String submit() throws Exception {

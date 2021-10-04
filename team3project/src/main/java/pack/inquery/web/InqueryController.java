@@ -1,4 +1,4 @@
-package pack.mypage.controller;
+package pack.inquery.web;
 
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import pack.inquery.service.InqueryService;
 
 @Controller
 @RequiredArgsConstructor
-public class MyInqController {
+public class InqueryController {
     private final InqueryService inqueryService;
 
     @RequestMapping("myqna")
