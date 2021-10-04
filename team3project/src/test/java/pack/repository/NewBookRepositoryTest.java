@@ -11,7 +11,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import pack.config.QuerydslConfig;
-import pack.domain.entity.NewBook;
+import pack.newbook.domain.NewBook;
+import pack.newbook.repository.NewBookRepository;
 
 @DataJpaTest
 @Import(QuerydslConfig.class)

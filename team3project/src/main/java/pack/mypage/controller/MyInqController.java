@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import pack.service.InqueryService;
+import pack.inquery.service.InqueryService;
 
 @Controller
 @RequiredArgsConstructor

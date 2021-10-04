@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.service.AdminService;
-import pack.model.AdminDto;
+import pack.admin.model.AdminDto;
 
 @Controller
 @RequiredArgsConstructor

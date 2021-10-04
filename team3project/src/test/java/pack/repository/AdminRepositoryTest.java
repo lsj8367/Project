@@ -13,8 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import pack.admin.repository.AdminRepository;
 import pack.config.QuerydslConfig;
-import pack.domain.entity.Admin;
+import pack.admin.domain.Admin;
 
 @DataJpaTest
 @Import(QuerydslConfig.class)

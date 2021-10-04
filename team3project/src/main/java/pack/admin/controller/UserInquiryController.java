@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
-import pack.model.InqueryDto;
-import pack.service.InqueryService;
+import pack.inquery.model.InqueryDto;
+import pack.inquery.service.InqueryService;
 
 @Controller
 @RequiredArgsConstructor

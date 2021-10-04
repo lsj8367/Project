@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
-import pack.model.OrderInfoDto;
-import pack.model.UserDto;
+import pack.orderinfo.model.OrderInfoDto;
+import pack.user.model.UserDto;
 
 @Controller
 @RequiredArgsConstructor

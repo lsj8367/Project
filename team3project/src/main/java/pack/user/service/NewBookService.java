@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
-import pack.domain.entity.NewBook;
-import pack.repository.NewBookRepository;
+import pack.newbook.domain.NewBook;
+import pack.newbook.repository.NewBookRepository;
 
 @Service
 @Transactional

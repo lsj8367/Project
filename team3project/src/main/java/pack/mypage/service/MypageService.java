@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 import pack.mypage.model.MypageImpl;
-import pack.repository.CardInfoRepository;
-import pack.repository.NewBookRepository;
-import pack.repository.OldBookRepository;
+import pack.cardinfo.repository.CardInfoRepository;
+import pack.newbook.repository.NewBookRepository;
+import pack.oldbook.repository.OldBookRepository;
 
 @Service
 @RequiredArgsConstructor

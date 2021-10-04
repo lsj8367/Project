@@ -14,9 +14,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 import pack.config.QuerydslConfig;
-import pack.domain.entity.OldBook;
-import pack.domain.entity.User;
-import pack.model.Grade;
+import pack.oldbook.domain.OldBook;
+import pack.user.domain.User;
+import pack.common.enums.Grade;
+import pack.oldbook.repository.OldBookRepository;
+import pack.user.repository.UserRepository;
 
 @DataJpaTest
 @Import(QuerydslConfig.class)

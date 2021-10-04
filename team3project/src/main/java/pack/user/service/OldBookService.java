@@ -6,9 +6,9 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pack.domain.entity.OldBook;
-import pack.model.Grade;
-import pack.repository.OldBookRepository;
+import pack.oldbook.domain.OldBook;
+import pack.common.enums.Grade;
+import pack.oldbook.repository.OldBookRepository;
 
 @Service
 @Transactional

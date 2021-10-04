@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pack.domain.entity.FaqBoard;
-import pack.repository.FaqBoardRepository;
+import pack.faqboard.domain.FaqBoard;
+import pack.faqboard.repository.FaqBoardRepository;
 
 @Service
 @RequiredArgsConstructor

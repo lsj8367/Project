@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.domain.entity.OldBook;
-import pack.model.UserDto;
+import pack.oldbook.domain.OldBook;
+import pack.user.model.UserDto;
 import pack.user.model.UserDao;
 import pack.user.service.OldBookService;
 

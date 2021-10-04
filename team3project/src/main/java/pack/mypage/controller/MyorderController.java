@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.domain.entity.NewBook;
-import pack.model.OrderInfoDto;
+import pack.newbook.domain.NewBook;
+import pack.orderinfo.model.OrderInfoDto;
 import pack.mypage.model.MyorderImpl;
 import pack.mypage.service.MyOrderService;
 

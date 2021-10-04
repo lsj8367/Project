@@ -8,8 +8,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.service.AdminService;
-import pack.domain.entity.FaqBoard;
-import pack.repository.FaqBoardRepository;
+import pack.faqboard.domain.FaqBoard;
+import pack.faqboard.repository.FaqBoardRepository;
 
 @Controller
 @RequiredArgsConstructor

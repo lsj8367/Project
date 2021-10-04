@@ -9,9 +9,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import pack.model.InqueryDto;
-import pack.model.UserDto;
-import pack.service.InqueryService;
+import pack.inquery.model.InqueryDto;
+import pack.user.model.UserDto;
+import pack.inquery.service.InqueryService;
 import pack.user.model.UserDao;
 
 @Controller

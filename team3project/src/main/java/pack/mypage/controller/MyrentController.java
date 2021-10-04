@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.domain.entity.OldBook;
-import pack.model.OldBookDto;
-import pack.model.UserDto;
+import pack.oldbook.domain.OldBook;
+import pack.oldbook.model.OldBookDto;
+import pack.user.model.UserDto;
 import pack.mypage.model.MyrentImpl;
 import pack.mypage.service.MyRentService;
 import pack.mypage.utils.DelayState;
@@ -38,11 +38,7 @@ public class MyrentController {
 
     @RequestMapping(value = "extendedate")
     public String rentex(@RequestParam(name = "rentno") int rent_no, HttpSession session) {
-        String user_id = (String) session.getAttribute("id");
-
-        boolean b = false;
-
-        b = myRentImpl.updateState(rent_no);
+        boolean b = myRentImpl.updateState(rent_no);
 
         if (b) {
             System.out.println("성공");

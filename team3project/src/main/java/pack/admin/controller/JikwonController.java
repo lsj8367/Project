@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
 import pack.admin.model.AdminUpdateDto;
 import pack.admin.service.AdminService;
-import pack.model.AdminDto;
+import pack.admin.model.AdminDto;
 
 @Controller
 @RequiredArgsConstructor

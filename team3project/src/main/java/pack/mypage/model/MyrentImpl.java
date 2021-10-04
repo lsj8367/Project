@@ -4,8 +4,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import pack.model.OldBookDto;
-import pack.model.UserDto;
+import pack.oldbook.model.OldBookDto;
+import pack.user.model.UserDto;
 
 import java.util.List;
 

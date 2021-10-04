@@ -11,7 +11,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import pack.config.QuerydslConfig;
-import pack.domain.entity.FaqBoard;
+import pack.faqboard.domain.FaqBoard;
+import pack.faqboard.repository.FaqBoardRepository;
 
 @DataJpaTest
 @Import(QuerydslConfig.class)

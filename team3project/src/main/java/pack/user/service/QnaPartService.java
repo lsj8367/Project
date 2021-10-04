@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pack.domain.entity.FaqBoard;
-import pack.repository.FaqBoardRepository;
+import pack.faqboard.domain.FaqBoard;
+import pack.faqboard.repository.FaqBoardRepository;
 
 @Service
 @Transactional

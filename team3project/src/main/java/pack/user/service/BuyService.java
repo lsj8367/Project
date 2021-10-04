@@ -7,10 +7,10 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
-import pack.domain.entity.CardInfo;
-import pack.model.UserDto;
-import pack.repository.CardInfoRepository;
-import pack.repository.OldBookRepository;
+import pack.cardinfo.domain.CardInfo;
+import pack.user.model.UserDto;
+import pack.cardinfo.repository.CardInfoRepository;
+import pack.oldbook.repository.OldBookRepository;
 import pack.user.model.BuyDao;
 
 @Service
