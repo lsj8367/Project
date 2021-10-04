@@ -5,22 +5,6 @@
 
 <mapper namespace="dev">
   <!-- ================== USER ===================== -->
-  <select id="selectUserAll" resultType="userdto">
-    select *
-    from user
-  </select>
-
-  <select id="selectUserPointAll" resultType="userdto">
-    select user_id, user_name, user_point
-    from user;
-  </select>
-
-  <select id="selectdelay" resultType="userdto">
-    select user_id, user_name, user_tel, user_mail, user_penalty, user_dcount
-    from user
-    where user_dcount > 5
-  </select>
-
   <select id="selectrefusecount" resultType="userdto">
     select user_id, user_name, user_tel, user_mail, user_penalty, count(*) rfcount
     from oldbook
