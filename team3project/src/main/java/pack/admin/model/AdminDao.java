@@ -51,16 +51,6 @@ public class AdminDao extends SqlSessionDaoSupport {
         return getSqlSession().selectList("selectdelayAll");
     }
 
-    public boolean upuser(UserDto bean) {
-        try {
-            getSqlSession().update("upuser", bean);
-            return true;
-        } catch (Exception e) {
-            System.out.println("updateUser error : " + e);    //포인트 차감, 상태 업데이트
-            return false;
-        }
-    }
-
     public List<String> selectdelayid() {
         return getSqlSession().selectList("selectdelayid");
     }
@@ -83,18 +73,6 @@ public class AdminDao extends SqlSessionDaoSupport {
             System.out.println("updatePenalty error : " + e);    //패널티 업데이트
             return false;
         }
-    }
-
-    public List<UserDto> selectrefusecount() {
-        return getSqlSession().selectList("selectrefusecount");
-    }
-
-    public List<UserDto> selectdeluser() {
-        return getSqlSession().selectList("selectdeluser");
-    }
-
-    public List<UserDto> selectuserpcheck() {
-        return getSqlSession().selectList("selectuserpcheck");
     }
 
     public boolean updeluser(String user_id) {

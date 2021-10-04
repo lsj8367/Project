@@ -3,6 +3,7 @@ package pack.user.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import pack.cardinfo.domain.CardInfo;
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 public class User {
 
     @Id
@@ -48,7 +50,7 @@ public class User {
 
     @Column(name = "user_penalty")
     @ColumnDefault("0")
-    private long userPenalty;
+    private String userPenalty;
 
     @Column(name = "user_dcount")
     @ColumnDefault("0")
@@ -59,7 +61,7 @@ public class User {
     private CardInfo cardInfo;
 
     @Builder
-    public User(final String userId, final String userName, final String userPasswd, final String userTel, final String userAddr, final String userZip, final String userMail, final long userRentcnt, final long userPoint, final String userBirth, final long userPenalty, final long userDcount, final CardInfo cardInfo) {
+    public User(final String userId, final String userName, final String userPasswd, final String userTel, final String userAddr, final String userZip, final String userMail, final long userRentcnt, final long userPoint, final String userBirth, final String userPenalty, final long userDcount, final CardInfo cardInfo) {
         this.userId = userId;
         this.userName = userName;
         this.userPasswd = userPasswd;
