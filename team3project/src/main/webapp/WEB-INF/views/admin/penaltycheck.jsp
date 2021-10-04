@@ -141,13 +141,13 @@ body {
 				<c:forEach var="du" items="${dulist }">
 					<tr>
 						<td>
-							${du.user_id }
-							<input type = "hidden" name = "user_id" value="${du.user_id }">
+							${du.userId }
+							<input type = "hidden" name = "user_id" value="${du.userId }">
 						</td>
-						<td>${du.user_name }</td>
-						<td>${du.user_tel }</td>
-						<td>${du.user_mail }</td>
-						<td>${du.user_penalty }</td>
+						<td>${du.userName }</td>
+						<td>${du.userTel }</td>
+						<td>${du.userMail }</td>
+						<td>${du.userPenalty }</td>
 					</tr>
 				</c:forEach>
 			</form>
@@ -172,13 +172,13 @@ body {
 			<c:forEach var="u" items="${ulist }">
 				<tr>
 					<td>
-						${u.user_id }
-						<input type = "hidden" name = "user_id" value="${u.user_id }">
+						${u.userId }
+						<input type = "hidden" name = "user_id" value="${u.userId }">
 					</td>
-					<td>${u.user_name }</td>
-					<td>${u.user_tel }</td>
-					<td>${u.user_mail }</td>
-					<td>${u.user_penalty }</td>
+					<td>${u.userName }</td>
+					<td>${u.userTel }</td>
+					<td>${u.userMmail }</td>
+					<td>${u.userPenalty }</td>
 				</tr>
 			</c:forEach>
 		</c:otherwise>
