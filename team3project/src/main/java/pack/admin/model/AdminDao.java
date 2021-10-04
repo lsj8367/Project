@@ -17,14 +17,6 @@ public class AdminDao extends SqlSessionDaoSupport {
         setSqlSessionFactory(factory);
     }
 
-    public List<NewBookDto> selectBookDataAll() {
-        return getSqlSession().selectList("selectBookDataAll");
-    }
-
-    public List<UserDto> selectUserAll() {
-        return getSqlSession().selectList("selectUserAll");
-    }
-
     public List<OrderInfoDto> selectnbOrderAll() {
         return getSqlSession().selectList("selectnbOrderAll");
     }
@@ -35,10 +27,6 @@ public class AdminDao extends SqlSessionDaoSupport {
 
     public List<RentInfoDto> selectRentAll() {
         return getSqlSession().selectList("selectRentAll");
-    }
-
-    public List<UserDto> selectUserPointAll() {
-        return getSqlSession().selectList("selectUserPointAll");
     }
 
     public List<OrderInfoDto> selectNobankAll() {
@@ -85,10 +73,6 @@ public class AdminDao extends SqlSessionDaoSupport {
             System.out.println("updateDcount error : " + e);    //연체 횟수
             return false;
         }
-    }
-
-    public List<UserDto> selectdelay() {
-        return getSqlSession().selectList("selectdelay");
     }
 
     public boolean uppenalty(UserDto bean) {

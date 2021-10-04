@@ -1,7 +1,6 @@
 package pack.cardinfo.repository;
 
-import static pack.domain.entity.QCardInfo.cardInfo;
-
+import static pack.cardinfo.domain.QCardInfo.cardInfo;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -9,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class CardInfoRepositorySupportImpl implements CardInfoRepositorySupport {
+
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
@@ -18,4 +18,5 @@ public class CardInfoRepositorySupportImpl implements CardInfoRepositorySupport 
             .orderBy(cardInfo.cardComp.desc())
             .fetch();
     }
+
 }

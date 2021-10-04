@@ -14,7 +14,7 @@ import pack.user.model.UserDto;
 import pack.user.model.BuyDao;
 import pack.user.model.BuyResultDao;
 import pack.user.model.UserDao;
-import pack.user.service.OldBookService;
+import pack.oldbook.service.OldBookService;
 
 @Controller
 @RequiredArgsConstructor

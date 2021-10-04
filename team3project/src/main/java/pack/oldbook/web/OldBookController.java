@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import pack.oldbook.domain.OldBook;
 import pack.user.model.UserDto;
 import pack.user.model.UserDao;
-import pack.user.service.OldBookService;
+import pack.oldbook.service.OldBookService;
 
 @Controller
 @RequiredArgsConstructor

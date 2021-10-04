@@ -14,7 +14,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 import pack.oldbook.domain.OldBook;
 import pack.orderinfo.model.OrderInfoDto;
-import pack.user.service.OldBookService;
+import pack.oldbook.service.OldBookService;
 
 @Repository
 public class BuyResultDao extends SqlSessionDaoSupport {

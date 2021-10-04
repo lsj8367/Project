@@ -1,7 +1,7 @@
 package pack.oldbook.repository;
 
-import static pack.domain.entity.QOldBook.oldBook;
-import static pack.domain.entity.QUser.user;
+import static pack.oldbook.domain.QOldBook.oldBook;
+import static pack.user.domain.QUser.user;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPAExpressions;
@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import pack.oldbook.domain.OldBook;
 import pack.common.enums.Grade;
 import pack.config.template.MariaDBTemplates;
+import pack.oldbook.domain.OldBook;
 
 @RequiredArgsConstructor
 public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
@@ -81,4 +81,5 @@ public class OldBookRepositorySupportImpl implements OldBookRepositorySupport {
 
         return map;
     }
+
 }

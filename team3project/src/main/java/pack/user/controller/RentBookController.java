@@ -12,8 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 import pack.rentinfo.model.RentInfoDto;
 import pack.user.model.RentInfoDao;
 import pack.user.model.UserDao;
-import pack.user.service.OldBookService;
-import pack.user.service.RentBookService;
+import pack.oldbook.service.OldBookService;
+import pack.oldbook.service.RentBookService;
 
 @Controller
 @RequiredArgsConstructor

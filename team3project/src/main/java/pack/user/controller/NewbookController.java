@@ -24,7 +24,7 @@ import pack.user.model.OrderInfoDao;
 import pack.user.model.ReviewDao;
 import pack.user.model.UserDao;
 import pack.user.service.CardInfoService;
-import pack.user.service.NewBookService;
+import pack.newbook.service.NewBookService;
 
 @Controller
 @RequiredArgsConstructor

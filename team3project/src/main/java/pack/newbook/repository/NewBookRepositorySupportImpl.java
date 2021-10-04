@@ -1,6 +1,6 @@
 package pack.newbook.repository;
 
-import static pack.domain.entity.QNewBook.newBook;
+import static pack.newbook.domain.QNewBook.newBook;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -8,8 +8,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import pack.newbook.domain.NewBook;
 import pack.config.template.MariaDBTemplates;
+import pack.newbook.domain.NewBook;
 
 @RequiredArgsConstructor
 public class NewBookRepositorySupportImpl implements NewBookRepositorySupport {
