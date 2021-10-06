@@ -5,12 +5,6 @@
 
 <mapper namespace="dev">
   <!-- ================== USER ===================== -->
-  <update id="upuserpoint" parameterType="userdto">
-    update user
-    set user_point = (user_point + #{pluspoint})
-    where user_id = #{user_id}
-  </update>
-
   <select id="selectBestRead" resultType="userdto">
     select *
     from user
