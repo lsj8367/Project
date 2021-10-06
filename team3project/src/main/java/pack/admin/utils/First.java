@@ -1,8 +1,5 @@
 package pack.admin.utils;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class First implements Rank {
 
     @Override

@@ -63,20 +63,8 @@ public class BestReviewsetController {
 
         model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-        boolean b = false;
-
         try {
             for (int i = 0; i < userid.length; i++) {
-
-//            if (rank[i] == 1) {
-//                bean.setPluspoint(5000);
-//            } else if (rank[i] == 2) {
-//                bean.setPluspoint(3000);
-//            } else if (rank[i] == 3) {
-//                bean.setPluspoint(2000);
-//            } else {
-//                bean.setPluspoint(0);
-//            }
                 Rank ranked = pointState.getPointStateMap(rank[i]);
                 userService.updateUserPoint(userid[i], ranked.giveUserPoint());
             }
