@@ -6,6 +6,10 @@
 - MyBatis -> JPA 마이그레이션
 - 각 로직에 대한 Repository 단위 테스트 작성중
 
+## 2021-10-06 User테이블 리팩토링
+- [스테이트 패턴 적용후기](https://lsj8367.github.io/til/TIL-designPattern/)
+- [바로가기](https://github.com/lsj8367/Project/pull/32)
+
 ## 2021-09-29 ~ 30 리팩토링
 - [바로가기](https://github.com/lsj8367/Project/pull/30)
 - [바로가기](https://github.com/lsj8367/Project/pull/29)
