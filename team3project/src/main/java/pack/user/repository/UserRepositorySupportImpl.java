@@ -10,6 +10,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import pack.user.domain.User;
 import pack.user.model.UserDto;
 
 @RequiredArgsConstructor
@@ -45,9 +46,15 @@ public class UserRepositorySupportImpl implements UserRepositorySupport {
         }
 
         return list;
-
-
-
     }
+
+    @Override
+    public User selectBestRead() {
+        return jpaQueryFactory.selectFrom(user)
+            .orderBy(user.userRentcnt.desc())
+            .limit(1)
+            .fetchOne();
+    }
+
 
 }
