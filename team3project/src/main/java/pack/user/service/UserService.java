@@ -12,6 +12,7 @@ import pack.user.repository.UserRepository;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
 
     public List<User> selectUserAll() {
@@ -77,6 +78,17 @@ public class UserService {
 
             user.setUserPenalty("4");
         }
+    }
+
+    @Transactional
+    public void updateUserPoint(String userId, int userPoint) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> {
+                throw new RuntimeException("해당하는 사람 없음");
+            });
+
+        user.setUserPoint(user.getUserPoint() + userPoint);
+
     }
 
 }

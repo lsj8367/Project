@@ -8,7 +8,6 @@ import pack.newbook.model.NewBookDto;
 import pack.orderinfo.model.OrderInfoDto;
 import pack.rentinfo.model.RentInfoDto;
 import pack.review.model.ReviewDto;
-import pack.user.model.UserDto;
 
 @Repository
 public class AdminDao extends SqlSessionDaoSupport {
@@ -103,16 +102,6 @@ public class AdminDao extends SqlSessionDaoSupport {
 
     public List<ReviewDto> mbReviewMonth() {
         return getSqlSession().selectList("mbreviewmonth");
-    }
-
-    public boolean upUserPoint(UserDto bean) {
-        try {
-            getSqlSession().insert("upuserpoint", bean);
-            return true;
-        } catch (Exception e) {
-            System.out.println("upUserPoint error : " + e);    //개발자를 위한 내용
-            return false;
-        }
     }
 
     public List<NewBookDto> mbSellerMonth() {

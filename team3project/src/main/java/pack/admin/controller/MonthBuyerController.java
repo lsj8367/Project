@@ -11,67 +11,62 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
+import pack.admin.utils.PointState;
+import pack.admin.utils.Rank;
 import pack.orderinfo.model.OrderInfoDto;
 import pack.user.model.UserDto;
+import pack.user.service.UserService;
 
 @Controller
 @RequiredArgsConstructor
 public class MonthBuyerController {
-	private final AdminDao adminDao;
-	private final AdminService adminService;
-	
-	@GetMapping("monthbuyer")
-	public ModelAndView goMonthBuyer(HttpSession session, ModelMap model) {
-		ModelAndView view = new ModelAndView();
-		
-		String admin_id = (String)session.getAttribute("admin_id");
-		if(admin_id == null | admin_id == "") {
-			view.setViewName("admin/admin_login");
-			return view;
-		}
-		model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-		String cmonth = adminDao.currentMonth();
-		List<OrderInfoDto> bulist = adminDao.buyKing();
-		view.addObject("cm", cmonth);
-		view.addObject("bu", bulist);
-		view.setViewName("admin/monthbuyer");
+    private final AdminDao adminDao;
+    private final AdminService adminService;
+    private final PointState pointState;
+    private final UserService userService;
 
-		return view;
-	}
-	
-	@PostMapping(value = "givepoint4")
-	public String JikwonUpJik(HttpSession session, ModelMap model, UserDto bean,
-							@RequestParam(name="rn") int[] rank,
-							@RequestParam(name="user_id") String[] userid){
-		String admin_id = (String)session.getAttribute("admin_id");
-		if(admin_id == null | admin_id == "") 
-			return "admin/admin_login";
-		model.addAttribute("info", adminService.selectAdminData(admin_id));
+    @GetMapping("monthbuyer")
+    public ModelAndView goMonthBuyer(HttpSession session, ModelMap model) {
+        ModelAndView view = new ModelAndView();
 
-		
-		boolean b = false;
-		
-		for (int i = 0; i < userid.length; i++) {
-			if(userid[i] != null) {
-				if(rank[i] == 1) {
-					bean.setPluspoint(3000);
-				}else if(rank[i] == 2) {
-					bean.setPluspoint(2000);
-				}else if(rank[i] == 3) {
-					bean.setPluspoint(1000);
-				}else {
-					bean.setPluspoint(0);
-				}
-				bean.setUser_id(userid[i]);
-				b = adminDao.upUserPoint(bean);
-			}else {
-				b = true;
-			}
-		}
-		if(b) {
-			return "redirect:/monthbuyer";
-		}
-		return "redirect:/adminmain";
-	}
+        String admin_id = (String) session.getAttribute("admin_id");
+        if (admin_id == null | admin_id == "") {
+            view.setViewName("admin/admin_login");
+            return view;
+        }
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
+
+        String cmonth = adminDao.currentMonth();
+        List<OrderInfoDto> bulist = adminDao.buyKing();
+        view.addObject("cm", cmonth);
+        view.addObject("bu", bulist);
+        view.setViewName("admin/monthbuyer");
+
+        return view;
+    }
+
+    @PostMapping(value = "givepoint4")
+    public String JikwonUpJik(HttpSession session, ModelMap model, UserDto bean,
+        @RequestParam(name = "rn") int[] rank,
+        @RequestParam(name = "user_id") String[] userid) {
+        String admin_id = (String) session.getAttribute("admin_id");
+        if (admin_id == null | admin_id == "") {
+            return "admin/admin_login";
+        }
+        model.addAttribute("info", adminService.selectAdminData(admin_id));
+
+        boolean b = false;
+
+        try {
+            for (int i = 0; i < userid.length; i++) {
+                Rank ranked = pointState.getPointStateMap(rank[i]);
+                userService.updateUserPoint(userid[i], ranked.giveUserPoint());
+            }
+            return "redirect:/monthbuyer";
+        } catch (Exception e) {
+            return "redirect:/adminmain";
+        }
+    }
+
 }
