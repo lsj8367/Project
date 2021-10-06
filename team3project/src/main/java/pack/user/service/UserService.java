@@ -43,4 +43,40 @@ public class UserService {
         });
     }
 
+    @Transactional
+    public void updateDcount(List<String> rentIdList) {
+        for (String rentId : rentIdList) {
+            User user = userRepository.findById(rentId)
+                .orElseThrow(() -> {
+                    throw new RuntimeException("해당하는 사람 없음");
+                });
+
+            user.setUserDcount(user.getUserDcount() + 1);
+        }
+    }
+
+    @Transactional
+    public void updatePenalty(String[] userIds, String[] userPenalties) {
+        for (int i = 0; i < userIds.length; i++) {
+            User user = userRepository.findById(userIds[i])
+                .orElseThrow(() -> {
+                    throw new RuntimeException("해당하는 사람 없음");
+                });
+
+            user.setUserPenalty(userPenalties[i]);
+        }
+    }
+
+    @Transactional
+    public void updateDelUser(String[] userIds) {
+        for (String userId : userIds) {
+            User user = userRepository.findById(userId)
+                .orElseThrow(() -> {
+                    throw new RuntimeException("해당하는 사람 없음");
+                });
+
+            user.setUserPenalty("4");
+        }
+    }
+
 }
