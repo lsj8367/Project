@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
+import pack.admin.utils.PointState;
+import pack.admin.utils.Rank;
 import pack.rentinfo.model.RentInfoDto;
 import pack.user.model.UserDto;
+import pack.user.service.UserService;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,6 +23,8 @@ public class MonthRenterController {
 
     private final AdminDao adminDao;
     private final AdminService adminService;
+    private final UserService userService;
+    private final PointState pointState;
 
     @GetMapping("monthrenter")
     public ModelAndView goMonthRenter(HttpSession session, ModelMap model) {
@@ -52,26 +57,15 @@ public class MonthRenterController {
 
         model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-        boolean b = false;
-
-        for (int i = 0; i < userid.length; i++) {
-            if (rank[i] == 1) {
-                bean.setPluspoint(3000);
-            } else if (rank[i] == 2) {
-                bean.setPluspoint(2000);
-            } else if (rank[i] == 3) {
-                bean.setPluspoint(1000);
-            } else {
-                bean.setPluspoint(0);
+        try {
+            for (int i = 0; i < userid.length; i++) {
+                Rank ranked = pointState.getPointStateMap(rank[i]);
+                userService.updateUserPoint(userid[i], ranked.giveUserPoint());
             }
-            bean.setUser_id(userid[i]);
-            b = adminDao.upUserPoint(bean);
-        }
-        if (b) {
             return "redirect:/monthrenter";
+        } catch (Exception e) {
+            return "redirect:/adminmain";
         }
-
-        return "redirect:/adminmain";
     }
 
 }

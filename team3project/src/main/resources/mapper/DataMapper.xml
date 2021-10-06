@@ -5,30 +5,6 @@
 
 <mapper namespace="dev">
   <!-- ================== USER ===================== -->
-  <update id="updcount" parameterType="String">
-    update user
-    set user_dcount = user_dcount + 1
-    where user_id = #{user_id}
-  </update>
-
-  <update id="uppenalty" parameterType="userdto">
-    update user
-    set user_penalty = #{user_penalty}
-    where user_id = #{user_id}
-  </update>
-
-  <update id="updeluser" parameterType="String">
-    update user
-    set user_penalty = "4"
-    where user_id = #{user_id}
-  </update>
-
-  <update id="upuserpoint" parameterType="userdto">
-    update user
-    set user_point = (user_point + #{pluspoint})
-    where user_id = #{user_id}
-  </update>
-
   <select id="selectBestRead" resultType="userdto">
     select *
     from user

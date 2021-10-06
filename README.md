@@ -1,18 +1,38 @@
 # Project
 ## Java-Project ↓↓↓
 ### 팀프로젝트(네책내책)
-## [포트폴리오](https://github.com/lsj8367/Project/blob/master/%ED%8F%AC%ED%8A%B8%ED%8F%B4%EB%A6%AC%EC%98%A4.pdf)
-* 담당 역할
-  * 새책과 중고서적의 메인페이지 전반
-  * 장르별 조회 구매(대여)하기
-  * 구매내역 상세보기
-  * 비회원 주문조회
-  * 중고서적 구매페이지 결제화면
-  * header에 로그인 세션 (include)
-  * footer 레이아웃 만들기
-  * 구매페이지 결제 후 주문번호 생성기
-  * 베스트 도서와 다독왕
-  * 새책페이지 리뷰 지우기
+
+## 현재 진행
+- MyBatis -> JPA 마이그레이션
+- 각 로직에 대한 Repository 단위 테스트 작성중
+
+## 2021-09-29 ~ 30 리팩토링
+- [바로가기](https://github.com/lsj8367/Project/pull/30)
+- [바로가기](https://github.com/lsj8367/Project/pull/29)
+
+## 2021-09-27 중고책 마이그레이션
+- [바로가기](https://github.com/lsj8367/Project/pull/27)
+
+## 2021-09-20 새책테이블 마이그레이션
+- [바로가기](https://github.com/lsj8367/Project/pull/22)
+
+## 2021-09-17 Querydsl 이슈
+- [블로그 글 바로가기](https://lsj8367.github.io/til/TIL-querydsl/)
+
+## 2021-08-21 마이그레이션 2
+- SpringBoot 의존성 중복 제거
+- Bean 중복 제거
+
+마이그레이션에 관한 블로그 포스팅 [Wiki](https://github.com/lsj8367/Project/wiki)
+
+## Lombok 추가
+  * DTO, BEAN 파일 getter, setter 삭제
+  * @Getter, @Setter, @NoArgsConstructor 추가
+
+* 불필요한 `System.out.println()` 삭제
+
+## 2021-07-28 마이그레이션
+- Spring 5.x 버전 SpringBoot 2.x 로 마이그레이션
 
 ## 2021-04-02 수정
 * ## ListController, RentBookListController 리팩토링
@@ -29,18 +49,17 @@
       * if문 중첩 장르선택 -> Map으로 메소드 추가
       * List생성하는 메소드 추가
       * ModelAndView 담당 메소드 추가(다독왕, 베스트 대여도서)
-
-* ## Lombok 추가 
-  * DTO, BEAN 파일 getter, setter 삭제
-  * @Getter, @Setter, @NoArgsConstructor 추가
   
-* 불필요한 `System.out.println()` 삭제
+## [맨처음 구현된 포트폴리오](https://github.com/lsj8367/Project/blob/master/%ED%8F%AC%ED%8A%B8%ED%8F%B4%EB%A6%AC%EC%98%A4.pdf)
 
-## 2021-07-28 마이그레이션
-- Spring 5.x 버전 SpringBoot 2.x 로 마이그레이션
-
-## 2021-08-21 마이그레이션 2
-- SpringBoot 의존성 중복 제거
-- Bean 중복 제거
-
-마이그레이션에 관한 블로그 포스팅 [Wiki](https://github.com/lsj8367/Project/wiki)
+* 담당 역할
+  * 새책과 중고서적의 메인페이지 전반
+  * 장르별 조회 구매(대여)하기
+  * 구매내역 상세보기
+  * 비회원 주문조회
+  * 중고서적 구매페이지 결제화면
+  * header에 로그인 세션 (include)
+  * footer 레이아웃 만들기
+  * 구매페이지 결제 후 주문번호 생성기
+  * 베스트 도서와 다독왕
+  * 새책페이지 리뷰 지우기

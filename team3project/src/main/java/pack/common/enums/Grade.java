@@ -1,5 +1,12 @@
 package pack.common.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public enum Grade {
     READY("0"),
     FIRST_GRADE("1"),
@@ -9,13 +16,4 @@ public enum Grade {
     FIFTH_GRADE("5");
 
     private String grade;
-
-    Grade(String grade) {
-        this.grade = grade;
-    }
-
-    public String getGrade() {
-        return grade;
-    }
-
 }

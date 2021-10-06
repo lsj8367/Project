@@ -72,23 +72,21 @@ public class UserpenaltyController {
 
         model.addAttribute("info", adminService.selectAdminData(adminId));
 
-        boolean b = false;
-
+        //TODO: 스케줄러 구현
         List<String> rentId = adminDao.selectdelayid();
-        for (String rentid : rentId) {
-            b = adminDao.updcount(rentid);
-        }
 
-        if (b) {
+        try {
+            userService.updateDcount(rentId);
             return new ModelAndView("admin/delayinfo", Map.of(
                 "dinfo", userService.selectDelay()
             ));
+        } catch (Exception e) {
+            return new ModelAndView("redirect:/admin");
         }
-        return new ModelAndView("redirect:/admin");
     }
 
     @PostMapping("refusebook")
-    public String goRefuse(HttpSession session, ModelMap model, UserDto bean,
+    public String goRefuse(HttpSession session, ModelMap model,
         @RequestParam(name = "user_id") String[] user_id,
         @RequestParam(name = "user_penalty") String[] user_penalty) {
 
@@ -98,19 +96,13 @@ public class UserpenaltyController {
         }
 
         model.addAttribute("info", adminService.selectAdminData(adminId));
-
-        boolean b = false;
-
-        for (int i = 0; i < user_id.length; i++) {
-            bean.setUser_id(user_id[i]);
-            bean.setUser_penalty(user_penalty[i]);
-            b = adminDao.uppenalty(bean);
-        }
-        if (b) {
+        try {
+            userService.updatePenalty(user_id, user_penalty);
             model.addAttribute("rflist", userService.selectRefuseCount());
             return "admin/refuse";
+        } catch (RuntimeException e) {
+            return "redirect:/admin";
         }
-        return "redirect:/admin";
     }
 
     private boolean sessionValidation(String adminId) {
@@ -147,25 +139,22 @@ public class UserpenaltyController {
     }
 
     @PostMapping("deluser")
-    public String DelUser(HttpSession session, ModelMap model,
-        @RequestParam(name = "user_id") String[] user_id) {
+    public ModelAndView DelUser(HttpSession session,
+        @RequestParam(name = "user_id") String[] userArray) {
 
         String adminId = (String) session.getAttribute("admin_id");
         if (sessionValidation(adminId)) {
-            return "admin/admin_login";
-        }
-        model.addAttribute("info", adminService.selectAdminData(adminId));
-
-        boolean b = false;
-
-        for (String userId : user_id) {
-            b = adminDao.updeluser(userId);
+            return new ModelAndView("admin/admin_login");
         }
 
-        if (b) {
-            return "redirect:/userpenaltycheck";
+        try {
+            userService.updateDelUser(userArray);
+            return new ModelAndView("redirect:/userpenaltycheck", Map.of(
+                "info", adminService.selectAdminData(adminId)
+            ));
+        } catch (RuntimeException e) {
+            return new ModelAndView("redirect:/admin");
         }
-        return "redirect:/admin";
     }
 
 }
