@@ -12,10 +12,6 @@ public class BuyDao extends SqlSessionDaoSupport {
         setSqlSessionFactory(factory);
     }
 
-    public UserDto point(String user_id) {
-        return getSqlSession().selectOne("viewpoint", user_id);
-    }
-
     public OrderInfoDto show(String order_person) {
         return getSqlSession().selectOne("view", order_person);
     }

@@ -56,5 +56,4 @@ public class UserRepositorySupportImpl implements UserRepositorySupport {
             .fetchOne();
     }
 
-
 }

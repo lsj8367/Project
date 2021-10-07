@@ -7,17 +7,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pack.cardinfo.domain.CardInfo;
-import pack.cardinfo.model.CardInfoDto;
-import pack.user.model.UserDto;
-import pack.user.model.UserDao;
+import pack.user.domain.User;
 import pack.user.service.SignUpService;
+import pack.user.service.UserService;
 
 @Controller
 @RequiredArgsConstructor
 public class SignupController {
 
-    private final UserDao userDao;
     private final SignUpService signUpService;
+    private final UserService userService;
 
     @RequestMapping(value = "signup", method = RequestMethod.GET)
     public String moveLogin() {
@@ -27,12 +26,7 @@ public class SignupController {
     // 아이디 중복 여부 체크
     @RequestMapping(value = "checkSignupId", method = RequestMethod.POST)
     public @ResponseBody String AjaxView(@RequestParam("id") String id) {
-        if (userDao.selectUser(id).equals(null)) {
-            return "YES";
-        }
-        UserDto dto = userDao.selectUser(id);
-
-        if (dto.getUser_id().equals(id)) { // 이미 존재하는 계정
+        if (userService.validationCheck(id)) { // 이미 존재하는 계정
             return "NO";
         }
         return "YES";
@@ -51,28 +45,17 @@ public class SignupController {
         @RequestParam("card3") String card3, @RequestParam("card4") String card4,
         @RequestParam("cardpwd") String cardpwd) {
 
-        // 유저 삽입
-        UserDto user = UserDto.builder()
-            .user_id(id)
-            .user_passwd(pwd)
-            .user_name(name)
-            .user_tel(phone1 + "-" + phone2 + "-" + phone3)
-            .user_addr(address1 + " " + address2)
-            .user_zip(zipcode)
-            .user_mail(email1 + "@" + email2)
-            .user_birth(rrnumber1 + "-" + rrnumber2)
-            .build();
+        userService.signUp(User.builder()
+            .userId(id)
+            .userPasswd(pwd)
+            .userName(name)
+            .userTel(phone1 + "-" + phone2 + "-" + phone3)
+            .userAddr(address1 + " " + address2)
+            .userZip(zipcode)
+            .userMail(email1 + "@" + email2)
+            .userBirth(rrnumber1 + "-" + rrnumber2)
+            .build());
 
-        // 카드 삽입
-        CardInfoDto cardInfoDto = CardInfoDto.builder()
-            .card_ownerid(id)
-            .card_owner(name)
-            .card_comp(cardcomp)
-            .card_no(card1 + "-" + card2 + "-" + card3 + "-" + card4)
-            .card_passwd(cardpwd)
-            .build();
-
-        boolean buser = userDao.insertUser(user);
 
         signUpService.insertCard(CardInfo.builder()
             .cardOwnerid(id)
@@ -82,11 +65,7 @@ public class SignupController {
             .cardPasswd(cardpwd)
             .build());
 
-        if (buser) {
-            return "redirect:/buymain";
-        }
-
-        return "redirect:/signup";
+        return "redirect:/buymain";
     }
 
 }

@@ -10,16 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import pack.inquery.model.InqueryDto;
-import pack.user.model.UserDto;
 import pack.inquery.service.InqueryService;
-import pack.user.model.UserDao;
+import pack.user.service.UserService;
 
 @Controller
 @RequiredArgsConstructor
 public class SosController {
 
-    private final UserDao userDao;
     private final InqueryService inqueryService;
+    private final UserService userService;
 
     @RequestMapping("sos") // 1:1 문의 버튼 눌렀을때 public String
     public ModelAndView sos(HttpSession session) {
@@ -48,8 +47,7 @@ public class SosController {
             return "login";
         }
 
-        UserDto dto = userDao.selectUser(id);
-        model.addAttribute("inqinfo", dto);
+        model.addAttribute("inqinfo", inqueryService.findAllOrderByInqOnumASC());
         inqueryDto.setInq_id(id);
         boolean b = inqueryService.insertInquery(inqueryDto);
         if (!b) {

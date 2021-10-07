@@ -17,24 +17,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.newbook.domain.NewBook;
+import pack.newbook.service.NewBookService;
 import pack.orderinfo.model.OrderInfoDto;
 import pack.review.model.ReviewDto;
-import pack.user.model.UserDto;
+import pack.user.domain.User;
 import pack.user.model.OrderInfoDao;
 import pack.user.model.ReviewDao;
-import pack.user.model.UserDao;
+import pack.user.model.UserDto;
 import pack.user.service.CardInfoService;
-import pack.newbook.service.NewBookService;
+import pack.user.service.UserService;
 
 @Controller
 @RequiredArgsConstructor
 public class NewbookController {
 
     private final ReviewDao reviewDao;
-    private final UserDao userDao;
     private final OrderInfoDao orderInfoDao;
     private final CardInfoService cardInfoService;
     private final NewBookService newBookService;
+    private final UserService userService;
 
     @GetMapping("newbook")
     public ModelAndView main(@RequestParam("book_no") String nb_no) {
@@ -130,9 +131,8 @@ public class NewbookController {
             modelAndView = cardInfoService.getCardInfo(id, modelAndView);
 
             // 회원이면 등록된 포인트 가져오기
-            UserDto userDto = userDao.selectUser(id);
             modelAndView.setViewName("directbuy");
-            modelAndView.addObject("userDto", userDto);
+            modelAndView.addObject("userDto", userService.selectUser(id));
         }
         //주문한 책의 개수 설정
         modelAndView.addObject("orderscount", orderscount);
@@ -151,7 +151,7 @@ public class NewbookController {
 
     @GetMapping("directbuy_pay")
     public String directBuy(HttpSession session, HttpServletRequest request) {
-        String order_id = request.getParameter("id");
+        String orderId = request.getParameter("id");
         String order_bookno1 = request.getParameter("order_bookno");
         String order_scount1 = request.getParameter("order_scount");
         String order_sum1 = request.getParameter("order_sum");
@@ -199,33 +199,32 @@ public class NewbookController {
         orderInfoDto.setOrder_address(address1 + " " + address2);
 
         //회원일 경우
-        if (!order_id.equals("")) {
-            UserDto userDto = userDao.selectUser(order_id);
+        if (!orderId.equals("")) {
+            User user = userService.selectUser(orderId);
 
             //포인트 쓸경우 user_id랑 user_point만 가져온다.
             if (realpoint != 0) {
-                UserDto user = new UserDto();
-                user.setUser_id(order_id);
-                user.setUser_point(realpoint);
-                boolean point_b = userDao.usePoint(user);
+                UserDto dto = new UserDto();
+                dto.setUser_id(orderId);
+                dto.setUser_point(realpoint);
 
-                UserDto userDto1 = userDao.selectUser(order_id);
-                session.setAttribute("point", userDto1.getUser_point());
+                userService.usePoint(dto);
+                User resultUser = userService.selectUser(orderId);
+                session.setAttribute("point", resultUser.getUserPoint());
             }
 
             //카드결제일 경우
             if (radioPaytype.equals("카드결제")) {
                 orderInfoDto.setOrder_paytype("1");//1은 카드결제
-                orderInfoDto.setOrder_person(userDto.getUser_name());
-                orderInfoDto.setOrder_id(userDto.getUser_id());
+                orderInfoDto.setOrder_person(user.getUserName());
+                orderInfoDto.setOrder_id(user.getUserId());
                 orderInfoDto.setOrder_state("1"); // 카드 결제는 주문 상태로 무조건 1로 된다
-
             }
             //무통장입금일 경우
             else {
                 orderInfoDto.setOrder_paytype("0");//0은 무통장입금
-                orderInfoDto.setOrder_person(userDto.getUser_name());
-                orderInfoDto.setOrder_id(userDto.getUser_id());
+                orderInfoDto.setOrder_person(user.getUserName());
+                orderInfoDto.setOrder_id(user.getUserId());
                 orderInfoDto.setOrder_state("0"); // 무통장입금는 주문 상태로 무조건 0로 된다
             }
 
@@ -237,7 +236,6 @@ public class NewbookController {
             }
 
             return "error";
-
         }
         //비회원일 경우
 
@@ -270,7 +268,6 @@ public class NewbookController {
 
         OrderInfoDto orderDto = orderInfoDao.unmemberOrder(orderInfoDto);
         NewBook newbook = newBookService.selectNewBook((long) orderDto.getOrder_bookno());
-
 
         view.setViewName("unmemberorder");
         view.addObject("orderDto", orderDto);
