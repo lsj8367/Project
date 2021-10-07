@@ -190,20 +190,20 @@ body {
       
       <c:otherwise>
          <input type="hidden" name="ob_no" value="${buyinfo.obNo}">
-         <input type="hidden" name="order_password" value="${point.user_passwd }">
+         <input type="hidden" name="order_password" value="${point.userPasswd }">
          <input type="hidden" name="ob_name" value="${buyinfo.obName }">
          <input type="hidden" name="order_person" value="${sessionScope.name }">
          <input type="hidden" name="order_id" value="${sessionScope.id }">
          <input type="hidden" name="order_password" value="''">
-         <input type="hidden" value="${point.user_point }" id="point" name="point">
-         <input type="hidden" name="order_address" value="${point.user_addr }">
+         <input type="hidden" value="${point.userPoint }" id="point" name="point">
+         <input type="hidden" name="order_address" value="${point.userAddr }">
       <tr>
          <td>책제목</td>
          <td>${buyinfo.obName }</td>
       </tr>
       <tr>
-         <td>${point.user_name} 님의 사용가능한 포인트</td> 
-         <td>${point.user_point} 점</td>
+         <td>${point.userName} 님의 사용가능한 포인트</td>
+         <td>${point.userPoint} 점</td>
       </tr>
       <tr>
          <td>
@@ -219,7 +219,7 @@ body {
       </tr>
       <tr>
          <td>주소</td>
-         <td>${point.user_addr}</td>
+         <td>${point.userAddr}</td>
       </tr>
       <tr>
          <td>상세주소</td>
@@ -239,7 +239,7 @@ body {
       </tr>
       <tr class="mycard" style="display: none;">
          <td>
-            ${point.user_name}님의 등록된 카드 정보
+            ${point.userName}님의 등록된 카드 정보
          </td>
          <td>
             <span></span><br>

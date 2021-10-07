@@ -142,7 +142,7 @@ html, body {
 <form action="Rental" method="post">
 <input type="hidden" value="${bookinfo.obNo}" name="ob_no">
 <input type="hidden" value="${sessionScope.id}" name="user_id">
-<input type="hidden" value="${rentUser.user_point}" id="user_point">
+<input type="hidden" value="${rentUser.userPoint}" id="user_point">
 
 
 <table class="oldrentaltable" border="1" style="width: 60%; float: none; margin: auto;">
