@@ -9,12 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import pack.oldbook.service.OldBookService;
 import pack.orderinfo.model.OrderInfoDto;
-import pack.user.model.UserDto;
+import pack.user.domain.User;
 import pack.user.model.BuyDao;
 import pack.user.model.BuyResultDao;
-import pack.user.model.UserDao;
-import pack.oldbook.service.OldBookService;
+import pack.user.model.UserDto;
+import pack.user.service.UserService;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,8 +23,8 @@ public class BuyResultController {
 
     private final BuyResultDao buyResultDao;
     private final BuyDao buyDao;
-    private final UserDao userDao;
     private final OldBookService oldBookService;
+    private final UserService userService;
 
     @PostMapping("buyresult")
     public ModelAndView result(HttpSession session, HttpServletRequest request, @RequestParam("radioPaytype") String radioPaytype) {
@@ -39,16 +40,16 @@ public class BuyResultController {
         OrderInfoDto dto = buyResultDao.order(session, orderId, orderPerson, Integer.parseInt(order_sum), radioPaytype, userPasswd, userAddress, obNo);
 
         if (session.getAttribute("id") != null && request.getParameter("writepoint") != "") { // 회원인경우
-            UserDto user = new UserDto();
+            UserDto userDto = new UserDto();
             int writepoint = Integer.parseInt(request.getParameter("writepoint"));
 
-            user.setUser_id((String) session.getAttribute("id"));
-            user.setUser_point(writepoint);
+            userDto.setUser_id((String) session.getAttribute("id"));
+            userDto.setUser_point(writepoint);
 
-            userDao.usePoint(user);
-            UserDto user2 = userDao.selectUser(orderId);
+            userService.usePoint(userDto);
 
-            session.setAttribute("point", user2.getUser_point());
+            User user = userService.selectUser(orderId);
+            session.setAttribute("point", user.getUserPoint());
         }
 
         if (Objects.isNull(dto)) {

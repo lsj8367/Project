@@ -8,39 +8,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.oldbook.domain.OldBook;
-import pack.user.model.UserDto;
-import pack.user.model.UserDao;
 import pack.oldbook.service.OldBookService;
+import pack.user.service.UserService;
 
 @Controller
 @RequiredArgsConstructor
 public class OldBookController {
     private final OldBookService oldBookService;
-    private final UserDao userDao;
+    private final UserService userService;
 
     @RequestMapping("oldbook")
-    public ModelAndView bookInfo(@RequestParam("book_no") String book_no) { //중고중에 1등급
-        OldBook oldBook = oldBookService.bookInfo(book_no);
+    public ModelAndView bookInfo(@RequestParam("book_no") String bookNo) { //중고중에 1등급
+        OldBook oldBook = oldBookService.bookInfo(bookNo);
 
-        if (oldBookService.updateReadCnt(Integer.parseInt(book_no))) {
+        if (oldBookService.updateReadCnt(Integer.parseInt(bookNo))) {
             return new ModelAndView("oldbook", Map.of("bookinfo", oldBook));
         }
         return new ModelAndView("error");
     }
 
     @RequestMapping("oldrental")
-    public ModelAndView rentalInfo(@RequestParam("book_no") String book_no,
+    public ModelAndView rentalInfo(@RequestParam("book_no") String bookNo,
                                    HttpSession session) {// 중고중에 2,3등급
 
-        String user_id = (String) session.getAttribute("id");
+        String userId = (String) session.getAttribute("id");
 
-        if (oldBookService.updateReadCnt(Integer.parseInt(book_no))) {
-            UserDto user = userDao.selectUser(user_id);
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName("oldrental");
-            modelAndView.addObject("bookinfo", oldBookService.rentalInfo(book_no));
-            modelAndView.addObject("rentUser", user);
-            return modelAndView;
+        if (oldBookService.updateReadCnt(Integer.parseInt(bookNo))) {
+            return new ModelAndView("oldrental", Map.of(
+                "bookinfo", oldBookService.rentalInfo(bookNo),
+                "rentUser", userService.selectUser(userId)
+            ));
         }
         return new ModelAndView("error");
     }

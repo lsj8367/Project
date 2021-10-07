@@ -1,13 +1,13 @@
 package pack.user.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-
-import javax.persistence.*;
-import pack.cardinfo.domain.CardInfo;
 
 @Entity
 @NoArgsConstructor
@@ -56,12 +56,8 @@ public class User {
     @ColumnDefault("0")
     private long userDcount;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cardInfo_id")
-    private CardInfo cardInfo;
-
     @Builder
-    public User(final String userId, final String userName, final String userPasswd, final String userTel, final String userAddr, final String userZip, final String userMail, final long userRentcnt, final long userPoint, final String userBirth, final String userPenalty, final long userDcount, final CardInfo cardInfo) {
+    public User(final String userId, final String userName, final String userPasswd, final String userTel, final String userAddr, final String userZip, final String userMail, final long userRentcnt, final long userPoint, final String userBirth, final String userPenalty, final long userDcount) {
         this.userId = userId;
         this.userName = userName;
         this.userPasswd = userPasswd;
@@ -74,7 +70,6 @@ public class User {
         this.userBirth = userBirth;
         this.userPenalty = userPenalty;
         this.userDcount = userDcount;
-        this.cardInfo = cardInfo;
     }
 }
 

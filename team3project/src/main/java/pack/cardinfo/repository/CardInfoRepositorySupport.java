@@ -1,8 +1,8 @@
 package pack.cardinfo.repository;
 
-import com.querydsl.core.Tuple;
 import java.util.List;
+import pack.cardinfo.domain.CardInfo;
 
 public interface CardInfoRepositorySupport {
-    List<Tuple> cardList(String cardOwnerId);
+    List<CardInfo> cardList(String cardOwnerId);
 }

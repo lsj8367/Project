@@ -37,7 +37,7 @@
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "아이디를 입력해주세요">
-						<input class="input100" type="text" name="admin_id">
+						<input class="input100" type="text" name="adminId">
 						<span class="focus-input100" data-placeholder="Id"></span>
 					</div>
 
@@ -45,7 +45,7 @@
 						<span class="btn-show-pass">
 							<i class="zmdi zmdi-eye"></i>
 						</span>
-						<input class="input100" type="password" name="admin_passwd">
+						<input class="input100" type="password" name="adminPasswd">
 						<span class="focus-input100" data-placeholder="Password"></span>
 					</div>
 

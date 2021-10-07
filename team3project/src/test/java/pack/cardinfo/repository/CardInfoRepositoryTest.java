@@ -1,7 +1,6 @@
 package pack.cardinfo.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
@@ -52,7 +51,6 @@ class CardInfoRepositoryTest {
             .userAddr("경기도")
             .userZip("12345")
             .userMail("test@abc.com")
-            .cardInfo(cardInfo)
             .build();
         userRepository.saveAndFlush(user);
         testEntityManager.clear();
@@ -72,6 +70,6 @@ class CardInfoRepositoryTest {
     @Test
     @DisplayName("card3List, cardlistall 같은 문법 사용")
     void card3List() {
-        List<Tuple> list = cardInfoRepository.cardList("테스트");
+        List<CardInfo> list = cardInfoRepository.cardList("테스트");
     }
 }

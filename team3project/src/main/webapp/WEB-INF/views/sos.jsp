@@ -38,11 +38,11 @@
 				<c:forEach var="inq" items="${inqinfo }">
 
 					<tr>
-						<td>${inq.inq_no }</td>
-						<td>${inq.inq_id }</td>
-						<td>${inq.inq_title }</td>
-						<td>${inq.inq_context }</td>
-						<td>${inq.inq_ddate }</td>
+						<td>${inq.inqNo }</td>
+						<td>${inq.inqId }</td>
+						<td>${inq.inqTitle }</td>
+						<td>${inq.inqContext }</td>
+						<td>${inq.inqDdate }</td>
 					</tr>
 				</c:forEach>
 				</table>

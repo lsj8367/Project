@@ -8,23 +8,25 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 import pack.cardinfo.domain.CardInfo;
-import pack.user.model.UserDto;
 import pack.cardinfo.repository.CardInfoRepository;
 import pack.oldbook.repository.OldBookRepository;
-import pack.user.model.BuyDao;
+import pack.user.domain.User;
+import pack.user.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
 public class BuyService {
-    private final BuyDao buyDao;
     private final CardInfoRepository cardInfoRepository;
     private final OldBookRepository oldBookRepository;
+    private final UserRepository userRepository;
 
     public ModelAndView buy(String ob_no, String user_id) {
         Map<String, Object> model = new HashMap<>();
 
         if (Objects.nonNull(user_id)) {
-            UserDto user = buyDao.point(user_id);
+            User user = userRepository.findById(user_id).orElseThrow(() -> {
+                throw new RuntimeException("해당하는 유저 없음");
+            });
 
             Optional<CardInfo> optionalCardInfo = cardInfoRepository.findById(user_id);
             optionalCardInfo.ifPresent(cardInfo -> {

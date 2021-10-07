@@ -9,5 +9,6 @@ public interface UserRepository extends JpaRepository<User, String>, UserReposit
     List<User> findAllByUserDcountGreaterThan(long userDcount);
     List<User> findAllByUserPenalty(String userPenalty);
     List<User> findAllByUserPenaltyNotAndUserPenaltyNotAndUserPenaltyNot(String userPenalty, String userPenalty2, String userPenalty3);
+    boolean existsByUserId(String userId);
 
 }

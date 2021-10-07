@@ -148,7 +148,7 @@ html, body {
 					</tr>
 					<tr>
 						<td>
-							대여자 정보 : ${rentUser.user_name}				
+							대여자 정보 : ${rentUser.userName}
 						</td>
 					</tr>
 					<tr>

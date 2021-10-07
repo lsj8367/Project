@@ -10,10 +10,12 @@ import pack.mypage.service.MypageService;
 @Controller
 @RequiredArgsConstructor
 public class MypageController {
-	private final MypageService mypageService;
 
-	@RequestMapping("mypage")
-	public ModelAndView list3(HttpSession session) {
-		return mypageService.list3((String)session.getAttribute("id"));
-	}
+    private final MypageService mypageService;
+
+    @RequestMapping("mypage")
+    public ModelAndView list3(HttpSession session) {
+        return mypageService.list3((String) session.getAttribute("id"));
+    }
+
 }

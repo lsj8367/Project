@@ -321,8 +321,8 @@ html, body {
 			
 				<c:forEach var="card" items="${cdinfo}">
 					<tr>
-						<td>${card.card_no}</td>
-						<td>${card.card_comp}</td>
+						<td>${card.cardNo}</td>
+						<td>${card.cardComp}</td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -350,9 +350,9 @@ html, body {
 		
 						<c:forEach var="inq" items="${inqinfo}">
 							<tr>
-								<td>${inq.inq_title}</td>
-								<td>${inq.inq_context}</td>
-								<td>${inq.inq_ddate}</td>
+								<td>${inq.inqTitle}</td>
+								<td>${inq.inqContext}</td>
+								<td>${inq.inqDdate}</td>
 							</tr>
 						</c:forEach>
 						
@@ -392,8 +392,8 @@ html, body {
 		<tr>
 			<td style="text-align: center;">
 				오늘의 추천!
-				<div onclick="location.href='newbook?book_no=${randNewbook.nb_no}'">
-				<img  src="${randNewbook.nb_image}" width="100" height="160"><br>
+				<div onclick="location.href='newbook?book_no=${randNewbook.id}'">
+				<img src="${randNewbook.nbImage}" width="100" height="160"><br>
 		</div>
 			</td>
 		</tr>

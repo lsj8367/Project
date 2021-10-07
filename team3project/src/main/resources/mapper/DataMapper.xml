@@ -4,61 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd"><!-- xml에 제약 거는 것 -->
 
 <mapper namespace="dev">
-  <!-- ================== USER ===================== -->
-  <select id="selectBestRead" resultType="userdto">
-    select *
-    from user
-    order by user_rentcnt desc limit 1
-  </select>
-
-  <!-- 유저 로그인 비교하기 -->
-  <select id="selectUser" resultType="userdto" parameterType="String">
-    select *
-    from user
-    where user_id = #{user_id}
-  </select>
-
-  <!-- 회원 가입 -->
-  <!-- 회원 정보 입력 --> <!-- 수정 -->
-  <insert id="insertUser" parameterType="userdto">
-    insert into user
-    values (#{user_id}, #{user_name}, #{user_passwd}, #{user_tel}, #{user_addr}, #{user_zip}, #{user_mail}, default, default, #{user_birth}, default, default)
-  </insert>
-
-  <!-- 아이디 중복 체크 -->
-  <select id="checkUserId" parameterType="String" resultType="int">
-    select *
-    from user
-    where user_id = #{user_id}
-  </select>
-
-  <!-- 회원일 경우 포인트 사용할 떄 차감 -->
-  <update id="usePoint" parameterType="userdto">
-    update user
-    set user_point = user_point - #{user_point}
-    where user_id = #{user_id}
-  </update>
-
-  <update id="minusRentPoint" parameterType="String">
-    update user
-    set user_point = user_point - 1000
-    where user_id = #{user_id}
-  </update>
-
-  <!-- 연체반납시 회원 포인트 차감 -->
-  <update id="delpointuser" parameterType="userdto">
-    update user
-    set user_point = (user_point - #{delpoint})
-    where user_id = #{user_id}
-  </update>
-
-  <!-- 포인트 조회 -->
-  <select id="viewpoint" resultType="userdto" parameterType="string">
-    select *
-    from user
-    where user_id = #{id}
-  </select>
-
   <!-- ===================== ORDERINFO ======================= -->
 
   <select id="selectnbOrderAll" resultType="orderdto">
