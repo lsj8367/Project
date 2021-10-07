@@ -4,8 +4,10 @@ import java.util.Map;
 import java.util.Objects;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,9 +16,9 @@ import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
 import pack.admin.utils.PointState;
 import pack.admin.utils.Rank;
-import pack.user.model.UserDto;
 import pack.user.service.UserService;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class BestRentbooksetController {
@@ -25,6 +27,12 @@ public class BestRentbooksetController {
     private final AdminService adminService;
     private final PointState pointState;
     private final UserService userService;
+
+    @ExceptionHandler
+    public ModelAndView exception(Exception e) {
+        log.error(e.getMessage());
+        return new ModelAndView("redirect:/adminmain");
+    }
 
     @GetMapping("bestrentbookset")
     public ModelAndView goBestRentbookset(HttpSession session) {
@@ -55,7 +63,7 @@ public class BestRentbooksetController {
     }
 
     @PostMapping("givepoint2")
-    public String JikwonUpJik(HttpSession session, ModelMap model, UserDto bean,
+    public String JikwonUpJik(HttpSession session, ModelMap model,
         @RequestParam(name = "rn") int[] rank,
         @RequestParam(name = "ob_userid") String[] userid) {
 
@@ -67,17 +75,11 @@ public class BestRentbooksetController {
 
         model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-        boolean b = false;
-
-        try {
-            for (int i = 0; i < userid.length; i++) {
-                Rank ranked = pointState.getPointStateMap(rank[i]);
-                userService.updateUserPoint(userid[i], ranked.giveUserPoint());
-            }
-            return "redirect:/bestrentbookset";
-        } catch (Exception e) {
-            return "redirect:/adminmain";
+        for (int i = 0; i < userid.length; i++) {
+            Rank ranked = pointState.getPointStateMap(rank[i]);
+            userService.updateUserPoint(userid[i], ranked.giveUserPoint());
         }
+        return "redirect:/bestrentbookset";
     }
 
 }
