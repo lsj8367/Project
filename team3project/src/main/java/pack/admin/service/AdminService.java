@@ -41,6 +41,7 @@ public class AdminService {
         return adminRepository.findAll();
     }
 
+    @Transactional
     public boolean updateAdmin(AdminUpdateDto adminUpdateDto) {
         Admin admin = selectAdminData(adminUpdateDto.getAdminId());
         admin.setAdminId(adminUpdateDto.getAdminId());
@@ -49,6 +50,7 @@ public class AdminService {
         return true;
     }
 
+    @Transactional
     public boolean updateAdminInfo(String adminId, String adminPassword, String adminName) {
         try {
             Admin admin = selectAdminData(adminId);
@@ -61,6 +63,7 @@ public class AdminService {
         }
     }
 
+    @Transactional
     public void deleteAdminInfo(String adminId) throws Exception {
         adminRepository.deleteAdminByAdminId(adminId);
     }
@@ -69,6 +72,7 @@ public class AdminService {
         return newBookRepository.selectBestSeller();
     }
 
+    @Transactional
     public boolean insertBookData(NewBookDto newBookDto) {
         try {
             newBookRepository.save(NewBook.toEntity(newBookDto));
@@ -82,6 +86,7 @@ public class AdminService {
         Optional<NewBook> optionalNewBook = newBookRepository.findById((long) nbNo);
 
         optionalNewBook.ifPresent(newBook -> {
+            //TODO: 딱봐도 스테이트 패턴 리팩토링 해야됨
             for (int i = 0; i < no.length; i++) {
                 if (rank[i] == 1) {
                     newBook.setNbStock(newBook.getNbStock() + 200);
