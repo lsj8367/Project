@@ -91,4 +91,8 @@ public class UserService {
 
     }
 
+    public User selectBestRead() {
+        return userRepository.selectBestRead();
+    }
+
 }

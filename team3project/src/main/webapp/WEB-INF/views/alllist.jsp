@@ -112,7 +112,7 @@ html, body { height:100%; overflow:hidden }
 				</tr>
 				<tr>
 					<td colspan="2" style="text-align: center;">이달의 다독왕은 <br>
-						${readbest.user_name} 님 입니다
+						${readbest.userName} 님 입니다
 					</td>
 				</tr>
 				<tr>

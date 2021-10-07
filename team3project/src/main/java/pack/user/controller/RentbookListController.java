@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.user.model.OldBookListDao;
 import pack.user.service.RentBookListService;
+import pack.user.service.UserService;
 
 @Controller
 @RequiredArgsConstructor
@@ -17,7 +17,7 @@ import pack.user.service.RentBookListService;
 public class RentbookListController {
 
     private final RentBookListService rentBookListService;
-    private final OldBookListDao oldBookListDao;
+    private final UserService userService;
 
     @RequestMapping("rentlist1")
     public ModelAndView rentlist(@RequestParam("book") String book) {
@@ -53,14 +53,12 @@ public class RentbookListController {
 
 
     private void getBest(ModelAndView modelAndView) {
-        System.out.println("asduhasudagsjdchbzxbmncdjmhvbdsjfv된다");
-        System.out.println(rentBookListService.selectBestRentBook().toString());
         modelAndView.addObject("best", rentBookListService.selectBestRentBook());
-        modelAndView.addObject("readbest", oldBookListDao.bestRead());
+        modelAndView.addObject("readbest", userService.selectBestRead());
     }
 
     private Map<String, String> editGenre() {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
 
         map.put("a", "자기계발");
         map.put("b", "소설");

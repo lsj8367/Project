@@ -5,12 +5,6 @@
 
 <mapper namespace="dev">
   <!-- ================== USER ===================== -->
-  <select id="selectBestRead" resultType="userdto">
-    select *
-    from user
-    order by user_rentcnt desc limit 1
-  </select>
-
   <!-- 유저 로그인 비교하기 -->
   <select id="selectUser" resultType="userdto" parameterType="String">
     select *
