@@ -16,5 +16,14 @@ public class AdminLoginValidation implements LoginValidation {
         }
         return adminId;
     }
+
+    @Override
+    public String sessionCheck(HttpSession session) {
+        String adminId = (String) session.getAttribute("admin_id");
+        if(Objects.isNull(adminId) || adminId.equals("")) {
+            throw new RuntimeException("해당하는 세션 없음");
+        }
+        return adminId;
+    }
 }
 
