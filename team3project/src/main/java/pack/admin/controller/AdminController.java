@@ -81,15 +81,14 @@ public class AdminController {
 
     @PostMapping("admin_login")
     public String submitLogin(HttpSession session,
-        @RequestParam("admin_id") String admin_id,
-        @RequestParam("admin_passwd") String admin_passwd) {
+        @RequestParam("adminId") String adminId,
+        @RequestParam("adminPasswd") String adminPasswd) {
 
-        System.out.println("123123123");
-        Admin admin = adminService.selectAdminData(admin_id);
+        Admin admin = adminService.selectAdminData(adminId);
         String retPasswd = admin.getAdminPassword();
-        if (retPasswd.equals(admin_passwd)) {
+        if (retPasswd.equals(adminPasswd)) {
             if (admin.getAdminAcc() == 2) {
-                session.setAttribute("admin_id", admin_id);
+                session.setAttribute("admin_id", adminId);
                 return "redirect:admin";
             }
         }
