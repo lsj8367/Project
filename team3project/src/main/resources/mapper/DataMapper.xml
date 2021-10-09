@@ -5,21 +5,6 @@
 
 <mapper namespace="dev">
   <!-- ===================== ORDERINFO ======================= -->
-
-  <select id="selectnbOrderAll" resultType="orderdto">
-    select order_no, orderlist_no, order_person, nvl(order_id, "비회원"), nb_name order_bookname, date (order_date) order_date, order_passwd, order_bookno, order_scount, order_state
-    from orderinfo inner join newbook
-    on order_bookno = nb_no
-    where order_booktype = 1
-  </select>
-
-  <select id="selectobOrderAll" resultType="orderdto">
-    select order_no, orderlist_no, order_person, nvl(order_id, "비회원"), ob_name order_bookname, date (order_date) order_date, order_passwd, order_bookno, order_scount, order_state
-    from orderinfo inner join oldbook
-    on order_bookno = ob_no
-    where order_booktype = 2
-  </select>
-
   <select id="selectNobankAll" resultType="orderdto">
     select orderlist_no, order_person, date (order_date) order_date, order_state
     from orderinfo

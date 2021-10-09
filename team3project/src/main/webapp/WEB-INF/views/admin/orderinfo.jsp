@@ -148,14 +148,14 @@ body {
 	</tr>
 	<c:forEach var="nblist" items="${nborderlist }">
 		<tr>
-			<td>${nblist.orderlist_no }</td>
-			<td>${nblist.order_person }</td>
-	        <td>${nblist.order_id }</td>
-	        <td>${nblist.order_passwd }</td>
-			<td>${nblist.order_bookname }</td>
-			<td>${nblist.order_scount }</td>
-			<td>${nblist.order_date }</td>
-			<td>${nblist.order_state }</td>
+			<td>${nblist.orderlistNo }</td>
+			<td>${nblist.orderPerson }</td>
+	        <td>${nblist.orderId }</td>
+	        <td>${nblist.orderPasswd }</td>
+			<td>${nblist.orderBookname }</td>
+			<td>${nblist.orderScount }</td>
+			<td>${nblist.orderDate }</td>
+			<td>${nblist.orderState }</td>
 		</tr>
 	</c:forEach>
 </table>
@@ -175,14 +175,14 @@ body {
 	</tr>
 	<c:forEach var="oblist" items="${oborderlist }">
 		<tr>
-			<td>${oblist.orderlist_no }</td>
-			<td>${oblist.order_person }</td>
-	        <td>${oblist.order_id }</td>
-	        <td>${oblist.order_passwd }</td>
-			<td>${oblist.order_bookname }</td>
-			<td>${oblist.order_scount }</td>
-			<td>${oblist.order_date }</td>
-			<td>${oblist.order_state }</td>
+			<td>${oblist.orderlistNo }</td>
+			<td>${oblist.orderPerson }</td>
+	        <td>${oblist.orderId }</td>
+	        <td>${oblist.orderPasswd }</td>
+			<td>${oblist.orderBookname }</td>
+			<td>${oblist.orderScount }</td>
+			<td>${oblist.orderDate }</td>
+			<td>${oblist.orderState }</td>
 		</tr>
 	</c:forEach>
 </table>

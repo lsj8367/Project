@@ -1,34 +1,32 @@
 package pack.admin.controller;
 
+import java.util.Map;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
-import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
+import pack.orderinfo.OrderInfoService;
 
 @Controller
 @RequiredArgsConstructor
 public class OrderListController {
-	private final AdminDao adminDao;
-	private final AdminService adminService;
-	
-	@GetMapping(value="orderlist")
-	public ModelAndView goOrder(HttpSession session, ModelMap model) {
-		ModelAndView modelAndView = new ModelAndView();
-		String admin_id = (String)session.getAttribute("admin_id");
-		if(admin_id == null | admin_id == "") {
-			modelAndView.setViewName("admin/admin_login");
-			return modelAndView;
-		}
-		model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-		modelAndView.addObject("nborderlist", adminDao.selectnbOrderAll());
-		modelAndView.addObject("oborderlist", adminDao.selectobOrderAll());
+    private final AdminService adminService;
+    private final OrderInfoService orderInfoService;
 
-		modelAndView.setViewName("admin/orderinfo");
-		return modelAndView;
-	}
+    @GetMapping(value = "orderlist")
+    public ModelAndView goOrder(HttpSession session) {
+        String adminId = (String) session.getAttribute("admin_id");
+        if (adminId == null | adminId == "") {
+            return new ModelAndView("admin/admin_login");
+        }
+        return new ModelAndView("admin/orderinfo", Map.of(
+            "info", adminService.selectAdminData(adminId),
+            "nborderlist", orderInfoService.selectNewBookOrderAll(),
+            "oborderlist", orderInfoService.selectOldBookOrderAll()
+        ));
+    }
+
 }
