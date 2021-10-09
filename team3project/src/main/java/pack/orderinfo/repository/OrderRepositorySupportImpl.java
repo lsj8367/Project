@@ -16,7 +16,7 @@ public class OrderRepositorySupportImpl implements OrderRepositorySupport {
     @Override
     public List<Orderinfo> selectNewBookOrderAll() {
         return jpaQueryFactory.selectFrom(orderinfo)
-            .innerJoin(newBook).on(orderinfo.orderBookno.eq(newBook.id.castToNum(Integer.class)))
+            .innerJoin(newBook).on(orderinfo.orderBookno.eq(newBook.id.intValue()))
             .where(orderinfo.orderBooktype.eq("1"))
             .fetch();
     }
@@ -24,7 +24,7 @@ public class OrderRepositorySupportImpl implements OrderRepositorySupport {
     @Override
     public List<Orderinfo> selectOldBookOrderAll() {
         return jpaQueryFactory.selectFrom(orderinfo)
-            .innerJoin(oldBook).on(orderinfo.orderBookno.eq(oldBook.obNo.castToNum(Integer.class)))
+            .innerJoin(oldBook).on(orderinfo.orderBookno.eq(oldBook.obNo.intValue()))
             .where(orderinfo.orderBooktype.eq("2"))
             .fetch();
     }
