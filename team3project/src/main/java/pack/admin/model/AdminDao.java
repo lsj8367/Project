@@ -16,14 +16,6 @@ public class AdminDao extends SqlSessionDaoSupport {
         setSqlSessionFactory(factory);
     }
 
-    public List<OrderInfoDto> selectnbOrderAll() {
-        return getSqlSession().selectList("selectnbOrderAll");
-    }
-
-    public List<OrderInfoDto> selectobOrderAll() {
-        return getSqlSession().selectList("selectobOrderAll");
-    }
-
     public List<RentInfoDto> selectRentAll() {
         return getSqlSession().selectList("selectRentAll");
     }
