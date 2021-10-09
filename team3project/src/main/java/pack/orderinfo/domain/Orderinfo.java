@@ -5,8 +5,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
+@Getter
 public class Orderinfo {
 
     @Id
@@ -49,4 +54,21 @@ public class Orderinfo {
 
     @Column(name = "order_address")
     private String orderAddress;
+    @Builder
+    public Orderinfo(String orderlistNo, String orderPerson, String orderId, int orderBookno, String orderBooktype, LocalDateTime orderDate, String orderPasswd, int orderScount, String orderPaytype, String orderState, int orderSum,
+        String orderAddress) {
+        this.orderlistNo = orderlistNo;
+        this.orderPerson = orderPerson;
+        this.orderId = orderId;
+        this.orderBookno = orderBookno;
+        this.orderBooktype = orderBooktype;
+        this.orderDate = orderDate;
+        this.orderPasswd = orderPasswd;
+        this.orderScount = orderScount;
+        this.orderPaytype = orderPaytype;
+        this.orderState = orderState;
+        this.orderSum = orderSum;
+        this.orderAddress = orderAddress;
+    }
+
 }
