@@ -65,6 +65,9 @@ public class BestReviewsetController {
 
         try {
             for (int i = 0; i < userid.length; i++) {
+                if (rank[i] > 3) {
+                    rank[i] = -1;
+                }
                 Rank ranked = pointState.getPointStateMap(rank[i]);
                 userService.updateUserPoint(userid[i], ranked.giveUserPoint());
             }
