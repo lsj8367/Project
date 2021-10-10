@@ -1,5 +1,6 @@
 package pack.admin.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -12,6 +13,12 @@ import pack.common.enums.Grade;
 import pack.newbook.domain.NewBook;
 import pack.newbook.model.NewBookDto;
 import pack.newbook.repository.NewBookRepository;
+import pack.newbook.utils.AnotherStock;
+import pack.newbook.utils.FirstStock;
+import pack.newbook.utils.SecondStock;
+import pack.newbook.utils.Stock;
+import pack.newbook.utils.StockState;
+import pack.newbook.utils.ThirdStock;
 import pack.oldbook.domain.OldBook;
 import pack.oldbook.repository.OldBookRepository;
 
@@ -23,6 +30,8 @@ public class AdminService {
     private final AdminRepository adminRepository;
     private final NewBookRepository newBookRepository;
     private final OldBookRepository oldBookRepository;
+    private final StockState stockState = StockState.of(Arrays.asList(new FirstStock(), new SecondStock(),
+        new ThirdStock(), new AnotherStock()));
 
     private static RuntimeException notFoundAdminId() {
         return new RuntimeException("찾는 관리자 계정이 없습니다.");
@@ -64,7 +73,7 @@ public class AdminService {
     }
 
     @Transactional
-    public void deleteAdminInfo(String adminId) throws Exception {
+    public void deleteAdminInfo(String adminId) {
         adminRepository.deleteAdminByAdminId(adminId);
     }
 
@@ -73,30 +82,21 @@ public class AdminService {
     }
 
     @Transactional
-    public boolean insertBookData(NewBookDto newBookDto) {
-        try {
-            newBookRepository.save(NewBook.toEntity(newBookDto));
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public void insertBookData(NewBookDto newBookDto) {
+        newBookRepository.save(NewBook.toEntity(newBookDto));
     }
 
     public void upNbStock(int nbNo, int[] rank, int[] no) {
         Optional<NewBook> optionalNewBook = newBookRepository.findById((long) nbNo);
-
         optionalNewBook.ifPresent(newBook -> {
-            //TODO: 딱봐도 스테이트 패턴 리팩토링 해야됨
             for (int i = 0; i < no.length; i++) {
-                if (rank[i] == 1) {
-                    newBook.setNbStock(newBook.getNbStock() + 200);
-                } else if (rank[i] == 2) {
-                    newBook.setNbStock(newBook.getNbStock() + 100);
-                } else if (rank[i] == 3) {
-                    newBook.setNbStock(newBook.getNbStock() + 50);
-                } else {
-                    newBook.setNbStock(newBook.getNbStock());
+                if (rank[i] > 3) {
+                    rank[i] = -1;
                 }
+                Stock stock = stockState.getStockState(rank[i]);
+                newBook.setNbStock(
+                    stock.getNewBookStock(newBook.getNbStock())
+                );
             }
         });
     }

@@ -41,12 +41,9 @@ public class BookRegisterController {
             newBookDto.setNb_image("resources/static/images/notready.jpg");
         }
 
-        boolean b = adminService.insertBookData(newBookDto);
+        adminService.insertBookData(newBookDto);
 
-        if (b) {
-            return "redirect:/bookregister";
-        }
-        return "error";
+        return "redirect:/bookregister";
     }
 
 }

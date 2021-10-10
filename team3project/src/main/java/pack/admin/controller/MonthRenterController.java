@@ -14,7 +14,6 @@ import pack.admin.service.AdminService;
 import pack.admin.utils.PointState;
 import pack.admin.utils.Rank;
 import pack.rentinfo.model.RentInfoDto;
-import pack.user.model.UserDto;
 import pack.user.service.UserService;
 
 @Controller
@@ -47,7 +46,7 @@ public class MonthRenterController {
     }
 
     @PostMapping("givepoint3")
-    public String JikwonUpJik(HttpSession session, ModelMap model, UserDto bean,
+    public String JikwonUpJik(HttpSession session, ModelMap model,
         @RequestParam(name = "rn") int[] rank,
         @RequestParam(name = "user_id") String[] userid) {
         String admin_id = (String) session.getAttribute("admin_id");
@@ -59,6 +58,9 @@ public class MonthRenterController {
 
         try {
             for (int i = 0; i < userid.length; i++) {
+                if (rank[i] > 3) {
+                    rank[i] = -1;
+                }
                 Rank ranked = pointState.getPointStateMap(rank[i]);
                 userService.updateUserPoint(userid[i], ranked.giveUserPoint());
             }
