@@ -132,15 +132,15 @@ body {
 		<c:forEach var="o" items="${olist }">
 			<tr>
 				<td>
-					${o.orderlist_no}
-					<input type = "hidden" name="orderlist_no" value="${o.orderlist_no}">
+					${o.orderlistNo}
+					<input type = "hidden" name="orderlist_no" value="${o.orderlistNo}">
 				</td>
-				<td>${o.order_person}</td>
-				<td>${o.order_date}</td>
+				<td>${o.orderPerson}</td>
+				<td>${o.orderDate}</td>
 				<td>
 					<select name="order_state">
 						<c:choose>
-						<c:when test="${o.order_state eq '1'}">
+						<c:when test="${o.orderState eq '1'}">
 							<option value="1" selected>결제완료
 						</c:when>
 						<c:otherwise>
@@ -148,7 +148,7 @@ body {
 						</c:otherwise>
 						</c:choose>
 						<c:choose>
-						<c:when test="${o.order_state eq '2'}">
+						<c:when test="${o.orderState eq '2'}">
 							<option value="2" selected>상품준비중
 						</c:when>
 						<c:otherwise>
@@ -156,7 +156,7 @@ body {
 						</c:otherwise>
 						</c:choose>
 						<c:choose>
-						<c:when test="${o.order_state eq '3'}">
+						<c:when test="${o.orderState eq '3'}">
 							<option value="3" selected>배송준비중
 						</c:when>
 						<c:otherwise>
@@ -164,7 +164,7 @@ body {
 						</c:otherwise>
 						</c:choose>
 						<c:choose>
-						<c:when test="${o.order_state eq '4'}">
+						<c:when test="${o.orderState eq '4'}">
 							<option value="4" selected>배송중
 						</c:when>
 						<c:otherwise>
@@ -172,7 +172,7 @@ body {
 						</c:otherwise>
 						</c:choose>
 						<c:choose>
-						<c:when test="${o.order_state eq '5'}">
+						<c:when test="${o.orderState eq '5'}">
 							<option value="5" selected>배송완료
 						</c:when>
 						<c:otherwise>

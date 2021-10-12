@@ -139,13 +139,13 @@ body {
 		<c:forEach var="n" items="${nobank }">
 			<tr>
 				<td>
-					${n.orderlist_no}
-					<input type = "hidden" name="orderlist_no" value="${n.orderlist_no}">
-					<input type ="hidden" name="order_bookno" value="${n.order_bookno }">
-					<input type ="hidden" name="order_booktype" value="${n.order_booktype }">
+					${n.orderlistNo}
+					<input type = "hidden" name="orderlist_no" value="${n.orderlistNo}">
+					<input type ="hidden" name="order_bookno" value="${n.orderBookno }">
+					<input type ="hidden" name="order_booktype" value="${n.orderBooktype }">
 				</td>
-				<td>${n.order_person}</td>
-				<td>${n.order_date}</td>
+				<td>${n.orderPerson}</td>
+				<td>${n.orderDate}</td>
 				<td>
 					<select name="order_state">
 						<option value="0" selected>주문완료
