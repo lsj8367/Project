@@ -1,6 +1,7 @@
 package pack.admin.controller;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -12,52 +13,49 @@ import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
 import pack.newbook.model.NewBookDto;
-import pack.orderinfo.model.OrderInfoDto;
+import pack.orderinfo.model.dto.OrderResponseDto;
+import pack.orderinfo.service.OrderInfoService;
 
 @Controller
 @RequiredArgsConstructor
 public class OrderCancelController {
     private final AdminDao adminDao;
     private final AdminService adminService;
+    private final OrderInfoService orderInfoService;
 
     @GetMapping("ordercancel")
-    public ModelAndView delayDeposit(HttpSession session, ModelMap model) {
-        ModelAndView view = new ModelAndView();
-
-        String admin_id = (String) session.getAttribute("admin_id");
-        if (admin_id == null | admin_id == "") {
-            view.setViewName("admin/admin_login");
-            return view;
+    public ModelAndView delayDeposit(HttpSession session) {
+        String adminId = (String) session.getAttribute("admin_id");
+        if (Objects.isNull(adminId) || adminId.equals("")) {
+            return new ModelAndView("admin/admin_login");
         }
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
 
-        List<OrderInfoDto> olist = adminDao.selectdelaydeposit();
-        view.addObject("delay", olist);
-        view.setViewName("admin/delaydeposit");
-
-        return view;
+        return new ModelAndView("admin/delaydeposit", Map.of(
+            "info", adminService.selectAdminData(adminId),
+            "delay", OrderResponseDto.of(orderInfoService.selectDelayDeposit())
+        ));
     }
 
     @PostMapping("delorder")
     public String DelUser(HttpSession session, ModelMap model, NewBookDto newBookDto,
-                          @RequestParam(name = "orderlist_no") String[] orderlist_no,
-                          @RequestParam(name = "order_bookno") int[] order_bookno,
-                          @RequestParam(name = "order_scount") int[] order_scount) {
+                          @RequestParam(name = "orderlist_no") String[] orderlistNo,
+                          @RequestParam(name = "order_bookno") int[] orderBookNo,
+                          @RequestParam(name = "order_scount") int[] orderScount) {
 
-        String admin_id = (String) session.getAttribute("admin_id");
-        if (admin_id == null | admin_id == "") {
+        String adminId = (String) session.getAttribute("admin_id");
+        if (Objects.isNull(adminId) || adminId.equals("")) {
             return "admin/admin_login";
         }
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
+        model.addAttribute("info", adminService.selectAdminData(adminId));
 
         boolean isOrderDeleted = false;
         boolean isRollBackStock = false;
 
-        for (int i = 0; i < orderlist_no.length; i++) {
-            isOrderDeleted = adminDao.rmorder(orderlist_no[i]);
-            newBookDto.setNb_no(order_bookno[i]);
-            newBookDto.setNb_stock(order_scount[i]);
-            isRollBackStock = adminService.rollBackStock(order_bookno[i], order_scount[i]);
+        for (int i = 0; i < orderlistNo.length; i++) {
+            isOrderDeleted = adminDao.rmorder(orderlistNo[i]);
+            newBookDto.setNb_no(orderBookNo[i]);
+            newBookDto.setNb_stock(orderScount[i]);
+            isRollBackStock = adminService.rollBackStock(orderBookNo[i], orderScount[i]);
         }
         if (isOrderDeleted && isRollBackStock) {
             return "redirect:/ordercancel";
