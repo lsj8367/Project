@@ -1,6 +1,7 @@
 package pack.admin.controller;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -12,27 +13,25 @@ import org.springframework.web.servlet.ModelAndView;
 import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
 import pack.orderinfo.model.OrderInfoDto;
+import pack.orderinfo.service.OrderInfoService;
 
 @Controller
 @RequiredArgsConstructor
 public class NobankController {
     private final AdminService adminService;
     private final AdminDao adminDao;
+    private final OrderInfoService orderInfoService;
 
     @GetMapping("nobankbookadmit")
     public ModelAndView getNobank(HttpSession session, ModelMap model) {
-        ModelAndView view = new ModelAndView();
-        String admin_id = (String) session.getAttribute("admin_id");
-        if (admin_id == null | admin_id == "") {
-            view.setViewName("admin/admin_login");
-            return view;
+        String adminId = (String) session.getAttribute("admin_id");
+        if (Objects.isNull(adminId) || adminId.equals("")) {
+            return new ModelAndView("admin/admin_login");
         }
-        model.addAttribute("info", adminService.selectAdminData(admin_id));
-        List<OrderInfoDto> ordernobank = adminDao.selectNobankAll();
-        view.addObject("nobank", ordernobank);
-        view.setViewName("admin/nobanklist");
-
-        return view;
+        return new ModelAndView("admin/nobanklist", Map.of(
+            "nobank", orderInfoService.noBankAll(),
+            "info", adminService.selectAdminData(adminId)
+        ));
     }
 
     @PostMapping(value = "orderok")

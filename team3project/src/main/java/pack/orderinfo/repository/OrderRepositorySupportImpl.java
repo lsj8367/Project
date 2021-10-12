@@ -29,4 +29,20 @@ public class OrderRepositorySupportImpl implements OrderRepositorySupport {
             .fetch();
     }
 
+    @Override
+    public List<Orderinfo> findAllByOrderStateGroupByOrderListNo() {
+        return jpaQueryFactory.selectFrom(orderinfo)
+            .where(orderinfo.orderState.eq("0"))
+            .groupBy(orderinfo.orderlistNo)
+            .fetch();
+    }
+
+    @Override
+    public List<Orderinfo> notEqualOrderStateGroupByOrderListNo() {
+        return jpaQueryFactory.selectFrom(orderinfo)
+            .where(orderinfo.orderState.ne("0"))
+            .groupBy(orderinfo.orderlistNo)
+            .fetch();
+    }
+
 }

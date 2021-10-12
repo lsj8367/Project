@@ -20,10 +20,6 @@ public class AdminDao extends SqlSessionDaoSupport {
         return getSqlSession().selectList("selectRentAll");
     }
 
-    public List<OrderInfoDto> selectNobankAll() {
-        return getSqlSession().selectList("selectNobankAll");
-    }
-
     public boolean uporderstate(OrderInfoDto orderInfoDto) {
         try {
             getSqlSession().update("uporderstate", orderInfoDto);
@@ -34,20 +30,12 @@ public class AdminDao extends SqlSessionDaoSupport {
         }
     }
 
-    public List<OrderInfoDto> selectorderAll() {
-        return getSqlSession().selectList("selectorderAll");
-    }
-
     public List<RentInfoDto> selectdelayAll() {
         return getSqlSession().selectList("selectdelayAll");
     }
 
     public List<String> selectdelayid() {
         return getSqlSession().selectList("selectdelayid");
-    }
-
-    public List<OrderInfoDto> selectdelaydeposit() {
-        return getSqlSession().selectList("selectdelaydeposit");
     }
 
     public boolean rmorder(String orderlist_no) {

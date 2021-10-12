@@ -6,4 +6,6 @@ import pack.orderinfo.domain.Orderinfo;
 public interface OrderRepositorySupport {
     List<Orderinfo> selectNewBookOrderAll();
     List<Orderinfo> selectOldBookOrderAll();
+    List<Orderinfo> findAllByOrderStateGroupByOrderListNo();
+    List<Orderinfo> notEqualOrderStateGroupByOrderListNo();
 }

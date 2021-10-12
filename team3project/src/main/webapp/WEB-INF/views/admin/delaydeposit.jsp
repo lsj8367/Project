@@ -139,13 +139,13 @@ body {
 		<c:forEach var="d" items="${delay }">
 			<tr>
 				<td>
-					${d.orderlist_no}
-					<input type = "hidden" name="orderlist_no" value="${d.orderlist_no}">
+					${d.orderlistNo}
+					<input type = "hidden" name="orderlist_no" value="${d.orderlistNo}">
 				</td>
-				<td>${d.order_person}</td>
-				<td>${d.order_bookno }<input type = "hidden" name="order_bookno" value="${d.order_bookno}"></td>
-				<td>${d.order_scount }<input type = "hidden" name="order_scount" value="${d.order_scount}"></td>
-				<td>${d.order_delay}</td>
+				<td>${d.orderPerson}</td>
+				<td>${d.orderBookno }<input type = "hidden" name="order_bookno" value="${d.orderBookno}"></td>
+				<td>${d.orderScount }<input type = "hidden" name="order_scount" value="${d.orderScount}"></td>
+				<td>${d.orderDelay}</td>
 				<td>주문완료</td>
 			</tr>
 		</c:forEach>
