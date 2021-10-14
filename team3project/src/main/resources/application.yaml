@@ -8,8 +8,3 @@ spring:
     static-path-pattern: /resources/static/**
   main:
     allow-bean-definition-overriding: true
-
-  h2:
-    console:
-      enabled: true
-

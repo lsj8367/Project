@@ -1,7 +1,7 @@
 spring:
   profiles:
     active: test
-    include: dev
+
   main:
     allow-bean-definition-overriding: true
 
