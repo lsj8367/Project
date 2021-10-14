@@ -97,19 +97,19 @@ public class AdminController {
 
     @GetMapping("admin")
     public ModelAndView list(HttpSession session) {
-        return new ModelAndView("admin/adminmain",
-            Map.of(
-            "info", adminService.selectAdminData((String) session.getAttribute("admin_id")),
-            "bsb", adminService.getMostSellBook(),
-            "brb", adminService.getMostRentBook(),
-            "rtm", adminDao.mbRentCmonth(),
-            "om", adminDao.mbSellerCmonth(),
-            "rp", adminDao.profitMonth(),
-            "ru", adminDao.rentKing(),
-            "bu", adminDao.buyKing(),
-            "op", adminDao.obprofitmonth(),
-            "np", adminDao.nbprofitmonth()
-        ));
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin/adminmain");
+        modelAndView.addObject("info", adminService.selectAdminData((String) session.getAttribute("admin_id")));
+        modelAndView.addObject("bsb", adminService.getMostSellBook());
+        modelAndView.addObject("brb", adminService.getMostRentBook());
+        modelAndView.addObject("rtm", adminDao.mbRentCmonth());
+        modelAndView.addObject("om", adminDao.mbSellerCmonth());
+        modelAndView.addObject("rp", adminDao.profitMonth());
+        modelAndView.addObject("ru", adminDao.rentKing());
+        modelAndView.addObject("bu", adminDao.buyKing());
+        modelAndView.addObject("op", adminDao.obprofitmonth());
+        modelAndView.addObject("np", adminDao.nbprofitmonth());
+        return modelAndView;
     }
 
     @GetMapping("admin_logout")
