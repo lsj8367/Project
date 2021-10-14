@@ -412,7 +412,6 @@ display:none;
 								<li><a href="bestreviewset"><i class="fas fa-comment-dots"></i>베스트리뷰통계</a></li>
 								<li><a href="bestsellerset"><i class="xi-receipt" ></i>베스트셀러통계</a></li>
 								<li><a href="bestrentbookset"><i class="fab fa-elementor"></i>베스트대여도서통계</a></li>
-								<li><a href="monthprofit"><i class="xi-chart-line" ></i>월별매출확인</a></li>
 								<li><a href="monthrenter"><i class="xi-crown"></i>이달의 대여왕</a></li>
 								<li><a href="monthbuyer"><i class="fas fa-crown"></i>이달의 구매왕</a></li>
 							</ul>

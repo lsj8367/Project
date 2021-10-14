@@ -52,18 +52,6 @@ public class AdminDao extends SqlSessionDaoSupport {
         return getSqlSession().selectList("selectreviewAll");
     }
 
-    public List<OrderInfoDto> obprofit() {
-        return getSqlSession().selectList("obprofit");
-    }
-
-    public List<OrderInfoDto> nbprofit() {
-        return getSqlSession().selectList("nbprofit");
-    }
-
-    public List<OrderInfoDto> profit() {
-        return getSqlSession().selectList("profit");
-    }
-
     public OrderInfoDto obprofitmonth() {
         return getSqlSession().selectOne("obprofitmonth");
     }
