@@ -59,7 +59,6 @@ padding-top:60px;
 						<div>
 							<h3>이달 순수익</h3>
 							<c:set var="total" value="0"/>
-							<c:set var="total" value="${total + rp.order_profit }" />
 							<c:out value="${total }" />원
 							<p>
 								
@@ -79,17 +78,8 @@ padding-top:60px;
 						<div>
 							<h3>이달 판매금액</h3>
 								 <c:set var="total" value="0"/>
-								  
-									<c:set var="total" value="${total + np.order_profit }" />
-							
-								   
-									<c:set var="total" value="${total + op.order_profit }" />
-								
-									
 									<c:out value="${total }" />원
-								    
 							<p>
-								
 							</p>
 						</div>
 					</div>
