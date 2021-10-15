@@ -47,7 +47,6 @@ public class AdminController {
         return "admin/adminsignup";
     }
 
-    // 아이디 중복 여부 체크
     @PostMapping(value = "checkSignupAdminId")
     @ResponseBody
     public String AjaxView(@RequestParam("admin_id") String admin_id) {
@@ -60,12 +59,8 @@ public class AdminController {
 
     @PostMapping("adminsignupok")
     public String submit(AdminDto adminDto) {
-
-        boolean b = adminDao.adminInsert(adminDto);
-        if (b) {
-            return "redirect:/adminlogin";
-        }
-        return "error";
+        adminDao.adminInsert(adminDto);
+        return "redirect:/adminlogin";
     }
 
     @GetMapping("idcheck")
@@ -104,11 +99,8 @@ public class AdminController {
         modelAndView.addObject("brb", adminService.getMostRentBook());
         modelAndView.addObject("rtm", adminDao.mbRentCmonth());
         modelAndView.addObject("om", adminDao.mbSellerCmonth());
-        modelAndView.addObject("rp", adminDao.profitMonth());
         modelAndView.addObject("ru", adminDao.rentKing());
         modelAndView.addObject("bu", adminDao.buyKing());
-        modelAndView.addObject("op", adminDao.obprofitmonth());
-        modelAndView.addObject("np", adminDao.nbprofitmonth());
         return modelAndView;
     }
 

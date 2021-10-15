@@ -5,71 +5,13 @@
 
 <mapper namespace="dev">
   <!-- ===================== ORDERINFO ======================= -->
-  <select id="profitmonth" resultType="orderdto">
-    select sum(order_sum) order_profit, date_format(order_date, '%Y-%m') order_month, count(*) order_count, sum(order_scount) month_scount
-    from orderinfo
-    group by date_format(order_date, '%Y-%m')
-    having order_month = date_format(now(), '%Y-%m')
-  </select>
-
-  <select id="obprofitmonth" resultType="orderdto">
-    select round(sum(ob_price * 0.5 * order_scount)) order_profit, order_booktype, date_format(order_date, '%Y-%m') order_month, count(*) order_count, sum(order_scount) month_scount
-    from oldbook
-           inner join orderinfo on order_bookno = ob_no
-    where order_booktype = "2"
-    group by date_format(order_date, '%Y-%m')
-    having order_month = date_format(now(), '%Y-%m')
-  </select>
-
-  <select id="nbprofitmonth" resultType="orderdto">
-    select round(sum(nb_price * order_scount)) order_profit, order_booktype, date_format(order_date, '%Y-%m') order_month, count(*) order_count, sum(order_scount) month_scount
-    from newbook
-           inner join orderinfo on order_bookno = nb_no
-    where order_booktype = "1"
-    group by date_format(order_date, '%Y-%m')
-    having order_month = date_format(now(), '%Y-%m')
-  </select>
-
   <select id="buyking" resultType="orderdto">
     select user_id, order_person, user_tel, user_mail, month (order_date) omonth, sum, count, rn
-    from (select *, sum (order_scount) sum, count (*) count, rank() over(partition by month (order_date) order by sum desc) rn from orderinfo where month (order_date) = month (now()) group by order_id) t left outer join user
+    from
+        (select *, sum (order_scount) sum, count (*) count, rank() over(partition by month (order_date) order by sum desc) rn from orderinfo where month (order_date) = month (now()) group by order_id) t left outer join user
     on order_id = user_id
     where t.rn <![CDATA[<=]]> 3
     order by rn
-  </select>
-
-  <update id="uporderstate" parameterType="orderdto">
-    update orderinfo
-    set order_state=#{order_state}
-    where orderlist_no = #{orderlist_no}
-  </update>
-
-  <!-- 회원일 경우 새책 결제 --><!-- 김나현 수정 -->
-  <insert id="buyNewBookUser" parameterType="orderdto">
-    insert into orderinfo
-    values (default, #{orderlist_no}, #{order_person}, #{order_id}, #{order_bookno}, #{order_booktype}, #{order_date}, default, #{order_scount}, #{order_paytype}, #{order_state}, #{order_sum}, #{order_address})
-  </insert>
-
-  <!-- 비회원일 경우 새책 결제 --><!-- 김나현 수정 -->
-  <insert id="buyNewBookUnuser" parameterType="orderdto">
-    insert into orderinfo
-    values (default, #{orderlist_no}, #{order_person}, #{order_id}, #{order_bookno}, #{order_booktype}, #{order_date}, #{order_passwd}, #{order_scount}, #{order_paytype}, #{order_state}, #{order_sum}, #{order_address})
-  </insert>
-
-  <!-- 비회원 일 때 주문내역 가져오기 -->
-  <select id="unmemberOrder" parameterType="orderdto" resultType="orderdto">
-    select *
-    from orderinfo
-    where order_no = #{order_no}
-      and order_passwd = #{order_passwd}
-  </select>
-
-  <!-- 비밀번호로 가장 최근 주문 내역 가져온다. --><!-- 수정20201015 -->
-  <select id="getOrderbyPass" parameterType="String" resultType="orderdto">
-    select *
-    from orderinfo
-    where order_passwd = #{order_passwd}
-    order by order_no desc limit 1;
   </select>
 
   <!-- 내주문정보 전체 조회 -->

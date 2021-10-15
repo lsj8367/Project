@@ -33,13 +33,9 @@ public class AdminService {
     private final StockState stockState = StockState.of(Arrays.asList(new FirstStock(), new SecondStock(),
         new ThirdStock(), new AnotherStock()));
 
-    private static RuntimeException notFoundAdminId() {
-        return new RuntimeException("찾는 관리자 계정이 없습니다.");
-    }
-
     public Admin selectAdminData(String adminId) {
         return adminRepository.findByAdminId(adminId)
-            .orElseThrow(AdminService::notFoundAdminId);
+            .orElseThrow(() -> new RuntimeException("찾는 관리자 계정이 없습니다."));
     }
 
     public List<Admin> adminYetAll() {
@@ -132,19 +128,12 @@ public class AdminService {
             Grade.FORTH_GRADE.getGrade(), Grade.FIFTH_GRADE.getGrade());
     }
 
-    public void obThrow(int index) {
-        final Optional<OldBook> optionalOldBook = oldBookRepository.findById((long) index);
-        optionalOldBook.ifPresent(oldBook -> {
-            oldBook.setObState("6");
-        });
-    }
-
     public List<OldBook> getMostRentBook() {
         return oldBookRepository.getMostRentBook();
     }
 
     public void upObState(int obNo, String obState) {
-        Optional<OldBook> optionalOldBook = oldBookRepository.findById((long) obNo);
+        final Optional<OldBook> optionalOldBook = oldBookRepository.findById((long) obNo);
         optionalOldBook.ifPresent(oldBook -> {
             oldBook.setObState(obState);
         });

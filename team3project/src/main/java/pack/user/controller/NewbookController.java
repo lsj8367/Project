@@ -4,7 +4,8 @@ package pack.user.controller;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.newbook.domain.NewBook;
 import pack.newbook.service.NewBookService;
-import pack.orderinfo.model.OrderInfoDto;
+import pack.orderinfo.domain.Orderinfo;
+import pack.orderinfo.service.OrderInfoService;
 import pack.review.model.ReviewDto;
 import pack.user.domain.User;
-import pack.user.model.OrderInfoDao;
 import pack.user.model.ReviewDao;
 import pack.user.model.UserDto;
 import pack.user.service.CardInfoService;
@@ -32,10 +33,10 @@ import pack.user.service.UserService;
 public class NewbookController {
 
     private final ReviewDao reviewDao;
-    private final OrderInfoDao orderInfoDao;
     private final CardInfoService cardInfoService;
     private final NewBookService newBookService;
     private final UserService userService;
+    private final OrderInfoService orderInfoService;
 
     @GetMapping("newbook")
     public ModelAndView main(@RequestParam("book_no") String nb_no) {
@@ -152,20 +153,20 @@ public class NewbookController {
     @GetMapping("directbuy_pay")
     public String directBuy(HttpSession session, HttpServletRequest request) {
         String orderId = request.getParameter("id");
-        String order_bookno1 = request.getParameter("order_bookno");
-        String order_scount1 = request.getParameter("order_scount");
-        String order_sum1 = request.getParameter("order_sum");
+        String orderBookno = request.getParameter("order_bookno");
+        String orderScount = request.getParameter("order_scount");
+        String orderSum = request.getParameter("order_sum");
         String radioPaytype = request.getParameter("radioPaytype");
-        String orderpass1 = request.getParameter("orderpwd");
+        String orderpass = request.getParameter("orderpwd");
         String realpoint1 = request.getParameter("realpoint");
         String address1 = request.getParameter("address1");
         String address2 = request.getParameter("address2");
 
-        int order_bookno = Integer.parseInt(order_bookno1);
+        int order_bookno = Integer.parseInt(orderBookno);
 
-        int order_scount = Integer.parseInt(order_scount1);
+        int order_scount = Integer.parseInt(orderScount);
 
-        int order_sum = Integer.parseInt(order_sum1);
+        int order_sum = Integer.parseInt(orderSum);
 
         int realpoint;
         if (realpoint1 == "") {
@@ -174,29 +175,22 @@ public class NewbookController {
             realpoint = Integer.parseInt(realpoint1);
         }
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        String format_time = format.format(System.currentTimeMillis());
-
-        //공통부분
-        OrderInfoDto orderInfoDto = new OrderInfoDto();
-
         //orderlist_no 부분
-        Date now = new Date();
-        SimpleDateFormat vans = new SimpleDateFormat("yyyyMMdd");
-        String wdate = vans.format(now);
-
+        String wdate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         DecimalFormat df = new DecimalFormat("00");
 
         Random random = new Random();
         int count = random.nextInt(99) + 1;
 
-        orderInfoDto.setOrderlist_no(wdate + "-" + df.format(count));
-        orderInfoDto.setOrder_date(format_time);
-        orderInfoDto.setOrder_scount(order_scount);
-        orderInfoDto.setOrder_sum(order_sum);
-        orderInfoDto.setOrder_bookno(order_bookno);
-        orderInfoDto.setOrder_booktype("1");//새책은 1!
-        orderInfoDto.setOrder_address(address1 + " " + address2);
+        Orderinfo orderInfo = Orderinfo.builder()
+            .orderlistNo(wdate + "-" + df.format(count))
+            .orderDate(LocalDateTime.now())
+            .orderScount(order_scount)
+            .orderSum(order_sum)
+            .orderBookno(order_bookno)
+            .orderBooktype("1")
+            .orderAddress(address1 + " " + address2)
+            .build();
 
         //회원일 경우
         if (!orderId.equals("")) {
@@ -213,66 +207,49 @@ public class NewbookController {
                 session.setAttribute("point", resultUser.getUserPoint());
             }
 
-            //카드결제일 경우
-            if (radioPaytype.equals("카드결제")) {
-                orderInfoDto.setOrder_paytype("1");//1은 카드결제
-                orderInfoDto.setOrder_person(user.getUserName());
-                orderInfoDto.setOrder_id(user.getUserId());
-                orderInfoDto.setOrder_state("1"); // 카드 결제는 주문 상태로 무조건 1로 된다
-            }
-            //무통장입금일 경우
-            else {
-                orderInfoDto.setOrder_paytype("0");//0은 무통장입금
-                orderInfoDto.setOrder_person(user.getUserName());
-                orderInfoDto.setOrder_id(user.getUserId());
-                orderInfoDto.setOrder_state("0"); // 무통장입금는 주문 상태로 무조건 0로 된다
-            }
-
-            boolean b = orderInfoDao.buyNewBookUser(orderInfoDto);
-            //포인트 값 고치기 위해
-
-            if (b) {
-                return "redirect:/buymain";
-            }
-
-            return "error";
+            selectPayType(radioPaytype, orderInfo, user);
+            orderInfoService.saveOrderInfo(orderInfo);
+            return "redirect:/buymain";
         }
         //비회원일 경우
 
-        orderInfoDto.setOrder_paytype("0");//0은 무통장입금
-        orderInfoDto.setOrder_passwd(orderpass1);
-        orderInfoDto.setOrder_state("0"); // 무통장입금는 주문 상태로 무조건 0로 된다
-        orderInfoDto.setOrder_person("비회원");
+        orderInfo.setOrderPaytype("0");//0은 무통장입금
+        orderInfo.setOrderPasswd(orderpass);
+        orderInfo.setOrderState("0"); // 무통장입금는 주문 상태로 무조건 0로 된다
+        orderInfo.setOrderPerson("비회원");
 
-        boolean b = orderInfoDao.buyNewBookUnuser(orderInfoDto); // 구매 했다
+        orderInfoService.saveOrderInfo(orderInfo);
 
-        // 비밀번호로 최근 구매내역 불러오기
-        OrderInfoDto orderDto = orderInfoDao.getOrderbyPass(orderpass1);
-        if (b) {
-            return "redirect:/unmemberorder?order_no=" + orderDto.getOrder_no()
-                + "&order_passwd=" + orderDto.getOrder_passwd();
-        }
-
-        return "error";
+        return "redirect:/unmemberorder?order_no=" + orderInfo.getOrderNo()
+            + "&order_passwd=" + orderInfo.getOrderPasswd();
     }
 
+    private Orderinfo selectPayType(String radioPaytype, Orderinfo orderinfo, User user) {
+        //카드결제일 경우
+        orderinfo.setOrderPerson(user.getUserName());
+        orderinfo.setOrderId(user.getUserId());
+
+        if (radioPaytype.equals("카드결제")) {
+            orderinfo.setOrderPaytype("1");//1은 카드결제
+            orderinfo.setOrderState("1"); // 카드 결제는 주문 상태로 무조건 1로 된다
+            return orderinfo;
+        }
+        //무통장입금일 경우
+        orderinfo.setOrderPaytype("0");//0은 무통장입금
+        orderinfo.setOrderState("0"); // 무통장입금는 주문 상태로 무조건 0로 된다
+        return orderinfo;
+    }
 
     // 비회원dl 구매했을 때 주문내역 불러오기
     @GetMapping("unmemberorder")
     public ModelAndView unmemberOrder(@RequestParam("order_no") int order_no,
         @RequestParam("order_passwd") String order_passwd) {
-        ModelAndView view = new ModelAndView();
-        OrderInfoDto orderInfoDto = new OrderInfoDto();
-        orderInfoDto.setOrder_no(order_no);
-        orderInfoDto.setOrder_passwd(order_passwd);
+        final Orderinfo orderInfo = orderInfoService.selectAllById(order_no, order_passwd);
 
-        OrderInfoDto orderDto = orderInfoDao.unmemberOrder(orderInfoDto);
-        NewBook newbook = newBookService.selectNewBook((long) orderDto.getOrder_bookno());
-
-        view.setViewName("unmemberorder");
-        view.addObject("orderDto", orderDto);
-        view.addObject("newbook", newbook);
-        return view;
+        return new ModelAndView("unmemberorder", Map.of(
+            "orderDto", orderInfo,
+            "newbook", newBookService.selectNewBook((long) orderInfo.getOrderBookno())
+        ));
     }
 
 }

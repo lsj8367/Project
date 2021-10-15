@@ -62,20 +62,6 @@ class OldBookRepositoryTest {
     }
 
     @Test
-    void obthrow() {
-        Optional<OldBook> optionalOldBook = oldBookRepository.findById(7L);
-        optionalOldBook.ifPresent(oldBook -> {
-            oldBook.setObState("6");
-        });
-        testEntityManager.flush();
-        testEntityManager.clear();
-        Optional<OldBook> optionalOldBook2 = oldBookRepository.findById(7L);
-        optionalOldBook2.ifPresent(oldBook -> {
-            assertThat(oldBook.getObState()).isEqualTo("6");
-        });
-    }
-
-    @Test
     void getMostRentBook() {
         List<OldBook> oldBook = oldBookRepository.getMostRentBook();
         assertThat(oldBook.get(0).getObDonor()).isEqualTo("test6");

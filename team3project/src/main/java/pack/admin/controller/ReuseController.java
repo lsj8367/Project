@@ -46,7 +46,7 @@ public class ReuseController {
         model.addAttribute("info", adminService.selectAdminData(admin_id));
         try {
             for (int index : ob_no) {
-                adminService.obThrow(index);
+                adminService.upObState(index, "6");
             }
             return "redirect:/reuse";
         } catch (Exception e) {
