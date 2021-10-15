@@ -4,7 +4,7 @@
 팀 프로젝트로 처음에 시작하였으나 혼자 공부하고 배운 내용을 도입하여
 적용하며 지속적인 리팩토링을 진행하는 프로젝트
 
-# 🐱‍🏍 기술 스택
+# 📌 기술 스택
 - Java 11, **Junit 5**,  **Spring Boot**, **JPA**, MySql, JSP, HTML/CSS, JavaScript
 
 ## 현재 진행 사항
@@ -23,6 +23,12 @@
 - [ ] Admin
 - [ ] RentInfo
 - [ ] Review
+
+## 2021-10-15 OrderInfo 리팩토링
+- [변경사항 바로가기](https://github.com/lsj8367/Project/pull/37)
+- [변경사항 바로가기](https://github.com/lsj8367/Project/pull/36)
+- [변경사항 바로가기](https://github.com/lsj8367/Project/pull/35)
+- [변경사항 바로가기](https://github.com/lsj8367/Project/pull/34)
 
 ## 2021-10-07 User테이블 마이그레이션 완료
 - [변경사항 바로가기](https://github.com/lsj8367/Project/pull/33)
