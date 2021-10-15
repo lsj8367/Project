@@ -130,12 +130,12 @@ html, body {
 	</tr>
 	<tr>
 		<td> 
-			주문번호 : ${orderDto.order_no}
+			주문번호 : ${orderDto.orderNo}
 		</td>
 	</tr>
 	<tr>
 		<td>  
-			주문비밀번호 : ${orderDto.order_passwd}
+			주문비밀번호 : ${orderDto.orderPasswd}
 		</td>
 	</tr>
 	<tr>
@@ -145,17 +145,17 @@ html, body {
 	</tr>
 	<tr>
 		<td> 
-			주문한 책 개수 : ${orderDto.order_scount}
+			주문한 책 개수 : ${orderDto.orderScount}
 		</td>
 	</tr>
 	<tr>
 		<td> 
-			결제금액 : ${orderDto.order_sum}
+			결제금액 : ${orderDto.orderSum}
 		</td>
 	</tr>
 	<tr>
 		<td> 
-			배송지 : ${orderDto.order_address}
+			배송지 : ${orderDto.orderAddress}
 		</td>
 	</tr>
 	<tr>

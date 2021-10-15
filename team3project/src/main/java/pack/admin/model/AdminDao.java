@@ -20,16 +20,6 @@ public class AdminDao extends SqlSessionDaoSupport {
         return getSqlSession().selectList("selectRentAll");
     }
 
-    public boolean uporderstate(OrderInfoDto orderInfoDto) {
-        try {
-            getSqlSession().update("uporderstate", orderInfoDto);
-            return true;
-        } catch (Exception e) {
-            System.out.println("updateOrderState error : " + e);    //개발자를 위한 내용
-            return false;
-        }
-    }
-
     public List<RentInfoDto> selectdelayAll() {
         return getSqlSession().selectList("selectdelayAll");
     }
@@ -50,18 +40,6 @@ public class AdminDao extends SqlSessionDaoSupport {
 
     public List<ReviewDto> selectreviewAll() {
         return getSqlSession().selectList("selectreviewAll");
-    }
-
-    public OrderInfoDto obprofitmonth() {
-        return getSqlSession().selectOne("obprofitmonth");
-    }
-
-    public OrderInfoDto nbprofitmonth() {
-        return getSqlSession().selectOne("nbprofitmonth");
-    }
-
-    public OrderInfoDto profitMonth() {
-        return getSqlSession().selectOne("profitmonth");
     }
 
     public List<ReviewDto> mbEstReview(String sql) {
@@ -108,14 +86,8 @@ public class AdminDao extends SqlSessionDaoSupport {
         return getSqlSession().selectList("buyking");
     }
 
-    public boolean adminInsert(AdminDto adminDto) {
-        try {
-            getSqlSession().insert("admininsert", adminDto);
-            return true;
-        } catch (Exception e) {
-            System.out.println("insertAdmin error : " + e);    //개발자를 위한 내용
-            return false;
-        }
+    public void adminInsert(AdminDto adminDto) {
+        getSqlSession().insert("admininsert", adminDto);
     }
 
 }
