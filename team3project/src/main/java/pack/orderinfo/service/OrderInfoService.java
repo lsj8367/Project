@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pack.orderinfo.domain.Orderinfo;
+import pack.orderinfo.model.OrderInfoDto;
 import pack.orderinfo.repository.OrderinfoRepository;
 
 @Service
@@ -55,6 +56,25 @@ public class OrderInfoService {
         return orderinfoRepository.findByOrderNoAndOrderPasswd(Long.valueOf(orderNo), orderPassword);
     }
 
+    public List<Orderinfo> myOrderInfoAll(String orderListNo) {
+        return orderinfoRepository.findAllByOrderlistNo(orderListNo);
+    }
+
+    public Orderinfo findByOrderInfo(String orderListNo) {
+        return orderinfoRepository.findByOrderlistNo(orderListNo)
+            .orElseThrow(() -> new RuntimeException("해당하는 주문 없음"));
+    }
+
+    public void updateOrderInfo(OrderInfoDto orderInfoDto) {
+        final Orderinfo orderInfo = findByOrderInfo(orderInfoDto.getOrderlist_no());
+        orderInfo.setOrderPasswd(orderInfoDto.getOrder_passwd());
+        orderInfo.setOrderPerson(orderInfoDto.getOrder_person());
+    }
+
+    public Orderinfo findByUnmemberOrder(String orderListNo, String orderPassword) {
+        return orderinfoRepository.findByOrderlistNoAndOrderPasswd(orderListNo, orderPassword)
+            .orElseThrow(() -> new RuntimeException("해당하는 비회원 주문이 없음"));
+    }
 
     private boolean isOrderStateEqualZero(Orderinfo orderinfo) {
         return orderinfo.getOrderState().equals("0");
