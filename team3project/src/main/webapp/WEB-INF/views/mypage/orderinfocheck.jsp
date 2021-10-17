@@ -174,19 +174,19 @@ html, body {
 				</tr>
 				<tr>
 					<th>주문번호</th>
-					<td>${odinfo.orderlist_no }</td>
+					<td>${odinfo.orderlistNo }</td>
 				</tr>
 				<tr>
 					<th>주문자명</th>
-					<td>${odinfo.order_person }</td>
+					<td>${odinfo.orderPerson }</td>
 				</tr>
 				<tr>
 					<th>주문일자</th>
-					<td>${odinfo.order_date }</td>
+					<td>${odinfo.orderDate }</td>
 				</tr>
 				<tr>
 					<th>배송주소</th>
-					<td>${odinfo.order_address }</td>
+					<td>${odinfo.orderAddress }</td>
 				</tr>
 				<tr>
 					<th>주문내역</th>
@@ -197,26 +197,26 @@ html, body {
 								<tr>
 									<td>
 										<c:choose>
-											<c:when test="${oia.order_booktype eq '1' }">
-												<a href = "newbook?book_no=${oia.order_bookno }">${oia.order_bookno }</a>
+											<c:when test="${oia.orderBooktype eq '1' }">
+												<a href = "newbook?book_no=${oia.orderBookno }">${oia.orderBookno }</a>
 											</c:when>
-											<c:when test="${oia.order_booktype eq '2' }">
-												<a href = "oldbook?book_no=${oia.order_bookno }">${oia.order_bookno }</a>
+											<c:when test="${oia.orderBooktype eq '2' }">
+												<a href = "oldbook?book_no=${oia.orderBookno }">${oia.orderBookno }</a>
 											</c:when>
 										</c:choose>
 									</td>
 									<td>
 										<c:choose>
-											<c:when test="${oia.order_booktype eq '1' }">
+											<c:when test="${oia.orderBooktype eq '1' }">
 												새책
 											</c:when>
-											<c:when test="${oia.order_booktype eq '2' }">
+											<c:when test="${oia.orderBooktype eq '2' }">
 												중고책
 											</c:when>
 										</c:choose>
 									</td>
-									<td>${oia.order_scount }</td>
-									<td>${oia.order_sum }</td>
+									<td>${oia.orderScount }</td>
+									<td>${oia.orderSum }</td>
 								</tr>
 							</c:forEach>
 						</table>
@@ -224,16 +224,16 @@ html, body {
 				</tr>
 				<tr>
 					<th>총금액</th>
-					<td>${odinfo.order_sum }</td>
+					<td>${odinfo.orderSum }</td>
 				</tr>
 				<tr>
 					<th>결제종류</th>
 					<td>
 						<c:choose>
-							<c:when test="${odinfo.order_paytype eq '0' }">
+							<c:when test="${odinfo.orderPaytype eq '0' }">
 								무통장입금
 							</c:when>
-							<c:when test="${odinfo.order_paytype eq '1' }">
+							<c:when test="${odinfo.orderPaytype eq '1' }">
 								카드결제
 							</c:when>
 						</c:choose>
@@ -243,22 +243,22 @@ html, body {
 					<th>주문진행현황</th>
 					<td>
 						<c:choose>
-							<c:when test="${odinfo.order_state eq '0'}">
+							<c:when test="${odinfo.orderState eq '0'}">
 								주문완료(결제대기)
 							</c:when>
-							<c:when test="${odinfo.order_state eq '1'}">
+							<c:when test="${odinfo.orderState eq '1'}">
 								결제완료
 							</c:when>
-							<c:when test="${odinfo.order_state eq '2'}">
+							<c:when test="${odinfo.orderState eq '2'}">
 								상품준비중
 							</c:when>
-							<c:when test="${odinfo.order_state eq '3'}">
+							<c:when test="${odinfo.orderState eq '3'}">
 								배송준비중
 							</c:when>
-							<c:when test="${odinfo.order_state eq '4'}">
+							<c:when test="${odinfo.orderState eq '4'}">
 								배송중
 							</c:when>
-							<c:when test="${odinfo.order_state eq '5'}">
+							<c:when test="${odinfo.orderState eq '5'}">
 								배송완료
 							</c:when>
 						</c:choose>
@@ -266,7 +266,7 @@ html, body {
 				</tr>
 				<tr>
 					<td colspan='2' style="text-align: center;">
-						<input type="button" class="btn btn-outline-success" value = "수정" onclick="location.href='myorderup?no=${odinfo.orderlist_no}'">
+						<input type="button" class="btn btn-outline-success" value = "수정" onclick="location.href='myorderup?no=${odinfo.orderlistNo}'">
 						<input type="button" class="btn btn-outline-success" value = "확인" onclick="location.href='myorder'">
 					</td>
 				</tr>

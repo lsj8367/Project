@@ -218,22 +218,22 @@ html, body {
 				<tr>
 					<th>주문번호</th>
 					<td>
-						${odinfo.orderlist_no }
-						<input type="hidden" name="orderlist_no" value="${odinfo.orderlist_no }">
+						${odinfo.orderlistNo }
+						<input type="hidden" name="orderlist_no" value="${odinfo.orderlistNo }">
 					</td>
 				</tr>
 				<tr>
 					<th>주문자명</th>
-					<td><input type="text" name="order_person" value="${odinfo.order_person }"></td>
+					<td><input type="text" name="order_person" value="${odinfo.orderPerson }"></td>
 				</tr>
 				<tr>
 					<th>주문일자</th>
-					<td>${odinfo.order_date }</td>
+					<td>${odinfo.orderDate }</td>
 				</tr>
 				<tr>
 					<th>배송주소</th>
 					<td style="text-align: left;">
-						<input type="text" value="${odinfo.order_address }" name="order_address" id ="address1" readonly>
+						<input type="text" value="${odinfo.orderAddress }" name="order_address" id ="address1" readonly>
 						<input type="button" value="찾기" id="btnZip" onclick="execPostCode();">
 						<span class="error" id="errMsg_address1" style="color: red;"></span>
 					</td>
@@ -247,26 +247,26 @@ html, body {
 								<tr>
 									<td>
 										<c:choose>
-											<c:when test="${oia.order_booktype eq '1' }">
-												<a href = "newbook?book_no=${oia.order_bookno }">${oia.order_bookno }</a>
+											<c:when test="${oia.orderBooktype eq '1' }">
+												<a href = "newbook?book_no=${oia.orderBookno }">${oia.orderBookno }</a>
 											</c:when>
-											<c:when test="${oia.order_booktype eq '2' }">
-												<a href = "oldbook?book_no=${oia.order_bookno }">${oia.order_bookno }</a>
+											<c:when test="${oia.orderBooktype eq '2' }">
+												<a href = "oldbook?book_no=${oia.orderBookno }">${oia.orderBookno }</a>
 											</c:when>
 										</c:choose>
 									</td>
 									<td>
 										<c:choose>
-											<c:when test="${oia.order_booktype eq '1' }">
+											<c:when test="${oia.orderBooktype eq '1' }">
 												새책
 											</c:when>
-											<c:when test="${oia.order_booktype eq '2' }">
+											<c:when test="${oia.orderBooktype eq '2' }">
 												중고책
 											</c:when>
 										</c:choose>
 									</td>
-									<td>${oia.order_scount }</td>
-									<td>${oia.order_sum }</td>
+									<td>${oia.orderScount }</td>
+									<td>${oia.orderSum }</td>
 								</tr>
 							</c:forEach>
 						</table>
@@ -274,16 +274,16 @@ html, body {
 				</tr>
 				<tr>
 					<th>총금액</th>
-					<td>${odinfo.order_sum }</td>
+					<td>${odinfo.orderSum }</td>
 				</tr>
 				<tr>
 					<th>결제종류</th>
 					<td>
 						<c:choose>
-							<c:when test="${odinfo.order_paytype eq '0' }">
+							<c:when test="${odinfo.orderPaytype eq '0' }">
 								무통장입금
 							</c:when>
-							<c:when test="${odinfo.order_paytype eq '1' }">
+							<c:when test="${odinfo.orderPaytype eq '1' }">
 								카드결제
 							</c:when>
 						</c:choose>
@@ -293,22 +293,22 @@ html, body {
 					<th>주문진행현황</th>
 					<td>
 						<c:choose>
-							<c:when test="${odinfo.order_state eq '0'}">
+							<c:when test="${odinfo.orderState eq '0'}">
 								주문완료(결제대기)
 							</c:when>
-							<c:when test="${odinfo.order_state eq '1'}">
+							<c:when test="${odinfo.orderState eq '1'}">
 								결제완료
 							</c:when>
-							<c:when test="${odinfo.order_state eq '2'}">
+							<c:when test="${odinfo.orderState eq '2'}">
 								상품준비중
 							</c:when>
-							<c:when test="${odinfo.order_state eq '3'}">
+							<c:when test="${odinfo.orderState eq '3'}">
 								배송준비중
 							</c:when>
-							<c:when test="${odinfo.order_state eq '4'}">
+							<c:when test="${odinfo.orderState eq '4'}">
 								배송중
 							</c:when>
-							<c:when test="${odinfo.order_state eq '5'}">
+							<c:when test="${odinfo.orderState eq '5'}">
 								배송완료
 							</c:when>
 						</c:choose>
@@ -318,7 +318,7 @@ html, body {
 					<td colspan='2' style="text-align: center;">
 						
 						<input class="btn btn-outline-success" type="submit" value = "수정완료">
-						<input class="btn btn-outline-success" type="button" value = "취소" onclick="location.href='orderinfocheck?no=${order.orderlist_no }'">
+						<input class="btn btn-outline-success" type="button" value = "취소" onclick="location.href='orderinfocheck?no=${order.orderlistNo }'">
 					</td>
 				</tr>
 			</table>

@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pack.orderinfo.model.OrderInfoDto;
-import pack.user.model.UnmemberDao;
+import pack.orderinfo.service.OrderInfoService;
 
 @Controller
 @RequiredArgsConstructor
 public class UnmemberController {
 
-    private final UnmemberDao unmemberDao;
+    private final OrderInfoService orderInfoService;
 
     @RequestMapping(value = "unmembercheck", method = RequestMethod.GET)
     public String check() {
@@ -22,11 +22,12 @@ public class UnmemberController {
     }
 
     @RequestMapping(value = "unmember", method = RequestMethod.POST)
-    public ModelAndView search(@RequestParam("orderlist_no") String orderlist_no, @RequestParam("order_passwd") String order_passwd, OrderInfoDto orderInfoDto) {
-        if (orderlist_no.equals(orderInfoDto.getOrderlist_no()) && order_passwd.equals(orderInfoDto.getOrder_passwd())) {
+    public ModelAndView search(@RequestParam("orderlist_no") String orderlistNo, @RequestParam("order_passwd") String orderPasswd, OrderInfoDto orderInfoDto) {
+
+        if (orderlistNo.equals(orderInfoDto.getOrderlist_no()) && orderPasswd.equals(orderInfoDto.getOrder_passwd())) {
             return new ModelAndView("unmember", Map.of(
-                "list", unmemberDao.search(orderInfoDto),
-                "order_passwd", order_passwd
+                "list", orderInfoService.findByUnmemberOrder(orderlistNo, orderPasswd),
+                "order_passwd", orderPasswd
             ));
         }
 

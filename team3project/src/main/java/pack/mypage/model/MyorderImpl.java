@@ -27,30 +27,12 @@ public class MyorderImpl extends SqlSessionDaoSupport {
         return getSqlSession().selectList("ordernewlistall", user_id);
     }
 
-    public OrderInfoDto myorderinfo(String orderlist_no) {
-        return getSqlSession().selectOne("myorderinfo", orderlist_no);
-    }
-
-    public List<OrderInfoDto> myorderinfoall(String orderlist_no) {
-        return getSqlSession().selectList("myorderinfoall", orderlist_no);
-    }
-
     public boolean deletemyorder(int order_no) {
         try {
             getSqlSession().delete("delmyord", order_no);
             return true;
         } catch (Exception e) {
             System.out.println("deletemyorder error : " + e);    //개발자를 위한 내용
-            return false;
-        }
-    }
-
-    public boolean updateMyOrderInfo(OrderInfoDto orderInfoDto) {
-        try {
-            getSqlSession().update("upmyorderinfo", orderInfoDto);
-            return true;
-        } catch (Exception e) {
-            System.out.println("updateMyOrderInfo error : " + e);    //개발자를 위한 내용
             return false;
         }
     }
