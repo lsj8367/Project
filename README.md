@@ -5,13 +5,22 @@
 적용하며 지속적인 리팩토링을 진행하는 프로젝트
 
 # 📌 기술 스택
+
+---
+
 - Java 11, **Junit 5**,  **Spring Boot**, **JPA**, MySql, JSP, HTML/CSS, JavaScript
 
 ## 현재 진행 사항
+
+---
+
 - MyBatis -> JPA 마이그레이션
 - 각 로직에 대한 Repository 단위 테스트 작성중
 
 ## 테이블 완료 현황
+
+---
+
 - [x] CardInfo
 - [x] FaqBoard
 - [x] Inquery
@@ -23,6 +32,9 @@
 - [ ] Admin
 - [ ] RentInfo
 - [ ] Review
+
+## 2021-10-17 OrderInfo 마이그레이션
+- [변경사항 바로가기](https://github.com/lsj8367/Project/pull/38)
 
 ## 2021-10-15 OrderInfo 리팩토링
 - [변경사항 바로가기](https://github.com/lsj8367/Project/pull/37)
