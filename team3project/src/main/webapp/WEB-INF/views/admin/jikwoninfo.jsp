@@ -129,38 +129,38 @@ body {
   <c:forEach var="al" items="${al }">
 	<tr>
 		<td>
-			${al.admin_id }
-			<input type = "hidden" name = "admin_id" value="${al.admin_id }">		
+			${al.adminId }
+			<input type = "hidden" name = "admin_id" value="${al.adminId }">
 		</td>
-		<td>${al.admin_name}</td>
-		<td>${al.admin_jik }</td>
+		<td>${al.adminName}</td>
+		<td>${al.adminJik }</td>
 		<td>
 			<select name = "admin_jik">
 			<c:choose>
-				<c:when test="${al.admin_jik eq '사원' }">
+				<c:when test="${al.adminJik eq '사원' }">
 					<option value="사원" selected>사원
 					<option value="대리">대리
 				</c:when>
-				<c:when test="${al.admin_jik eq '대리' }">
+				<c:when test="${al.adminJik eq '대리' }">
 					<option value="대리" selected>대리
 					<option value="과장">과장
 				</c:when>
-				<c:when test="${al.admin_jik eq '과장' }">
+				<c:when test="${al.adminJik eq '과장' }">
 					<option value="과장" selected>과장
 					<option value="차장">차장
 				</c:when>
-				<c:when test="${al.admin_jik eq '차장' }">
+				<c:when test="${al.adminJik eq '차장' }">
 					<option value="차장" selected>차장
 					<option value="부장">부장
 				</c:when>
-				<c:when test="${al.admin_jik eq '부장' }">
+				<c:when test="${al.adminJik eq '부장' }">
 					<option value="부장" selected>부장
 					<option value="이사">이사
 				</c:when>
-				<c:when test="${al.admin_jik eq '이사' }">
+				<c:when test="${al.adminJik eq '이사' }">
 					<option value="이사" selected>이사
 				</c:when>
-				<c:when test="${al.admin_jik eq '사장' }">
+				<c:when test="${al.adminJik eq '사장' }">
 					<option value="사장" selected>사장
 				</c:when>
 			</c:choose>

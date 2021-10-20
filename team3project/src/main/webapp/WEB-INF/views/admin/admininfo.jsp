@@ -127,21 +127,21 @@ body {
 	<tr>
 		<td>아이디</td>
 		<td>
-			${info.admin_id }
-			<input type = "hidden" name="admin_id" value="${info.admin_id }">
+			${info.adminId }
+			<input type = "hidden" name="admin_id" value="${info.adminId }">
 		</td>
 	</tr>
 	<tr>
 		<td>비밀번호</td>
-		<td><input type = "text" name="admin_passwd" value="${info.admin_passwd }"></td>
+		<td><input type = "text" name="admin_passwd" value="${info.adminPassword }"></td>
 	</tr>
 	<tr>
 		<td>관리자이름</td>
-		<td><input type = "text" name="admin_name" value="${info.admin_name }"></td>
+		<td><input type = "text" name="admin_name" value="${info.adminName }"></td>
 	</tr>
 	<tr>
 		<td>직급</td>
-		<td>${info.admin_jik }</td>
+		<td>${info.adminJik }</td>
 	</tr>
 	<tr>
 		<td colspan='2'><button type="submit" class="btn btn-outline-secondary">수정</button></td>

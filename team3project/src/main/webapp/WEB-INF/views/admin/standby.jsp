@@ -142,7 +142,7 @@ body {
 					${sl.obNo}
 					<input type = "hidden" name="ob_no" value="${sl.obNo}">
 				</td>
-				<td><img src="resources/static/${sl.obImage }" ></td>
+				<td><img src="${sl.obImage }" ></td>
 				<td>${sl.obName}</td>
 				<td>${sl.obAuthor}</td>
 				<td>${sl.obInter}</td>
