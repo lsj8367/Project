@@ -33,6 +33,12 @@
 - [ ] RentInfo
 - [ ] Review
 
+## 2021-10-20
+- [변경사항 바로가기](https://github.com/lsj8367/Project/pull/42)
+- [변경사항 바로가기](https://github.com/lsj8367/Project/pull/41)
+- [변경사항 바로가기](https://github.com/lsj8367/Project/pull/40)
+- [변경사항 바로가기](https://github.com/lsj8367/Project/pull/39)
+
 ## 2021-10-17 OrderInfo 마이그레이션
 - [변경사항 바로가기](https://github.com/lsj8367/Project/pull/38)
 
