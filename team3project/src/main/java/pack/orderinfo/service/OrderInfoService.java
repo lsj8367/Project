@@ -76,6 +76,10 @@ public class OrderInfoService {
             .orElseThrow(() -> new RuntimeException("해당하는 비회원 주문이 없음"));
     }
 
+    public List<Orderinfo> findTop3OrderList(String orderId) {
+        return orderinfoRepository.findTop3ByOrderIdOrderByOrderDateDesc(orderId);
+    }
+
     private boolean isOrderStateEqualZero(Orderinfo orderinfo) {
         return orderinfo.getOrderState().equals("0");
     }

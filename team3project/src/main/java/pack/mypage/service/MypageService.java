@@ -10,6 +10,7 @@ import pack.mypage.model.MypageImpl;
 import pack.cardinfo.repository.CardInfoRepository;
 import pack.newbook.repository.NewBookRepository;
 import pack.oldbook.repository.OldBookRepository;
+import pack.orderinfo.service.OrderInfoService;
 
 @Service
 @RequiredArgsConstructor
@@ -20,10 +21,12 @@ public class MypageService {
     private final OldBookRepository oldBookRepository;
     private final InqueryService inqueryService;
     private final MypageImpl mypageImpl;
+    private final OrderInfoService orderInfoService;
+
 
     public ModelAndView list3(String userId) {
         return new ModelAndView("mypage/mypage", Map.of(
-            "odbook", mypageImpl.orderlist(userId),
+            "odbook", orderInfoService.findTop3OrderList(userId),
             "rtbook", mypageImpl.rentlist(userId),
             "dnbook", oldBookRepository.findTop3ByObDonorOrderByObNameDesc(userId),
             "randNewbook", newBookRepository.recommandNewBook(),
