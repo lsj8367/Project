@@ -41,30 +41,30 @@ public class CenterController {
 
     @PostMapping("centerpage")
     public String centerPage(@RequestParam("page") String a, Model model) {
-
-        String returnJsp = "";
-        switch (a) {
-            case "order":
-                model.addAttribute("page", a);
-                returnJsp = "centerOrder";
-                break;
-            case "deliver":
-                model.addAttribute("page", a);
-                returnJsp = "centerDeliver";
-                break;
-            case "product":
-                model.addAttribute("page", a);
-                returnJsp = "centerProduct";
-                break;
-            default:
-                return "qnaAll";
-        }
-
-        return returnJsp;
+        ReturnJsp returnJsp = new ReturnJsp(a);
+        model.addAttribute("page", a);
+        return returnJsp.getReturnJsp();
     }
 
     private Map<String, Object> returnMap(Object object) {
         return Map.of("datas", object);
     }
 
+}
+
+class ReturnJsp {
+    private final Map<String, String> returnJspMap = Map.of(
+        "order", "centerOrder",
+        "deliver", "centerDeliver",
+        "product", "centerProduct"
+    );
+    private final String returnJsp;
+
+    public ReturnJsp(String returnJsp) {
+        this.returnJsp = returnJsp;
+    }
+
+    public String getReturnJsp() {
+        return returnJspMap.get(this.returnJsp);
+    }
 }
