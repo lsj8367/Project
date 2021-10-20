@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,20 +19,20 @@ import pack.user.service.UserService;
 public class SosController {
 
     private final InqueryService inqueryService;
-    private final UserService userService;
+
+    @ExceptionHandler
+    public ModelAndView error(RuntimeException e) {
+        return new ModelAndView("login");
+    }
 
     @RequestMapping("sos") // 1:1 문의 버튼 눌렀을때 public String
     public ModelAndView sos(HttpSession session) {
-        String inq_id = (String) session.getAttribute("id");
-        if (Objects.isNull(inq_id) || Objects.equals(inq_id, "")) {
-            return new ModelAndView("login");
-        }
+        String id = sessionCheck((String) session.getAttribute("id"));
 
         return new ModelAndView("sos", Map.of(
-            "inqinfo", inqueryService.selectInqList(inq_id)
+            "inqinfo", inqueryService.selectInqList(id)
         ));
     }
-
 
     @RequestMapping(value = "sospage", method = RequestMethod.GET) // 문의 안에서 문의하기 버튼 눌렀을때
     public String sospage() {
@@ -39,13 +40,8 @@ public class SosController {
     }
 
     @RequestMapping(value = "sospage", method = RequestMethod.POST)
-    public String submit(InqueryDto inqueryDto, HttpSession session, ModelMap model)
-        throws Exception {
-        String id = (String) session.getAttribute("id");
-
-        if (Objects.isNull(id) || Objects.equals(id, "")) {
-            return "login";
-        }
+    public String submit(InqueryDto inqueryDto, HttpSession session, ModelMap model) throws Exception {
+        String id = sessionCheck((String) session.getAttribute("id"));
 
         model.addAttribute("inqinfo", inqueryService.findAllOrderByInqOnumASC());
         inqueryDto.setInq_id(id);
@@ -55,6 +51,13 @@ public class SosController {
         }
 
         return "redirect:/sos";
+    }
+
+    private String sessionCheck(String inq_id) {
+        if (Objects.isNull(inq_id) || Objects.equals(inq_id, "")) {
+            throw new RuntimeException("해당하는 로그인 정보 없음");
+        }
+        return inq_id;
     }
 
 }

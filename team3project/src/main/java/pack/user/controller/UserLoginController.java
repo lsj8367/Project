@@ -3,6 +3,8 @@ package pack.user.controller;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,12 +16,12 @@ import pack.user.service.UserService;
 public class UserLoginController {
     private final UserService userService;
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @GetMapping(value = "login")
     public String moveLogin() {
         return "login";
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @PostMapping(value = "login")
     public String login(@RequestParam("id") String id,
                         @RequestParam("pwd") String pwd, HttpSession session) {
         User user = userService.selectUser(id);
