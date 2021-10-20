@@ -32,7 +32,8 @@ public class UserService {
     }
 
     public List<User> selectUserPcheck() {
-        return userRepository.findAllByUserPenaltyNotAndUserPenaltyNotAndUserPenaltyNot("1+2+3", "x", "4");
+        return userRepository.findAllByUserPenaltyNotAndUserPenaltyNotAndUserPenaltyNot("1+2+3",
+            "x", "4");
     }
 
     @Transactional

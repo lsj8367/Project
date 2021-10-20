@@ -57,7 +57,7 @@ public class CenterController {
                 returnJsp = "centerProduct";
                 break;
             default:
-                return returnJsp = "qnaAll";
+                return "qnaAll";
         }
 
         return returnJsp;

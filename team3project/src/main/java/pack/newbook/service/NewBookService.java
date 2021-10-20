@@ -15,7 +15,21 @@ import pack.newbook.repository.NewBookRepository;
 @RequiredArgsConstructor
 public class NewBookService {
 
+    private static final int LIMIT_NUMBER = 10;
+
     private final NewBookRepository newBookRepository;
+
+    public NewBook bestSeller() {
+        return newBookRepository.selectBest();
+    }
+
+    public List<NewBook> readTop3() {
+        return newBookRepository.selectReadTop3();
+    }
+
+    public List<NewBook> random10() {
+        return newBookRepository.selectRandom(LIMIT_NUMBER);
+    }
 
     public List<NewBook> selectGenre(String nbGenre) {
         return newBookRepository.selectGenre(nbGenre);
@@ -41,8 +55,6 @@ public class NewBookService {
         });
     }
 
-    @org.springframework.transaction.annotation.Transactional(readOnly = true)
-    @Transactional()
     public NewBook selectNewBook(Long nbNo) {
         return newBookRepository.findById(nbNo).orElseThrow(NullPointerException::new);
     }
@@ -53,6 +65,19 @@ public class NewBookService {
 
     public List<NewBook> getDataNewAllExist(String nbName) {
         return newBookRepository.getDataNewAllExist(nbName);
+    }
+
+    public void updateScount(int nb_no, int order_scount) {
+        Optional<NewBook> optionalNewBook = newBookRepository.findById((long) nb_no);
+
+        optionalNewBook.ifPresent(newBook -> {
+            newBook.setNbScount(newBook.getNbScount() - order_scount);
+            newBook.setNbStock(newBook.getNbStock() + order_scount);
+        });
+    }
+
+    public NewBook recommandNewBook() {
+        return newBookRepository.recommandNewBook();
     }
 
 }
