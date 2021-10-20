@@ -11,4 +11,5 @@ public interface OrderinfoRepository extends JpaRepository<Orderinfo, Long>, Ord
     Optional<Orderinfo> findByOrderlistNo(String orderlistNo);
     Optional<Orderinfo> findByOrderlistNoAndOrderPasswd(String orderlistNo, String orderPasswd);
     List<Orderinfo> findTop3ByOrderIdOrderByOrderDateDesc(String orderId);
+    List<Orderinfo> findAllByOrderIdOrderByOrderDateDesc(String orderId);
 }

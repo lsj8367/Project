@@ -26,7 +26,7 @@ public class MyorderController {
     @RequestMapping("myorder")
     public ModelAndView myorderlist(HttpSession session) {
         return new ModelAndView("mypage/myorder", Map.of(
-            "odbook", myorderImpl.orderlistall((String) session.getAttribute("id")),
+            "odbook", orderInfoService.findOrderListAll((String) session.getAttribute("id")),
             "randNewbook", myOrderService.recommandNewBook()
         ));
     }

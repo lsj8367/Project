@@ -15,10 +15,6 @@ public class MyorderImpl extends SqlSessionDaoSupport {
         setSqlSessionFactory(factory);
     }
 
-    public List<OrderInfoDto> orderlistall(String user_id) {
-        return getSqlSession().selectList("orderlistall", user_id);
-    }
-
     public List<OrderInfoDto> orderoldlistall(String user_id) {
         return getSqlSession().selectList("orderoldlistall", user_id);
     }

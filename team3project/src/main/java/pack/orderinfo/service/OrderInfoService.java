@@ -80,6 +80,11 @@ public class OrderInfoService {
         return orderinfoRepository.findTop3ByOrderIdOrderByOrderDateDesc(orderId);
     }
 
+    public List<Orderinfo> findOrderListAll(String orderId) {
+        return orderinfoRepository.findAllByOrderIdOrderByOrderDateDesc(orderId);
+    }
+
+
     private boolean isOrderStateEqualZero(Orderinfo orderinfo) {
         return orderinfo.getOrderState().equals("0");
     }

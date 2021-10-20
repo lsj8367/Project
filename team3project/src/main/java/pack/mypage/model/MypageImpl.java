@@ -17,16 +17,8 @@ public class MypageImpl extends SqlSessionDaoSupport {
         setSqlSessionFactory(factory);
     }
 
-    public List<OrderInfoDto> orderlist(String id) {
-        return getSqlSession().selectList("order3list", id);
-    }
-
     public List<OldBookDto> rentlist(String id) {
         return getSqlSession().selectList("rent3list", id);
-    }
-
-    public List<InqueryDto> inqlist(String id) {
-        return getSqlSession().selectList("inq3list", id);
     }
 
 }
