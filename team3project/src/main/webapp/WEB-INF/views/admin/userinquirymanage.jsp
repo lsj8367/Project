@@ -169,22 +169,22 @@ function MenuClick(sid,myimg){
 
 		<c:forEach var="i" items="${il }" varStatus="status">
 			<tr>
-				<td>${i.inq_no }</td>
+				<td>${i.inqNo }</td>
 				<td style="text-align: left;">
-					<c:forEach var="j" begin="1" end="${i.inq_nested }">
+					<c:forEach var="j" begin="1" end="${i.inqNested }">
 							&nbsp;&nbsp;&nbsp;&nbsp;
 					</c:forEach>
 					<i class="far fa-comment-dots"></i>
-					${i.inq_title }
+					${i.inqTitle }
 				</td>
-				<td>${i.inq_ddate }</td>
-				<td>${i.inq_id }</td>
+				<td>${i.inqDdate }</td>
+				<td>${i.inqId }</td>
 				<td onclick="MenuClick('${status.count}',this);"><span class="imgsp">▼</span></td>
 			</tr>
 			<tr id="${status.count }" class="content">
 				<td style="width: 10%">내용</td>
-				<td colspan='3' style="width :80%">${i.inq_context }</td>
-				<td style="width: 10%"><button type="button" class="btn btn-outline-secondary"  onclick="location.href='replyinquiry?no=${i.inq_no}'">댓글작성</button></td>
+				<td colspan='3' style="width :80%">${i.inqContext }</td>
+				<td style="width: 10%"><button type="button" class="btn btn-outline-secondary"  onclick="location.href='replyinquiry?no=${i.inqNo}'">댓글작성</button></td>
 			</tr>
 		</c:forEach>
 	</table>
