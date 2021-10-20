@@ -23,8 +23,8 @@ public class MyRentService {
 
     public OldBook getObPrice(long rent_no) {
         return oldBookRepository.findById(rent_no).orElseThrow(() -> {
-                throw new RuntimeException("해당하는 사람 없음");
-            });
+            throw new RuntimeException("해당하는 사람 없음");
+        });
     }
 
 }

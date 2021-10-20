@@ -15,25 +15,9 @@
   </select>
 
   <!-- MyPage 관련 내용 추가 / 마이페이지 -->
-  <!-- 최근 주문 내역 3 리스트 -->
-  <select id="order3list" resultType="orderdto" parameterType="String"> <!-- OrderInfoDto에 ob_name과 nb_name 추가하기 -->
-    select order_date, orderlist_no, order_state, count(*) count, sum(order_scount) sum, sum(order_sum) order_sum from orderinfo where order_id=#{order_id} order by order_date desc limit 3
-  </select>
-  <!-- 전체 주문 내역 리스트 -->
-  <select id="orderlistall" resultType="orderdto" parameterType="String"> <!-- OrderInfoDto에 ob_name과 nb_name 추가하기 -->
-    select order_date, orderlist_no, order_state, count(*) count, sum(order_scount) sum, sum(order_sum) order_sum from orderinfo where order_id=#{order_id} order by order_date desc
-  </select>
-  <!-- 중고책 최근 주문 내역 3 리스트-->
-  <select id="orderold3list" resultType="orderdto" parameterType="String"> <!-- OrderInfoDto에 ob_name과 nb_name 추가하기 -->
-    select order_date, orderlist_no, ob_name, order_state from orderinfo left outer join oldbook on order_bookno=ob_no where order_id=#{order_id} and order_booktype="2" order by order_date desc limit 3
-  </select>
   <!-- 중고책 전체 주문 내역 리스트-->
   <select id="orderoldlistall" resultType="orderdto" parameterType="String"> <!-- OrderInfoDto에 ob_name과 nb_name 추가하기 -->
     select order_no, order_date, orderlist_no, ob_name, order_state, order_booktype from orderinfo inner join oldbook on order_bookno=ob_no where order_id=#{order_id} and order_booktype="2" order by order_date desc
-  </select>
-  <!-- 신책 최근 주문 내역 3 리스트-->
-  <select id="ordernew3list" resultType="orderdto" parameterType="String"> <!-- OrderInfoDto에 ob_name과 nb_name 추가하기 -->
-    select order_date, orderlist_no, nb_name, order_state from orderinfo inner join newbook on order_bookno=nb_no where order_id=#{order_id} and order_booktype="1" order by order_date desc limit 3
   </select>
   <!-- 신책 전체 주문 내역 리스트-->
   <select id="ordernewlistall" resultType="orderdto" parameterType="String"> <!-- OrderInfoDto에 ob_name과 nb_name 추가하기 -->

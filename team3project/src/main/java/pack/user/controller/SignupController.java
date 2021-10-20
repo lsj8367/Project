@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pack.cardinfo.domain.CardInfo;
 import pack.user.domain.User;
-import pack.user.service.SignUpService;
+import pack.user.service.CardInfoService;
 import pack.user.service.UserService;
 
 @Controller
 @RequiredArgsConstructor
 public class SignupController {
 
-    private final SignUpService signUpService;
+    private final CardInfoService cardInfoService;
     private final UserService userService;
 
     @RequestMapping(value = "signup", method = RequestMethod.GET)
@@ -57,7 +57,7 @@ public class SignupController {
             .build());
 
 
-        signUpService.insertCard(CardInfo.builder()
+        cardInfoService.insertCard(CardInfo.builder()
             .cardOwnerid(id)
             .cardOwner(name)
             .cardComp(cardcomp)

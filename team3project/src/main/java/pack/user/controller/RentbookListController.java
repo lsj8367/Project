@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.user.service.RentBookListService;
+import pack.oldbook.service.OldBookService;
 import pack.user.service.UserService;
 
 @Controller
@@ -16,7 +16,7 @@ import pack.user.service.UserService;
 @Transactional
 public class RentbookListController {
 
-    private final RentBookListService rentBookListService;
+    private final OldBookService oldBookService;
     private final UserService userService;
 
     @RequestMapping("rentlist1")
@@ -28,24 +28,24 @@ public class RentbookListController {
 
     private ModelAndView getList(ModelAndView modelAndView, String ob_genre) {
         if (ob_genre.equals("rentmain")) {
-            modelAndView.addObject("oldbooklist", rentBookListService.randomFirstGrade());
-            modelAndView.addObject("oldbooklow", rentBookListService.oldLowLimit2());
+            modelAndView.addObject("oldbooklist", oldBookService.randomFirstGrade());
+            modelAndView.addObject("oldbooklow", oldBookService.oldLowLimit2());
             modelAndView.setViewName("rentmain");
             return modelAndView;
         }
         if (ob_genre.equals("high")) {
-            modelAndView.addObject("list", rentBookListService.oldHigh());
+            modelAndView.addObject("list", oldBookService.oldHigh());
             modelAndView.setViewName("alllist");
             return modelAndView;
         }
 
         if (ob_genre.equals("low")) {
-            modelAndView.addObject("list", rentBookListService.oldLow());
+            modelAndView.addObject("list", oldBookService.oldLow());
             modelAndView.setViewName("alllist");
 
         } else {
-            modelAndView.addObject("oldbooklist", rentBookListService.genreForFirstGrade(ob_genre));
-            modelAndView.addObject("oldbooklow", rentBookListService.genreForAnotherGrade(ob_genre));
+            modelAndView.addObject("oldbooklist", oldBookService.genreForFirstGrade(ob_genre));
+            modelAndView.addObject("oldbooklow", oldBookService.genreForAnotherGrade(ob_genre));
             modelAndView.setViewName("rentmain");
         }
         return modelAndView;
@@ -53,7 +53,7 @@ public class RentbookListController {
 
 
     private void getBest(ModelAndView modelAndView) {
-        modelAndView.addObject("best", rentBookListService.selectBestRentBook());
+        modelAndView.addObject("best", oldBookService.selectBestRentBook());
         modelAndView.addObject("readbest", userService.selectBestRead());
     }
 

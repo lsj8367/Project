@@ -1,5 +1,7 @@
 package pack.user.service;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,4 +25,16 @@ public class CardInfoService {
 
         return modelAndView;
     }
+
+    public List<CardInfo> getCardList(String cardOwnerId) {
+        return cardInfoRepository.cardList(cardOwnerId);
+    }
+
+    public void insertCard(CardInfo cardInfo) {
+        if (Objects.isNull(cardInfo)) {
+            throw new RuntimeException("카드 정보가 없습니다.");
+        }
+        cardInfoRepository.save(cardInfo);
+    }
+
 }

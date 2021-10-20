@@ -96,6 +96,11 @@ class OrderinfoRepositoryTest {
             .collect(Collectors.toList());
     }
 
+    @Test
+    void orderDateDesc3List() {
+        orderinfoRepository.findTop3ByOrderIdOrderByOrderDateDesc("9");
+    }
+
     private boolean isBookTypeEquals1(Orderinfo orderinfo) {
         return orderinfo.getOrderBooktype().equals("1");
     }
