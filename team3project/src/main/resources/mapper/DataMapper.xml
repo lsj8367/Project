@@ -14,19 +14,6 @@
     order by rn
   </select>
 
-  <delete id="rmorder" parameterType="String">
-    delete
-    from orderinfo
-    where orderlist_no = #{orderlist_no}
-  </delete>
-
-  <!-- 주문정보 삭제 -->
-  <delete id="delmyord" parameterType="int">
-    delete
-    from orderinfo
-    where order_no = #{order_no}
-  </delete>
-
   <!-- ====================== RENTINFO ======================== -->
   <select id="selectRentAll" resultType="rdto">
     select ob_name, ob_author, ob_comp, user_name, user_id, date (rent_sdate) rent_sdate, date (rent_edate) rent_edate

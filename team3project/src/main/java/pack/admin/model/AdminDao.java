@@ -28,16 +28,6 @@ public class AdminDao extends SqlSessionDaoSupport {
         return getSqlSession().selectList("selectdelayid");
     }
 
-    public boolean rmorder(String orderlist_no) {
-        try {
-            getSqlSession().delete("rmorder", orderlist_no);
-            return true;
-        } catch (Exception e) {
-            System.out.println("delOrder error : " + e);    //미납 주문 삭제
-            return false;
-        }
-    }
-
     public List<ReviewDto> selectreviewAll() {
         return getSqlSession().selectList("selectreviewAll");
     }

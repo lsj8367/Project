@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pack.mypage.model.MyorderImpl;
 import pack.newbook.service.NewBookService;
 import pack.orderinfo.model.OrderInfoDto;
 import pack.orderinfo.service.OrderInfoService;
@@ -20,7 +19,6 @@ public class MyorderController {
     private static final String NEW = "새책";
     private static final String RENT = "중고책";
 
-    private final MyorderImpl myorderImpl;
     private final OrderInfoService orderInfoService;
     private final NewBookService newBookService;
 
@@ -79,13 +77,9 @@ public class MyorderController {
     public ModelAndView deletemyorder(@RequestParam("no") int orderNo,
         @RequestParam("count") int order_scount, @RequestParam("bookno") int nbNo) {
         //주문 내역 삭제
-        boolean b = myorderImpl.deletemyorder(orderNo);
-        if (b) {
-            newBookService.updateScount(nbNo, order_scount);
-            return new ModelAndView("redirect:/myneworder");
-        }
-
-        return new ModelAndView("error");
+        orderInfoService.deleteMyOrder(orderNo);
+        newBookService.updateScount(nbNo, order_scount);
+        return new ModelAndView("redirect:/myneworder");
     }
 
 }
