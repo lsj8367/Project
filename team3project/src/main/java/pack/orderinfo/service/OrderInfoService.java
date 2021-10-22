@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import pack.orderinfo.domain.Orderinfo;
 import pack.orderinfo.model.OrderInfoDto;
@@ -98,6 +100,15 @@ public class OrderInfoService {
 
     public List<Orderinfo> findOldBookOrderListAll(String orderId) {
         return orderinfoRepository.findOldBookOrderListAll(orderId);
+    }
+
+    public List<Orderinfo> findNewBookOrderListAll(String orderId) {
+        return orderinfoRepository.findNewBookOrderListAll(orderId);
+    }
+
+    public Orderinfo findByPerson(String orderPerson) {
+        final List<Orderinfo> orderNo = orderinfoRepository.findByOrderPerson(orderPerson, Sort.by(Direction.DESC, "orderNo"));
+        return orderNo.get(0);
     }
 
 }
