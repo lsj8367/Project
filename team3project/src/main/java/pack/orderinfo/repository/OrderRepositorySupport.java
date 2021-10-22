@@ -9,4 +9,5 @@ public interface OrderRepositorySupport {
     List<Orderinfo> findAllByOrderStateGroupByOrderListNo();
     List<Orderinfo> notEqualOrderStateGroupByOrderListNo();
     List<Orderinfo> findOldBookOrderListAll(String orderId);
+    List<Orderinfo> findNewBookOrderListAll(String orderId);
 }

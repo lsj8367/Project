@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Sort;
 import pack.config.QuerydslConfig;
 import pack.newbook.domain.NewBook;
 import pack.newbook.repository.NewBookRepository;
@@ -96,6 +97,18 @@ class OrderinfoRepositoryTest {
             .collect(Collectors.toList());
     }
 
+    private boolean isBookTypeEquals1(Orderinfo orderinfo) {
+        return orderinfo.getOrderBooktype().equals("1");
+    }
+
+    private boolean isOrderStateZero(Orderinfo orderinfo) {
+        return orderinfo.getOrderState().equals("0");
+    }
+
+    private boolean isDifferenceGreaterThen2Days(Orderinfo orderinfo) {
+        return ChronoUnit.DAYS.between(orderinfo.getOrderDate(), LocalDateTime.now()) > 2;
+    }
+
     @Test
     void orderDateDesc3List() {
         orderinfoRepository.findTop3ByOrderIdOrderByOrderDateDesc("9");
@@ -107,16 +120,16 @@ class OrderinfoRepositoryTest {
         orderinfoRepository.findOldBookOrderListAll(orderId);
     }
 
-    private boolean isBookTypeEquals1(Orderinfo orderinfo) {
-        return orderinfo.getOrderBooktype().equals("1");
+    @Test
+    void 새책_주문정보_조회() {
+        String orderId = "2";
+        orderinfoRepository.findNewBookOrderListAll(orderId);
     }
 
-    private boolean isOrderStateZero(Orderinfo orderinfo) {
-        return orderinfo.getOrderState().equals("0");
-    }
-
-    private boolean isDifferenceGreaterThen2Days(Orderinfo orderinfo) {
-        return ChronoUnit.DAYS.between(orderinfo.getOrderDate(), LocalDateTime.now()) > 2;
+    @Test
+    void 접수_화면() {
+        String orderPerson = "test";
+        orderinfoRepository.findByOrderPerson(orderPerson, Sort.by(Sort.Direction.DESC, "orderNo"));
     }
 
 }

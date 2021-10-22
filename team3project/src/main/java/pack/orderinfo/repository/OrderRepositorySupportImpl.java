@@ -6,7 +6,6 @@ import static pack.orderinfo.domain.QOrderinfo.orderinfo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import pack.oldbook.domain.QOldBook;
 import pack.orderinfo.domain.Orderinfo;
 
 @RequiredArgsConstructor
@@ -56,5 +55,14 @@ public class OrderRepositorySupportImpl implements OrderRepositorySupport {
             .fetch();
     }
 
+    @Override
+    public List<Orderinfo> findNewBookOrderListAll(String orderId) {
+        return jpaQueryFactory.selectFrom(orderinfo)
+            .innerJoin(newBook).on(orderinfo.orderBookno.eq(newBook.id.intValue()))
+            .where(orderinfo.orderId.eq(orderId)
+                .and(orderinfo.orderBooktype.eq("1")))
+            .orderBy(orderinfo.orderDate.desc())
+            .fetch();
+    }
 
 }

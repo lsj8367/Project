@@ -14,20 +14,6 @@
     order by rn
   </select>
 
-  <!-- MyPage 관련 내용 추가 / 마이페이지 -->
-  <!-- 신책 전체 주문 내역 리스트-->
-  <select id="ordernewlistall" resultType="orderdto" parameterType="String"> <!-- OrderInfoDto에 ob_name과 nb_name 추가하기 -->
-    select order_no, order_date, orderlist_no, order_bookno, nb_name, order_state, order_booktype, order_scount from orderinfo inner join newbook on order_bookno=nb_no where order_id=#{order_id} and order_booktype="1" order by order_date desc
-  </select>
-
-  <!-- 접수 화면 -->
-  <select id="view" resultType="orderdto" parameterType="string">
-    select *
-    from orderinfo
-    where order_person = #{order_person}
-    order by order_no desc limit 1;
-  </select>
-
   <delete id="rmorder" parameterType="String">
     delete
     from orderinfo
@@ -42,7 +28,6 @@
   </delete>
 
   <!-- ====================== RENTINFO ======================== -->
-
   <select id="selectRentAll" resultType="rdto">
     select ob_name, ob_author, ob_comp, user_name, user_id, date (rent_sdate) rent_sdate, date (rent_edate) rent_edate
     from oldbook inner join rentinfo
