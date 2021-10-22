@@ -43,6 +43,18 @@ public class OrderInfoService {
             .collect(Collectors.toList());
     }
 
+    private boolean isOrderStateEqualZero(Orderinfo orderinfo) {
+        return orderinfo.getOrderState().equals("0");
+    }
+
+    private boolean isBookTypeEqualToOne(Orderinfo orderinfo) {
+        return orderinfo.getOrderBooktype().equals("1");
+    }
+
+    private boolean isDifferenceGreaterThen2Days(Orderinfo orderinfo) {
+        return ChronoUnit.DAYS.between(orderinfo.getOrderDate(), LocalDateTime.now()) > 2;
+    }
+
     public void updateOrderState(int id, String orderState) {
         final Orderinfo orderinfo = orderinfoRepository.findById((long) id).orElseThrow(() -> new RuntimeException("해당하는 주문 없음"));
         orderinfo.setOrderState(orderState);
@@ -84,17 +96,8 @@ public class OrderInfoService {
         return orderinfoRepository.findAllByOrderIdOrderByOrderDateDesc(orderId);
     }
 
-
-    private boolean isOrderStateEqualZero(Orderinfo orderinfo) {
-        return orderinfo.getOrderState().equals("0");
-    }
-
-    private boolean isBookTypeEqualToOne(Orderinfo orderinfo) {
-        return orderinfo.getOrderBooktype().equals("1");
-    }
-
-    private boolean isDifferenceGreaterThen2Days(Orderinfo orderinfo) {
-        return ChronoUnit.DAYS.between(orderinfo.getOrderDate(), LocalDateTime.now()) > 2;
+    public List<Orderinfo> findOldBookOrderListAll(String orderId) {
+        return orderinfoRepository.findOldBookOrderListAll(orderId);
     }
 
 }

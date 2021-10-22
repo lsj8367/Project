@@ -196,41 +196,41 @@ html, body {
 					
 						<c:forEach var="order" items="${odbook}">
 						<tr>
-							<td>${order.orderlist_no}</td>
-							<td>${order.order_date}</td>
+							<td>${order.orderlistNo}</td>
+							<td>${order.orderDate}</td>
 							<c:choose>
-								<c:when test="${order.order_booktype eq '1' }">
-									<td>${order.nb_name}</td>
+								<c:when test="${order.orderBooktype eq '1' }">
+									<td>${order.nbName}</td>
 								</c:when>
-								<c:when test="${order.order_booktype eq '2' }">
-									<td>${order.ob_name}</td>
+								<c:when test="${order.orderBooktype eq '2' }">
+									<td>${order.obName}</td>
 								</c:when>
 							</c:choose>
 							<td>
 							<c:choose>
-							<c:when test="${order.order_state eq '0'}">
+							<c:when test="${order.orderState eq '0'}">
 								주문완료
 							</c:when>
-							<c:when test="${order.order_state eq '1'}">
+							<c:when test="${order.orderState eq '1'}">
 								결제완료
 							</c:when>
-							<c:when test="${order.order_state eq '2'}">
+							<c:when test="${order.orderState eq '2'}">
 								상품준비중
 							</c:when>
-							<c:when test="${order.order_state eq '3'}">
+							<c:when test="${order.orderState eq '3'}">
 								배송준비중
 							</c:when>
-							<c:when test="${order.order_state eq '4'}">
+							<c:when test="${order.orderState eq '4'}">
 								배송중
 							</c:when>
-							<c:when test="${order.order_state eq '5'}">
+							<c:when test="${order.orderState eq '5'}">
 								배송완료
 							</c:when>
 						</c:choose>
 							</td>
 							<c:if test="${booktype eq '새책' }">
-								<c:if test="${order.order_state eq '0' or order.order_state eq '1' or order.order_state eq '2'}">
-									<td><a href="deletemyorder?no=${order.order_no }&count=${order.order_scount }&bookno=${order.order_bookno }">주문취소</a></td>
+								<c:if test="${order.orderState eq '0' or order.orderState eq '1' or order.orderState eq '2'}">
+									<td><a href="deletemyorder?no=${order.orderNo }&count=${order.orderScount }&bookno=${order.orderBookno }">주문취소</a></td>
 								</c:if>
 							</c:if>
 						</tr>

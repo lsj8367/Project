@@ -101,6 +101,12 @@ class OrderinfoRepositoryTest {
         orderinfoRepository.findTop3ByOrderIdOrderByOrderDateDesc("9");
     }
 
+    @Test
+    void findOrderListAll() {
+        String orderId = "1";
+        orderinfoRepository.findOldBookOrderListAll(orderId);
+    }
+
     private boolean isBookTypeEquals1(Orderinfo orderinfo) {
         return orderinfo.getOrderBooktype().equals("1");
     }
