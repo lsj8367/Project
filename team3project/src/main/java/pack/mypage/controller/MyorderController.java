@@ -35,7 +35,7 @@ public class MyorderController {
     @RequestMapping("myoldorder")
     public ModelAndView myorderoldlist(HttpSession session) {
         return new ModelAndView("mypage/mytypeorder", Map.of(
-            "odbook", myorderImpl.orderoldlistall((String) session.getAttribute("id")),
+            "odbook", orderInfoService.findOldBookOrderListAll((String) session.getAttribute("id")),
             "booktype", RENT,
             "randNewbook", newBookService.recommandNewBook()
         ));

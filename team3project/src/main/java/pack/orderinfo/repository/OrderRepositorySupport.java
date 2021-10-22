@@ -8,4 +8,5 @@ public interface OrderRepositorySupport {
     List<Orderinfo> selectOldBookOrderAll();
     List<Orderinfo> findAllByOrderStateGroupByOrderListNo();
     List<Orderinfo> notEqualOrderStateGroupByOrderListNo();
+    List<Orderinfo> findOldBookOrderListAll(String orderId);
 }
