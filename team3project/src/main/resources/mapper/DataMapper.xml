@@ -4,16 +4,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd"><!-- xml에 제약 거는 것 -->
 
 <mapper namespace="dev">
-  <!-- ===================== ORDERINFO ======================= -->
-  <select id="buyking" resultType="orderdto">
-    select user_id, order_person, user_tel, user_mail, month (order_date) omonth, sum, count, rn
-    from
-        (select *, sum (order_scount) sum, count (*) count, rank() over(partition by month (order_date) order by sum desc) rn from orderinfo where month (order_date) = month (now()) group by order_id) t left outer join user
-    on order_id = user_id
-    where t.rn <![CDATA[<=]]> 3
-    order by rn
-  </select>
-
   <!-- ====================== RENTINFO ======================== -->
   <select id="selectRentAll" resultType="rdto">
     select ob_name, ob_author, ob_comp, user_name, user_id, date (rent_sdate) rent_sdate, date (rent_edate) rent_edate

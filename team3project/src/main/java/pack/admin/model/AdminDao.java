@@ -5,7 +5,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 import pack.newbook.model.NewBookDto;
-import pack.orderinfo.model.OrderInfoDto;
 import pack.rentinfo.model.RentInfoDto;
 import pack.review.model.ReviewDto;
 
@@ -70,10 +69,6 @@ public class AdminDao extends SqlSessionDaoSupport {
 
     public String currentMonth() {
         return getSqlSession().selectOne("currentmonth");
-    }
-
-    public List<OrderInfoDto> buyKing() {
-        return getSqlSession().selectList("buyking");
     }
 
     public void adminInsert(AdminDto adminDto) {

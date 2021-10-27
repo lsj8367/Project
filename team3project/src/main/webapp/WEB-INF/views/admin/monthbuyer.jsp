@@ -145,38 +145,16 @@ body {
  		</td>
  		<td>
  		<c:choose>
- 			<c:when test="${empty bu.user_id}">
+ 			<c:when test="${empty bu.orderId}">
  				비회원
  			</c:when>
  			<c:otherwise>
- 				${bu.user_id }
- 				<input type="hidden" value="${bu.user_id }" name="user_id">
+ 				${bu.orderId }
+ 				<input type="hidden" value="${bu.orderId }" name="user_id">
  			</c:otherwise>
  		</c:choose>
  		</td>
- 		<td>${bu.order_person }</td>
- 		<td>
- 		<c:choose>
- 			<c:when test="${empty bu.user_tel}">
- 				연락처 없음
- 			</c:when>
- 			<c:otherwise>
- 				${bu.user_tel }
- 			</c:otherwise>
- 		</c:choose>
- 		</td>
- 		<td>
- 		<c:choose>
- 			<c:when test="${empty bu.user_mail}">
- 				이메일 없음
- 			</c:when>
- 			<c:otherwise>
- 				${bu.user_mail }
- 			</c:otherwise>
- 		</c:choose>
- 		</td>
- 		<td>${bu.count }</td>	
-   		<td>${bu.sum }</td>  
+ 		<td>${bu.orderPerson }</td>
  	</tr>
  	</c:forEach>
  	<tr>
