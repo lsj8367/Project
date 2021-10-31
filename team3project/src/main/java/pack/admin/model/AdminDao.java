@@ -51,10 +51,6 @@ public class AdminDao extends SqlSessionDaoSupport {
         return getSqlSession().selectList("mbestseller", sql);
     }
 
-    public List<RentInfoDto> mbRentMonth() {
-        return getSqlSession().selectList("mbrentmonth");
-    }
-
     public List<RentInfoDto> mbRentCmonth() {
         return getSqlSession().selectList("mbrentcmonth");
     }
