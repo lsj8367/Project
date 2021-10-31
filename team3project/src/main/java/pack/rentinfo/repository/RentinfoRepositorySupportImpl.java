@@ -22,4 +22,10 @@ public class RentinfoRepositorySupportImpl implements RentinfoRepositorySupport 
         return null;
     }
 
+    @Override
+    public List<Rentinfo> rentMonth() {
+        return jpaQueryFactory.selectFrom(rentinfo)
+            .groupBy(rentinfo.rentSdate).fetch();
+    }
+
 }

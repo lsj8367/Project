@@ -5,4 +5,5 @@ import pack.rentinfo.domain.Rentinfo;
 
 public interface RentinfoRepositorySupport {
     List<Rentinfo> findAllByRentBook();
+    List<Rentinfo> rentMonth();
 }
