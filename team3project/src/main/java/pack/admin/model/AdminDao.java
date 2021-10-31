@@ -5,7 +5,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 import pack.newbook.model.NewBookDto;
-import pack.orderinfo.model.OrderInfoDto;
 import pack.rentinfo.model.RentInfoDto;
 import pack.review.model.ReviewDto;
 
@@ -26,16 +25,6 @@ public class AdminDao extends SqlSessionDaoSupport {
 
     public List<String> selectdelayid() {
         return getSqlSession().selectList("selectdelayid");
-    }
-
-    public boolean rmorder(String orderlist_no) {
-        try {
-            getSqlSession().delete("rmorder", orderlist_no);
-            return true;
-        } catch (Exception e) {
-            System.out.println("delOrder error : " + e);    //미납 주문 삭제
-            return false;
-        }
     }
 
     public List<ReviewDto> selectreviewAll() {
@@ -62,10 +51,6 @@ public class AdminDao extends SqlSessionDaoSupport {
         return getSqlSession().selectList("mbestseller", sql);
     }
 
-    public List<RentInfoDto> mbRentMonth() {
-        return getSqlSession().selectList("mbrentmonth");
-    }
-
     public List<RentInfoDto> mbRentCmonth() {
         return getSqlSession().selectList("mbrentcmonth");
     }
@@ -80,10 +65,6 @@ public class AdminDao extends SqlSessionDaoSupport {
 
     public String currentMonth() {
         return getSqlSession().selectOne("currentmonth");
-    }
-
-    public List<OrderInfoDto> buyKing() {
-        return getSqlSession().selectList("buyking");
     }
 
     public void adminInsert(AdminDto adminDto) {

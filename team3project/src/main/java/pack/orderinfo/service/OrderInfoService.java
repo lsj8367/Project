@@ -111,4 +111,12 @@ public class OrderInfoService {
         return orderNo.get(0);
     }
 
+    public void deleteOrderListNo(String orderListNo) {
+        orderinfoRepository.deleteByOrderlistNo(orderListNo);
+    }
+
+    public void deleteMyOrder(int orderNo) {
+        orderinfoRepository.deleteById(Long.valueOf(orderNo));
+    }
+
 }

@@ -14,6 +14,7 @@ import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
 import pack.admin.domain.Admin;
 import pack.admin.model.AdminDto;
+import pack.orderinfo.service.OrderInfoService;
 import pack.validation.AdminLoginValidation;
 import pack.validation.LoginValidation;
 
@@ -23,6 +24,7 @@ public class AdminController {
 
     private final AdminDao adminDao;
     private final AdminService adminService;
+    private final OrderInfoService orderInfoService;
     private final LoginValidation loginValidation = new AdminLoginValidation();
 
     @GetMapping("adminlogin")
@@ -100,7 +102,6 @@ public class AdminController {
         modelAndView.addObject("rtm", adminDao.mbRentCmonth());
         modelAndView.addObject("om", adminDao.mbSellerCmonth());
         modelAndView.addObject("ru", adminDao.rentKing());
-        modelAndView.addObject("bu", adminDao.buyKing());
         return modelAndView;
     }
 

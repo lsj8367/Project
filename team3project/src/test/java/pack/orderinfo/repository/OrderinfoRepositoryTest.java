@@ -36,7 +36,7 @@ class OrderinfoRepositoryTest {
 
     @Test
     void selectNewBookOrderAll() {
-        NewBook newBook = newBookRepository.saveAndFlush(NewBook.builder()
+        newBookRepository.saveAndFlush(NewBook.builder()
             .nbName("test")
                 .nbAuthor("author")
                 .nbBdate(LocalDateTime.now())
@@ -44,7 +44,7 @@ class OrderinfoRepositoryTest {
                 .nbComp("comp")
             .build());
 
-        Orderinfo orderinfo = orderinfoRepository.saveAndFlush(Orderinfo.builder()
+        orderinfoRepository.saveAndFlush(Orderinfo.builder()
                 .orderPerson("test")
                 .orderBookno(1)
             .orderBooktype("1")
@@ -130,6 +130,33 @@ class OrderinfoRepositoryTest {
     void 접수_화면() {
         String orderPerson = "test";
         orderinfoRepository.findByOrderPerson(orderPerson, Sort.by(Sort.Direction.DESC, "orderNo"));
+    }
+
+    @Test
+    void deleteOrderListNo() {
+        Orderinfo orderinfo = orderinfoRepository.saveAndFlush(Orderinfo.builder()
+                .orderlistNo("1")
+            .orderPerson("test")
+            .orderBookno(1)
+            .orderBooktype("1")
+            .build());
+        orderinfoRepository.saveAndFlush(orderinfo);
+        Long deleteNum = orderinfoRepository.deleteByOrderlistNo("1");
+        orderinfoRepository.flush();
+        assertThat(deleteNum).isEqualTo(1);
+    }
+
+    @Test
+    void deleteOrderList() {
+        Orderinfo orderinfo = orderinfoRepository.saveAndFlush(Orderinfo.builder()
+            .orderlistNo("1")
+            .orderPerson("test")
+            .orderBookno(1)
+            .orderBooktype("1")
+            .build());
+        orderinfoRepository.saveAndFlush(orderinfo);
+        orderinfoRepository.deleteById(1L);
+        orderinfoRepository.flush();
     }
 
 }
