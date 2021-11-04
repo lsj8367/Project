@@ -1,133 +1,133 @@
 CREATE TABLE if not exists newbook (
-   nb_no int(10) PRIMARY KEY AUTO_INCREMENT,
-   nb_name VARCHAR(30) NOT NULL,
-   nb_author VARCHAR(50) DEFAULT '저자 미상',
-   nb_inter VARCHAR(20),
-   nb_genre VARCHAR(20) NOT NULL,
-   nb_comp VARCHAR(20) DEFAULT '출판사 불명',
-   nb_bdate DATEtime,
-   nb_stock INT(10) DEFAULT 0,
-   nb_price INT(10) DEFAULT 0,
-   nb_scount INT(10) DEFAULT 0,
-   nb_readcnt INT(10) DEFAULT 0,
-   nb_plot text NOT NULL,
-   nb_image VARCHAR(100) DEFAULT 'images/notready.jpg'
+                                       nb_no int(10) PRIMARY KEY AUTO_INCREMENT,
+                                       nb_name VARCHAR(30) NOT NULL,
+                                       nb_author VARCHAR(50) DEFAULT '저자 미상',
+                                       nb_inter VARCHAR(20),
+                                       nb_genre VARCHAR(20) NOT NULL,
+                                       nb_comp VARCHAR(20) DEFAULT '출판사 불명',
+                                       nb_bdate DATEtime,
+                                       nb_stock INT(10) DEFAULT 0,
+                                       nb_price INT(10) DEFAULT 0,
+                                       nb_scount INT(10) DEFAULT 0,
+                                       nb_readcnt INT(10) DEFAULT 0,
+                                       nb_plot text NOT NULL,
+                                       nb_image VARCHAR(100) DEFAULT 'images/notready.jpg'
 )CHARSET=UTF8;
 
 create table if not exists oldbook(
-ob_no bigint primary key auto_increment,
-ob_name varchar(30) not null, 
-ob_author varchar(50) not NULL,
-ob_inter VARCHAR(50), 
-ob_genre varchar(20) not null, 
-ob_comp varchar(20) not null, 
-ob_bdate DATETIME,
-ob_state varchar(20) default 0, 
-ob_price int(10) not null, 
-ob_scount int(10) default 0, 
-ob_readcnt int(10) default 0, 
-ob_donor varchar(20) DEFAULT "익명",
-ob_comment varchar(30) default "추천합니다.", 
-ob_image varchar(100) DEFAULT 'images/notready.jpg',
-ob_ddate DATETIME, 
-ob_userid VARCHAR(20) 
+                                      ob_no bigint primary key auto_increment,
+                                      ob_name varchar(30) not null,
+                                      ob_author varchar(50) not NULL,
+                                      ob_inter VARCHAR(50),
+                                      ob_genre varchar(20) not null,
+                                      ob_comp varchar(20) not null,
+                                      ob_bdate DATETIME,
+                                      ob_state varchar(20) default 0,
+                                      ob_price int(10) not null,
+                                      ob_scount int(10) default 0,
+                                      ob_readcnt int(10) default 0,
+                                      ob_donor varchar(20) DEFAULT "익명",
+                                      ob_comment varchar(30) default "추천합니다.",
+                                      ob_image varchar(100) DEFAULT 'images/notready.jpg',
+                                      ob_ddate DATETIME,
+                                      ob_userid VARCHAR(20)
 )charset=UTF8;
 
 CREATE TABLE if not exists USER(
-user_id VARCHAR(20) PRIMARY KEY NOT NULL, 
-user_name VARCHAR(20) NOT NULL,
-user_passwd VARCHAR(30) NOT NULL,
-user_tel VARCHAR(20) NOT NULL, 
-user_addr VARCHAR(100) NOT NULL,
-user_zip VARCHAR(10) NOT NULL,
-user_mail VARCHAR(30) NOT NULL,
-user_rentcnt INT(10) DEFAULT 0,
-user_point INT(20) DEFAULT 2000,
-user_birth VARCHAR(20) NOT NULL,
-user_penalty INT(3) DEFAULT 0,
-user_dcount INT(5) DEFAULT 0
+                                   user_id VARCHAR(20) PRIMARY KEY NOT NULL,
+                                   user_name VARCHAR(20) NOT NULL,
+                                   user_passwd VARCHAR(30) NOT NULL,
+                                   user_tel VARCHAR(20) NOT NULL,
+                                   user_addr VARCHAR(100) NOT NULL,
+                                   user_zip VARCHAR(10) NOT NULL,
+                                   user_mail VARCHAR(30) NOT NULL,
+                                   user_rentcnt INT(10) DEFAULT 0,
+                                   user_point INT(20) DEFAULT 2000,
+                                   user_birth VARCHAR(20) NOT NULL,
+                                   user_penalty INT(3) DEFAULT 0,
+                                   user_dcount INT(5) DEFAULT 0
 )CHARSET = UTF8;
 
 
 create table if not exists admin(
-admin_no  int(10) primary KEY auto_increment, 
-admin_id varchar(20) not NULL, 
-admin_passwd varchar(20) not NULL, 
-admin_name varchar(20) not NULL, 
-admin_jik varchar(20),
-admin_acc INT(2) DEFAULT 0
+                                    admin_no  int(10) primary KEY auto_increment,
+                                    admin_id varchar(20) not NULL,
+                                    admin_passwd varchar(20) not NULL,
+                                    admin_name varchar(20) not NULL,
+                                    admin_jik varchar(20),
+                                    admin_acc INT(2) DEFAULT 0
 )charset=UTF8;
 
 create table if not exists review(
-review_no int(10) auto_increment primary KEY, 
-review_id varchar(20), 
-review_bookno int(10), 
-review_context TEXT, 
-review_date DATETIME,
-review_rate INT(3),
-review_gonggam INT(5), 
-foreign key(review_id) references user(user_id), 
-foreign key(review_bookno) references newbook(nb_no))CHARSET=UTF8;
+                                     review_no int(10) auto_increment primary KEY,
+                                     review_id varchar(20),
+                                     review_bookno int(10),
+                                     review_context TEXT,
+                                     review_date DATETIME,
+                                     review_rate INT(3),
+                                     review_gonggam INT(5),
+                                     foreign key(review_id) references USER(user_id),
+                                     foreign key(review_bookno) references newbook(nb_no))CHARSET=UTF8;
 
 create table if not exists cardinfo(
-card_ownerid varchar(20), 
-card_owner varchar(20), 
-card_comp varchar(20), 
-card_no varchar(20), 
-card_passwd varchar(10), 
-foreign key(card_ownerid) references user(user_id))CHARSET=UTF8;
+                                       card_ownerid varchar(20),
+                                       card_owner varchar(20),
+                                       card_comp varchar(20),
+                                       card_no varchar(20),
+                                       card_passwd varchar(10),
+                                       foreign key(card_ownerid) references USER(user_id))CHARSET=UTF8;
 
 
 create table if not exists rentinfo(
-rent_no int(10),
-rent_id varchar(20) not NULL, 
-rent_sdate datetime not NULL, 
-rent_edate datetime not NULL,
-rent_ecount INT(2) DEFAULT 0 
+                                       rent_no int(10),
+                                       rent_id varchar(20) not NULL,
+                                       rent_sdate datetime not NULL,
+                                       rent_edate datetime not NULL,
+                                       rent_ecount INT(2) DEFAULT 0
 )charset=UTF8;
 
 CREATE TABLE if not exists INQUERY(
-inq_no int(10) auto_increment primary key, 
-inq_title VARCHAR(50) not null, 
-inq_context text,
-inq_ddate DATETIME,
-inq_id varchar(20), 
-inq_gnum INT(10),
-inq_onum INT(10),
-inq_nested INT(10),
-foreign key(inq_id) references user(user_id))charset=UTF8;
+                                      inq_no int(10) auto_increment primary key,
+                                      inq_title VARCHAR(50) not null,
+                                      inq_context text,
+                                      inq_ddate DATETIME,
+                                      inq_id varchar(20),
+                                      inq_gnum INT(10),
+                                      inq_onum INT(10),
+                                      inq_nested INT(10),
+                                      foreign key(inq_id) references USER(user_id))charset=UTF8;
 
 CREATE TABLE if not exists FAQBOARD (
-FAQ_NO INT(10) PRIMARY KEY AUTO_INCREMENT, 
-FAQ_TITLE VARCHAR(50) NOT NULL,
-FAQ_CONTENT TEXT NOT NULL,
-FAQ_DATE DATETIME NOT NULL, 
-FAQ_TYPE VARCHAR(10) NOT NULL)CHARSET=UTF8;
+                                        FAQ_NO INT(10) PRIMARY KEY AUTO_INCREMENT,
+                                        FAQ_TITLE VARCHAR(50) NOT NULL,
+                                        FAQ_CONTENT TEXT NOT NULL,
+                                        FAQ_DATE DATETIME NOT NULL,
+                                        FAQ_TYPE VARCHAR(10) NOT NULL)CHARSET=UTF8;
 
 CREATE TABLE if not exists orderinfo (
-order_no int(10) PRIMARY KEY auto_increment,
-orderlist_no varchar(20) NOT NULL, 
-order_person varchar(20) NOT NULL, 
-order_id varchar(20) null,
-order_bookno int(10) not null,
-order_booktype varchar(5) not null,  
-order_date datetime not NULL, 
-order_passwd varchar(20) null, 
-order_scount int(10) not null,
-order_paytype varchar(5) not null,
-order_state varchar(10) not NULL,
-order_sum int(10) not null,
-order_address VARCHAR(100) not null
+                                         order_no int(10) PRIMARY KEY auto_increment,
+                                         orderlist_no varchar(20) NOT NULL,
+                                         order_person varchar(20) NOT NULL,
+                                         order_id varchar(20) null,
+                                         order_bookno int(10) not null,
+                                         order_booktype varchar(5) not null,
+                                         order_date datetime not NULL,
+                                         order_passwd varchar(20) null,
+                                         order_scount int(10) not null,
+                                         order_paytype varchar(5) not null,
+                                         order_state varchar(10) not NULL,
+                                         order_sum int(10) not null,
+                                         order_address VARCHAR(100) not null
 )charset=UTF8;
 
 
 CREATE TABLE if not exists ob_file
-(   idx INT AUTO_INCREMENT PRIMARY key,                       
-    ob_no int NOT NULL,                    
-    original_file_name VARCHAR(260) NOT NULL,  
-    stored_file_name VARCHAR(36) NOT NULL, 
-    file_size int,                     
-    ob_rdate DATE DEFAULT SYSDATE() NOT NULL, 
+(   idx INT AUTO_INCREMENT PRIMARY key,
+    ob_no int NOT NULL,
+    original_file_name VARCHAR(260) NOT NULL,
+    stored_file_name VARCHAR(36) NOT NULL,
+    file_size int,
+    ob_rdate DATE DEFAULT SYSDATE() NOT NULL,
     del_gb VARCHAR(1) DEFAULT 'N' NOT NULL
 )CHARSET=utf8;
 
@@ -408,23 +408,23 @@ insert into rentinfo VALUES(11, '11', '2020-08-22', '2020-09-12',1);
 
 # ----------faqboard
 # (주문)
-insert into faqboard values(DEFAULT,'주문시 기재한 입금자명과 다르게 송금했는데 입금확인 안됩니까?', '주문시 기재하신 입금자명과 실제 입금자명이 다르면 입금확인이 불가능하거나 지연됩니다. 사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 통해 신고해주시면 확인해드립니다. 신고 전 실제 입금 확인내용을 확인하셔서 표시된 정보 그대로 신고해주세요.', '2020-09-02','주문');
-insert into faqboard values(DEFAULT,'주문 후 품절(일시품절/절판) 등으로 못 받을 수도 있습니까?', '주문 후 일부상품은 출판사, 거래처의 실시간 재고변동에 의해 소진될 경우 품절,절판,일시품절 등 서비스 불가능한 경우가 발생할 수 있습니다. 단, 일시품절은 상품페이지 일정에 맞춰 재출간/출시된 이후 유통되면 확보 후 추가로 배송해드립니다. 품절,절판의 경우에는 유통이 불가능해 부득이 취소 및 환불이 진행됩니다.', '2020-09-19','주문');
-insert into faqboard values(DEFAULT,'비회원 주문을 이용하는데, 정식 회원으로 전환할 수 있습니까?', '비회원 주문 이메일주소/비밀번호를 정식 회원 계정으로 전환하시는 것은 불가능하며, 우선 비회원 접속해지 후 정식 회원 가입절차를 진행하셔야 합니다. 단 비회원 접속해지 후 비회원 주문내역은 삭제되어 복원이 불가합니다.', '2020-10-01','주문');
-insert into faqboard values(DEFAULT,'신용카드 결제만 되고 주문이 확인되지 않아요.', '결제 시스템 연동중 일시장애로 주문이 완료되지 못한 경우입니다. 이 경우 1-2일 내 자동으로 승인취소가 진행됩니다. 번거로우시겠지만, 주문 및 결제를 재진행 해주시기 바랍니다.', '2020-10-05','주문');
-insert into faqboard values(DEFAULT,'주문하는 방법을 알고 싶습니다.', '인터넷 주문만 가능하며 전화나 팩스 주문 등은 불가합니다. 회원/비회원 주문 모두 가능하지만, 할인 등 구매 혜택을 이용하시려면 반드시 회원가입을 해 주셔야 합니다. 가급적 회원가입 후 구매 혜택을 이용하시길 권해드립니다.', '2020-10-13','주문');
+insert into FAQBOARD values(DEFAULT,'주문시 기재한 입금자명과 다르게 송금했는데 입금확인 안됩니까?', '주문시 기재하신 입금자명과 실제 입금자명이 다르면 입금확인이 불가능하거나 지연됩니다. 사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 통해 신고해주시면 확인해드립니다. 신고 전 실제 입금 확인내용을 확인하셔서 표시된 정보 그대로 신고해주세요.', '2020-09-02','주문');
+insert into FAQBOARD values(DEFAULT,'주문 후 품절(일시품절/절판) 등으로 못 받을 수도 있습니까?', '주문 후 일부상품은 출판사, 거래처의 실시간 재고변동에 의해 소진될 경우 품절,절판,일시품절 등 서비스 불가능한 경우가 발생할 수 있습니다. 단, 일시품절은 상품페이지 일정에 맞춰 재출간/출시된 이후 유통되면 확보 후 추가로 배송해드립니다. 품절,절판의 경우에는 유통이 불가능해 부득이 취소 및 환불이 진행됩니다.', '2020-09-19','주문');
+insert into FAQBOARD values(DEFAULT,'비회원 주문을 이용하는데, 정식 회원으로 전환할 수 있습니까?', '비회원 주문 이메일주소/비밀번호를 정식 회원 계정으로 전환하시는 것은 불가능하며, 우선 비회원 접속해지 후 정식 회원 가입절차를 진행하셔야 합니다. 단 비회원 접속해지 후 비회원 주문내역은 삭제되어 복원이 불가합니다.', '2020-10-01','주문');
+insert into FAQBOARD values(DEFAULT,'신용카드 결제만 되고 주문이 확인되지 않아요.', '결제 시스템 연동중 일시장애로 주문이 완료되지 못한 경우입니다. 이 경우 1-2일 내 자동으로 승인취소가 진행됩니다. 번거로우시겠지만, 주문 및 결제를 재진행 해주시기 바랍니다.', '2020-10-05','주문');
+insert into FAQBOARD values(DEFAULT,'주문하는 방법을 알고 싶습니다.', '인터넷 주문만 가능하며 전화나 팩스 주문 등은 불가합니다. 회원/비회원 주문 모두 가능하지만, 할인 등 구매 혜택을 이용하시려면 반드시 회원가입을 해 주셔야 합니다. 가급적 회원가입 후 구매 혜택을 이용하시길 권해드립니다.', '2020-10-13','주문');
 # (배송)
-insert into faqboard values(DEFAULT,'주문 후 입금 전(입금확인 전)인데, 언제쯤 배송됩니까?','입금 전이면 입금확인 완료(입금 후 약 30분-1시간 내 확인)후 해당 시점의 재고 유무, 각 배송사 집하마감 시간 경과 여부 등을 기준으로 주문처리 일정이 재계산되므로, 입금대기 상태의 일정과 달라질 수 있습니다. 입금완료 후 주문 일정을 반드시 참고해주시기 바랍니다.', '2020-09-22','배송');
-insert into faqboard values(DEFAULT,'배송료는 얼마죠?', '유료배송 상품이면서 무료배송 기준에 미달되면 주문당 2천원의 배송비가 부과됩니다. 단, 국내배송에 한하며, 해외배송은 별도의 배송비가 부과됩니다.', '2020-09-12','배송');
-insert into faqboard values(DEFAULT,'수령예상일이 지났는데 아직 못 받았습니다.', '출고완료 후 통상 1-2일 내에는 배송이 됩니다만, 배송 물량이 급증하거나 해당 지역의 배송 상황에 다른 문제가 있다면 예정일 보다 지연될 수 있습니다. 해당 택배 영업소에 의뢰하시면 자세한 안내와 배송 예상시점 등을 확인하실 수 있습니다. 영업소와의 연락이 어려운 경우에는 사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 통해 신고해 주시면 신속 배송 되도록 조치해드립니다.', '2020-09-27','배송');
-insert into faqboard values(DEFAULT,'회사로 배송신청을 하면 퇴근 전 당일 배송이 되나요?', '가급적 예상시간대 보다 늦게 배송되더라도 수령 가능한 댁으로 주문하시기 바랍니다. 특히, 토요일은 반드시 집으로 주소지정 해 주셔야 당일 수령이 가능합니다. 회사의 경우 퇴근시간 전 배송을 최대한 서두르고 있으나 당일 배송량이나 코스별 교통상황에 따른 지연배송 우려가 늘 존재할 수 있습니다.', '2020-10-03','배송');
-insert into faqboard values(DEFAULT,'군부대도 배송이 됩니까?', '배송주소지가 군부대, 교도소 등 민간인 출입 제한 지역인 경우에도 배송이 가능합니다만, 반드시 < 우체국택배 >로 주문해주셔야 합니다. 우체국택배로 선택하시면 부대 혹은 행정시설내 우편물 관리부서 통해 수취인께 전달이 됩니다. 수취인명,계급(혹은 보호실 등) 등 수령인정보를 상세히 기재해주십시오', '2020-10-09','배송');
+insert into FAQBOARD values(DEFAULT,'주문 후 입금 전(입금확인 전)인데, 언제쯤 배송됩니까?','입금 전이면 입금확인 완료(입금 후 약 30분-1시간 내 확인)후 해당 시점의 재고 유무, 각 배송사 집하마감 시간 경과 여부 등을 기준으로 주문처리 일정이 재계산되므로, 입금대기 상태의 일정과 달라질 수 있습니다. 입금완료 후 주문 일정을 반드시 참고해주시기 바랍니다.', '2020-09-22','배송');
+insert into FAQBOARD values(DEFAULT,'배송료는 얼마죠?', '유료배송 상품이면서 무료배송 기준에 미달되면 주문당 2천원의 배송비가 부과됩니다. 단, 국내배송에 한하며, 해외배송은 별도의 배송비가 부과됩니다.', '2020-09-12','배송');
+insert into FAQBOARD values(DEFAULT,'수령예상일이 지났는데 아직 못 받았습니다.', '출고완료 후 통상 1-2일 내에는 배송이 됩니다만, 배송 물량이 급증하거나 해당 지역의 배송 상황에 다른 문제가 있다면 예정일 보다 지연될 수 있습니다. 해당 택배 영업소에 의뢰하시면 자세한 안내와 배송 예상시점 등을 확인하실 수 있습니다. 영업소와의 연락이 어려운 경우에는 사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 통해 신고해 주시면 신속 배송 되도록 조치해드립니다.', '2020-09-27','배송');
+insert into FAQBOARD values(DEFAULT,'회사로 배송신청을 하면 퇴근 전 당일 배송이 되나요?', '가급적 예상시간대 보다 늦게 배송되더라도 수령 가능한 댁으로 주문하시기 바랍니다. 특히, 토요일은 반드시 집으로 주소지정 해 주셔야 당일 수령이 가능합니다. 회사의 경우 퇴근시간 전 배송을 최대한 서두르고 있으나 당일 배송량이나 코스별 교통상황에 따른 지연배송 우려가 늘 존재할 수 있습니다.', '2020-10-03','배송');
+insert into FAQBOARD values(DEFAULT,'군부대도 배송이 됩니까?', '배송주소지가 군부대, 교도소 등 민간인 출입 제한 지역인 경우에도 배송이 가능합니다만, 반드시 < 우체국택배 >로 주문해주셔야 합니다. 우체국택배로 선택하시면 부대 혹은 행정시설내 우편물 관리부서 통해 수취인께 전달이 됩니다. 수취인명,계급(혹은 보호실 등) 등 수령인정보를 상세히 기재해주십시오', '2020-10-09','배송');
 # (상품)
-insert into faqboard values(DEFAULT,'외국도서가 품절인데 구할 수 있습니까?', '외국도서는 국내도서에 비해 재고 확보가 여의치 않아 품절로 표시되는 경우가 많이 있습니다. 그러나 경우에 따라서 소량 입수 가능한 경우도 있으니, 구매 원하시는 외국도서인데 품절로 표시된 경우에는 사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 이용해 문의하여 주시기 바랍니다.', '2020-09-18','상품');
-insert into faqboard values(DEFAULT,'수령일이 다른 상품들을 함께 주문하면 나누어 배송해주나요?', '상품별 수령예상일이 다르면 가장 늦은 상품 기준으로 주문 전체의 출고,수령예상일이 정해지고, 해당 일정에 맞춰 한꺼번에 출고,배송됩니다.', '2020-09-29','상품');
-insert into faqboard values(DEFAULT,'상품 소개글 오탈자 신고는 어디로 접수합니까?', '사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 통해 신고해주시면 신속히 수정하겠습니다.', '2020-10-01','상품');
-insert into faqboard values(DEFAULT,'주문액 보다 더 많거나 적게 입금했는데 입금확인 됩니까?', '주문액 보다 조금이라도 많거나 적게 입금하신 경우에는 사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 통해 신고해주셔야 입금 확인이 가능합니다. 과입금시 상품 출고 다음 날 저녁까지 차액을 예치금으로 환불해 드리고 있습니다.', '2020-10-11','상품');
-insert into faqboard values(DEFAULT,'상품 분류(카테고리) 정보가 없는데 어떻게 요청합니까?', '분류 정보가 없거나, 부정확하다고 생각하시면 사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 통해 신고해주시면 적절한 분류 요청이 가능합니다.', '2020-10-14','상품');
+insert into FAQBOARD values(DEFAULT,'외국도서가 품절인데 구할 수 있습니까?', '외국도서는 국내도서에 비해 재고 확보가 여의치 않아 품절로 표시되는 경우가 많이 있습니다. 그러나 경우에 따라서 소량 입수 가능한 경우도 있으니, 구매 원하시는 외국도서인데 품절로 표시된 경우에는 사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 이용해 문의하여 주시기 바랍니다.', '2020-09-18','상품');
+insert into FAQBOARD values(DEFAULT,'수령일이 다른 상품들을 함께 주문하면 나누어 배송해주나요?', '상품별 수령예상일이 다르면 가장 늦은 상품 기준으로 주문 전체의 출고,수령예상일이 정해지고, 해당 일정에 맞춰 한꺼번에 출고,배송됩니다.', '2020-09-29','상품');
+insert into FAQBOARD values(DEFAULT,'상품 소개글 오탈자 신고는 어디로 접수합니까?', '사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 통해 신고해주시면 신속히 수정하겠습니다.', '2020-10-01','상품');
+insert into FAQBOARD values(DEFAULT,'주문액 보다 더 많거나 적게 입금했는데 입금확인 됩니까?', '주문액 보다 조금이라도 많거나 적게 입금하신 경우에는 사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 통해 신고해주셔야 입금 확인이 가능합니다. 과입금시 상품 출고 다음 날 저녁까지 차액을 예치금으로 환불해 드리고 있습니다.', '2020-10-11','상품');
+insert into FAQBOARD values(DEFAULT,'상품 분류(카테고리) 정보가 없는데 어떻게 요청합니까?', '분류 정보가 없거나, 부정확하다고 생각하시면 사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 통해 신고해주시면 적절한 분류 요청이 가능합니다.', '2020-10-14','상품');
 
 # ----------orderinfo(order_booktype=1이면 nb, order_booktype=2이면 ob)
 # (비회원주문내역)
@@ -447,14 +447,14 @@ insert into orderinfo values(default,"20201011-02","김지민","9",6,'2','2020-1
 
 # ----------inquery
 # (단일 문의 - 답변의 구성)
-insert into inquery values(default, '구매처 도장이 찍힌 도서', '혹시 구매처 도장이 찍힌 도서도 판매 가능한가요? 책 상단에 서울서점 도장이 찍혀있는데 판매 불가인가요?', '2020-09-29', 'chrinyeo333', 1, 0, 0);
-insert into inquery values(default, '[Re]구매처 도장이 찍힌 도서', '가능합니다. 다만, 증정/드림/비매품/관공서 등 날인이 있는 도서는 판매하실 수 없습니다.', '2020-09-29', 'chrinyeo333', 1, 1, 1);
+insert into INQUERY values(default, '구매처 도장이 찍힌 도서', '혹시 구매처 도장이 찍힌 도서도 판매 가능한가요? 책 상단에 서울서점 도장이 찍혀있는데 판매 불가인가요?', '2020-09-29', 'chrinyeo333', 1, 0, 0);
+insert into INQUERY values(default, '[Re]구매처 도장이 찍힌 도서', '가능합니다. 다만, 증정/드림/비매품/관공서 등 날인이 있는 도서는 판매하실 수 없습니다.', '2020-09-29', 'chrinyeo333', 1, 1, 1);
 
 # (몰린 문의-답변의 구성)
-insert into inquery values(default, '교환은 어떤 경우에 가능합니까?', '사 놓고 아직 안 뜯은 새 책이 있는데, 구매한 지는 좀 지났습니다. 다른 시리즈의 책으로 바꿀 의향이 있는데 가능한가요?', '2020-10-09', '11', 3, 0, 0);
-insert into inquery values(default, '무통장입금으로 주문하고 입금했는데 입금확인 언제 됩니까?', '제 착오인지 회사 착오인지 모르겠으나 무통장입금 확인이 뜨지 않습니다. 혹시 이 점에 관련해서 확인이 가능한가요?', '2020-10-10', '4', 4, 0, 0);
-insert into inquery values(default, '혹시 도서 소득공제 대상 도서 구매시 유료배송료도 소득공제 대상인가요?', '책을 구매할 때 구매비용은 소득공제 대상이라는 것은 알겠는데 제가 부담하는 배송료까지 합해서 소득공제 신청이 가능한지 알고 싶습니다.', '2020-10-11', '8', 5, 0, 0);
+insert into INQUERY values(default, '교환은 어떤 경우에 가능합니까?', '사 놓고 아직 안 뜯은 새 책이 있는데, 구매한 지는 좀 지났습니다. 다른 시리즈의 책으로 바꿀 의향이 있는데 가능한가요?', '2020-10-09', '11', 3, 0, 0);
+insert into INQUERY values(default, '무통장입금으로 주문하고 입금했는데 입금확인 언제 됩니까?', '제 착오인지 회사 착오인지 모르겠으나 무통장입금 확인이 뜨지 않습니다. 혹시 이 점에 관련해서 확인이 가능한가요?', '2020-10-10', '4', 4, 0, 0);
+insert into INQUERY values(default, '혹시 도서 소득공제 대상 도서 구매시 유료배송료도 소득공제 대상인가요?', '책을 구매할 때 구매비용은 소득공제 대상이라는 것은 알겠는데 제가 부담하는 배송료까지 합해서 소득공제 신청이 가능한지 알고 싶습니다.', '2020-10-11', '8', 5, 0, 0);
 
-insert into inquery values(default, '[Re]교환은 어떤 경우에 가능합니까?', '받으신 상품에 하자가 있는 경우 교환이 가능하나, 다른 상품으로 맞교환 구매는 불가합니다. 사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 통해 접수하실 수 있습니다.', '2020-10-12', '11', 3, 1, 1);
-insert into inquery values(default, '[Re]무통장입금으로 주문하고 입금했는데 입금확인 언제 됩니까?', '입금정보가 정확하다면 통상 1시간 이내에 입금확인이 됩니다. 입금확인이 되면 바로 안내메일 또는 SMS를 보내드립니다. 단, 입금액, 입금자명, 입금은행명의 세가지중 한가지라도 다른 내용이 있으면 입금확인이 지연될 수 있습니다. 입금하시고 1시간 후에도 입금대기 상태라면 사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 통해 신속한 처리 지원을 받을 수 있습니다.', '2020-10-12', '4', 4, 1, 1);
-insert into inquery values(default, '[Re]혹시 도서 소득공제 대상 도서 구매시 유료배송료도 소득공제 대상인가요?', '대상 도서 구매시 상품페이지상 표시된 유료배송료(단,해외배송료 제외)는 대상 금액으로 간주됩니다. 단, 중고 구매 도서의 택배발송 신청시 배송료는, 원하시는 고객만 신청해 이용하시는 편의 서비스 비용이므로, 대상이 아닙니다.', '2020-10-12', '8', 5, 1, 1);
+insert into INQUERY values(default, '[Re]교환은 어떤 경우에 가능합니까?', '받으신 상품에 하자가 있는 경우 교환이 가능하나, 다른 상품으로 맞교환 구매는 불가합니다. 사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 통해 접수하실 수 있습니다.', '2020-10-12', '11', 3, 1, 1);
+insert into INQUERY values(default, '[Re]무통장입금으로 주문하고 입금했는데 입금확인 언제 됩니까?', '입금정보가 정확하다면 통상 1시간 이내에 입금확인이 됩니다. 입금확인이 되면 바로 안내메일 또는 SMS를 보내드립니다. 단, 입금액, 입금자명, 입금은행명의 세가지중 한가지라도 다른 내용이 있으면 입금확인이 지연될 수 있습니다. 입금하시고 1시간 후에도 입금대기 상태라면 사이트 내에 기재되어 있는 문의전화번호 또는 1:1 문의를 통해 신속한 처리 지원을 받을 수 있습니다.', '2020-10-12', '4', 4, 1, 1);
+insert into INQUERY values(default, '[Re]혹시 도서 소득공제 대상 도서 구매시 유료배송료도 소득공제 대상인가요?', '대상 도서 구매시 상품페이지상 표시된 유료배송료(단,해외배송료 제외)는 대상 금액으로 간주됩니다. 단, 중고 구매 도서의 택배발송 신청시 배송료는, 원하시는 고객만 신청해 이용하시는 편의 서비스 비용이므로, 대상이 아닙니다.', '2020-10-12', '8', 5, 1, 1);
