@@ -5,26 +5,6 @@
 
 <mapper namespace="dev">
   <!-- ====================== RENTINFO ======================== -->
-  <select id="selectRentAll" resultType="rdto">
-    select ob_name, ob_author, ob_comp, user_name, user_id, date (rent_sdate) rent_sdate, date (rent_edate) rent_edate
-    from oldbook inner join rentinfo
-    on rent_no = ob_no inner join user on rent_id = user_id
-  </select>
-
-  <select id="selectdelayAll" resultType="rdto">
-    select user_id, user_name, ob_name, (ob_price * 0.5) delpoint, datediff(now(), rent_edate) delaydate, rent_no
-    from oldbook
-           inner join rentinfo on rent_no = ob_no
-           inner join user on user_id = rent_id
-    where datediff(now(), rent_edate) > 14
-  </select>
-
-  <select id="selectdelayid" resultType="String">
-    select rent_id
-    from rentinfo
-    where datediff(now(), rent_edate) between 0 and 14
-  </select>
-
   <!-- 최근 대여 내역 3 리스트-->
   <select id="rent3list" resultType="rdto" parameterType="String">
     select ob_name, rent_no, date_format(rent_sdate, "%Y-%m-%d") as rent_sdate, date_format(rent_edate, "%Y-%m-%d") as rent_edate
@@ -33,6 +13,7 @@
     where rent_id = #{rent_id}
     order by rent_sdate desc limit 3
   </select>
+
   <!-- 전체 대여 내역 리스트-->
   <select id="rentlistall" resultType="rdto" parameterType="String">
     select ob_name, rent_no, date_format(rent_sdate, "%Y-%m-%d") as rent_sdate, date_format(rent_edate, "%Y-%m-%d") as rent_edate
@@ -41,34 +22,6 @@
     where rent_id = #{rent_id}
     order by rent_sdate desc
   </select>
-
-  <select id="mbrentmonth" resultType="rdto">
-    select month (rent_sdate) rmonth
-    from rentinfo
-    group by month (rent_sdate)
-  </select>
-
-  <select id="mbestrent" resultType="rdto" parameterType="String">
-    select rent_no, ob_name, month (rent_sdate) rmonth, count, ob_state, ob_userid, rn
-    from (select *, count (*) count, rank() over (partition by month (rent_sdate) order by count desc) rn from rentinfo group by rent_no, month (rent_sdate)) t inner join oldbook
-    on rent_no = ob_no
-    where t.rn <![CDATA[<=]]> 3 ${sql}
-    order by month (rent_sdate), rn
-  </select>
-
-  <select id="mbrentcmonth" resultType="rdto">
-    select rent_no, ob_name, month (rent_sdate) rmonth, count, ob_state, ob_userid, rn
-    from (select *, count (*) count, rank() over (partition by month (rent_sdate) order by count desc) rn from rentinfo group by rent_no, month (rent_sdate)) t inner join oldbook
-    on rent_no = ob_no
-    where t.rn <![CDATA[<=]]> 3 and date_format(rent_sdate, '%Y-%m') = date_format(now(), '%Y-%m')
-    order by month (rent_sdate), rn
-  </select>
-
-  <delete id="rmrentinfo">
-    delete
-    from rentinfo
-    where datediff(now(), rent_edate) > 14
-  </delete>
 
   <!-- 중고책 대여했을 때 대여정보 추가 -->
   <insert id="rentOldBook" parameterType="rdto">
@@ -99,39 +52,7 @@
     where rent_no = #{rent_no}
   </update>
 
-  <select id="rentking" resultType="rdto">
-    select user_id, user_name, user_tel, user_mail, month (rent_sdate) rmonth, count, rn
-    from (select *, count (*) count, rank() over (partition by month (rent_sdate) order by count desc) rn from rentinfo where month (rent_sdate) = month (now()) group by rent_id) t inner join user
-    on rent_id = user_id
-    where t.rn <![CDATA[<=]]> 3
-    order by rn
-  </select>
-
   <!-- =================== REVIEW ======================== -->
-  <select id="selectreviewAll" resultType="reviewdto">
-    select review_no, review_id, nb_name review_name, review_context, date (review_date) review_date, review_rate, review_gonggam
-    from review inner join newbook
-    on nb_no = review_bookno
-  </select>
-
-  <select id="mbreviewmonth" resultType="reviewdto">
-    select month (review_date) review_month
-    from review
-    group by month (review_date)
-  </select>
-
-  <select id="mbestreview" resultType="reviewdto" parameterType="String">
-    select review_no, review_id, review_bookno, nb_name review_name, review_context, date (review_date) review_date, month (review_date) review_month, review_rate, review_gonggam, rn
-    from (select *, rank() over (partition by month (r.review_date) order by r.review_gonggam desc) rn from review r) t inner join newbook
-    on review_bookno=nb_no
-    where t.rn <![CDATA[<=]]>3 ${sql}
-    order by review_month, rn
-  </select>
-
-  <select id="currentmonth" resultType="String">
-    select date_format(now(), "%Y-%m")
-  </select>
-
   <!-- 구매페이지 개별 새책 해당 책의 리뷰 띄우기 -->
   <select id="selectNewbookReviewList" parameterType="int" resultType="reviewdto">
     select *
@@ -139,22 +60,26 @@
     where review_bookno = #{review_bookno}
     order by review_date desc
   </select>
+
   <!-- 구매페이지 개별 새책 해당 책의 리뷰 쓰기 -->
   <insert id="insertNewbookReview" parameterType="reviewdto">
     insert into review
     values (default, #{review_id}, #{review_bookno}, #{review_context}, #{review_date}, #{review_rate}, #{review_gonggam})
   </insert>
+
   <!-- 구매페이지 개별 새책 해당 책의 특정 리뷰 추천 -->
   <select id="selectNewbookReview" parameterType="int" resultType="reviewdto">
     select *
     from review
     where review_no = #{review_no}
   </select>
+
   <update id="plusGonggam" parameterType="int">
     update review
     set review_gonggam = review_gonggam + 1
     where review_no = #{review_no};
   </update>
+
   <!-- 구매페이지 개별 새책 해당 책의 특정 리뷰 추천 -->
   <delete id="deleteReview" parameterType="int">
     delete
@@ -172,28 +97,5 @@
 	values(default, #{ob_no}, #{original_file_name}, #{stored_file_name}, #{file_size},now(),default)
 	]]>
   </insert>
-
-  <select id="mbsellermonth" resultType="nbdto">
-    select month (order_date) smonth
-    from orderinfo
-    where order_booktype = "1"
-    group by month (order_date)
-  </select>
-
-  <select id="mbestseller" resultType="nbdto" parameterType="String">
-    select nb_no, nb_name, month (order_date) smonth, scount, rn
-    from (select *, sum (order_scount) scount, rank() over (partition by month (order_date) order by scount) rn from orderinfo where order_booktype="1" group by month (order_date), order_bookno) t inner join newbook
-    on order_bookno = nb_no
-    where rn <![CDATA[<=]]>3 ${sql}
-    order by month (order_date), rn
-  </select>
-
-  <select id="mbsellercmonth" resultType="nbdto">
-    select nb_no, nb_name, month (order_date) smonth, scount, rn
-    from (select *, sum (order_scount) scount, rank() over (partition by month (order_date) order by scount) rn from orderinfo where order_booktype="1" group by month (order_date), order_bookno) t inner join newbook
-    on order_bookno = nb_no
-    where rn <![CDATA[<=]]>3 and date_format(order_date, '%Y-%m') = date_format(now(), '%Y-%m')
-    order by month (order_date), rn
-  </select>
 
 </mapper>

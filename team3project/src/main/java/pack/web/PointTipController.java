@@ -5,8 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class PointTipController {
-	@RequestMapping("point")
-	public String pointtip() {
-		return "point";
-	}
+
+    @RequestMapping("point")
+    public String pointtip() {
+        return "point";
+    }
+
 }
