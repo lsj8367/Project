@@ -145,37 +145,6 @@
 							<span class="icon-wrap"><span
 								class="text-primary icon-power"></span></span>
 						</div>
-						<div>
-							<h3>이달의 구매왕</h3>
-							<table style="text-align: center; margin:auto;" border='1'> 
-								<tr>
-									<th>순위</th><th>id</th><th>주문자</th><th>구매횟수</th><th>구매책수</th>
-							 	</tr>
-							 	<c:forEach var="bu" items="${bu }">
-							 	<tr>
-							 		<td>
-							 			${bu.rn }등
-							 		</td>
-							 		<td>
-							 		<c:choose>
-							 			<c:when test="${empty bu.user_id}">
-							 				비회원
-							 			</c:when>
-							 			<c:otherwise>
-							 				${bu.user_id }
-							 			</c:otherwise>
-							 		</c:choose>
-							 		</td>
-							 		<td>${bu.order_person }</td>
-							 		<td>${bu.count }</td>	
-							   		<td>${bu.sum }</td>  
-							 	</tr>
-							 	</c:forEach>	
-							</table> 
-							<p>
-								<a href="monthbuyer">Learn More</a>
-							</p>
-						</div>
 					</div>
 				</div>
 

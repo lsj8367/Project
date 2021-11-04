@@ -1,6 +1,7 @@
 src/main/resources/db.properties
 HELP.md
 .gradle
+.jpb/
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/

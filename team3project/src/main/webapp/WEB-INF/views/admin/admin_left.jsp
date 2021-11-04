@@ -121,7 +121,6 @@ body{font-family:나눔고딕, NanumGothic, NanumBarunGothic,'Nanum Gothic',aria
 		       <li><a href="">베스트대여도서</a></li>
 		       <li><a href="">월별매출확인</a></li>
 		       <li><a href="">이달의 대여왕</a></li>
-		       <li><a href="">이달의 구매왕</a></li>
 		    </ul>
 		</li>
 		<!-- <li><a href="">회원관리</a>

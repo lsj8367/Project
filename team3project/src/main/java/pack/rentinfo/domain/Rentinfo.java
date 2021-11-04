@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
@@ -20,6 +21,7 @@ public class Rentinfo {
     private String rentId;
 
     @Column(name = "rent_sdate")
+    @Getter
     private LocalDateTime rentSdate;
 
     @Column(name = "rent_edate")

@@ -16,6 +16,7 @@ import pack.admin.model.AdminDao;
 import pack.admin.service.AdminService;
 import pack.admin.utils.PointState;
 import pack.admin.utils.Rank;
+import pack.rentinfo.service.RentInfoService;
 import pack.user.service.UserService;
 
 @Slf4j
@@ -27,6 +28,7 @@ public class BestRentbooksetController {
     private final AdminService adminService;
     private final PointState pointState;
     private final UserService userService;
+    private final RentInfoService rentInfoService;
 
     @ExceptionHandler
     public ModelAndView exception(Exception e) {
@@ -44,7 +46,7 @@ public class BestRentbooksetController {
 
         return new ModelAndView("admin/bestrentbookset", Map.of(
             "info", adminService.selectAdminData(admin_id),
-            "rtm", adminDao.mbRentMonth()
+            "rtm", rentInfoService.rentMonth()
         ));
     }
 
@@ -57,7 +59,7 @@ public class BestRentbooksetController {
 
         return new ModelAndView("admin/bestrentbookset", Map.of(
             "info", adminService.selectAdminData(admin_id),
-            "rtm", adminDao.mbRentMonth(),
+            "rtm", rentInfoService.rentMonth(),
             "rtl", adminDao.mbEstRent(sql)
         ));
     }

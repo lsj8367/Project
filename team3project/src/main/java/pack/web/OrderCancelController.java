@@ -48,16 +48,15 @@ public class OrderCancelController {
         }
         model.addAttribute("info", adminService.selectAdminData(adminId));
 
-        boolean isOrderDeleted = false;
         boolean isRollBackStock = false;
 
         for (int i = 0; i < orderlistNo.length; i++) {
-            isOrderDeleted = adminDao.rmorder(orderlistNo[i]);
+            orderInfoService.deleteOrderListNo(orderlistNo[i]);
             newBookDto.setNb_no(orderBookNo[i]);
             newBookDto.setNb_stock(orderScount[i]);
             isRollBackStock = adminService.rollBackStock(orderBookNo[i], orderScount[i]);
         }
-        if (isOrderDeleted && isRollBackStock) {
+        if (isRollBackStock) {
             return "redirect:/ordercancel";
         }
 
