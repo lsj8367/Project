@@ -6,12 +6,9 @@ import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import lombok.Builder;
@@ -20,7 +17,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import pack.rentinfo.domain.Rentinfo;
 
 @Getter
 @Setter
@@ -81,10 +77,6 @@ public class OldBook {
     @Column(name = "ob_userid")
     private String obUserid;
 
-    @JoinColumn(name = "rent_no")
-    @OneToOne(fetch = FetchType.LAZY)
-    private Rentinfo rentinfo;
-
     @PrePersist
     void onPrePersist() {
         this.obDdate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -92,7 +84,7 @@ public class OldBook {
 
     @Builder
     public OldBook(String obName, String obAuthor, String obInter, String obGenre, String obComp, LocalDateTime obBdate, String obState, long obPrice, long obScount, long obReadcnt, String obDonor, String obComment, String obImage,
-        String obUserid, Rentinfo rentinfo) {
+        String obUserid) {
         this.obName = obName;
         this.obAuthor = obAuthor;
         this.obInter = obInter;
@@ -107,7 +99,6 @@ public class OldBook {
         this.obComment = obComment;
         this.obImage = obImage;
         this.obUserid = obUserid;
-        this.rentinfo = rentinfo;
     }
 
     public static OldBook toEntity(Map<String, Object> map) {

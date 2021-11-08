@@ -6,9 +6,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
 	<typeAliases>
 
-		<!-- 관리자 -->
-		<typeAlias type="pack.admin.model.AdminDto" alias="admindto" />
-
 		<!-- 사용자 -->
 		<typeAlias type="pack.user.model.UserDto" alias="userdto" />
 

@@ -381,17 +381,17 @@ html, body {
 		<tr>
 			<th>
 				<p class="review_id">
-					${r.review_id}
+					${r.reviewId}
 				</p>
 			</th>
-			<th>${r.review_context}</th>
-			<th>${r.review_date}</th>
+			<th>${r.reviewContext}</th>
+			<th>${r.reviewDate}</th>
 			<th>
-				${r.review_gonggam}
-				<input type="image" width="20" class="gonggam" src="resources/static/images/gonggam.png" value="추천" onclick="location.href='plusGonggam?review_no=${r.review_no}'">
+				${r.reviewGonggam}
+				<input type="image" width="20" class="gonggam" src="resources/static/images/gonggam.png" value="추천" onclick="location.href='plusGonggam?review_no=${r.reviewNo}'">
 			</th>
 			<th>
-				<input type="button" class="btn btn-outline-success" class="delete" value="삭제" onclick="location.href='deleteReview?review_no=${r.review_no}'">
+				<input type="button" class="btn btn-outline-success" class="delete" value="삭제" onclick="location.href='deleteReview?review_no=${r.reviewNo}'">
 			</th>
 		</tr>
 	</c:forEach>

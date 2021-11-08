@@ -14,6 +14,7 @@ import pack.mypage.model.MyrentImpl;
 import pack.mypage.service.MyRentService;
 import pack.mypage.utils.DelayState;
 import pack.oldbook.domain.OldBook;
+import pack.rentinfo.service.RentInfoService;
 import pack.user.service.UserService;
 
 @Slf4j
@@ -24,6 +25,7 @@ public class MyrentController {
     private final MyrentImpl myRentImpl;
     private final MyRentService myRentService;
     private final UserService userService;
+    private final RentInfoService rentInfoService;
 
     @ExceptionHandler
     public ModelAndView error(Exception e) {
@@ -40,9 +42,8 @@ public class MyrentController {
     }
 
     @RequestMapping(value = "extendedate")
-    public String rentex(@RequestParam(name = "rentno") int rent_no) {
-        boolean b = myRentImpl.updateState(rent_no);
-
+    public String rentex(@RequestParam(name = "rentno") int rentNo) {
+        rentInfoService.updateState(rentNo);
         return "redirect:/myrent";
     }
 
@@ -52,10 +53,9 @@ public class MyrentController {
         OldBook oldBook = myRentService.getObPrice(rentNo);
         DelayState delayState = DelayState.of(delaydate);
 
-        if (myRentImpl.deleteRentinf(rentNo)) {
-            myRentService.upObProcess((long) rentNo);
-            userService.minusRentPoint(userId, delayState.delPointCalculate((int) oldBook.getObPrice()));
-        }
+        rentInfoService.delete(rentNo);
+        myRentService.upObProcess((long) rentNo);
+        userService.minusRentPoint(userId, delayState.delPointCalculate((int) oldBook.getObPrice()));
         return "redirect:/myrent";
     }
 

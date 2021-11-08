@@ -1,15 +1,12 @@
 package pack.web;
 
 
-import java.io.PrintWriter;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -21,9 +18,9 @@ import pack.newbook.domain.NewBook;
 import pack.newbook.service.NewBookService;
 import pack.orderinfo.domain.Orderinfo;
 import pack.orderinfo.service.OrderInfoService;
-import pack.review.model.ReviewDto;
+import pack.review.domain.Review;
+import pack.review.service.ReviewService;
 import pack.user.domain.User;
-import pack.user.model.ReviewDao;
 import pack.user.model.UserDto;
 import pack.user.service.CardInfoService;
 import pack.user.service.UserService;
@@ -32,84 +29,51 @@ import pack.user.service.UserService;
 @RequiredArgsConstructor
 public class NewbookController {
 
-    private final ReviewDao reviewDao;
     private final CardInfoService cardInfoService;
     private final NewBookService newBookService;
     private final UserService userService;
     private final OrderInfoService orderInfoService;
+    private final ReviewService reviewService;
 
     @GetMapping("newbook")
     public ModelAndView main(@RequestParam("book_no") String nb_no) {
         newBookService.plusReadCnt(Integer.parseInt(nb_no));
         NewBook newBook = newBookService.selectNewBook(Long.parseLong(nb_no));
+
         return new ModelAndView("newbook", Map.of(
             "newbook", newBook,
             "authorList", newBookService.selectAuthorList(newBook.getNbAuthor()),
-            "reviewList", reviewDao.selectNewbookReviewList(Integer.parseInt(nb_no))
+            "reviewList", reviewService.findAllByBookNo(Integer.parseInt(nb_no))
         ));
     }
 
     // 해당책의 리뷰 쓰기
     @PostMapping("writeReview")
-    public String reviewWrite(@RequestParam("review_id") String review_id,
-        @RequestParam("review_bookno") String review_bookno,
-        @RequestParam("review_context") String review_context) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String format_time = format.format(System.currentTimeMillis());
+    public String reviewWrite(@RequestParam("review_id") String reviewId,
+        @RequestParam("review_bookno") String reviewBookno,
+        @RequestParam("review_context") String reviewContext) {
 
-        ReviewDto bean = ReviewDto.builder()
-            .review_id(review_id)
-            .review_bookno(Integer.parseInt(review_bookno))
-            .review_context(review_context)
-            .review_date(format_time)
-            .review_rate(0)
-            .review_gonggam(0)
-            .build();
+        reviewService.insert(Review.builder()
+            .reviewId(reviewId)
+            .reviewBookno(Long.parseLong(reviewBookno))
+            .reviewContext(reviewContext)
+            .reviewRate(0)
+            .reviewGonggam(0)
+            .build());
 
-        boolean b = reviewDao.insertNewbookReview(bean);
-        if (b) {
-            return "redirect:/newbook?book_no=" + review_bookno;
-        } else {
-            return "error";
-        }
+        return "redirect:/newbook?book_no=" + reviewBookno;
     }
 
     // 해당책의 리뷰 쓰기
     @GetMapping("plusGonggam")
-    public String plusGonggam(@RequestParam("review_no") String review_no) {
-        ReviewDto dto = reviewDao.selectNewbookReview(Integer.parseInt(review_no));
-        boolean b = reviewDao.plusGonggam(Integer.parseInt(review_no));
-
-        if (b) {
-            return "redirect:/newbook?book_no=" + dto.getReview_bookno();
-        } else {
-            return "error";
-        }
+    public String plusSympathy(@RequestParam("review_no") String reviewNo) {
+        final Review review = reviewService.updateSympathy(Integer.parseInt(reviewNo));
+        return "redirect:/newbook?book_no=" + review.getReviewBookno();
     }
 
-    // 해당책의 리뷰 지우기
     @GetMapping("deleteReview")
-    public String deleteReview(HttpSession session, @RequestParam("review_no") String review_no, HttpServletResponse response) throws Exception {
-        ReviewDto dto = reviewDao.selectNewbookReview(Integer.parseInt(review_no));
-        String id = (String) session.getAttribute("id");
-
-        //아이디가 같을 때만 지울 수 있다.
-        if (id.equals(dto.getReview_id())) {
-            boolean b = reviewDao.deleteReview(Integer.parseInt(review_no));
-
-            if (b) {
-                return "redirect:/newbook?book_no=" + dto.getReview_bookno();
-            }
-
-            return "error";
-        }
-        response.setContentType("text/html; charset=UTF-8");
-
-        PrintWriter out = response.getWriter();
-
-        out.println("<script>alert('일치하지 않는 계정입니다'); history.back(); </script>");
-        out.flush();
-        return "";
+    public String deleteReview(@RequestParam("review_no") String reviewNo) {
+        return "redirect:/newbook?book_no=" + reviewService.delete(reviewNo);
     }
 
 
