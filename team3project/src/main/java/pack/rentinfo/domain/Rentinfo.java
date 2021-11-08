@@ -11,11 +11,13 @@ import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @NoArgsConstructor
 @Table(name = "rentinfo")
+@Getter
 public class Rentinfo {
 
     @Id
@@ -31,10 +33,12 @@ public class Rentinfo {
     private String rentSdate;
 
     @Column(name = "rent_edate")
+    @Setter
     private String rentEdate;
 
     @Column(name = "rent_ecount")
     @ColumnDefault("0")
+    @Setter
     private int rentEcount;
 
     @Builder

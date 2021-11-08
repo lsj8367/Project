@@ -23,34 +23,12 @@
     order by rent_sdate desc
   </select>
 
-  <!-- 중고책 대여했을 때 대여정보 추가 -->
-  <insert id="rentOldBook" parameterType="rdto">
-    insert into rentinfo
-    values (#{rent_no}, #{rent_id}, #{rent_sd
-		ate}, date_add(now(), INTERVAL 13 day), default)
-  </insert>
-
   <select id="getRentInfo" parameterType="String" resultType="rdto">
     select rent_no, rent_id, date_format(rent_sdate, '%Y-%m-%d') as rent_sdate, date_format(rent_edate, '%Y-%m-%d') as rent_edate, rent_ecount
     from rentinfo
     where rent_id = #{rent_id}
     order by rent_sdate desc limit 1;
   </select>
-
-  <!-- 대여도서 반납 -->
-  <delete id="delrinf" parameterType="int">
-    delete
-    from rentinfo
-    where rent_no = #{rent_no}
-  </delete>
-
-  <!-- 연장하기 버튼 -->
-  <update id="uprent" parameterType="int">
-    update rentinfo
-    set rent_ecount="1",
-        rent_edate = date_add(rent_edate, INTERVAL 6 day)
-    where rent_no = #{rent_no}
-  </update>
 
   <!-- =================== REVIEW ======================== -->
   <!-- 구매페이지 개별 새책 해당 책의 리뷰 띄우기 -->
