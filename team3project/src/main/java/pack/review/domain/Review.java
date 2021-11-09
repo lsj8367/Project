@@ -36,7 +36,7 @@ public class Review {
     @Column(name = "review_date")
     private String reviewDate;
 
-    @Column(name = "review_rdate")
+    @Column(name = "review_rate")
     private long reviewRate;
 
     @Column(name = "review_gonggam")
