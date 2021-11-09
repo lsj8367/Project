@@ -16,6 +16,7 @@
 
 - MyBatis -> JPA 마이그레이션
 - 각 로직에 대한 Repository 단위 테스트 작성중
+- Jenkins, ec2, rds를 활용한 ci,cd 배포 예정
 
 ## 테이블 완료 현황
 
@@ -28,10 +29,11 @@
 - [x] OldBook
 - [x] User
 - [ ] ObFile
-- [ ] OrderInfo
-- [ ] Admin
+- [X] OrderInfo
 - [ ] RentInfo
 - [ ] Review
+
+관리자 테이블 삭제 -> 추후 재 구현 예정
 
 ## 2021-10-20
 - [변경사항 바로가기](https://github.com/lsj8367/Project/pull/42)
