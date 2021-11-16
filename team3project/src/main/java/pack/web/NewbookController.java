@@ -144,7 +144,6 @@ public class NewbookController {
 
         Orderinfo orderInfo = Orderinfo.builder()
             .orderlistNo(wdate + "-" + df.format(count))
-            .orderDate(LocalDateTime.now())
             .orderScount(order_scount)
             .orderSum(order_sum)
             .orderBookno(order_bookno)

@@ -1,7 +1,6 @@
 package pack.orderinfo.domain;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -62,14 +61,13 @@ public class Orderinfo {
     @Column(name = "order_address")
     private String orderAddress;
     @Builder
-    public Orderinfo(String orderlistNo, String orderPerson, String orderId, int orderBookno, String orderBooktype, LocalDateTime orderDate, String orderPasswd, int orderScount, String orderPaytype, String orderState, int orderSum,
+    public Orderinfo(String orderlistNo, String orderPerson, String orderId, int orderBookno, String orderBooktype, String orderPasswd, int orderScount, String orderPaytype, String orderState, int orderSum,
         String orderAddress) {
         this.orderlistNo = orderlistNo;
         this.orderPerson = orderPerson;
         this.orderId = orderId;
         this.orderBookno = orderBookno;
         this.orderBooktype = orderBooktype;
-        this.orderDate = Timestamp.valueOf(orderDate);
         this.orderPasswd = orderPasswd;
         this.orderScount = orderScount;
         this.orderPaytype = orderPaytype;
@@ -87,7 +85,6 @@ public class Orderinfo {
             .orderPaytype(String.valueOf(map.get("payType")))
             .orderPasswd(String.valueOf(map.get("userPasswd")))
             .orderAddress(String.valueOf(map.get("address")))
-            .orderDate(LocalDateTime.now())
             .orderBookno((Integer) map.get("obNo"))
             .orderState("0")
             .orderScount(1)

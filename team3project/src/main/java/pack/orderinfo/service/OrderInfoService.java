@@ -83,7 +83,7 @@ public class OrderInfoService {
 
         if (isMember(session)) {
             MemberEnum.MEMBER.makeDataSet(orderinfo, "2");
-            orderinfoRepository.save(orderinfo);
+            orderinfoRepository.save(orderinfo)
             return;
         }
 
