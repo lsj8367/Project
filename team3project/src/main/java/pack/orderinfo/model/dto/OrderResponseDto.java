@@ -34,14 +34,14 @@ public class OrderResponseDto {
         List<OrderResponseDto> resultList = new ArrayList<>();
         for (Orderinfo orderinfo : orderinfoList) {
             resultList.add(OrderResponseDto.builder()
-                    .orderListNo(orderinfo.getOrderlistNo())
-                    .orderPerson(orderinfo.getOrderPerson())
-                    .orderDelay(String.valueOf(ChronoUnit.DAYS.between(orderinfo.getOrderDate(), LocalDateTime.now())))
-                    .orderState(orderinfo.getOrderState())
-                    .orderScount(String.valueOf(orderinfo.getOrderScount()))
-                    .orderBookNo(String.valueOf(orderinfo.getOrderBookno()))
+                                           .orderListNo(orderinfo.getOrderlistNo())
+                                           .orderPerson(orderinfo.getOrderPerson())
+                                           .orderDelay(String.valueOf(ChronoUnit.DAYS.between(orderinfo.getOrderDate(), LocalDateTime.now())))
+                                           .orderState(orderinfo.getOrderState())
+                                           .orderScount(String.valueOf(orderinfo.getOrderScount()))
+                                           .orderBookNo(String.valueOf(orderinfo.getOrderBookno()))
                 .build());
-        };
+        }
         return resultList;
     }
 

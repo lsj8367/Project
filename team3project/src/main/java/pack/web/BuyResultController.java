@@ -9,11 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import pack.oldbook.domain.OldBook;
 import pack.oldbook.service.OldBookService;
-import pack.orderinfo.model.OrderInfoDto;
 import pack.orderinfo.service.OrderInfoService;
 import pack.user.domain.User;
-import pack.user.model.BuyResultDao;
 import pack.user.model.UserDto;
 import pack.user.service.UserService;
 
@@ -21,7 +20,6 @@ import pack.user.service.UserService;
 @RequiredArgsConstructor
 public class BuyResultController {
 
-    private final BuyResultDao buyResultDao;
     private final OldBookService oldBookService;
     private final UserService userService;
     private final OrderInfoService orderInfoService;
@@ -33,11 +31,27 @@ public class BuyResultController {
         String obNo = request.getParameter("ob_no");
         String userPasswd = request.getParameter("order_password");
         String userAddress = request.getParameter("order_address");
+        String orderSum = request.getParameter("order_sum");
 
         radioPaytype = payTypeSelection(radioPaytype);
-        String order_sum = request.getParameter("order_sum");
 
-        OrderInfoDto dto = buyResultDao.order(session, orderId, orderPerson, Integer.parseInt(order_sum), radioPaytype, userPasswd, userAddress, obNo);
+        OldBook oldBook = oldBookService.view(obNo);
+
+        if (Objects.isNull(orderId) || Objects.isNull(userPasswd)) {
+            orderId = "";
+            userPasswd = " ";
+        }
+
+        orderInfoService.order(session, Map.of(
+                "orderId", orderId,
+                "orderPerson", orderPerson,
+                "orderSum", Integer.parseInt(orderSum),
+                "payType", radioPaytype,
+                "userPasswd", userPasswd,
+                "address", userAddress,
+                "obNo", oldBook.getObNo().intValue()
+            )
+        );
 
         if (session.getAttribute("id") != null && request.getParameter("writepoint") != "") { // 회원인경우
             UserDto userDto = new UserDto();
@@ -50,10 +64,6 @@ public class BuyResultController {
 
             User user = userService.selectUser(orderId);
             session.setAttribute("point", user.getUserPoint());
-        }
-
-        if (Objects.isNull(dto)) {
-            return new ModelAndView("error");
         }
 
         oldBookService.updateOldBook(Integer.parseInt(obNo));

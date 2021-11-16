@@ -1,11 +1,19 @@
 package pack.orderinfo.service;
 
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import pack.orderinfo.domain.MemberEnum;
 import pack.orderinfo.domain.Orderinfo;
 import pack.orderinfo.model.OrderInfoDto;
 import pack.orderinfo.repository.OrderinfoRepository;
@@ -66,12 +74,33 @@ public class OrderInfoService {
         return orderNo.get(0);
     }
 
-    public void deleteOrderListNo(String orderListNo) {
-        orderinfoRepository.deleteByOrderlistNo(orderListNo);
-    }
-
     public void deleteMyOrder(int orderNo) {
         orderinfoRepository.deleteById(Long.valueOf(orderNo));
+    }
+
+    public void order(HttpSession session, Map<String, Object> map) {
+        Orderinfo orderinfo = Orderinfo.init(map, makeOrderNumber());
+
+        if (isMember(session)) {
+            MemberEnum.MEMBER.makeDataSet(orderinfo, "2");
+            orderinfoRepository.save(orderinfo);
+            return;
+        }
+
+        MemberEnum.NON_MEMBER.makeDataSet(orderinfo, "1");
+        orderinfoRepository.save(orderinfo);
+
+    }
+
+    private String makeOrderNumber() {
+        String wdate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        DecimalFormat df = new DecimalFormat("00");
+        Random random = new Random();
+        return wdate + "-" + df.format(random.nextInt(99) + 1);
+    }
+
+    private boolean isMember(HttpSession session) {
+        return Objects.nonNull(session.getAttribute("id"));
     }
 
 }

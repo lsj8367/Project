@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -122,7 +123,7 @@ public class NewbookController {
         String orderSum = request.getParameter("order_sum");
         String radioPaytype = request.getParameter("radioPaytype");
         String orderpass = request.getParameter("orderpwd");
-        String realpoint1 = request.getParameter("realpoint");
+        String realPointStr = request.getParameter("realpoint");
         String address1 = request.getParameter("address1");
         String address2 = request.getParameter("address2");
 
@@ -132,12 +133,7 @@ public class NewbookController {
 
         int order_sum = Integer.parseInt(orderSum);
 
-        int realpoint;
-        if (realpoint1 == "") {
-            realpoint = 0;
-        } else {
-            realpoint = Integer.parseInt(realpoint1);
-        }
+        int realpoint = convertToInt(realPointStr);
 
         //orderlist_no 부분
         String wdate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
@@ -186,6 +182,13 @@ public class NewbookController {
 
         return "redirect:/unmemberorder?order_no=" + orderInfo.getOrderNo()
             + "&order_passwd=" + orderInfo.getOrderPasswd();
+    }
+
+    private int convertToInt(String realpoint) {
+        if (Objects.isNull(realpoint) || realpoint.equals("")) {
+            return 0;
+        }
+        return Integer.parseInt(realpoint);
     }
 
     private Orderinfo selectPayType(String radioPaytype, Orderinfo orderinfo, User user) {

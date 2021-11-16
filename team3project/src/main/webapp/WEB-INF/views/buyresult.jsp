@@ -102,16 +102,16 @@
    <tr><th colspan="2" style="text-align: center;">주문이 완료되었습니다</th></tr>
    <tr>
       <td>주문번호</td>
-      <td>${buylist.orderlist_no }</td>
+      <td>${buylist.orderlistNo }</td>
    </tr>
    <tr>
       <td>성함</td>
-      <td>${buylist.order_person }</td>
+      <td>${buylist.orderPerson }</td>
    </tr>
    <tr>
       <td>회원 여부</td>
       <c:choose>
-         <c:when test="${buylist.order_id eq '' }">
+         <c:when test="${buylist.orderId eq '' }">
             <td>비회원</td>
          </c:when>
          <c:otherwise>
@@ -121,13 +121,13 @@
    </tr>
    <tr>
       <td>주문일</td>
-      <fmt:parseDate var="dateString" value="${buylist.order_date}" pattern="yyyy-MM-dd HH:mm:ss.S" />
+      <fmt:parseDate var="dateString" value="${buylist.orderDate}" pattern="yyyy-MM-dd HH:mm:ss.S" />
       <td><fmt:formatDate value="${dateString}" pattern="yyyy년 MM월 dd일" /></td>
    </tr>
    <tr>
       <td>결제 유형</td>
       <c:choose>
-         <c:when test="${buylist.order_paytype eq 0}">
+         <c:when test="${buylist.orderPaytype eq 0}">
             <td>무통장입금</td>
          </c:when>
          <c:otherwise>
@@ -137,11 +137,11 @@
    </tr>
    <tr>
       <td>금액</td>
-      <td>${buylist.order_sum } 원</td>
+      <td>${buylist.orderSum } 원</td>
    </tr>
    <tr>
       <td>주소지</td>
-      <td>${buylist.order_address}</td>
+      <td>${buylist.orderAddress}</td>
    </tr>
    <tr>
       <td colspan="2" style="text-align: center;">
