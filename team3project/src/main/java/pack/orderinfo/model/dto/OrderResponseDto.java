@@ -2,6 +2,7 @@ package pack.orderinfo.model.dto;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -34,14 +35,15 @@ public class OrderResponseDto {
         List<OrderResponseDto> resultList = new ArrayList<>();
         for (Orderinfo orderinfo : orderinfoList) {
             resultList.add(OrderResponseDto.builder()
-                    .orderListNo(orderinfo.getOrderlistNo())
-                    .orderPerson(orderinfo.getOrderPerson())
-                    .orderDelay(String.valueOf(ChronoUnit.DAYS.between(orderinfo.getOrderDate(), LocalDateTime.now())))
-                    .orderState(orderinfo.getOrderState())
-                    .orderScount(String.valueOf(orderinfo.getOrderScount()))
-                    .orderBookNo(String.valueOf(orderinfo.getOrderBookno()))
+                                           .orderListNo(orderinfo.getOrderlistNo())
+                                           .orderPerson(orderinfo.getOrderPerson())
+                                           .orderDelay(String.valueOf(ChronoUnit.DAYS.between((Temporal) orderinfo.getOrderDate(), LocalDateTime.now())))
+                                           .orderState(orderinfo.getOrderState())
+                                           .orderScount(String.valueOf(orderinfo.getOrderScount()))
+                                           .orderBookNo(String.valueOf(orderinfo.getOrderBookno()))
                 .build());
-        };
+        }
+
         return resultList;
     }
 
