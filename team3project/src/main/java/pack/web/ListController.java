@@ -42,10 +42,9 @@ public class ListController {
     }
 
     private ModelAndView viewAndObject(List<NewBook> list) { //view로 보내는 메소드
-        Map<String, Object> map = Map.of(
+        return new ModelAndView("list", Map.of(
             "newbooklist", list
-        );
-        return new ModelAndView("list", map);
+        ));
     }
 
     private Map<String, String> editGenre() {
