@@ -20,7 +20,7 @@ public class GiveService {
 
     public void insertOldBook(Map<String, Object> map, HttpServletRequest request) throws Exception {
         oldBookRepository.save(OldBook.toEntity(map));
-        List<ObFile> fileList = fileUtils.parseInsertFileInfo(map, request);
+        final List<ObFile> fileList = fileUtils.parseInsertFileInfo(map, request);
         for (ObFile obFile : fileList) {
             obFileRepository.save(obFile);
         }
