@@ -15,7 +15,7 @@ public class SearchController {
     private final NewBookService newBookService;
 
     @RequestMapping("search")
-    public ModelAndView DataAll(@RequestParam("search") String search) {
+    public ModelAndView dataAll(@RequestParam("search") String search) {
         return new ModelAndView("list", Map.of(
             "newbooklist", newBookService.getDataNewAllExist(search)
         ));

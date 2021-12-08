@@ -16,7 +16,7 @@ public class OldSearchController {
     private final OldBookService oldBookService;
 
     @RequestMapping("oldsearch")
-    public ModelAndView DataAll(@RequestParam("type") String type,
+    public ModelAndView dataAll(@RequestParam("type") String type,
         @RequestParam("search") String search) {
         return new ModelAndView("rentmain", Map.of(
             "oldbooklist", oldBookService.getDataAllExist(OldSearch.builder()

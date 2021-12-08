@@ -2,7 +2,6 @@ package pack.web;
 
 import java.util.Map;
 import java.util.Objects;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,14 +24,13 @@ public class BuyResultController {
     private final OrderInfoService orderInfoService;
 
     @PostMapping("buyresult")
-    public ModelAndView result(HttpSession session, HttpServletRequest request, @RequestParam("radioPaytype") String radioPaytype) {
-        String orderId = request.getParameter("order_id"); //아이디
-        String orderPerson = request.getParameter("order_person"); //성명
-        String obNo = request.getParameter("ob_no");
-        String userPasswd = request.getParameter("order_password");
-        String userAddress = request.getParameter("order_address");
-        String orderSum = request.getParameter("order_sum");
-
+    public ModelAndView result(HttpSession session, @RequestParam("radioPaytype") String radioPaytype, @RequestParam("order_id") String orderId,
+        @RequestParam("order_person") String orderPerson,
+        @RequestParam("ob_no") String obNo,
+        @RequestParam("order_password") String userPasswd,
+        @RequestParam("order_address") String userAddress,
+        @RequestParam("order_sum") String orderSum,
+        @RequestParam("writepoint") String writePoint) {
         radioPaytype = payTypeSelection(radioPaytype);
 
         OldBook oldBook = oldBookService.view(obNo);
@@ -53,9 +51,9 @@ public class BuyResultController {
             )
         );
 
-        if (session.getAttribute("id") != null && request.getParameter("writepoint") != "") { // 회원인경우
+        if (session.getAttribute("id") != null && !writePoint.equals("")) { // 회원인경우
             UserDto userDto = new UserDto();
-            int writepoint = Integer.parseInt(request.getParameter("writepoint"));
+            int writepoint = Integer.parseInt(writePoint);
 
             userDto.setUser_id((String) session.getAttribute("id"));
             userDto.setUser_point(writepoint);

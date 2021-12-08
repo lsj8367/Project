@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PointTipController {
 
     @RequestMapping("point")
-    public String pointtip() {
+    public String pointTip() {
         return "point";
     }
 

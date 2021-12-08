@@ -2,8 +2,8 @@ package pack.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pack.cardinfo.domain.CardInfo;
@@ -18,14 +18,14 @@ public class SignupController {
     private final CardInfoService cardInfoService;
     private final UserService userService;
 
-    @RequestMapping(value = "signup", method = RequestMethod.GET)
+    @GetMapping(value = "signup")
     public String moveLogin() {
         return "signup";
     }
 
     // 아이디 중복 여부 체크
-    @RequestMapping(value = "checkSignupId", method = RequestMethod.POST)
-    public @ResponseBody String AjaxView(@RequestParam("id") String id) {
+    @PostMapping(value = "checkSignupId")
+    public @ResponseBody String ajaxView(@RequestParam("id") String id) {
         if (userService.validationCheck(id)) { // 이미 존재하는 계정
             return "NO";
         }
@@ -33,7 +33,7 @@ public class SignupController {
     }
 
     // 회원가입 -> 유저 추가
-    @RequestMapping(value = "signup", method = RequestMethod.POST)
+    @PostMapping(value = "signup")
     public String login(@RequestParam("id") String id, @RequestParam("pwd1") String pwd,
         @RequestParam("name") String name, @RequestParam("rrnumber1") String rrnumber1,
         @RequestParam("rrnumber2") String rrnumber2, @RequestParam("phone1") String phone1,

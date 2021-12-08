@@ -17,7 +17,7 @@ public class GiveResultController {
     @RequestMapping(value = "showgive")
     @ResponseBody
     public Map<String, Object> getGiveResult(HttpSession session) {
-        String ob_userid = (String) session.getAttribute("id");
+        final String ob_userid = (String) session.getAttribute("id");
         return Map.of(
             "datas", List.of(oldBookService.selectGiveList(ob_userid))
         );

@@ -16,8 +16,8 @@ public class QnaPartController {
 
     @RequestMapping("qnaPart")
     @ResponseBody
-    public Map<String, Object> qnaPart(@RequestParam("order") String qna_class) {
-        return Map.of("datas", qnaPartService.qnaPart(qna_class));
+    public Map<String, Object> qnaPart(@RequestParam("order") String order) {
+        return Map.of("datas", qnaPartService.qnaPart(order));
     }
 
 }

@@ -29,7 +29,7 @@ public class RentBookController {
 
     // 중고책 대여
     @PostMapping(value = "Rental")
-    public ModelAndView rentbook(HttpSession session, @RequestParam("ob_no") String rentNo) {
+    public ModelAndView rentBook(HttpSession session, @RequestParam("ob_no") String rentNo) {
         //대여하기
         String userId = (String) session.getAttribute("id");
         rentInfoService.insertRentInfo(userId);

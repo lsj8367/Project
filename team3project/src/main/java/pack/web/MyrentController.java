@@ -35,7 +35,7 @@ public class MyrentController {
 
     @GetMapping(value = "myrent")
     public ModelAndView myrentlist(HttpSession session) {
-        String userId = (String) session.getAttribute("id");
+        final String userId = (String) session.getAttribute("id");
         return new ModelAndView("mypage/myrent", Map.of(
             "rtbook", oldBookService.rentListAll(userId)
         ));
@@ -49,9 +49,9 @@ public class MyrentController {
 
     @RequestMapping(value = "returnrbook")
     public String returnrbook(@RequestParam(name = "rentno") int rentNo, @RequestParam(name = "delaydate") int delaydate, HttpSession session) {
-        String userId = (String) session.getAttribute("id");
-        OldBook oldBook = myRentService.getObPrice(rentNo);
-        DelayState delayState = DelayState.of(delaydate);
+        final String userId = (String) session.getAttribute("id");
+        final OldBook oldBook = myRentService.getObPrice(rentNo);
+        final DelayState delayState = DelayState.of(delaydate);
 
         rentInfoService.delete(rentNo);
         myRentService.upObProcess((long) rentNo);

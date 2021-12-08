@@ -22,9 +22,9 @@ public class ListController {
         return getGenre(editGenre().get(book));
     }
 
-    public ModelAndView getGenre(String nb_genre) {
+    public ModelAndView getGenre(String nbGenre) {
         List<NewBook> list;
-        switch (nb_genre) {
+        switch (nbGenre) {
             case "best":  //best30
                 list = newBookService.selectBest30();
                 break;
@@ -35,7 +35,7 @@ public class ListController {
                 list = newBookService.selectBookAll();
                 break;
             default:
-                list = newBookService.selectGenre(nb_genre);
+                list = newBookService.selectGenre(nbGenre);
                 break;
         }
         return viewAndObject(list);
@@ -48,7 +48,7 @@ public class ListController {
     }
 
     private Map<String, String> editGenre() {
-        Map<String, String> map = new HashMap<>();
+        final Map<String, String> map = new HashMap<>();
         map.put("a", "성공학");
         map.put("b", "소설");
         map.put("c", "에세이");
