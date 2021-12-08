@@ -16,38 +16,41 @@ import pack.user.service.UserService;
 @Transactional
 public class RentbookListController {
 
+    private static final String RENTMAIN = "rentmain";
+
     private final OldBookService oldBookService;
     private final UserService userService;
 
     @RequestMapping("rentlist1")
-    public ModelAndView rentlist(@RequestParam("book") String book) {
+    public ModelAndView rentList(@RequestParam("book") String book) {
         ModelAndView modelAndView = new ModelAndView();
         getBest(modelAndView);
         return getList(modelAndView, editGenre().get(book)); //modelAndView 반환
     }
 
-    private ModelAndView getList(ModelAndView modelAndView, String ob_genre) {
-        if (ob_genre.equals("rentmain")) {
+    private ModelAndView getList(ModelAndView modelAndView, String obGenre) {
+        if (obGenre.equals(RENTMAIN)) {
             modelAndView.addObject("oldbooklist", oldBookService.randomFirstGrade());
             modelAndView.addObject("oldbooklow", oldBookService.oldLowLimit2());
-            modelAndView.setViewName("rentmain");
+            modelAndView.setViewName(RENTMAIN);
             return modelAndView;
         }
-        if (ob_genre.equals("high")) {
+        if (obGenre.equals("high")) {
             modelAndView.addObject("list", oldBookService.oldHigh());
             modelAndView.setViewName("alllist");
             return modelAndView;
         }
 
-        if (ob_genre.equals("low")) {
+        if (obGenre.equals("low")) {
             modelAndView.addObject("list", oldBookService.oldLow());
             modelAndView.setViewName("alllist");
-
-        } else {
-            modelAndView.addObject("oldbooklist", oldBookService.genreForFirstGrade(ob_genre));
-            modelAndView.addObject("oldbooklow", oldBookService.genreForAnotherGrade(ob_genre));
-            modelAndView.setViewName("rentmain");
+            return modelAndView;
         }
+
+        modelAndView.addObject("oldbooklist", oldBookService.genreForFirstGrade(obGenre));
+        modelAndView.addObject("oldbooklow", oldBookService.genreForAnotherGrade(obGenre));
+        modelAndView.setViewName(RENTMAIN);
+
         return modelAndView;
     }
 
@@ -72,7 +75,7 @@ public class RentbookListController {
         map.put("j", "자격증");
         map.put("k", "대학교재");
         map.put("l", "it");
-        map.put("rentmain", "rentmain");
+        map.put(RENTMAIN, RENTMAIN);
         map.put("high", "high");
         map.put("low", "low");
         return map;

@@ -29,42 +29,43 @@ public class CenterController {
 
     @PostMapping("faqDetail")
     @ResponseBody
-    public Map<String, Object> faqDetail(@RequestParam("no") String faq_no) {
-        return returnMap(centerService.faqDetail(faq_no));
+    public Map<String, Object> faqDetail(@RequestParam("no") String faqNo) {
+        return returnMap(centerService.faqDetail(faqNo));
     }
 
     @PostMapping("qnaOrder")
     @ResponseBody
-    public Map<String, Object> qnaOrder(@RequestParam("faq_type") String faq_type) {
-        return returnMap(centerService.qnaOrder(faq_type));
+    public Map<String, Object> qnaOrder(@RequestParam("faq_type") String faqType) {
+        return returnMap(centerService.qnaOrder(faqType));
     }
 
     @PostMapping("centerpage")
-    public String centerPage(@RequestParam("page") String a, Model model) {
-        ReturnJsp returnJsp = new ReturnJsp(a);
-        model.addAttribute("page", a);
-        return returnJsp.getReturnJsp();
+    public String centerPage(@RequestParam("page") String page, Model model) {
+        final ReturnJsp returnJsp = new ReturnJsp(page);
+        model.addAttribute("page", page);
+        return returnJsp.getKey();
     }
 
     private Map<String, Object> returnMap(Object object) {
         return Map.of("datas", object);
     }
 
+    private class ReturnJsp {
+        private final Map<String, String> returnJspMap = Map.of(
+            "order", "centerOrder",
+            "deliver", "centerDeliver",
+            "product", "centerProduct"
+        );
+        private final String key;
+
+        public ReturnJsp(String key) {
+            this.key = key;
+        }
+
+        public String getKey() {
+            return returnJspMap.get(this.key);
+        }
+    }
 }
 
-class ReturnJsp {
-    private final Map<String, String> returnJspMap = Map.of(
-        "order", "centerOrder",
-        "deliver", "centerDeliver",
-        "product", "centerProduct"
-    );
-    private final String returnJsp;
 
-    public ReturnJsp(String returnJsp) {
-        this.returnJsp = returnJsp;
-    }
-
-    public String getReturnJsp() {
-        return returnJspMap.get(this.returnJsp);
-    }
-}

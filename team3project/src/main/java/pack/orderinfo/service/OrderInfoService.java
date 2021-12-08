@@ -79,11 +79,11 @@ public class OrderInfoService {
     }
 
     public void order(HttpSession session, Map<String, Object> map) {
-        Orderinfo orderinfo = Orderinfo.init(map, makeOrderNumber());
+        final Orderinfo orderinfo = Orderinfo.init(map, makeOrderNumber());
 
         if (isMember(session)) {
             MemberEnum.MEMBER.makeDataSet(orderinfo, "2");
-            orderinfoRepository.save(orderinfo)
+            orderinfoRepository.save(orderinfo);
             return;
         }
 
@@ -93,9 +93,9 @@ public class OrderInfoService {
     }
 
     private String makeOrderNumber() {
-        String wdate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        DecimalFormat df = new DecimalFormat("00");
-        Random random = new Random();
+        final String wdate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        final DecimalFormat df = new DecimalFormat("00");
+        final Random random = new Random();
         return wdate + "-" + df.format(random.nextInt(99) + 1);
     }
 
