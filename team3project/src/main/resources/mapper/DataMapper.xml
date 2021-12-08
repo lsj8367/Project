@@ -30,16 +30,4 @@
     order by rent_sdate desc limit 1;
   </select>
 
-  <!-- =================== REVIEW ======================== -->
-  <!--  중고책 기증시 파일 입력을 위한 sql문 -->
-  <insert id="insertFile" parameterType="hashmap">
-    <selectKey keyProperty="idx" order="BEFORE" resultType="int">
-      select ifnull(max(idx), 0)+1 from ob_file where ob_no=#{ob_no}
-    </selectKey>
-    <![CDATA[
-	insert into ob_file(idx, ob_no, original_file_name,stored_file_name,file_size,ob_rdate,del_gb)
-	values(default, #{ob_no}, #{original_file_name}, #{stored_file_name}, #{file_size},now(),default)
-	]]>
-  </insert>
-
 </mapper>
