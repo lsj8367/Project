@@ -106,7 +106,7 @@ class OrderinfoRepositoryTest {
     }
 
     private boolean isDifferenceGreaterThen2Days(Orderinfo orderinfo) {
-        return ChronoUnit.DAYS.between(orderinfo.getOrderDate(), LocalDateTime.now()) > 2;
+        return ChronoUnit.DAYS.between(orderinfo.getOrderDate().toLocalDateTime(), LocalDateTime.now()) > 2;
     }
 
     @Test
